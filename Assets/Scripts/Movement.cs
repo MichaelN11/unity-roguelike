@@ -17,10 +17,12 @@ public class Movement : MonoBehaviour
     private ContactFilter2D contactFilter2D;
 
     private Rigidbody2D body;
+    private float pixelsPerUnit;
 
     void Start()
     {
         body = GetComponent<Rigidbody2D>();
+        pixelsPerUnit = GetComponent<SpriteRenderer>().sprite.pixelsPerUnit;
     }
 
     void FixedUpdate()
@@ -67,9 +69,35 @@ public class Movement : MonoBehaviour
             distance + collisionOffset);
         if (collisionCount == 0)
         {
-            body.MovePosition(body.position + direction * distance);
+            Move(body.position, direction * distance);
             moved = true;
         }
         return moved;
+    }
+
+    /// <summary>
+    /// Moves from the old location, to the new location, using the Rigibody's MovePosition.
+    /// Clamps both locations to a pixel perfect position.
+    /// </summary>
+    /// <param name="oldLocation">The old location</param>
+    /// <param name="newLocation">The new location being moved to</param>
+    private void Move(Vector2 oldLocation, Vector2 newLocation)
+    {
+        body.MovePosition(PixelPerfectClamp(oldLocation, pixelsPerUnit) + PixelPerfectClamp(newLocation, pixelsPerUnit));
+    }
+
+    /// <summary>
+    /// Clamps the passed movement vector to a rounded pixel position, in order to
+    /// reduce jittering.
+    /// </summary>
+    /// <param name="moveVector">The Vector2 representing a position used for movement</param>
+    /// <param name="pixelsPerUnit">The number of pixels per unit for the sprite</param>
+    /// <returns>Precise pixel location based on pixels per unit</returns>
+    private Vector2 PixelPerfectClamp(Vector2 moveVector, float pixelsPerUnit)
+    {
+        Vector2 vectorInPixels = new Vector2(
+            Mathf.RoundToInt(moveVector.x * pixelsPerUnit),
+            Mathf.RoundToInt(moveVector.y * pixelsPerUnit));
+        return vectorInPixels / pixelsPerUnit;
     }
 }
