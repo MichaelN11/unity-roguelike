@@ -9,12 +9,19 @@ public class EntityController : MonoBehaviour
 {
     public EntityState EntityState { get; private set; } = new EntityState();
 
+    private readonly AnimationController animationController = new();
+
     private Movement movement;
 
-    // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
         movement = GetComponent<Movement>();
+        animationController.Animator = GetComponent<Animator>();
+    }
+
+    private void Update()
+    {
+        animationController.UpdateAnimator(EntityState);
     }
 
     /// <summary>

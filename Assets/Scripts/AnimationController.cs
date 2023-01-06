@@ -3,47 +3,47 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// Component responsible for animating an entity.
+/// Class responsible for animating an entity.
 /// </summary>
-public class AnimationController : MonoBehaviour
+public class AnimationController
 {
-    private EntityState entityState;
-    private Animator animator;
+    public Animator Animator { get; set; }
 
-    // Start is called before the first frame update
-    void Start()
+    /// <summary>
+    /// Updates the Animator using the passed entity's state.
+    /// </summary>
+    /// <param name="entityState">The entity's state</param>
+    public void UpdateAnimator(EntityState entityState)
     {
-        entityState = GetComponent<EntityController>().EntityState;
-        animator = GetComponent<Animator>();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        UpdateLookDirection();
-        UpdateIsMoving();
+        if (Animator != null)
+        {
+            UpdateLookDirection(entityState);
+            UpdateIsMoving(entityState);
+        }
     }
 
     /// <summary>
     /// Updates the look direction on the Animator, from the EntityState.
     /// </summary>
-    private void UpdateLookDirection()
+    /// <param name="entityState">The entity's state</param>
+    private void UpdateLookDirection(EntityState entityState)
     {
-        animator.SetFloat("xDirection", entityState.LookDirection.x);
-        animator.SetFloat("yDirection", entityState.LookDirection.y);
+        Animator.SetFloat("xDirection", entityState.LookDirection.x);
+        Animator.SetFloat("yDirection", entityState.LookDirection.y);
     }
 
     /// <summary>
     /// Updates the Animator isMoving property, from the EntityState's Action.
     /// </summary>
-    private void UpdateIsMoving()
+    /// <param name="entityState">The entity's state</param>
+    private void UpdateIsMoving(EntityState entityState)
     {
         if (entityState.Action == Action.Move)
         {
-            animator.SetBool("isMoving", true);
+            Animator.SetBool("isMoving", true);
         } else
         {
-            animator.SetBool("isMoving", false);
+            Animator.SetBool("isMoving", false);
         }
     }
 }

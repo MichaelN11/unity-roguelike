@@ -19,15 +19,14 @@ public class Movement : MonoBehaviour
     private Rigidbody2D body;
     private float pixelsPerUnit;
 
-    void Start()
+    private void Start()
     {
         body = GetComponent<Rigidbody2D>();
         pixelsPerUnit = GetComponent<SpriteRenderer>().sprite.pixelsPerUnit;
     }
 
-    void FixedUpdate()
+    private void FixedUpdate()
     {
-        Debug.Log("Moving in direction: " + Direction + " Delta time: " + Time.deltaTime);
         if (Direction != Vector2.zero)
         {
             AttemptMovement();
