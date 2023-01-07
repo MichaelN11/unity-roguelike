@@ -23,6 +23,14 @@ public class AnimationController
     }
 
     /// <summary>
+    /// Sets the attack trigger on the Animator.
+    /// </summary>
+    public void Attack()
+    {
+        Animator.SetTrigger("attack");
+    }
+
+    /// <summary>
     /// Updates the look direction on the Animator, from the EntityState.
     /// </summary>
     /// <param name="entityState">The entity's state</param>

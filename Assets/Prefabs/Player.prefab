@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 116077039412780096}
   - component: {fileID: 1176349631}
   - component: {fileID: 1176349632}
+  - component: {fileID: 922009812}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -152,6 +153,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4010a74b140b8481da00eb39371ff20e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  interactionDistance: 1
+  attackDuration: 0.7
 --- !u!95 &116077039412780158
 Animator:
   serializedVersion: 4
@@ -240,3 +243,21 @@ MonoBehaviour:
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
+--- !u!114 &922009812
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 116077039412780153}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24bae9b389c784983a46235e352343fe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attackData:
+    animation: {fileID: 0}
+    damage: 1
+    range: 1
+    duration: 0.2
+  attackObjectResourceName: AttackObject

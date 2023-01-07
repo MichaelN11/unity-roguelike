@@ -9,5 +9,6 @@ public enum Action
 {
     None,
     Stand,
-    Move
+    Move,
+    Attack
 }

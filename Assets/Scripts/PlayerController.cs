@@ -10,8 +10,7 @@ public class PlayerController : MonoBehaviour
 {
     private EntityController entityController;
 
-    // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
         entityController = GetComponent<EntityController>();
     }
@@ -36,9 +35,16 @@ public class PlayerController : MonoBehaviour
         Vector2 inputScreenPosition = inputValue.Get<Vector2>();
         Vector2 inputWorldPosition = Camera.main.ScreenToWorldPoint(inputScreenPosition);
         Vector2 entityPosition = transform.position;
-        Vector2 inputPositionRelativeToEntity = new(
-            inputWorldPosition.x - entityPosition.x,
-            inputWorldPosition.y - entityPosition.y);
+        Vector2 inputPositionRelativeToEntity = inputWorldPosition - entityPosition;
         entityController.SetLookDirection(inputPositionRelativeToEntity);
+    }
+
+    /// <summary>
+    /// Called by the Input System. Triggers an attack action for the EntityController.
+    /// </summary>
+    /// <param name="inputValue">The InputValue</param>
+    public void OnFire(InputValue inputValue)
+    {
+        entityController.Attack();
     }
 }
