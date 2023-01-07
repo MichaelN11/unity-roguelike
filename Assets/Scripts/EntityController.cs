@@ -13,9 +13,10 @@ public class EntityController : MonoBehaviour
     private float interactionDistance = 0.5f;
     [SerializeField]
     private float attackDuration = 1f;
-    private readonly AnimationController animationController = new();
-    private Movement movement;
+
+    private AnimatorWrapper animatorWrapper;
     private Attack attack;
+    private Movement movement;
 
     private Vector2 attemptedMoveDirection = Vector2.zero;
     private Vector2 attemptedLookDirection = Vector2.zero;
@@ -24,12 +25,15 @@ public class EntityController : MonoBehaviour
     {
         movement = GetComponent<Movement>();
         attack = GetComponent<Attack>();
-        animationController.Animator = GetComponent<Animator>();
+        animatorWrapper = GetComponent<AnimatorWrapper>();
     }
 
     private void Update()
     {
-        animationController.UpdateAnimator(EntityState);
+        if (animatorWrapper != null)
+        {
+            animatorWrapper.UpdateAnimator(EntityState);
+        }
         UpdateAttackTimer();
     }
 
@@ -76,7 +80,6 @@ public class EntityController : MonoBehaviour
     {
         if (attack != null && CanAct())
         {
-            animationController.Attack();
             EntityState.AttackTimer = attackDuration;
             EntityState.Action = Action.Attack;
             if (movement != null)
