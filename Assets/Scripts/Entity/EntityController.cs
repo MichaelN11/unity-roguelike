@@ -68,7 +68,7 @@ public class EntityController : MonoBehaviour
     /// Handles being hit by an incoming attack.
     /// </summary>
     /// <param name="attackData">The attack data</param>
-    public void HandleAttack(AttackData attackData)
+    public void HandleIncomingAttack(AttackData attackData)
     {
         if (damageable != null)
         {
@@ -194,7 +194,7 @@ public class EntityController : MonoBehaviour
                 Debug.Log("knockback direction: " + attackResults.KnockbackDirection + " speed: " +
                     attackResults.KnockbackSpeed);
                 movement.UpdateMovement(attackResults.KnockbackDirection,
-                    attackResults.KnockbackSpeed);
+                    attackResults.KnockbackSpeed, attackResults.KnockbackAcceleration);
             }
         }
     }

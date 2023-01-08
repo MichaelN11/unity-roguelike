@@ -10,6 +10,7 @@ public class Movement : MonoBehaviour
 {
     public Vector2 Direction { get; set; }
     public float Speed { get; set; } = 0;
+    public float Acceleration { get; set; } = 0;
 
     [SerializeField]
     private float collisionOffset = 0.05f;
@@ -17,16 +18,20 @@ public class Movement : MonoBehaviour
     private ContactFilter2D contactFilter2D;
 
     private Rigidbody2D body;
+    private Collider2D movementCollider;
+    private List<RaycastHit2D> collisions = new();
 
     private void Start()
     {
         body = GetComponent<Rigidbody2D>();
+        movementCollider = GetComponent<Collider2D>();
     }
 
     private void FixedUpdate()
     {
         if (Direction != null && Direction != Vector2.zero)
         {
+            UpdateSpeed();
             AttemptMovement();
         }
     }
@@ -38,8 +43,34 @@ public class Movement : MonoBehaviour
     /// <param name="speed">The movement speed</param>
     public void UpdateMovement(Vector2 direction, float speed)
     {
+        UpdateMovement(direction, speed, 0);
+    }
+
+    /// <summary>
+    /// Updates the movement speed, direction, and acceleration.
+    /// </summary>
+    /// <param name="direction">The Vector2 direction to move in</param>
+    /// <param name="speed">The movement speed</param>
+    /// <param name="acceleration">The movement acceleration</param>
+    public void UpdateMovement(Vector2 direction, float speed, float acceleration)
+    {
         Direction = direction;
         Speed = speed;
+        Acceleration = acceleration;
+    }
+
+    /// <summary>
+    /// Updates the Speed with the Acceleration. If Speed falls below 0, both the
+    /// Speed and Acceleration are set to 0.
+    /// </summary>
+    private void UpdateSpeed()
+    {
+        Speed += Acceleration;
+        if (Speed <= 0)
+        {
+            Speed = 0;
+            Acceleration = 0;
+        }
     }
 
     /// <summary>
@@ -71,13 +102,62 @@ public class Movement : MonoBehaviour
     {
         bool moved = false;
         float distance = Speed * Time.deltaTime;
-        int collisionCount = body.Cast(direction,
+        float offsetDistance = DetermineOffsetDistance(direction);
+        int collisionCount = movementCollider.Cast(direction,
             contactFilter2D,
-            new List<RaycastHit2D>(),
-            distance + collisionOffset);
+            collisions,
+            distance + offsetDistance);
         if (collisionCount == 0)
         {
             Move(body.position, direction * distance);
+            moved = true;
+        } else
+        {
+            moved = MoveToNearestCollision(direction, distance, offsetDistance);
+        }
+        return moved;
+    }
+
+    /// <summary>
+    /// Determines the collision offset distance using the passed direction Vector2.
+    /// When checking collision, the offset is added to the distance, but we want to
+    /// unnormalize it so that the offset is a constant x or y offset from a collider.
+    /// </summary>
+    /// <param name="direction">The direction being moved in</param>
+    /// <returns>The offset distance needed for the offset in the x or y direction</returns>
+    private float DetermineOffsetDistance(Vector2 direction)
+    {
+        float xSign = (direction.x != 0) ? Mathf.Sign(direction.x) : 0;
+        float ySign = (direction.y != 0) ? Mathf.Sign(direction.y) : 0;
+        direction.x += collisionOffset * xSign;
+        direction.y += collisionOffset * ySign;
+        return direction.magnitude - 1;
+    }
+
+    /// <summary>
+    /// Moves up to the nearest collision in the collisions list. Returns true if
+    /// the move was successful.
+    /// </summary>
+    /// <param name="direction">The direction being moved in</param>
+    /// <param name="initialDistance">The initial distance of the collision check</param>
+    /// <param name="offsetDistance">The offset distance used for collision offset</param>
+    /// <returns></returns>
+    private bool MoveToNearestCollision(Vector2 direction, float initialDistance, float offsetDistance)
+    {
+        bool moved = false;
+        float shortestDistance = initialDistance + offsetDistance;
+        foreach (RaycastHit2D collision in collisions)
+        {
+            float distanceToCollider = collision.distance;
+            if (distanceToCollider < shortestDistance)
+            {
+                shortestDistance = distanceToCollider;
+            }
+        }
+        float distanceToCollision = shortestDistance - offsetDistance;
+        if (distanceToCollision > 0.0001)
+        {
+            Move(body.position, direction * distanceToCollision);
             moved = true;
         }
         return moved;

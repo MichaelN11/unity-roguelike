@@ -27,7 +27,7 @@ public class AttackObject : MonoBehaviour
             EntityController otherEntityController = collision.gameObject.GetComponentInParent<EntityController>();
             if (otherEntityController != null)
             {
-                otherEntityController.HandleAttack(AttackData);
+                otherEntityController.HandleIncomingAttack(AttackData);
             }
         }
     }
