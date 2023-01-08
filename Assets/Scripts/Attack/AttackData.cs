@@ -2,15 +2,11 @@
 using UnityEngine;
 
 /// <summary>
-/// POCO for storing data for an Attack.
+/// POCO for storing data for the instance of an Attack.
 /// </summary>
-[Serializable]
 public class AttackData
 {
-    public Animation animation;
-    public float damage = 1;
-    public float range = 1;
-    public float duration = 1;
-
+    public AttackStats AttackStats { get; set; }
     public GameObject User { get; set; }
+    public Vector2 Direction { get; set; }
 }

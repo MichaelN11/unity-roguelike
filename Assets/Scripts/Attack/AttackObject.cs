@@ -7,7 +7,7 @@ using UnityEngine;
 /// set by the attack that generates the object. The object lasts for a limited duration
 /// before it is destroyed.
 /// </summary>
-public class AttackDamage : MonoBehaviour
+public class AttackObject : MonoBehaviour
 {
     public AttackData AttackData { get; set; }
 
@@ -20,6 +20,18 @@ public class AttackDamage : MonoBehaviour
         incrementTimer();
     }
 
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == "Hitbox")
+        {
+            EntityController otherEntityController = collision.gameObject.GetComponentInParent<EntityController>();
+            if (otherEntityController != null)
+            {
+                otherEntityController.HandleAttack(AttackData);
+            }
+        }
+    }
+
     /// <summary>
     /// Increments the timer using deltaTime, and checks to see if the timer is over
     /// the attack duration or the maximum time before destroying the object.
@@ -27,7 +39,7 @@ public class AttackDamage : MonoBehaviour
     private void incrementTimer()
     {
         timer += Time.deltaTime;
-        if ((AttackData != null && timer >= AttackData.duration)
+        if ((AttackData != null && timer >= AttackData.AttackStats.duration)
             || timer >= maxTimer)
         {
             Destroy(gameObject);

@@ -8,15 +8,15 @@ using UnityEngine;
 public class Attack : MonoBehaviour
 {
     [SerializeField]
-    private AttackData attackData = new();
+    private AttackStats attackStats = new();
     [SerializeField]
     private string attackObjectResourceName = "AttackObject";
 
-    private GameObject attackObject;
+    private GameObject attackPrefab;
 
     private void Start()
     {
-        attackObject = (GameObject) Resources.Load(attackObjectResourceName);
+        attackPrefab = (GameObject) Resources.Load(attackObjectResourceName);
     }
 
     /// <summary>
@@ -27,12 +27,18 @@ public class Attack : MonoBehaviour
     /// <param name="distance">The distance away the attack is used</param>
     public void Use(Vector2 direction, float distance)
     {
-        var angle = Vector2.SignedAngle(Vector2.right, direction) - 90f;
-        var rotation = Quaternion.Euler(0, 0, angle);
+        float angle = Vector2.SignedAngle(Vector2.right, direction) - 90f;
+        Quaternion rotation = Quaternion.Euler(0, 0, angle);
+        distance += attackStats.range;
         Vector3 position = transform.position + (Vector3) direction.normalized * distance;
-        GameObject gameObject = Instantiate(attackObject, position, rotation);
+        GameObject gameObject = Instantiate(attackPrefab, position, rotation);
 
-        AttackDamage damageOnCollide = gameObject.GetComponent<AttackDamage>();
-        damageOnCollide.AttackData = attackData;
+        AttackObject attackObject = gameObject.GetComponent<AttackObject>();
+
+        AttackData attackData = new();
+        attackData.AttackStats = attackStats;
+        attackData.User = gameObject;
+        attackData.Direction = direction;
+        attackObject.AttackData = attackData;
     }
 }

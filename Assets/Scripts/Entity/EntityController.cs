@@ -10,6 +10,8 @@ public class EntityController : MonoBehaviour
     public EntityState EntityState { get; private set; } = new EntityState();
 
     [SerializeField]
+    private float walkSpeed = 1f;
+    [SerializeField]
     private float interactionDistance = 0.5f;
     [SerializeField]
     private float attackDuration = 1f;
@@ -17,6 +19,7 @@ public class EntityController : MonoBehaviour
     private AnimatorWrapper animatorWrapper;
     private Attack attack;
     private Movement movement;
+    private Damageable damageable;
 
     private Vector2 attemptedMoveDirection = Vector2.zero;
     private Vector2 attemptedLookDirection = Vector2.zero;
@@ -26,6 +29,7 @@ public class EntityController : MonoBehaviour
         movement = GetComponent<Movement>();
         attack = GetComponent<Attack>();
         animatorWrapper = GetComponent<AnimatorWrapper>();
+        damageable = GetComponent<Damageable>();
     }
 
     private void Update()
@@ -34,7 +38,7 @@ public class EntityController : MonoBehaviour
         {
             animatorWrapper.UpdateAnimator(EntityState);
         }
-        UpdateAttackTimer();
+        UpdateStunTimer();
     }
 
     /// <summary>
@@ -61,6 +65,33 @@ public class EntityController : MonoBehaviour
     }
 
     /// <summary>
+    /// Handles being hit by an incoming attack.
+    /// </summary>
+    /// <param name="attackData">The attack data</param>
+    public void HandleAttack(AttackData attackData)
+    {
+        if (damageable != null)
+        {
+            AttackResults attackResults = damageable.HandleAttack(attackData);
+            if (attackResults.IsDead)
+            {
+                Die();
+            } else
+            {
+                HandleHitstun(attackResults);
+            }
+        }
+    }
+
+    /// <summary>
+    /// Kills the entity.
+    /// </summary>
+    private void Die()
+    {
+        Destroy(gameObject);
+    }
+
+    /// <summary>
     /// Sets the movement direction for the passed direction vector. Sets the direction
     /// on the movement component, and changes the entity's state to match the new direction.
     /// </summary>
@@ -72,7 +103,7 @@ public class EntityController : MonoBehaviour
             attemptedMoveDirection = moveDirection;
             if (movement != null && CanAct())
             {
-                movement.Direction = moveDirection;
+                movement.UpdateMovement(moveDirection, walkSpeed);
 
                 if (moveDirection != Vector2.zero)
                 {
@@ -109,11 +140,11 @@ public class EntityController : MonoBehaviour
     {
         if (attack != null && CanAct())
         {
-            EntityState.AttackTimer = attackDuration;
+            EntityState.StunTimer = attackDuration;
             EntityState.Action = Action.Attack;
             if (movement != null)
             {
-                movement.Direction = Vector2.zero;
+                movement.UpdateMovement(Vector2.zero, 0);
             }
             attack.Use(EntityState.LookDirection, interactionDistance);
         }
@@ -125,24 +156,45 @@ public class EntityController : MonoBehaviour
     /// <returns>true if the entity can act</returns>
     private bool CanAct()
     {
-        return EntityState.Action != Action.Attack;
+        return EntityState.Action != Action.Attack
+            && EntityState.Action != Action.Hitstun;
     }
 
     /// <summary>
-    /// If the entity is attacking, subtract the time in seconds passed from the last
-    /// update. If the timer is below 0, tell the entity to stop attacking. Also sets
-    /// the move direction to any move direction attempted while the entity was attacking.
+    /// If the entity is stunned/attacking, subtract the time in seconds passed from the last
+    /// update. If the timer is below 0, tell the entity to change state. Also sets
+    /// the move direction to any move direction attempted while the entity was stunned.
     /// </summary>
-    private void UpdateAttackTimer()
+    private void UpdateStunTimer()
     {
-        if (EntityState.Action == Action.Attack)
+        if (!CanAct())
         {
-            EntityState.AttackTimer -= Time.deltaTime;
-            if (EntityState.AttackTimer <= 0)
+            EntityState.StunTimer -= Time.deltaTime;
+            if (EntityState.StunTimer <= 0)
             {
                 EntityState.Action = Action.Stand;
                 SetMovementDirection(attemptedMoveDirection);
                 SetLookDirection(attemptedLookDirection);
+            }
+        }
+    }
+
+    /// <summary>
+    /// Handles the hitstun and knockback after being hit by an attack.
+    /// </summary>
+    /// <param name="attackResults">The results of the attack</param>
+    private void HandleHitstun(AttackResults attackResults)
+    {
+        if (attackResults.HitStunDuration > 0)
+        {
+            EntityState.Action = Action.Hitstun;
+            EntityState.StunTimer = attackResults.HitStunDuration;
+            if (movement != null)
+            {
+                Debug.Log("knockback direction: " + attackResults.KnockbackDirection + " speed: " +
+                    attackResults.KnockbackSpeed);
+                movement.UpdateMovement(attackResults.KnockbackDirection,
+                    attackResults.KnockbackSpeed);
             }
         }
     }

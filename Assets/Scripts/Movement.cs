@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,21 +9,18 @@ using UnityEngine;
 public class Movement : MonoBehaviour
 {
     public Vector2 Direction { get; set; }
+    public float Speed { get; set; } = 0;
 
-    [SerializeField]
-    private float speed = 1;
     [SerializeField]
     private float collisionOffset = 0.05f;
     [SerializeField]
     private ContactFilter2D contactFilter2D;
 
     private Rigidbody2D body;
-    private float pixelsPerUnit;
 
     private void Start()
     {
         body = GetComponent<Rigidbody2D>();
-        pixelsPerUnit = GetComponent<SpriteRenderer>().sprite.pixelsPerUnit;
     }
 
     private void FixedUpdate()
@@ -31,6 +29,17 @@ public class Movement : MonoBehaviour
         {
             AttemptMovement();
         }
+    }
+
+    /// <summary>
+    /// Updates the movement speed and direction.
+    /// </summary>
+    /// <param name="direction">The Vector2 direction to move in</param>
+    /// <param name="speed">The movement speed</param>
+    public void UpdateMovement(Vector2 direction, float speed)
+    {
+        Direction = direction;
+        Speed = speed;
     }
 
     /// <summary>
@@ -61,7 +70,7 @@ public class Movement : MonoBehaviour
     private bool MoveIfNoCollision(Vector2 direction)
     {
         bool moved = false;
-        float distance = speed * Time.deltaTime;
+        float distance = Speed * Time.deltaTime;
         int collisionCount = body.Cast(direction,
             contactFilter2D,
             new List<RaycastHit2D>(),
@@ -75,14 +84,15 @@ public class Movement : MonoBehaviour
     }
 
     /// <summary>
-    /// Moves from the old location, to the new location, using the Rigibody's MovePosition.
+    /// Moves from the old location, to the new location, using the Rigidbody's MovePosition.
     /// Clamps both locations to a pixel perfect position.
     /// </summary>
     /// <param name="oldLocation">The old location</param>
     /// <param name="newLocation">The new location being moved to</param>
     private void Move(Vector2 oldLocation, Vector2 newLocation)
     {
-        body.MovePosition(PixelPerfectClamp(oldLocation, pixelsPerUnit) + PixelPerfectClamp(newLocation, pixelsPerUnit));
+        body.MovePosition(oldLocation + newLocation);
+        //body.MovePosition(PixelPerfectClamp(oldLocation, pixelsPerUnit) + PixelPerfectClamp(newLocation, pixelsPerUnit));
     }
 
     /// <summary>
@@ -92,6 +102,7 @@ public class Movement : MonoBehaviour
     /// <param name="moveVector">The Vector2 representing a position used for movement</param>
     /// <param name="pixelsPerUnit">The number of pixels per unit for the sprite</param>
     /// <returns>Precise pixel location based on pixels per unit</returns>
+    [Obsolete("Doesn't seem necessary with pixel perfect camera")]
     private Vector2 PixelPerfectClamp(Vector2 moveVector, float pixelsPerUnit)
     {
         Vector2 vectorInPixels = new Vector2(

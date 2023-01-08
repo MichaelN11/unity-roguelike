@@ -10,5 +10,6 @@ public enum Action
     None,
     Stand,
     Move,
-    Attack
+    Attack,
+    Hitstun
 }
