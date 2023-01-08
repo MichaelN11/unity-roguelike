@@ -127,11 +127,12 @@ public class Movement : MonoBehaviour
     /// <returns>The offset distance needed for the offset in the x or y direction</returns>
     private float DetermineOffsetDistance(Vector2 direction)
     {
-        float xSign = (direction.x != 0) ? Mathf.Sign(direction.x) : 0;
-        float ySign = (direction.y != 0) ? Mathf.Sign(direction.y) : 0;
-        direction.x += collisionOffset * xSign;
-        direction.y += collisionOffset * ySign;
-        return direction.magnitude - 1;
+        Vector2 offsetDirection = direction;
+        float xSign = (offsetDirection.x != 0) ? Mathf.Sign(offsetDirection.x) : 0;
+        float ySign = (offsetDirection.y != 0) ? Mathf.Sign(offsetDirection.y) : 0;
+        offsetDirection.x += collisionOffset * xSign;
+        offsetDirection.y += collisionOffset * ySign;
+        return offsetDirection.magnitude - direction.magnitude;
     }
 
     /// <summary>
