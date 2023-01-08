@@ -22,7 +22,10 @@ public class PlayerController : MonoBehaviour
     public void OnMove(InputValue inputValue)
     {
         Vector2 moveDirection = inputValue.Get<Vector2>();
-        entityController.SetMovementDirection(moveDirection);
+        InputData inputData = new();
+        inputData.Type = InputType.Move;
+        inputData.Direction = moveDirection;
+        entityController.UpdateFromInput(inputData);
     }
 
     /// <summary>
@@ -36,7 +39,11 @@ public class PlayerController : MonoBehaviour
         Vector2 inputWorldPosition = Camera.main.ScreenToWorldPoint(inputScreenPosition);
         Vector2 entityPosition = transform.position;
         Vector2 inputPositionRelativeToEntity = inputWorldPosition - entityPosition;
-        entityController.SetLookDirection(inputPositionRelativeToEntity);
+
+        InputData inputData = new();
+        inputData.Type = InputType.Look;
+        inputData.Direction = inputPositionRelativeToEntity;
+        entityController.UpdateFromInput(inputData);
     }
 
     /// <summary>
@@ -45,6 +52,8 @@ public class PlayerController : MonoBehaviour
     /// <param name="inputValue">The InputValue</param>
     public void OnFire(InputValue inputValue)
     {
-        entityController.Attack();
+        InputData inputData = new();
+        inputData.Type = InputType.Attack;
+        entityController.UpdateFromInput(inputData);
     }
 }

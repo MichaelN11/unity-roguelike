@@ -56,8 +56,11 @@ public class AnimatorWrapper : MonoBehaviour
     /// <param name="entityState">The entity's state</param>
     private void UpdateLookDirection(EntityState entityState)
     {
-        animator.SetFloat("xDirection", entityState.LookDirection.x);
-        animator.SetFloat("yDirection", entityState.LookDirection.y);
+        if (entityState.LookDirection != null)
+        {
+            animator.SetFloat("xDirection", entityState.LookDirection.x);
+            animator.SetFloat("yDirection", entityState.LookDirection.y);
+        }
     }
 
     /// <summary>

@@ -14,11 +14,11 @@ GameObject:
   - component: {fileID: 116077039412780155}
   - component: {fileID: 116077039412780096}
   - component: {fileID: 1176349632}
-  - component: {fileID: 116077039412780159}
-  - component: {fileID: 1176349631}
-  - component: {fileID: 116077039412780152}
-  - component: {fileID: 922009812}
+  - component: {fileID: 6650762272816029000}
+  - component: {fileID: 5276853109477784359}
   - component: {fileID: 3835114130386881507}
+  - component: {fileID: 116077039412780152}
+  - component: {fileID: 5488973427754691088}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -190,7 +190,7 @@ MonoBehaviour:
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
---- !u!114 &116077039412780159
+--- !u!114 &6650762272816029000
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -199,12 +199,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 116077039412780153}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4010a74b140b8481da00eb39371ff20e, type: 3}
+  m_Script: {fileID: 11500000, guid: f50f1387a6f2949a189a4131252de432, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactionDistance: 1
-  attackDuration: 0.6
---- !u!114 &1176349631
+  interactionDistance: 0.5
+  attackDuration: 1
+--- !u!114 &5276853109477784359
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -213,7 +213,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 116077039412780153}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8b1cd6b9bea9f43c5b9a87e43194c24a, type: 3}
+  m_Script: {fileID: 11500000, guid: 2ceeb12be3eca4f5187561e418e7c05c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &3835114130386881507
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 116077039412780153}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c0506f00fd394647beb23af850e6b64, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &116077039412780152
@@ -244,7 +256,7 @@ MonoBehaviour:
     maxDepth: 0
     minNormalAngle: 0
     maxNormalAngle: 0
---- !u!114 &922009812
+--- !u!114 &5488973427754691088
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -253,24 +265,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 116077039412780153}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 24bae9b389c784983a46235e352343fe, type: 3}
+  m_Script: {fileID: 11500000, guid: b11f4f78d5a154620b1b2f81f25f5d65, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   attackData:
     animation: {fileID: 0}
     damage: 1
     range: 1
-    duration: 0.2
+    duration: 1
   attackObjectResourceName: AttackObject
---- !u!114 &3835114130386881507
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 116077039412780153}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1c0506f00fd394647beb23af850e6b64, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

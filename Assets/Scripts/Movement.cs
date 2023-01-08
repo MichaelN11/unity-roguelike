@@ -27,7 +27,7 @@ public class Movement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (Direction != Vector2.zero)
+        if (Direction != null && Direction != Vector2.zero)
         {
             AttemptMovement();
         }

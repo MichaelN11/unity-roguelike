@@ -38,24 +38,50 @@ public class EntityController : MonoBehaviour
     }
 
     /// <summary>
+    /// Updates the entity based on the passed InputData.
+    /// </summary>
+    /// <param name="inputData">The input data containing the input type</param>
+    public void UpdateFromInput(InputData inputData)
+    {
+        switch (inputData.Type)
+        {
+            case InputType.Look:
+                SetLookDirection(inputData.Direction);
+                break;
+            case InputType.Move:
+                SetMovementDirection(inputData.Direction);
+                break;
+            case InputType.Attack:
+                Attack();
+                break;
+            default:
+                // Unrecognized input
+                break;
+        }
+    }
+
+    /// <summary>
     /// Sets the movement direction for the passed direction vector. Sets the direction
     /// on the movement component, and changes the entity's state to match the new direction.
     /// </summary>
     /// <param name="moveDirection">The new direction to move</param>
-    public void SetMovementDirection(Vector2 moveDirection)
+    private void SetMovementDirection(Vector2 moveDirection)
     {
-        attemptedMoveDirection = moveDirection;
-        if (movement != null && CanAct())
+        if (moveDirection != null)
         {
-            movement.Direction = moveDirection;
+            attemptedMoveDirection = moveDirection;
+            if (movement != null && CanAct())
+            {
+                movement.Direction = moveDirection;
 
-            if (moveDirection != Vector2.zero)
-            {
-                EntityState.Action = Action.Move;
-            }
-            else
-            {
-                EntityState.Action = Action.Stand;
+                if (moveDirection != Vector2.zero)
+                {
+                    EntityState.Action = Action.Move;
+                }
+                else
+                {
+                    EntityState.Action = Action.Stand;
+                }
             }
         }
     }
@@ -64,19 +90,22 @@ public class EntityController : MonoBehaviour
     /// Sets the look direction to the passed vector2.
     /// </summary>
     /// <param name="lookDirection">The new direction to look</param>
-    public void SetLookDirection(Vector2 lookDirection)
+    private void SetLookDirection(Vector2 lookDirection)
     {
-        attemptedLookDirection = lookDirection;
-        if (CanAct())
+        if (lookDirection != null)
         {
-            EntityState.LookDirection = lookDirection;
+            attemptedLookDirection = lookDirection;
+            if (CanAct())
+            {
+                EntityState.LookDirection = lookDirection;
+            }
         }
     }
 
     /// <summary>
     /// Tells the entity to attack, if it's able to act.
     /// </summary>
-    public void Attack()
+    private void Attack()
     {
         if (attack != null && CanAct())
         {
