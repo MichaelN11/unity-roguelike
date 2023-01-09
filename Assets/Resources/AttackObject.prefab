@@ -125,7 +125,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 074b321c264514d7db71b116ad8db351, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxTimer: 180
+  attackData:
+    attackStats:
+      animation: {fileID: 0}
+      damage: 1
+      range: 0
+      duration: 1
+      hitStunMultiplier: 1
+      knockbackMultiplier: 1
+    user: {fileID: 0}
+    direction: {x: 0, y: 0}
+    setDirectionOnHit: 1
+  timeBetweenHits: 1
 --- !u!114 &5230104169865035883
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -138,3 +149,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b8fb74b5fadd4ff8bd68dfe06854331, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxTimer: 180

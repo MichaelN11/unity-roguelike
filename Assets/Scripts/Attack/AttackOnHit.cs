@@ -11,7 +11,7 @@ public class AttackOnHit : MonoBehaviour
     public AttackData attackData;
 
     [SerializeField]
-    private float timeBetweenHits;
+    private float timeBetweenHits = 1;
 
     private Rigidbody2D body;
     private Dictionary<int, float> hitTimeByInstanceID = new();
@@ -28,7 +28,7 @@ public class AttackOnHit : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnTriggerStay2D(Collider2D collision)
     {
         if (IsValidAttackTarget(collision) && IsHitTimerExceeded(collision))
         {

@@ -150,7 +150,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.053562164, y: -0.15295494}
+  m_Offset: {x: 0.0011712313, y: -0.06340855}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -161,7 +161,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.0194016, y: 1.4374943}
+  m_Size: {x: 0.638253, y: 1.0046873}
   m_EdgeRadius: 0
 --- !u!1 &116077039412780153
 GameObject:
@@ -182,6 +182,7 @@ GameObject:
   - component: {fileID: 3835114130386881507}
   - component: {fileID: 116077039412780152}
   - component: {fileID: 5488973427754691088}
+  - component: {fileID: 1391470132}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -441,3 +442,19 @@ MonoBehaviour:
     hitStunMultiplier: 1
     knockbackMultiplier: 1
   attackObjectResourceName: AttackObject
+--- !u!114 &1391470132
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 116077039412780153}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6daa6a364baba40418e887499716d7f1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 10
+  hitStunDuration: 1
+  knockbackSpeed: 1
+  knockbackAcceleration: 0

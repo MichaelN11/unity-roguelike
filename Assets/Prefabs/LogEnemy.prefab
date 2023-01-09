@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7658967438887940923}
   - component: {fileID: 7658967438887940920}
+  - component: {fileID: 970776233}
   m_Layer: 0
   m_Name: Hitbox
   m_TagString: Hitbox
@@ -45,7 +46,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.053562164, y: -0.15295494}
+  m_Offset: {x: 0.020210981, y: -0.14841205}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -56,8 +57,32 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.0194016, y: 1.4374943}
+  m_Size: {x: 0.80447245, y: 1.191245}
   m_EdgeRadius: 0
+--- !u!114 &970776233
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7658967438887940922}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 074b321c264514d7db71b116ad8db351, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attackData:
+    attackStats:
+      animation: {fileID: 0}
+      damage: 1
+      range: 0
+      duration: 1
+      hitStunMultiplier: 1
+      knockbackMultiplier: 1
+    user: {fileID: 0}
+    direction: {x: 0, y: 0}
+    setDirectionOnHit: 1
+  timeBetweenHits: 1
 --- !u!1 &7658967440879357034
 GameObject:
   m_ObjectHideFlags: 0
@@ -75,6 +100,8 @@ GameObject:
   - component: {fileID: 7658967440879357010}
   - component: {fileID: 7658967440879357011}
   - component: {fileID: 1625324917}
+  - component: {fileID: 5385066528143199866}
+  - component: {fileID: 1625324918}
   m_Layer: 0
   m_Name: LogEnemy
   m_TagString: Untagged
@@ -204,7 +231,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.012124538, y: -0.5577214}
+  m_Offset: {x: -0.0021443367, y: -0.4971395}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -215,7 +242,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.90880585, y: 0.61782134}
+  m_Size: {x: 0.766119, y: 0.4966575}
   m_EdgeRadius: 0
 --- !u!114 &7658967440879357036
 MonoBehaviour:
@@ -287,3 +314,45 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c0506f00fd394647beb23af850e6b64, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &5385066528143199866
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7658967440879357034}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2ceeb12be3eca4f5187561e418e7c05c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1625324918
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7658967440879357034}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Actions: {fileID: -944628639613478452, guid: c9e2da567492f4d6494937326ffb874f, type: 3}
+  m_NotificationBehavior: 0
+  m_UIInputModule: {fileID: 0}
+  m_DeviceLostEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_DeviceRegainedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ControlsChangedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ActionEvents: []
+  m_NeverAutoSwitchControlSchemes: 0
+  m_DefaultControlScheme: 
+  m_DefaultActionMap: Player
+  m_SplitScreenIndex: -1
+  m_Camera: {fileID: 0}

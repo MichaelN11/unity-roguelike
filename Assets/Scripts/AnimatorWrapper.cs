@@ -27,6 +27,7 @@ public class AnimatorWrapper : MonoBehaviour
             UpdateAttack(entityState);
             UpdateLookDirection(entityState);
             UpdateIsMoving(entityState);
+            UpdateIsHitstun(entityState);
         }
     }
 
@@ -75,6 +76,22 @@ public class AnimatorWrapper : MonoBehaviour
         } else
         {
             animator.SetBool("isMoving", false);
+        }
+    }
+
+    /// <summary>
+    /// Updates the Animator isHitstun property, from the EntityState's Action.
+    /// </summary>
+    /// <param name="entityState">The entity's state</param>
+    private void UpdateIsHitstun(EntityState entityState)
+    {
+        if (entityState.Action == Action.Hitstun)
+        {
+            animator.SetBool("isHitstun", true);
+        }
+        else
+        {
+            animator.SetBool("isHitstun", false);
         }
     }
 }
