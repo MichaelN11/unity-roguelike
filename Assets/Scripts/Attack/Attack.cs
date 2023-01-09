@@ -31,14 +31,17 @@ public class Attack : MonoBehaviour
         Quaternion rotation = Quaternion.Euler(0, 0, angle);
         distance += attackStats.range;
         Vector3 position = transform.position + (Vector3) direction.normalized * distance;
-        GameObject gameObject = Instantiate(attackPrefab, position, rotation);
+        GameObject instance = Instantiate(attackPrefab, position, rotation);
 
-        AttackObject attackObject = gameObject.GetComponent<AttackObject>();
+        DestroyTimer destroyTimer = instance.GetComponent<DestroyTimer>();
+        destroyTimer.Duration = attackStats.duration;
 
+        AttackOnHit attackObject = instance.GetComponent<AttackOnHit>();
         AttackData attackData = new();
-        attackData.AttackStats = attackStats;
-        attackData.User = gameObject;
-        attackData.Direction = direction;
-        attackObject.AttackData = attackData;
+        attackData.attackStats = attackStats;
+        attackData.user = gameObject;
+        attackData.direction = direction;
+        attackData.setDirectionOnHit = false;
+        attackObject.attackData = attackData;
     }
 }
