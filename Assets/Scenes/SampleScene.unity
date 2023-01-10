@@ -4714,6 +4714,30 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &936200243 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 116077039412780153, guid: 7bb102ef3e5c54bb0b5c11aefedfd51d, type: 3}
+  m_PrefabInstance: {fileID: 116077039590581985}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1584864992 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7658967440879357034, guid: 4a3f8e7a4a1114b19bbe5d6c0b1a4d65, type: 3}
+  m_PrefabInstance: {fileID: 41946989}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1584865004
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1584864992}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 038c47f75194c4dc2808b642c05fe583, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 936200243}
+  tilemapPathing: {fileID: 1909320088}
 --- !u!1 &1909320081
 GameObject:
   m_ObjectHideFlags: 0
@@ -4728,6 +4752,7 @@ GameObject:
   - component: {fileID: 1909320083}
   - component: {fileID: 1909320087}
   - component: {fileID: 1909320086}
+  - component: {fileID: 1909320088}
   m_Layer: 0
   m_Name: Collision
   m_TagString: Untagged
@@ -5553,6 +5578,18 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &1909320088
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1909320081}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c023ddebed714ff9b6e3c0ea93013fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &116077039590581985
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5560,18 +5597,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1391470132, guid: 7bb102ef3e5c54bb0b5c11aefedfd51d, type: 3}
-      propertyPath: knockbackSpeed
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 1391470132, guid: 7bb102ef3e5c54bb0b5c11aefedfd51d, type: 3}
-      propertyPath: hitStunDuration
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 1391470132, guid: 7bb102ef3e5c54bb0b5c11aefedfd51d, type: 3}
-      propertyPath: knockbackAcceleration
-      value: -0.1
-      objectReference: {fileID: 0}
     - target: {fileID: 116077039412780153, guid: 7bb102ef3e5c54bb0b5c11aefedfd51d, type: 3}
       propertyPath: m_Name
       value: Player
