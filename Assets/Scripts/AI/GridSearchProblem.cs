@@ -36,7 +36,10 @@ public class GridSearchProblem : ISearchProblem<GridNode, GridAction>
     {
         List<(GridNode, GridAction)> successors = new();
         foreach (GridAction action in state.AdjacentActions) {
-            successors.Add((action.Node, action));
+            if (action.Node.Passable)
+            {
+                successors.Add((action.Node, action));
+            }
         }
         return successors;
     }
@@ -63,7 +66,7 @@ public class GridSearchProblem : ISearchProblem<GridNode, GridAction>
         float yDistance = Mathf.Abs(goal.Y - start.Y);
         float remaining = Mathf.Abs(xDistance - yDistance);
         float totalDiagonalCost = Mathf.Min(xDistance, yDistance) * PathingGrid.DiagonalMoveCost;
-        float totalAdjacentCost = remaining * PathingGrid.AdjacentMoveCost;
+        float totalAdjacentCost = remaining * PathingGrid.StraightMoveCost;
         return totalDiagonalCost + totalAdjacentCost;
     }
 }

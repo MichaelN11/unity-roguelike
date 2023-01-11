@@ -16,8 +16,7 @@ public class TilemapPathing : MonoBehaviour
 
         BuildPathingGrid(tilemap);
         BuildAdjacentActions();
-        PathingGrid.GridLayout = tilemap;
-        Debug.Log("grid x: " + PathingGrid.Grid.Count + " grid y: " + PathingGrid.Grid[0].Count);
+        PathingGrid.Tilemap = tilemap;
     }
 
     /// <summary>
@@ -28,8 +27,6 @@ public class TilemapPathing : MonoBehaviour
     {
         BoundsInt bounds = tilemap.cellBounds;
         TileBase[] allTiles = tilemap.GetTilesBlock(bounds);
-
-        Debug.Log("bounds x: " + bounds.size.x + " bounds y: " + bounds.size.y);
 
         for (int x = 0; x < bounds.size.x; x++)
         {
@@ -47,7 +44,6 @@ public class TilemapPathing : MonoBehaviour
                 column.Add(node);
             }
         }
-        Debug.Log("grid x: " + PathingGrid.Grid.Count + " grid y: " + PathingGrid.Grid[0].Count);
     }
 
     /// <summary>
@@ -86,15 +82,15 @@ public class TilemapPathing : MonoBehaviour
             {
                 GridNode node = PathingGrid.Grid[x][y];
 
-                AddAdjacentAction(node, 0, 1, PathingGrid.AdjacentMoveCost);
-                AddAdjacentAction(node, 0, -1, PathingGrid.AdjacentMoveCost);
-                AddAdjacentAction(node, 1, 0, PathingGrid.AdjacentMoveCost);
-                AddAdjacentAction(node, -1, 0, PathingGrid.AdjacentMoveCost);
+                AddAdjacentAction(node, 0, 1, PathingGrid.StraightMoveCost);
+                AddAdjacentAction(node, 0, -1, PathingGrid.StraightMoveCost);
+                AddAdjacentAction(node, 1, 0, PathingGrid.StraightMoveCost);
+                AddAdjacentAction(node, -1, 0, PathingGrid.StraightMoveCost);
 
-                AddAdjacentAction(node, 1, 1, PathingGrid.DiagonalMoveCost);
-                AddAdjacentAction(node, -1, 1, PathingGrid.DiagonalMoveCost);
-                AddAdjacentAction(node, 1, -1, PathingGrid.DiagonalMoveCost);
-                AddAdjacentAction(node, -1, -1, PathingGrid.DiagonalMoveCost);
+                //AddAdjacentAction(node, 1, 1, PathingGrid.DiagonalMoveCost);
+                //AddAdjacentAction(node, -1, 1, PathingGrid.DiagonalMoveCost);
+                //AddAdjacentAction(node, 1, -1, PathingGrid.DiagonalMoveCost);
+                //AddAdjacentAction(node, -1, -1, PathingGrid.DiagonalMoveCost);
             }
         }
     }
@@ -113,8 +109,9 @@ public class TilemapPathing : MonoBehaviour
 
         if (IsCellInGrid(adjacentX, adjacentY))
         {
+            GridNode adjacentNode = PathingGrid.Grid[adjacentX][adjacentY];
             GridAction action = new();
-            action.Node = PathingGrid.Grid[adjacentX][adjacentY];
+            action.Node = adjacentNode;
             action.Cost = cost;
             node.AdjacentActions.Add(action);
         }
