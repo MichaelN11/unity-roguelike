@@ -37,22 +37,22 @@ public class Movement : MonoBehaviour
     }
 
     /// <summary>
-    /// Updates the movement speed and direction.
+    /// Sets the movement speed and direction.
     /// </summary>
     /// <param name="direction">The Vector2 direction to move in</param>
     /// <param name="speed">The movement speed</param>
-    public void UpdateMovement(Vector2 direction, float speed)
+    public void SetMovement(Vector2 direction, float speed)
     {
-        UpdateMovement(direction, speed, 0);
+        SetMovement(direction, speed, 0);
     }
 
     /// <summary>
-    /// Updates the movement speed, direction, and acceleration.
+    /// Sets the movement speed, direction, and acceleration.
     /// </summary>
     /// <param name="direction">The Vector2 direction to move in</param>
     /// <param name="speed">The movement speed</param>
     /// <param name="acceleration">The movement acceleration</param>
-    public void UpdateMovement(Vector2 direction, float speed, float acceleration)
+    public void SetMovement(Vector2 direction, float speed, float acceleration)
     {
         Direction = direction;
         Speed = speed;
@@ -100,7 +100,7 @@ public class Movement : MonoBehaviour
     /// <returns>true if the movement was not blocked by a collision</returns>
     private bool MoveIfNoCollision(Vector2 direction)
     {
-        bool moved = false;
+        bool moved;
         float distance = Speed * Time.deltaTime;
         float offsetDistance = DetermineOffsetDistance(direction);
         int collisionCount = movementCollider.Cast(direction,
@@ -166,7 +166,6 @@ public class Movement : MonoBehaviour
 
     /// <summary>
     /// Moves from the old location, to the new location, using the Rigidbody's MovePosition.
-    /// Clamps both locations to a pixel perfect position.
     /// </summary>
     /// <param name="oldLocation">The old location</param>
     /// <param name="newLocation">The new location being moved to</param>

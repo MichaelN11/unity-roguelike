@@ -22,14 +22,13 @@ public class AttackOnHit : MonoBehaviour
         {
             attackData.user = gameObject;
         }
-        if (attackData.setDirectionOnHit)
-        {
-            body = GetComponentInParent<Rigidbody2D>();
-        }
+        body = GetComponentInParent<Rigidbody2D>();
+        body.sleepMode = RigidbodySleepMode2D.NeverSleep;
     }
 
     private void OnTriggerStay2D(Collider2D collision)
     {
+        Debug.Log("firing attack");
         if (IsValidAttackTarget(collision) && IsHitTimerExceeded(collision))
         {
             AttackEntity(collision);

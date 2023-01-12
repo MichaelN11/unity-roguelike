@@ -103,7 +103,7 @@ public class EntityController : MonoBehaviour
             attemptedMoveDirection = moveDirection;
             if (movement != null && CanAct())
             {
-                movement.UpdateMovement(moveDirection, walkSpeed);
+                movement.SetMovement(moveDirection, walkSpeed);
 
                 if (moveDirection != Vector2.zero)
                 {
@@ -144,7 +144,7 @@ public class EntityController : MonoBehaviour
             EntityState.Action = Action.Attack;
             if (movement != null)
             {
-                movement.UpdateMovement(Vector2.zero, 0);
+                movement.SetMovement(Vector2.zero, 0);
             }
             attack.Use(EntityState.LookDirection, interactionDistance);
         }
@@ -193,7 +193,7 @@ public class EntityController : MonoBehaviour
             {
                 Debug.Log("knockback direction: " + attackResults.KnockbackDirection + " speed: " +
                     attackResults.KnockbackSpeed);
-                movement.UpdateMovement(attackResults.KnockbackDirection,
+                movement.SetMovement(attackResults.KnockbackDirection,
                     attackResults.KnockbackSpeed, attackResults.KnockbackAcceleration);
             }
         }
