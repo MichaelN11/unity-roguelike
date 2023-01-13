@@ -16,13 +16,17 @@ public class AttackOnHit : MonoBehaviour
     private Rigidbody2D body;
     private Dictionary<int, float> hitTimeByInstanceID = new();
 
+    private void Awake()
+    {
+        body = GetComponentInParent<Rigidbody2D>();
+    }
+
     private void Start()
     {
-        if (attackData.user == null)
+        if (attackData.User == null)
         {
-            attackData.user = UnityUtil.GetParentIfExists(gameObject);
+            attackData.User = UnityUtil.GetParentIfExists(gameObject);
         }
-        body = GetComponentInParent<Rigidbody2D>();
         if (body != null)
         {
             body.sleepMode = RigidbodySleepMode2D.NeverSleep;
@@ -31,7 +35,6 @@ public class AttackOnHit : MonoBehaviour
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-        Debug.Log("firing attack");
         if (IsValidAttackTarget(collision) && IsHitTimerExceeded(collision))
         {
             AttackEntity(collision);
@@ -46,7 +49,7 @@ public class AttackOnHit : MonoBehaviour
     private bool IsValidAttackTarget(Collider2D collision)
     {
         return collision.gameObject.CompareTag("Hitbox")
-            && UnityUtil.GetParentIfExists(collision.gameObject) != attackData.user;
+            && UnityUtil.GetParentIfExists(collision.gameObject) != attackData.User;
     }
 
     /// <summary>
@@ -57,7 +60,7 @@ public class AttackOnHit : MonoBehaviour
     {
         if (attackData.setDirectionOnHit)
         {
-            attackData.direction = GetAttackDirection(collision);
+            attackData.Direction = GetAttackDirection(collision);
         }
         
         EntityController otherEntityController = collision.gameObject.GetComponentInParent<EntityController>();

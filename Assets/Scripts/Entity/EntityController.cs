@@ -24,7 +24,7 @@ public class EntityController : MonoBehaviour
     private Vector2 attemptedMoveDirection = Vector2.zero;
     private Vector2 attemptedLookDirection = Vector2.zero;
 
-    private void Start()
+    private void Awake()
     {
         movement = GetComponent<Movement>();
         attack = GetComponentInChildren<Attack>();

@@ -14,7 +14,7 @@ public class Attack : MonoBehaviour
 
     private GameObject attackPrefab;
 
-    private void Start()
+    private void Awake()
     {
         attackPrefab = (GameObject) Resources.Load(attackObjectResourceName);
     }
@@ -39,8 +39,8 @@ public class Attack : MonoBehaviour
         AttackOnHit attackObject = instance.GetComponent<AttackOnHit>();
         AttackData attackData = new();
         attackData.attackStats = attackStats;
-        attackData.user = UnityUtil.GetParentIfExists(gameObject);
-        attackData.direction = direction;
+        attackData.User = UnityUtil.GetParentIfExists(gameObject);
+        attackData.Direction = direction;
         attackData.setDirectionOnHit = false;
         attackObject.attackData = attackData;
     }

@@ -12,9 +12,7 @@ public class AIController : MonoBehaviour
     /// </summary>
     private const float MovementBuffer = 0.5f;
 
-    [SerializeField]
     private GameObject target;
-    [SerializeField]
     private TilemapPathing tilemapPathing;
 
     private PathingGrid pathingGrid;
@@ -26,19 +24,24 @@ public class AIController : MonoBehaviour
     private int nextPathStep = 0;
     private Vector2 nextPosition = Vector2.zero;
 
-    private void Start()
+    private void Awake()
     {
         body = GetComponent<Rigidbody2D>();
         entityController = GetComponent<EntityController>();
-        if (tilemapPathing != null)
-        {
-            pathingGrid = tilemapPathing.PathingGrid;
-        }
+    }
+
+    private void Start()
+    {
+        target = PlayerController.Instance.gameObject;
+        tilemapPathing = TilemapPathing.Instance;
         if (target != null)
         {
             targetBody = target.GetComponent<Rigidbody2D>();
         }
-
+        if (tilemapPathing != null)
+        {
+            pathingGrid = tilemapPathing.PathingGrid;
+        }
         nextPosition = body.position;
         InvokeRepeating(nameof(FindPath), 0, 1);
     }

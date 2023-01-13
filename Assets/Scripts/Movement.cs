@@ -23,7 +23,7 @@ public class Movement : MonoBehaviour
     private List<RaycastHit2D> raycastHits = new();
     private List<Collider2D> colliderHits = new();
 
-    private void Start()
+    private void Awake()
     {
         body = GetComponent<Rigidbody2D>();
         movementCollider = GetComponent<Collider2D>();
@@ -96,7 +96,6 @@ public class Movement : MonoBehaviour
         int numOverlaps = movementCollider.OverlapCollider(new(), colliderHits);
         foreach (Collider2D collider in colliderHits)
         {
-            Debug.Log("Collider: " + collider.gameObject.name);
             Vector2 collisionPoint = collider.ClosestPoint(body.position);
             float distance = (Speed / numOverlaps) * Time.deltaTime;
             Vector2 moveDirection = (body.position - collisionPoint).normalized;

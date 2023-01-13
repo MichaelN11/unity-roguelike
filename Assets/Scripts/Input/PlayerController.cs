@@ -4,15 +4,31 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 /// <summary>
-/// Component for handling player input for the entity, using the Input System.
+/// Singleton component for handling player input for the entity, using the Input System.
 /// </summary>
 public class PlayerController : MonoBehaviour
 {
+    public static PlayerController Instance { get; private set; }
+
     private EntityController entityController;
 
-    private void Start()
+    private void Awake()
     {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(this.gameObject);
+        }
+        else
+        {
+            Instance = this;
+        }
+
         entityController = GetComponent<EntityController>();
+    }
+
+    private void OnDestroy()
+    {
+        Instance = null;
     }
 
     /// <summary>

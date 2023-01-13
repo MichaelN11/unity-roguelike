@@ -8,7 +8,8 @@ using UnityEngine;
 public class AttackData
 {
     public AttackStats attackStats;
-    public GameObject user;
-    public Vector2 direction = Vector2.zero;
     public bool setDirectionOnHit = true;
+
+    public GameObject User { get; set; }
+    public Vector2 Direction { get; set; } = Vector2.zero;
 }

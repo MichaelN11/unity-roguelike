@@ -4,19 +4,40 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 
 /// <summary>
-/// Component for building a grid for pathfinding out of a collidable tilemap.
+/// Singleton component for building a grid for pathfinding out of a collidable tilemap.
 /// </summary>
 public class TilemapPathing : MonoBehaviour
 {
+    public static TilemapPathing Instance { get; private set; }
+
     public PathingGrid PathingGrid { get; set; } = new();
 
-    void Start()
-    {
-        Tilemap tilemap = GetComponent<Tilemap>();
+    private Tilemap tilemap;
 
+    private void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(this.gameObject);
+        }
+        else
+        {
+            Instance = this;
+        }
+
+        tilemap = GetComponent<Tilemap>();
+        PathingGrid.Tilemap = tilemap;
+    }
+
+    private void OnDestroy()
+    {
+        Instance = null;
+    }
+
+    private void Start()
+    {
         BuildPathingGrid(tilemap);
         BuildAdjacentActions();
-        PathingGrid.Tilemap = tilemap;
     }
 
     /// <summary>

@@ -11,7 +11,7 @@ public class AnimatorWrapper : MonoBehaviour
 
     private bool hasAttacked = false;
 
-    private void Start()
+    private void Awake()
     {
         animator = GetComponent<Animator>();
     }

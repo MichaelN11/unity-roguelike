@@ -18,7 +18,7 @@ public class Damageable : MonoBehaviour
 
     private float currentHealth;
 
-    private void Start()
+    private void Awake()
     {
         currentHealth = maxHealth;
     }
@@ -36,7 +36,7 @@ public class Damageable : MonoBehaviour
         attackResults.IsDead = IsDead();
         attackResults.HitStunDuration = hitStunDuration * attackData.attackStats.hitStunMultiplier;
         attackResults.KnockbackSpeed = knockbackSpeed * attackData.attackStats.knockbackMultiplier;
-        attackResults.KnockbackDirection = attackData.direction;
+        attackResults.KnockbackDirection = attackData.Direction;
         attackResults.KnockbackAcceleration = knockbackAcceleration;
         return attackResults;
     }
