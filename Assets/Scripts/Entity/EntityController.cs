@@ -27,7 +27,7 @@ public class EntityController : MonoBehaviour
     private void Start()
     {
         movement = GetComponent<Movement>();
-        attack = GetComponent<Attack>();
+        attack = GetComponentInChildren<Attack>();
         animatorWrapper = GetComponent<AnimatorWrapper>();
         damageable = GetComponent<Damageable>();
     }

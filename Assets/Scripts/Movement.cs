@@ -6,6 +6,7 @@ using UnityEngine;
 /// <summary>
 /// Component responsible for an entity's movement.
 /// </summary>
+[RequireComponent(typeof(Rigidbody2D), typeof(Collider2D))]
 public class Movement : MonoBehaviour
 {
     public Vector2 Direction { get; set; }
@@ -19,7 +20,8 @@ public class Movement : MonoBehaviour
 
     private Rigidbody2D body;
     private Collider2D movementCollider;
-    private List<RaycastHit2D> collisions = new();
+    private List<RaycastHit2D> raycastHits = new();
+    private List<Collider2D> colliderHits = new();
 
     private void Start()
     {
@@ -29,10 +31,19 @@ public class Movement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (Direction != null && Direction != Vector2.zero)
+        Vector2 movePosition = CalculateMoveOutOfCollisions();
+        if (Direction != null
+            && Direction != Vector2.zero)
         {
             UpdateSpeed();
-            AttemptMovement();
+            if (movePosition == body.position)
+            {
+                movePosition = CalculateMove();
+            }
+        }
+        if (movePosition != body.position)
+        {
+            body.MovePosition(movePosition);
         }
     }
 
@@ -74,48 +85,69 @@ public class Movement : MonoBehaviour
     }
 
     /// <summary>
-    /// Attempts to move using the movement direction. If the movement is blocked by a collision,
-    /// it attempts to slide along the collision in the x or y direction.
+    /// Calculates a move out of any collisions overlapping the object. If there are
+    /// multiple objects overlapping, the move speed is reduced and the final move
+    /// is added together. This prevents the object from getting stuck on other objects.
     /// </summary>
-    /// <returns>true if movement was successful</returns>
-    private bool AttemptMovement()
+    /// <returns>A Vector2 position moving out of collisions, or body.position if there are none</returns>
+    private Vector2 CalculateMoveOutOfCollisions()
     {
-        Vector2 normalizedDirection = Direction.normalized;
-        bool moved = MoveIfNoCollision(normalizedDirection);
-        if (!moved)
+        Vector2 movePosition = body.position;
+        int numOverlaps = movementCollider.OverlapCollider(new(), colliderHits);
+        foreach (Collider2D collider in colliderHits)
         {
-            moved = MoveIfNoCollision(new Vector2(normalizedDirection.x, 0));
-            if (!moved)
-            {
-                moved = MoveIfNoCollision(new Vector2(0, normalizedDirection.y));
-            }
+            Debug.Log("Collider: " + collider.gameObject.name);
+            Vector2 collisionPoint = collider.ClosestPoint(body.position);
+            float distance = (Speed / numOverlaps) * Time.deltaTime;
+            Vector2 moveDirection = (body.position - collisionPoint).normalized;
+            movePosition += moveDirection * distance;
         }
-        return moved;
+        return movePosition;
     }
 
     /// <summary>
-    /// Moves in the passed direction using the movement speed, if there is no collision
+    /// Calculates the next move using the movement direction. If the movement is blocked by a collision,
+    /// it attempts to slide along the collision in the x or y direction.
+    /// </summary>
+    /// <returns>A Vector2 position for the next move, or body.position if the move was blocked</returns>
+    private Vector2 CalculateMove()
+    {
+        //Debug.Log("Attempting normal move " + gameObject.name);
+        Vector2 normalizedDirection = Direction.normalized;
+        Vector2 movePosition = CalculateMoveInDirection(normalizedDirection);
+        if (movePosition == body.position)
+        {
+            movePosition = CalculateMoveInDirection(new Vector2(normalizedDirection.x, 0));
+            if (movePosition == body.position)
+            {
+                movePosition = CalculateMoveInDirection(new Vector2(0, normalizedDirection.y));
+            }
+        }
+        return movePosition;
+    }
+
+    /// <summary>
+    /// Calculates the next move in the passed direction using the movement speed, if there is no collision
     /// in the way.
     /// </summary>
-    /// <returns>true if the movement was not blocked by a collision</returns>
-    private bool MoveIfNoCollision(Vector2 direction)
+    /// <returns>A Vector2 position for the next move, or body.position if the move was blocked</returns>
+    private Vector2 CalculateMoveInDirection(Vector2 direction)
     {
-        bool moved;
+        Vector2 movePosition = body.position;
         float distance = Speed * Time.deltaTime;
         float offsetDistance = DetermineOffsetDistance(direction);
         int collisionCount = movementCollider.Cast(direction,
             contactFilter2D,
-            collisions,
+            raycastHits,
             distance + offsetDistance);
         if (collisionCount == 0)
         {
-            Move(body.position, direction * distance);
-            moved = true;
+            movePosition = body.position + direction * distance;
         } else
         {
-            moved = MoveToNearestCollision(direction, distance, offsetDistance);
+            movePosition = CalculateMoveToNearestCollision(direction, distance, offsetDistance);
         }
-        return moved;
+        return movePosition;
     }
 
     /// <summary>
@@ -136,18 +168,17 @@ public class Movement : MonoBehaviour
     }
 
     /// <summary>
-    /// Moves up to the nearest collision in the collisions list. Returns true if
-    /// the move was successful.
+    /// Calculates a move up to the nearest collision in the collisions list.
     /// </summary>
     /// <param name="direction">The direction being moved in</param>
     /// <param name="initialDistance">The initial distance of the collision check</param>
     /// <param name="offsetDistance">The offset distance used for collision offset</param>
-    /// <returns></returns>
-    private bool MoveToNearestCollision(Vector2 direction, float initialDistance, float offsetDistance)
+    /// <returns>The Vector2 move position, or body.position if the movement was blocked</returns>
+    private Vector2 CalculateMoveToNearestCollision(Vector2 direction, float initialDistance, float offsetDistance)
     {
-        bool moved = false;
+        Vector2 movePosition = body.position;
         float shortestDistance = initialDistance + offsetDistance;
-        foreach (RaycastHit2D collision in collisions)
+        foreach (RaycastHit2D collision in raycastHits)
         {
             float distanceToCollider = collision.distance;
             if (distanceToCollider < shortestDistance)
@@ -158,21 +189,9 @@ public class Movement : MonoBehaviour
         float distanceToCollision = shortestDistance - offsetDistance;
         if (distanceToCollision > 0.0001)
         {
-            Move(body.position, direction * distanceToCollision);
-            moved = true;
+            movePosition = body.position + direction * distanceToCollision;
         }
-        return moved;
-    }
-
-    /// <summary>
-    /// Moves from the old location, to the new location, using the Rigidbody's MovePosition.
-    /// </summary>
-    /// <param name="oldLocation">The old location</param>
-    /// <param name="newLocation">The new location being moved to</param>
-    private void Move(Vector2 oldLocation, Vector2 newLocation)
-    {
-        body.MovePosition(oldLocation + newLocation);
-        //body.MovePosition(PixelPerfectClamp(oldLocation, pixelsPerUnit) + PixelPerfectClamp(newLocation, pixelsPerUnit));
+        return movePosition;
     }
 
     /// <summary>

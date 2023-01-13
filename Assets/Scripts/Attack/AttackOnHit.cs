@@ -20,10 +20,13 @@ public class AttackOnHit : MonoBehaviour
     {
         if (attackData.user == null)
         {
-            attackData.user = gameObject;
+            attackData.user = UnityUtil.GetParentIfExists(gameObject);
         }
         body = GetComponentInParent<Rigidbody2D>();
-        body.sleepMode = RigidbodySleepMode2D.NeverSleep;
+        if (body != null)
+        {
+            body.sleepMode = RigidbodySleepMode2D.NeverSleep;
+        }
     }
 
     private void OnTriggerStay2D(Collider2D collision)
@@ -43,7 +46,7 @@ public class AttackOnHit : MonoBehaviour
     private bool IsValidAttackTarget(Collider2D collision)
     {
         return collision.gameObject.CompareTag("Hitbox")
-            && collision.gameObject.transform.parent.gameObject != attackData.user;
+            && UnityUtil.GetParentIfExists(collision.gameObject) != attackData.user;
     }
 
     /// <summary>

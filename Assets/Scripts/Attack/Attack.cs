@@ -39,7 +39,7 @@ public class Attack : MonoBehaviour
         AttackOnHit attackObject = instance.GetComponent<AttackOnHit>();
         AttackData attackData = new();
         attackData.attackStats = attackStats;
-        attackData.user = gameObject;
+        attackData.user = UnityUtil.GetParentIfExists(gameObject);
         attackData.direction = direction;
         attackData.setDirectionOnHit = false;
         attackObject.attackData = attackData;
