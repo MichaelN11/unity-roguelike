@@ -3,5 +3,6 @@ public enum InputType
 {
     Look,
     Move,
-    Attack
+    Attack,
+    Idle
 }

@@ -6,7 +6,7 @@ AnimatorOverrideController:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: LogEnemy
+  m_Name: LogPlayerOverride
   m_Controller: {fileID: 9100000, guid: 9becbc478a8444ab3940e14fc2ec5759, type: 2}
   m_Clips:
   - m_OriginalClip: {fileID: 7400000, guid: 29ace55aae89245a183a197e36b46a34, type: 2}

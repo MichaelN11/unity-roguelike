@@ -5,6 +5,7 @@ using UnityEngine;
 /// <summary>
 /// Component for controlling an entity using AI.
 /// </summary>
+[RequireComponent(typeof(Rigidbody2D), typeof(EntityController))]
 public class AIController : MonoBehaviour
 {
     /// <summary>
@@ -12,22 +13,32 @@ public class AIController : MonoBehaviour
     /// </summary>
     private const float MovementBuffer = 0.5f;
 
+    [SerializeField]
+    private float timeBetweenAIUpdate = 1f;
+    [SerializeField]
+    private float aggroDistance = 5;
+
     private GameObject target;
     private TilemapPathing tilemapPathing;
 
     private PathingGrid pathingGrid;
     private Rigidbody2D body;
     private Rigidbody2D targetBody;
+
     private EntityController entityController;
 
     private List<GridAction> movementPath = new();
     private int nextPathStep = 0;
     private Vector2 nextPosition = Vector2.zero;
+    private bool active = false;
+    private bool idle = true;
+    Camera mainCamera;
 
     private void Awake()
     {
         body = GetComponent<Rigidbody2D>();
         entityController = GetComponent<EntityController>();
+        mainCamera = Camera.main;
     }
 
     private void Start()
@@ -43,12 +54,67 @@ public class AIController : MonoBehaviour
             pathingGrid = tilemapPathing.PathingGrid;
         }
         nextPosition = body.position;
-        InvokeRepeating(nameof(FindPath), 0, 1);
+        InvokeRepeating(nameof(FindPath), 0, timeBetweenAIUpdate);
     }
 
     private void Update()
     {
-        MoveAlongPath();
+        DetermineIfActive();
+        if (active) {
+            DetermineIfIdle();
+            if (!idle)
+            {
+                MoveAlongPath();
+            }
+        }
+    }
+
+    /// <summary>
+    /// Determines if the AI entity is active by checking if it's on the current screen.
+    /// </summary>
+    private void DetermineIfActive()
+    {
+        if (IsOnScreen(body.position))
+        {
+            active = true;
+        } else
+        {
+            active = false;
+            SendInput(InputType.Idle);
+        }
+    }
+
+    /// <summary>
+    /// Determines if the passed position is on the screen, using the main camera.
+    /// Checks it generously so that the object will be on screen, if part of the
+    /// sprite is visible.
+    /// </summary>
+    /// <param name="worldPosition">The world position as a Vector2</param>
+    /// <returns>true if the position is on the screen</returns>
+    private bool IsOnScreen(Vector2 worldPosition)
+    {
+        Vector3 viewportPosition = mainCamera.WorldToViewportPoint(worldPosition);
+        return viewportPosition.x >= -0.05
+               && viewportPosition.x <= 1.05
+               && viewportPosition.y >= -0.05
+               && viewportPosition.y <= 1.05;
+    }
+
+    /// <summary>
+    /// Determines if the AI entity is idle by checking if the target is within
+    /// the distance to wake the entity up.
+    /// </summary>
+    private void DetermineIfIdle()
+    {
+        float distanceToTarget = Vector2.Distance(body.position, targetBody.position);
+        if (distanceToTarget <= aggroDistance)
+        {
+            idle = false;
+        } else
+        {
+            idle = true;
+            SendInput(InputType.Idle);
+        }
     }
 
     /// <summary>
@@ -89,7 +155,8 @@ public class AIController : MonoBehaviour
     /// </summary>
     private void FindPath()
     {
-        if (body != null
+        if (active
+            && !idle
             && targetBody != null
             && pathingGrid != null
             && pathingGrid.Grid.Count > 0)
@@ -98,9 +165,18 @@ public class AIController : MonoBehaviour
             GridNode targetNode = pathingGrid.WorldToNode(targetBody.position);
 
             GridSearchProblem search = new(thisNode, targetNode);
-            movementPath = AStarSearch<GridNode, GridAction>.AStar(search);
+            movementPath = AStarSearch<GridNode, GridAction>.AStar(search, 200);
             nextPathStep = 0;
         }
+    }
+
+    /// <summary>
+    /// Passes input to the EntityController.
+    /// </summary>
+    /// <param name="inputType">The InputType</param>
+    private void SendInput(InputType inputType)
+    {
+        SendInput(inputType, Vector2.zero);
     }
 
     /// <summary>

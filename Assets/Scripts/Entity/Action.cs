@@ -11,5 +11,6 @@ public enum Action
     Stand,
     Move,
     Attack,
-    Hitstun
+    Hitstun,
+    Idle
 }

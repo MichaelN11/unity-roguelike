@@ -58,6 +58,9 @@ public class EntityController : MonoBehaviour
             case InputType.Attack:
                 Attack();
                 break;
+            case InputType.Idle:
+                Idle();
+                break;
             default:
                 // Unrecognized input
                 break;
@@ -197,5 +200,14 @@ public class EntityController : MonoBehaviour
                     attackResults.KnockbackSpeed, attackResults.KnockbackAcceleration);
             }
         }
+    }
+
+    /// <summary>
+    /// Makes the entity go idle.
+    /// </summary>
+    private void Idle()
+    {
+        EntityState.Action = Action.Idle;
+        movement.SetMovement(Vector2.zero, walkSpeed);
     }
 }

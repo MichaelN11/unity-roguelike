@@ -28,6 +28,7 @@ public class AnimatorWrapper : MonoBehaviour
             UpdateLookDirection(entityState);
             UpdateIsMoving(entityState);
             UpdateIsHitstun(entityState);
+            UpdateIsIdle(entityState);
         }
     }
 
@@ -92,6 +93,22 @@ public class AnimatorWrapper : MonoBehaviour
         else
         {
             animator.SetBool("isHitstun", false);
+        }
+    }
+
+    /// <summary>
+    /// Updates the Animator isIdle property, from the EntityState's Action.
+    /// </summary>
+    /// <param name="entityState"></param>
+    private void UpdateIsIdle(EntityState entityState)
+    {
+        if (entityState.Action == Action.Idle)
+        {
+            animator.SetBool("isIdle", true);
+        }
+        else
+        {
+            animator.SetBool("isIdle", false);
         }
     }
 }

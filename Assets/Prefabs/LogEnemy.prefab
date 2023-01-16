@@ -79,8 +79,6 @@ MonoBehaviour:
       duration: 1
       hitStunMultiplier: 1
       knockbackMultiplier: 1
-    user: {fileID: 0}
-    direction: {x: 0, y: 0}
     setDirectionOnHit: 1
   timeBetweenHits: 1
 --- !u!1 &7658967440879357034
@@ -186,7 +184,7 @@ Animator:
   m_GameObject: {fileID: 7658967440879357034}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 22100000, guid: bf77eecfced2446868a83d9913eab737, type: 2}
+  m_Controller: {fileID: 9100000, guid: 7cda00c71aa1a483c863aec5c890dec1, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -325,5 +323,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 038c47f75194c4dc2808b642c05fe583, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 0}
-  tilemapPathing: {fileID: 0}
+  timeBetweenAIUpdate: 1
+  wakeDistance: 4
