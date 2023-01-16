@@ -7,8 +7,7 @@ using UnityEngine;
 /// </summary>
 public class Damageable : MonoBehaviour
 {
-    [SerializeField]
-    private float maxHealth = 1;
+    public float maxHealth = 1;
     [SerializeField]
     private float hitStunDuration = 1;
     [SerializeField]
@@ -16,11 +15,11 @@ public class Damageable : MonoBehaviour
     [SerializeField]
     private float knockbackAcceleration = 0;
 
-    private float currentHealth;
+    public float CurrentHealth { get; private set; }
 
     private void Awake()
     {
-        currentHealth = maxHealth;
+        CurrentHealth = maxHealth;
     }
 
     /// <summary>
@@ -47,7 +46,7 @@ public class Damageable : MonoBehaviour
     /// <param name="damage">The damage being dealt</param>
     private void TakeDamage(float damage)
     {
-        currentHealth -= damage;
+        CurrentHealth -= damage;
     }
 
     /// <summary>
@@ -56,6 +55,6 @@ public class Damageable : MonoBehaviour
     /// <returns>true if the entity is dead</returns>
     private bool IsDead()
     {
-        return currentHealth <= 0;
+        return CurrentHealth <= 0;
     }
 }
