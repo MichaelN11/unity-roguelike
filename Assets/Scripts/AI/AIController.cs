@@ -93,11 +93,16 @@ public class AIController : MonoBehaviour
     /// <returns>true if the position is on the screen</returns>
     private bool IsOnScreen(Vector2 worldPosition)
     {
-        Vector3 viewportPosition = mainCamera.WorldToViewportPoint(worldPosition);
-        return viewportPosition.x >= -0.05
-               && viewportPosition.x <= 1.05
-               && viewportPosition.y >= -0.05
-               && viewportPosition.y <= 1.05;
+        bool isOnScreen = false;
+        if (mainCamera != null)
+        {
+            Vector3 viewportPosition = mainCamera.WorldToViewportPoint(worldPosition);
+            isOnScreen = viewportPosition.x >= -0.05
+                   && viewportPosition.x <= 1.05
+                   && viewportPosition.y >= -0.05
+                   && viewportPosition.y <= 1.05;
+        }
+        return isOnScreen;
     }
 
     /// <summary>
