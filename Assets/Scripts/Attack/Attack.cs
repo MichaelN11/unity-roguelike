@@ -7,8 +7,8 @@ using UnityEngine;
 /// </summary>
 public class Attack : MonoBehaviour
 {
-    [SerializeField]
-    private AttackStats attackStats = new();
+    public AttackStats attackStats;
+
     [SerializeField]
     private string attackObjectResourceName = "AttackObject";
 

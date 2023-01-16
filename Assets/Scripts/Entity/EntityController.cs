@@ -34,11 +34,11 @@ public class EntityController : MonoBehaviour
 
     private void Update()
     {
+        UpdateStunTimer();
         if (animatorWrapper != null)
         {
             animatorWrapper.UpdateAnimator(EntityState);
         }
-        UpdateStunTimer();
     }
 
     /// <summary>
@@ -84,6 +84,20 @@ public class EntityController : MonoBehaviour
                 HandleHitstun(attackResults);
             }
         }
+    }
+
+    /// <summary>
+    /// Gets the attack range for the entity, with the interaction distance added.
+    /// </summary>
+    /// <returns>The attack range as a float</returns>
+    public float GetAttackRange()
+    {
+        float range = 0;
+        if (attack != null)
+        {
+            range = interactionDistance + attack.attackStats.range;
+        }
+        return range;
     }
 
     /// <summary>

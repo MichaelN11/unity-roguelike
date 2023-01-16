@@ -153,9 +153,10 @@ MonoBehaviour:
     animation: {fileID: 0}
     damage: 1
     range: 0
-    duration: 0.2
+    hitboxDuration: 0.2
     hitStunMultiplier: 1
     knockbackMultiplier: 1
+    startupTime: 0
   attackObjectResourceName: AttackObject
 --- !u!1 &1796502088
 GameObject:
@@ -430,7 +431,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 116077039412780153}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2ceeb12be3eca4f5187561e418e7c05c, type: 3}
   m_Name: 

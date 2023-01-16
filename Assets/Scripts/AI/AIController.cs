@@ -24,15 +24,14 @@ public class AIController : MonoBehaviour
     private PathingGrid pathingGrid;
     private Rigidbody2D body;
     private Rigidbody2D targetBody;
-
     private EntityController entityController;
 
     private List<GridAction> movementPath = new();
     private int nextPathStep = 0;
     private Vector2 nextPosition = Vector2.zero;
     private bool active = false;
-    private bool idle = true;
-    Camera mainCamera;
+    private Behavior currentBehavior;
+    private Camera mainCamera;
 
     private void Awake()
     {
@@ -61,10 +60,15 @@ public class AIController : MonoBehaviour
     {
         DetermineIfActive();
         if (active) {
-            DetermineIfIdle();
-            if (!idle)
+            DetermineBehavior();
+            switch(currentBehavior)
             {
-                MoveAlongPath();
+                case Behavior.Move:
+                    MoveAlongPath();
+                    break;
+                case Behavior.Attack:
+                    Attack();
+                    break;
             }
         }
     }
@@ -106,19 +110,29 @@ public class AIController : MonoBehaviour
     }
 
     /// <summary>
-    /// Determines if the AI entity is idle by checking if the target is within
-    /// the distance to wake the entity up.
+    /// Determines the current AI behavior by checking the distance from the target's position.
     /// </summary>
-    private void DetermineIfIdle()
+    private void DetermineBehavior()
     {
-        float distanceToTarget = Vector2.Distance(body.position, targetBody.position);
-        if (distanceToTarget <= aggroDistance)
+        if (targetBody != null)
         {
-            idle = false;
+            float distanceToTarget = Vector2.Distance(body.position, targetBody.position);
+            if (distanceToTarget > aggroDistance)
+            {
+                currentBehavior = Behavior.Idle;
+                SendInput(InputType.Idle);
+            }
+            else if (distanceToTarget <= entityController.GetAttackRange())
+            {
+                currentBehavior = Behavior.Attack;
+            }
+            else
+            {
+                currentBehavior = Behavior.Move;
+            }
         } else
         {
-            idle = true;
-            SendInput(InputType.Idle);
+            currentBehavior = Behavior.Idle;
         }
     }
 
@@ -161,7 +175,7 @@ public class AIController : MonoBehaviour
     private void FindPath()
     {
         if (active
-            && !idle
+            && currentBehavior == Behavior.Move
             && targetBody != null
             && pathingGrid != null
             && pathingGrid.Grid.Count > 0)
@@ -173,6 +187,16 @@ public class AIController : MonoBehaviour
             movementPath = AStarSearch<GridNode, GridAction>.AStar(search, 200);
             nextPathStep = 0;
         }
+    }
+
+    /// <summary>
+    /// Attack in the direction of the target.
+    /// </summary>
+    private void Attack()
+    {
+        Vector2 targetDirection = targetBody.position - body.position;
+        SendInput(InputType.Look, targetDirection);
+        SendInput(InputType.Attack);
     }
 
     /// <summary>

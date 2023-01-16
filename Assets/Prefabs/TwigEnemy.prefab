@@ -1,5 +1,58 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1205336864
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1205336865}
+  - component: {fileID: 1205336866}
+  m_Layer: 0
+  m_Name: Attack
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1205336865
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1205336864}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7658967440879357033}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1205336866
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1205336864}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b11f4f78d5a154620b1b2f81f25f5d65, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attackStats:
+    animation: {fileID: 0}
+    damage: 1
+    range: 0
+    hitboxDuration: 0.2
+    hitStunMultiplier: 1
+    knockbackMultiplier: 1
+    startupTime: 0.75
+  attackObjectResourceName: AttackObject
 --- !u!1 &7658967438887940922
 GameObject:
   m_ObjectHideFlags: 0
@@ -10,7 +63,6 @@ GameObject:
   m_Component:
   - component: {fileID: 7658967438887940923}
   - component: {fileID: 7658967438887940920}
-  - component: {fileID: 970776233}
   m_Layer: 0
   m_Name: Hitbox
   m_TagString: Hitbox
@@ -46,7 +98,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.024442434, y: 0.00021523237}
+  m_Offset: {x: -0.024442434, y: 0.2}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -59,28 +111,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.7747035, y: 0.75959575}
   m_EdgeRadius: 0
---- !u!114 &970776233
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7658967438887940922}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 074b321c264514d7db71b116ad8db351, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  attackData:
-    attackStats:
-      animation: {fileID: 0}
-      damage: 1
-      range: 0
-      duration: 1
-      hitStunMultiplier: 1
-      knockbackMultiplier: 1
-    setDirectionOnHit: 1
-  timeBetweenHits: 1
 --- !u!1 &7658967440879357034
 GameObject:
   m_ObjectHideFlags: 0
@@ -119,6 +149,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7658967438887940923}
+  - {fileID: 1205336865}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -228,10 +259,10 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.026220322, y: -0.2218773}
+  m_Offset: {x: -0.026220322, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.2}
+    pivot: {x: 0.5, y: 0.1}
     oldSize: {x: 2, y: 2}
     newSize: {x: 2, y: 2}
     adaptiveTilingThreshold: 0.5
@@ -254,8 +285,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   walkSpeed: 2
-  interactionDistance: 0.5
-  attackDuration: 2
+  interactionDistance: 1
+  attackDuration: 1.2
 --- !u!114 &7658967440879357010
 MonoBehaviour:
   m_ObjectHideFlags: 0
