@@ -91,6 +91,7 @@ public class EntityController : MonoBehaviour
     /// </summary>
     private void Die()
     {
+        Interrupt();
         Destroy(gameObject);
     }
 
@@ -190,6 +191,7 @@ public class EntityController : MonoBehaviour
     {
         if (attackResults.HitStunDuration > 0)
         {
+            Interrupt();
             EntityState.Action = Action.Hitstun;
             EntityState.StunTimer = attackResults.HitStunDuration;
             if (movement != null)
@@ -209,5 +211,16 @@ public class EntityController : MonoBehaviour
     {
         EntityState.Action = Action.Idle;
         movement.SetMovement(Vector2.zero, walkSpeed);
+    }
+
+    /// <summary>
+    /// Interrupts what the entity is currently doing.
+    /// </summary>
+    private void Interrupt()
+    {
+        if (attack != null)
+        {
+            attack.Interrupt();
+        }
     }
 }
