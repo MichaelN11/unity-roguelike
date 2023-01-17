@@ -76,9 +76,10 @@ MonoBehaviour:
       animation: {fileID: 0}
       damage: 1
       range: 0
-      duration: 1
+      hitboxDuration: 1
       hitStunMultiplier: 1
       knockbackMultiplier: 1
+      startupTime: 0
     setDirectionOnHit: 1
   timeBetweenHits: 1
 --- !u!1 &7658967440879357034
@@ -253,7 +254,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f50f1387a6f2949a189a4131252de432, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  walkSpeed: 1
+  walkSpeed: 1.5
   interactionDistance: 0.5
   attackDuration: 1
 --- !u!114 &7658967440879357010

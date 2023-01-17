@@ -25,7 +25,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1205336864}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0.2, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -51,7 +51,7 @@ MonoBehaviour:
     hitboxDuration: 0.2
     hitStunMultiplier: 1
     knockbackMultiplier: 1
-    startupTime: 0.75
+    startupTime: 0.5
   attackObjectResourceName: AttackObject
 --- !u!1 &7658967438887940922
 GameObject:
@@ -284,9 +284,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f50f1387a6f2949a189a4131252de432, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  walkSpeed: 2
+  walkSpeed: 2.5
   interactionDistance: 1
-  attackDuration: 1.2
+  attackDuration: 1
 --- !u!114 &7658967440879357010
 MonoBehaviour:
   m_ObjectHideFlags: 0
