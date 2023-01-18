@@ -287,6 +287,8 @@ MonoBehaviour:
   walkSpeed: 2.5
   interactionDistance: 1
   attackDuration: 1
+  faction: 1
+  enemyFactions: 00000000
 --- !u!114 &7658967440879357010
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -356,3 +358,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   timeBetweenAIUpdate: 1
   aggroDistance: 8
+  attackDistance: 0.5

@@ -15,6 +15,10 @@ public class EntityController : MonoBehaviour
     private float interactionDistance = 0.5f;
     [SerializeField]
     private float attackDuration = 1f;
+    [SerializeField]
+    private Faction faction;
+    [SerializeField]
+    private List<Faction> enemyFactions;
 
     private AnimatorWrapper animatorWrapper;
     private Attack attack;
@@ -30,6 +34,7 @@ public class EntityController : MonoBehaviour
         attack = GetComponentInChildren<Attack>();
         animatorWrapper = GetComponent<AnimatorWrapper>();
         damageable = GetComponent<Damageable>();
+        InitializeHitbox();
     }
 
     private void Update()
@@ -73,7 +78,7 @@ public class EntityController : MonoBehaviour
     /// <param name="attackData">The attack data</param>
     public void HandleIncomingAttack(AttackData attackData)
     {
-        if (damageable != null)
+        if (IsValidAttackTarget(attackData))
         {
             AttackResults attackResults = damageable.HandleAttack(attackData);
             if (attackResults.IsDead)
@@ -164,7 +169,7 @@ public class EntityController : MonoBehaviour
             {
                 movement.SetMovement(Vector2.zero, 0);
             }
-            attack.Use(EntityState.LookDirection, interactionDistance);
+            attack.Use(EntityState.LookDirection, interactionDistance, enemyFactions);
         }
     }
 
@@ -235,6 +240,30 @@ public class EntityController : MonoBehaviour
         if (attack != null)
         {
             attack.Interrupt();
+        }
+    }
+
+    /// <summary>
+    /// Determines if the entity is a valid attack target for the attack.
+    /// </summary>
+    /// <param name="attackData">The AttackData for the attack</param>
+    /// <returns>true if the entity is a valid target for the attack</returns>
+    private bool IsValidAttackTarget(AttackData attackData)
+    {
+        return damageable != null
+            && gameObject != attackData.User
+            && attackData.targetFactions.Contains(faction);
+    }
+
+    /// <summary>
+    /// Initializes the entity's hitbox components.
+    /// </summary>
+    private void InitializeHitbox()
+    {
+        AttackOnHit attackOnHit = GetComponentInChildren<AttackOnHit>();
+        if (attackOnHit != null)
+        {
+            attackOnHit.attackData.targetFactions = enemyFactions;
         }
     }
 }

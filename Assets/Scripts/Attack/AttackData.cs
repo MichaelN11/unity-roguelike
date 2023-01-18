@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
@@ -12,4 +13,5 @@ public class AttackData
 
     public GameObject User { get; set; }
     public Vector2 Direction { get; set; } = Vector2.zero;
+    public List<Faction> targetFactions { get; set; }
 }

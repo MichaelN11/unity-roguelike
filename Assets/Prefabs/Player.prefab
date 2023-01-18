@@ -424,6 +424,8 @@ MonoBehaviour:
   walkSpeed: 4
   interactionDistance: 1
   attackDuration: 0.5
+  faction: 0
+  enemyFactions: 01000000
 --- !u!114 &5276853109477784359
 MonoBehaviour:
   m_ObjectHideFlags: 0

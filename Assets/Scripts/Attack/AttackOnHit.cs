@@ -35,21 +35,10 @@ public class AttackOnHit : MonoBehaviour
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if (IsValidAttackTarget(collision) && IsHitTimerExceeded(collision))
+        if (collision.gameObject.CompareTag("Hitbox") && IsHitTimerExceeded(collision))
         {
             AttackEntity(collision);
         }
-    }
-
-    /// <summary>
-    /// Determines if the passed collision is a valid attack target's hitbox.
-    /// </summary>
-    /// <param name="collision">The Collider2D object</param>
-    /// <returns>true if the target is valid for the attack</returns>
-    private bool IsValidAttackTarget(Collider2D collision)
-    {
-        return collision.gameObject.CompareTag("Hitbox")
-            && UnityUtil.GetParentIfExists(collision.gameObject) != attackData.User;
     }
 
     /// <summary>

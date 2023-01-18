@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 /// <summary>
@@ -12,10 +14,13 @@ public class Attack : MonoBehaviour
     [SerializeField]
     private string attackObjectResourceName = "AttackObject";
 
+    private readonly List<Faction> allFactions = Enum.GetValues(typeof(Faction)).OfType<Faction>().ToList();
+
     private GameObject attackPrefab;
     private Vector2 direction;
     private float distance;
     private bool interrupted = false;
+    private List<Faction> targetFactions;
 
     private void Awake()
     {
@@ -29,9 +34,21 @@ public class Attack : MonoBehaviour
     /// <param name="distance">The distance away the attack is used</param>
     public void Use(Vector2 direction, float distance)
     {
+        Use(direction, distance, allFactions);
+    }
+
+    /// <summary>
+    /// Use the attack. Waits for the startup time before starting the attack.
+    /// </summary>
+    /// <param name="direction">The direction of the attack</param>
+    /// <param name="distance">The distance away the attack is used</param>
+    /// <param name="targetFactions">The factions targeted by the attack</param>
+    public void Use(Vector2 direction, float distance, List<Faction> targetFactions)
+    {
         interrupted = false;
         this.direction = direction;
         this.distance = distance;
+        this.targetFactions = targetFactions;
         Invoke(nameof(StartAttack), attackStats.startupTime);
     }
 
@@ -66,6 +83,7 @@ public class Attack : MonoBehaviour
             attackData.User = UnityUtil.GetParentIfExists(gameObject);
             attackData.Direction = direction;
             attackData.setDirectionOnHit = false;
+            attackData.targetFactions = targetFactions;
             attackObject.attackData = attackData;
         }
     }
