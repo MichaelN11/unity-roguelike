@@ -5,7 +5,7 @@ using UnityEngine;
 /// <summary>
 /// Component responsible for updating the Animator component.
 /// </summary>
-public class AnimatorWrapper : MonoBehaviour
+public class AnimatorUpdater : MonoBehaviour
 {
     private Animator animator;
 
@@ -20,7 +20,7 @@ public class AnimatorWrapper : MonoBehaviour
     /// Updates the Animator using the passed entity's state.
     /// </summary>
     /// <param name="entityState">The entity's state</param>
-    public void UpdateAnimator(EntityState entityState)
+    public void UpdateAnimator(EntityStateData entityState)
     {
         if (animator != null)
         {
@@ -37,9 +37,9 @@ public class AnimatorWrapper : MonoBehaviour
     /// current attack state.
     /// </summary>
     /// <param name="entityState">The entity's state</param>
-    private void UpdateAttack(EntityState entityState)
+    private void UpdateAttack(EntityStateData entityState)
     {
-        if (entityState.Action == Action.Attack)
+        if (entityState.ActionState == ActionState.Attack)
         {
             if (!hasAttacked)
             {
@@ -56,7 +56,7 @@ public class AnimatorWrapper : MonoBehaviour
     /// Updates the look direction on the Animator, from the EntityState.
     /// </summary>
     /// <param name="entityState">The entity's state</param>
-    private void UpdateLookDirection(EntityState entityState)
+    private void UpdateLookDirection(EntityStateData entityState)
     {
         if (entityState.LookDirection != null)
         {
@@ -69,9 +69,9 @@ public class AnimatorWrapper : MonoBehaviour
     /// Updates the Animator isMoving property, from the EntityState's Action.
     /// </summary>
     /// <param name="entityState">The entity's state</param>
-    private void UpdateIsMoving(EntityState entityState)
+    private void UpdateIsMoving(EntityStateData entityState)
     {
-        if (entityState.Action == Action.Move)
+        if (entityState.ActionState == ActionState.Move)
         {
             animator.SetBool("isMoving", true);
         } else
@@ -84,9 +84,9 @@ public class AnimatorWrapper : MonoBehaviour
     /// Updates the Animator isHitstun property, from the EntityState's Action.
     /// </summary>
     /// <param name="entityState">The entity's state</param>
-    private void UpdateIsHitstun(EntityState entityState)
+    private void UpdateIsHitstun(EntityStateData entityState)
     {
-        if (entityState.Action == Action.Hitstun)
+        if (entityState.ActionState == ActionState.Hitstun)
         {
             animator.SetBool("isHitstun", true);
         }
@@ -100,9 +100,9 @@ public class AnimatorWrapper : MonoBehaviour
     /// Updates the Animator isIdle property, from the EntityState's Action.
     /// </summary>
     /// <param name="entityState"></param>
-    private void UpdateIsIdle(EntityState entityState)
+    private void UpdateIsIdle(EntityStateData entityState)
     {
-        if (entityState.Action == Action.Idle)
+        if (entityState.ActionState == ActionState.Idle)
         {
             animator.SetBool("isIdle", true);
         }

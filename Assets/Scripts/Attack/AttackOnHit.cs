@@ -8,7 +8,7 @@ using UnityEngine;
 /// </summary>
 public class AttackOnHit : MonoBehaviour
 {
-    public AttackData attackData;
+    public AttackUseData attackData;
 
     [SerializeField]
     private float timeBetweenHits = 1;

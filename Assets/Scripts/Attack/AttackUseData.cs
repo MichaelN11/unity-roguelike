@@ -6,7 +6,7 @@ using UnityEngine;
 /// POCO for storing data for the instance of an Attack.
 /// </summary>
 [Serializable]
-public class AttackData
+public class AttackUseData
 {
     public AttackStats attackStats;
     public bool setDirectionOnHit = true;

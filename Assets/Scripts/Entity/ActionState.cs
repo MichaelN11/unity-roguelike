@@ -5,7 +5,7 @@ using UnityEngine;
 /// <summary>
 /// Enum representing an action being taken by an entity.
 /// </summary>
-public enum Action
+public enum ActionState
 {
     None,
     Stand,

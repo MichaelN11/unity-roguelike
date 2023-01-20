@@ -27,11 +27,11 @@ public class Damageable : MonoBehaviour
     /// </summary>
     /// <param name="attackData">The stats and data for the attack</param>
     /// <returns>A HitStun object</returns>
-    public AttackResults HandleAttack(AttackData attackData)
+    public AttackResultData HandleAttack(AttackUseData attackData)
     {
         TakeDamage(attackData.attackStats.damage);
 
-        AttackResults attackResults = new();
+        AttackResultData attackResults = new();
         attackResults.IsDead = IsDead();
         attackResults.HitStunDuration = hitStunDuration * attackData.attackStats.hitStunMultiplier;
         attackResults.KnockbackSpeed = knockbackSpeed * attackData.attackStats.knockbackMultiplier;

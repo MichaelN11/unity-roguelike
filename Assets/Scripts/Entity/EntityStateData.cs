@@ -5,9 +5,9 @@ using UnityEngine;
 /// <summary>
 /// POCO storing an entity's state.
 /// </summary>
-public class EntityState
+public class EntityStateData
 {
     public Vector2 LookDirection { get; set; } = Vector2.zero;
-    public Action Action { get; set; } = Action.Stand;
+    public ActionState ActionState { get; set; } = ActionState.Stand;
     public float StunTimer { get; set; } = 0f;
 }

@@ -78,7 +78,7 @@ public class Attack : MonoBehaviour
             destroyTimer.Duration = attackStats.hitboxDuration;
 
             AttackOnHit attackObject = instance.GetComponent<AttackOnHit>();
-            AttackData attackData = new();
+            AttackUseData attackData = new();
             attackData.attackStats = attackStats;
             attackData.User = UnityUtil.GetParentIfExists(gameObject);
             attackData.Direction = direction;

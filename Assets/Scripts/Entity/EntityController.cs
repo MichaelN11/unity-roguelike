@@ -7,7 +7,7 @@ using UnityEngine;
 /// </summary>
 public class EntityController : MonoBehaviour
 {
-    public EntityState EntityState { get; private set; } = new EntityState();
+    public EntityStateData EntityState { get; private set; } = new EntityStateData();
 
     [SerializeField]
     private float walkSpeed = 1f;
@@ -20,7 +20,7 @@ public class EntityController : MonoBehaviour
     [SerializeField]
     private List<Faction> enemyFactions;
 
-    private AnimatorWrapper animatorWrapper;
+    private AnimatorUpdater animatorUpdater;
     private Attack attack;
     private Movement movement;
     private Damageable damageable;
@@ -32,7 +32,7 @@ public class EntityController : MonoBehaviour
     {
         movement = GetComponent<Movement>();
         attack = GetComponentInChildren<Attack>();
-        animatorWrapper = GetComponent<AnimatorWrapper>();
+        animatorUpdater = GetComponent<AnimatorUpdater>();
         damageable = GetComponent<Damageable>();
         InitializeHitbox();
     }
@@ -40,9 +40,9 @@ public class EntityController : MonoBehaviour
     private void Update()
     {
         UpdateStunTimer();
-        if (animatorWrapper != null)
+        if (animatorUpdater != null)
         {
-            animatorWrapper.UpdateAnimator(EntityState);
+            animatorUpdater.UpdateAnimator(EntityState);
         }
     }
 
@@ -76,11 +76,11 @@ public class EntityController : MonoBehaviour
     /// Handles being hit by an incoming attack.
     /// </summary>
     /// <param name="attackData">The attack data</param>
-    public void HandleIncomingAttack(AttackData attackData)
+    public void HandleIncomingAttack(AttackUseData attackData)
     {
         if (IsValidAttackTarget(attackData))
         {
-            AttackResults attackResults = damageable.HandleAttack(attackData);
+            AttackResultData attackResults = damageable.HandleAttack(attackData);
             if (attackResults.IsDead)
             {
                 Die();
@@ -130,11 +130,11 @@ public class EntityController : MonoBehaviour
 
                 if (moveDirection != Vector2.zero)
                 {
-                    EntityState.Action = Action.Move;
+                    EntityState.ActionState = ActionState.Move;
                 }
                 else
                 {
-                    EntityState.Action = Action.Stand;
+                    EntityState.ActionState = ActionState.Stand;
                 }
             }
         }
@@ -164,7 +164,7 @@ public class EntityController : MonoBehaviour
         if (attack != null && CanAct())
         {
             EntityState.StunTimer = attackDuration;
-            EntityState.Action = Action.Attack;
+            EntityState.ActionState = ActionState.Attack;
             if (movement != null)
             {
                 movement.SetMovement(Vector2.zero, 0);
@@ -179,8 +179,8 @@ public class EntityController : MonoBehaviour
     /// <returns>true if the entity can act</returns>
     private bool CanAct()
     {
-        return EntityState.Action != Action.Attack
-            && EntityState.Action != Action.Hitstun;
+        return EntityState.ActionState != ActionState.Attack
+            && EntityState.ActionState != ActionState.Hitstun;
     }
 
     /// <summary>
@@ -195,7 +195,7 @@ public class EntityController : MonoBehaviour
             EntityState.StunTimer -= Time.deltaTime;
             if (EntityState.StunTimer <= 0)
             {
-                EntityState.Action = Action.Stand;
+                EntityState.ActionState = ActionState.Stand;
                 SetMovementDirection(attemptedMoveDirection);
                 SetLookDirection(attemptedLookDirection);
             }
@@ -206,17 +206,15 @@ public class EntityController : MonoBehaviour
     /// Handles the hitstun and knockback after being hit by an attack.
     /// </summary>
     /// <param name="attackResults">The results of the attack</param>
-    private void HandleHitstun(AttackResults attackResults)
+    private void HandleHitstun(AttackResultData attackResults)
     {
         if (attackResults.HitStunDuration > 0)
         {
             Interrupt();
-            EntityState.Action = Action.Hitstun;
+            EntityState.ActionState = ActionState.Hitstun;
             EntityState.StunTimer = attackResults.HitStunDuration;
             if (movement != null)
             {
-                Debug.Log("knockback direction: " + attackResults.KnockbackDirection + " speed: " +
-                    attackResults.KnockbackSpeed);
                 movement.SetMovement(attackResults.KnockbackDirection,
                     attackResults.KnockbackSpeed, attackResults.KnockbackAcceleration);
             }
@@ -228,7 +226,7 @@ public class EntityController : MonoBehaviour
     /// </summary>
     private void Idle()
     {
-        EntityState.Action = Action.Idle;
+        EntityState.ActionState = ActionState.Idle;
         movement.SetMovement(Vector2.zero, walkSpeed);
     }
 
@@ -248,7 +246,7 @@ public class EntityController : MonoBehaviour
     /// </summary>
     /// <param name="attackData">The AttackData for the attack</param>
     /// <returns>true if the entity is a valid target for the attack</returns>
-    private bool IsValidAttackTarget(AttackData attackData)
+    private bool IsValidAttackTarget(AttackUseData attackData)
     {
         return damageable != null
             && gameObject != attackData.User
