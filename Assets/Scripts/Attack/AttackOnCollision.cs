@@ -53,9 +53,9 @@ public class AttackOnCollision : MonoBehaviour
         }
         
         EntityController otherEntityController = collision.gameObject.GetComponentInParent<EntityController>();
-        if (otherEntityController != null)
+        if (IsValidAttackTarget(collision.gameObject, otherEntityController.EntityType))
         {
-            otherEntityController.HandleIncomingAttack(attackData);
+            otherEntityController?.HandleIncomingAttack(attackData);
         }
     }
 
@@ -105,5 +105,17 @@ public class AttackOnCollision : MonoBehaviour
         }
 
         return isHitTimerExceeded;
+    }
+
+    /// <summary>
+    /// Determines if the passed entity is a valid attack target for the attack.
+    /// </summary>
+    /// <param name="entity">The entity GameObject</param>
+    /// <param name="entityType">The EntityType containing data about the entity</param>
+    /// <returns>true if the entity is a valid target for the attack</returns>
+    private bool IsValidAttackTarget(GameObject entity, EntityType entityType)
+    {
+        return entity != attackData.User
+            && attackData.EntityType.EnemyFactions.Contains(entityType.Faction);
     }
 }

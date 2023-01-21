@@ -22,7 +22,7 @@ public class Attack : MonoBehaviour
     private Vector2 direction;
     private float distance;
     private bool interrupted = false;
-    private List<Faction> targetFactions;
+    private EntityType entityType;
 
     private void Awake()
     {
@@ -34,23 +34,13 @@ public class Attack : MonoBehaviour
     /// </summary>
     /// <param name="direction">The direction of the attack</param>
     /// <param name="distance">The distance away the attack is used</param>
-    public void Use(Vector2 direction, float distance)
-    {
-        Use(direction, distance, allFactions);
-    }
-
-    /// <summary>
-    /// Use the attack. Waits for the startup time before starting the attack.
-    /// </summary>
-    /// <param name="direction">The direction of the attack</param>
-    /// <param name="distance">The distance away the attack is used</param>
-    /// <param name="targetFactions">The factions targeted by the attack</param>
-    public void Use(Vector2 direction, float distance, List<Faction> targetFactions)
+    /// <param name="entityType">The user's EntityType</param>
+    public void Use(Vector2 direction, float distance, EntityType entityType)
     {
         interrupted = false;
         this.direction = direction;
         this.distance = distance;
-        this.targetFactions = targetFactions;
+        this.entityType = entityType;
         Invoke(nameof(StartAttack), attackType.StartupTime);
     }
 
@@ -85,7 +75,7 @@ public class Attack : MonoBehaviour
             attackData.User = UnityUtil.GetParentIfExists(gameObject);
             attackData.Direction = direction;
             attackData.SetDirectionOnHit = false;
-            attackData.TargetFactions = targetFactions;
+            attackData.EntityType = entityType;
             attackObject.attackData = attackData;
         }
     }

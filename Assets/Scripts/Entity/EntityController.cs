@@ -11,6 +11,7 @@ public class EntityController : MonoBehaviour
 
     [SerializeField]
     private EntityType entityType;
+    public EntityType EntityType => entityType;
 
     private AnimatorUpdater animatorUpdater;
     private Attack attack;
@@ -70,7 +71,7 @@ public class EntityController : MonoBehaviour
     /// <param name="attackData">The attack data</param>
     public void HandleIncomingAttack(AttackData attackData)
     {
-        if (IsValidAttackTarget(attackData))
+        if (damageable != null)
         {
             AttackResult attackResult = damageable.HandleAttack(attackData);
             if (attackResult.IsDead)
@@ -161,7 +162,7 @@ public class EntityController : MonoBehaviour
             {
                 movement.SetMovement(Vector2.zero, 0);
             }
-            attack.Use(EntityState.LookDirection, entityType.InteractionDistance, entityType.EnemyFactions);
+            attack.Use(EntityState.LookDirection, entityType.InteractionDistance, entityType);
         }
     }
 
@@ -234,18 +235,6 @@ public class EntityController : MonoBehaviour
     }
 
     /// <summary>
-    /// Determines if the entity is a valid attack target for the attack.
-    /// </summary>
-    /// <param name="attackData">The AttackData for the attack</param>
-    /// <returns>true if the entity is a valid target for the attack</returns>
-    private bool IsValidAttackTarget(AttackData attackData)
-    {
-        return damageable != null
-            && gameObject != attackData.User
-            && attackData.TargetFactions.Contains(entityType.Faction);
-    }
-
-    /// <summary>
     /// Initializes the entity's hitbox components.
     /// </summary>
     private void InitializeHitbox()
@@ -253,7 +242,7 @@ public class EntityController : MonoBehaviour
         AttackOnCollision attackOnHit = GetComponentInChildren<AttackOnCollision>();
         if (attackOnHit != null)
         {
-            attackOnHit.attackData.TargetFactions = entityType.EnemyFactions;
+            attackOnHit.attackData.EntityType = entityType;
         }
     }
 }
