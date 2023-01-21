@@ -14,6 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   walkSpeed: 4
   interactionDistance: 1
-  attackDuration: 0.5
+  maxHealth: 5
+  hitStunDuration: 0.5
+  knockbackSpeed: 6
+  knockbackAcceleration: -0.2
   faction: 0
   enemyFactions: 01000000
+  deathTimer: 1

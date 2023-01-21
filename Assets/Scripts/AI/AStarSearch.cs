@@ -18,7 +18,7 @@ public class AStarSearch<State, Action>
     /// <param name="problem">The search problem A* is running on</param>
     /// <param name="maxIterations">The maximum number of iterations before the search is force stopped</param>
     /// <returns>The best path list of actions to reach the goal, if the max iterations weren't hit</returns>
-    static public List<Action> AStar(ISearchProblem<State, Action> problem, int maxIterations = 1000)
+    public static List<Action> AStar(ISearchProblem<State, Action> problem, int maxIterations = 1000)
     {
         int iterationNum = 0;
 

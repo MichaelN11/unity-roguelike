@@ -38,4 +38,8 @@ public class EntityType : ScriptableObject
     [SerializeField]
     private List<Faction> enemyFactions;
     public List<Faction> EnemyFactions => enemyFactions;
+
+    [SerializeField]
+    private float deathTimer;
+    public float DeathTimer => deathTimer;
 }

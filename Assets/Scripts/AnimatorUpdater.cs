@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -29,6 +30,23 @@ public class AnimatorUpdater : MonoBehaviour
             UpdateIsMoving(entityData);
             UpdateIsHitstun(entityData);
             UpdateIsIdle(entityData);
+            UpdateIsDead(entityData);
+        }
+    }
+
+    /// <summary>
+    /// Determines if the entity is dead and sets IsDead on the Animator.
+    /// </summary>
+    /// <param name="entityData">The entity's state</param>
+    private void UpdateIsDead(EntityData entityData)
+    {
+        if (entityData.ActionState == ActionState.Dead)
+        {
+            Debug.Log("trying to play death animation!");
+            animator.SetBool("isDead", true);
+        } else
+        {
+            animator.SetBool("isDead", false);
         }
     }
 

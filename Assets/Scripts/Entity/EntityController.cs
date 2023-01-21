@@ -7,7 +7,7 @@ using UnityEngine;
 /// </summary>
 public class EntityController : MonoBehaviour
 {
-    public EntityData EntityState { get; private set; } = new EntityData();
+    public EntityData EntityData { get; private set; } = new EntityData();
 
     [SerializeField]
     private EntityType entityType;
@@ -35,7 +35,11 @@ public class EntityController : MonoBehaviour
         UpdateStunTimer();
         if (animatorUpdater != null)
         {
-            animatorUpdater.UpdateAnimator(EntityState);
+            animatorUpdater.UpdateAnimator(EntityData);
+        }
+        if (EntityData.ActionState == ActionState.Dead)
+        {
+            Debug.Log("he's dead Jim");
         }
     }
 
@@ -110,7 +114,17 @@ public class EntityController : MonoBehaviour
     private void Die()
     {
         Interrupt();
-        Destroy(gameObject);
+        Collider2D[] colliders = GetComponentsInChildren<Collider2D>();
+        foreach (Collider2D collider in colliders)
+        {
+            collider.enabled = false;
+        }
+        if (movement != null)
+        {
+            movement.SetMovement(Vector2.zero, 0);
+        }
+        EntityData.ActionState = ActionState.Dead;
+        Destroy(gameObject, EntityType.DeathTimer);
     }
 
     /// <summary>
@@ -129,11 +143,11 @@ public class EntityController : MonoBehaviour
 
                 if (moveDirection != Vector2.zero)
                 {
-                    EntityState.ActionState = ActionState.Move;
+                    EntityData.ActionState = ActionState.Move;
                 }
                 else
                 {
-                    EntityState.ActionState = ActionState.Stand;
+                    EntityData.ActionState = ActionState.Stand;
                 }
             }
         }
@@ -150,7 +164,7 @@ public class EntityController : MonoBehaviour
             attemptedLookDirection = lookDirection;
             if (CanAct())
             {
-                EntityState.LookDirection = lookDirection;
+                EntityData.LookDirection = lookDirection;
             }
         }
     }
@@ -162,14 +176,24 @@ public class EntityController : MonoBehaviour
     {
         if (attack != null && CanAct())
         {
-            EntityState.StunTimer = attack.AttackType.AttackDuration;
-            EntityState.ActionState = ActionState.Attack;
+            EntityData.StunTimer = attack.AttackType.AttackDuration;
+            EntityData.ActionState = ActionState.Attack;
             if (movement != null)
             {
                 movement.SetMovement(Vector2.zero, 0);
             }
-            attack.Use(EntityState.LookDirection, entityType.InteractionDistance, entityType);
+            attack.Use(EntityData.LookDirection, entityType.InteractionDistance, entityType);
         }
+    }
+
+    /// <summary>
+    /// Determines if the entity is stunned.
+    /// </summary>
+    /// <returns>true if the entity is stunned</returns>
+    private bool IsStunned()
+    {
+        return EntityData.ActionState == ActionState.Attack
+            || EntityData.ActionState == ActionState.Hitstun;
     }
 
     /// <summary>
@@ -178,8 +202,8 @@ public class EntityController : MonoBehaviour
     /// <returns>true if the entity can act</returns>
     private bool CanAct()
     {
-        return EntityState.ActionState != ActionState.Attack
-            && EntityState.ActionState != ActionState.Hitstun;
+        return !IsStunned()
+            && EntityData.ActionState != ActionState.Dead;
     }
 
     /// <summary>
@@ -189,12 +213,12 @@ public class EntityController : MonoBehaviour
     /// </summary>
     private void UpdateStunTimer()
     {
-        if (!CanAct())
+        if (IsStunned())
         {
-            EntityState.StunTimer -= Time.deltaTime;
-            if (EntityState.StunTimer <= 0)
+            EntityData.StunTimer -= Time.deltaTime;
+            if (EntityData.StunTimer <= 0)
             {
-                EntityState.ActionState = ActionState.Stand;
+                EntityData.ActionState = ActionState.Stand;
                 SetMovementDirection(attemptedMoveDirection);
                 SetLookDirection(attemptedLookDirection);
             }
@@ -210,8 +234,8 @@ public class EntityController : MonoBehaviour
         if (attackResult.HitStunDuration > 0)
         {
             Interrupt();
-            EntityState.ActionState = ActionState.Hitstun;
-            EntityState.StunTimer = attackResult.HitStunDuration;
+            EntityData.ActionState = ActionState.Hitstun;
+            EntityData.StunTimer = attackResult.HitStunDuration;
             if (movement != null)
             {
                 movement.SetMovement(attackResult.KnockbackDirection,
@@ -225,8 +249,11 @@ public class EntityController : MonoBehaviour
     /// </summary>
     private void Idle()
     {
-        EntityState.ActionState = ActionState.Idle;
-        movement.SetMovement(Vector2.zero, entityType.WalkSpeed);
+        if (CanAct())
+        {
+            EntityData.ActionState = ActionState.Idle;
+            movement.SetMovement(Vector2.zero, entityType.WalkSpeed);
+        }
     }
 
     /// <summary>

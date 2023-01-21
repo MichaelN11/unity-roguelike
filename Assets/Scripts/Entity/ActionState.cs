@@ -12,5 +12,6 @@ public enum ActionState
     Move,
     Attack,
     Hitstun,
-    Idle
+    Idle,
+    Dead
 }

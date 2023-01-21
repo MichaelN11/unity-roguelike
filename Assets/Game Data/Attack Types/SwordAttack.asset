@@ -19,3 +19,4 @@ MonoBehaviour:
   hitStunMultiplier: 1
   knockbackMultiplier: 1
   startupTime: 0
+  attackDuration: 0.5
