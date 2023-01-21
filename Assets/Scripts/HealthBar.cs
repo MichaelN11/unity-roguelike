@@ -16,7 +16,7 @@ public class HealthBar : MonoBehaviour
 
     void Update()
     {
-        float healthPercentage = playerDamageable.CurrentHealth / playerDamageable.maxHealth;
+        float healthPercentage = playerDamageable.CurrentHealth / playerDamageable.MaxHealth;
         slider.value = healthPercentage;
     }
 }

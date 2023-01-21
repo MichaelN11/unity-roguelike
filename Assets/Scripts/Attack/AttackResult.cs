@@ -6,7 +6,6 @@ using UnityEngine;
 /// </summary>r
 public class AttackResult
 {
-    public bool IsDead { get; set; } = false;
     public float HitStunDuration { get; set; } = 0;
     public float KnockbackSpeed { get; set; } = 0;
     public float KnockbackAcceleration { get; set; } = 0;

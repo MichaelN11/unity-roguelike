@@ -27,7 +27,7 @@ public class EntityController : MonoBehaviour
         attack = GetComponentInChildren<Attack>();
         animatorUpdater = GetComponent<AnimatorUpdater>();
         damageable = GetComponent<Damageable>();
-        InitializeHitbox();
+        InitializeComponents();
     }
 
     private void Update()
@@ -73,8 +73,14 @@ public class EntityController : MonoBehaviour
     {
         if (damageable != null)
         {
-            AttackResult attackResult = damageable.HandleAttack(attackData);
-            if (attackResult.IsDead)
+            damageable.TakeDamage(attackData.AttackType.Damage);
+            AttackResult attackResult = new();
+            attackResult.HitStunDuration = EntityType.HitStunDuration * attackData.AttackType.HitStunMultiplier;
+            attackResult.KnockbackSpeed = EntityType.KnockbackSpeed * attackData.AttackType.KnockbackMultiplier;
+            attackResult.KnockbackDirection = attackData.Direction;
+            attackResult.KnockbackAcceleration = EntityType.KnockbackAcceleration;
+
+            if (damageable.IsDead())
             {
                 Die();
             } else
@@ -235,14 +241,18 @@ public class EntityController : MonoBehaviour
     }
 
     /// <summary>
-    /// Initializes the entity's hitbox components.
+    /// Initializes the entity's components with the entity data.
     /// </summary>
-    private void InitializeHitbox()
+    private void InitializeComponents()
     {
-        AttackOnCollision attackOnHit = GetComponentInChildren<AttackOnCollision>();
-        if (attackOnHit != null)
+        AttackOnCollision attackOnCollision = GetComponentInChildren<AttackOnCollision>();
+        if (attackOnCollision != null)
         {
-            attackOnHit.attackData.EntityType = entityType;
+            attackOnCollision.attackData.EntityType = entityType;
+        }
+        if (damageable != null)
+        {
+            damageable.MaxHealth = EntityType.MaxHealth;
         }
     }
 }
