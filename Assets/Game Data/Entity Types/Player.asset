@@ -9,13 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a4ed2bbcf236345c3b1981f57aea9cf0, type: 3}
-  m_Name: SwordAttack
+  m_Script: {fileID: 11500000, guid: 2421c10c0751840c281645757ffbf300, type: 3}
+  m_Name: Player
   m_EditorClassIdentifier: 
-  animation: {fileID: 0}
-  damage: 1
-  range: 0
-  hitboxDuration: 0.2
-  hitStunMultiplier: 1
-  knockbackMultiplier: 1
-  startupTime: 0
+  walkSpeed: 4
+  interactionDistance: 1
+  attackDuration: 0.5
+  faction: 0
+  enemyFactions: 01000000

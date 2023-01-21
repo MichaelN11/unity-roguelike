@@ -15,7 +15,7 @@ MonoBehaviour:
   animation: {fileID: 0}
   damage: 1
   range: 0
-  hitboxDuration: 1
+  hitboxDuration: 0.2
   hitStunMultiplier: 1
   knockbackMultiplier: 1
-  startupTime: 0
+  startupTime: 0.5

@@ -3,7 +3,7 @@ using UnityEngine;
 /// <summary>
 /// Scriptable object representing an attack type.
 /// </summary>
-[CreateAssetMenu(menuName = "GameData/AttackType")]
+[CreateAssetMenu(menuName = "Game Data/Attack Type")]
 public class AttackType : ScriptableObject
 {
     [SerializeField]

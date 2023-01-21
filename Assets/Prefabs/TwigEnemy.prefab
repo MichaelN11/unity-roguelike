@@ -277,11 +277,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f50f1387a6f2949a189a4131252de432, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  walkSpeed: 2.5
-  interactionDistance: 1
-  attackDuration: 1
-  faction: 1
-  enemyFactions: 00000000
+  entityType: {fileID: 11400000, guid: e621e08a2aba145abbd8b41c75f01540, type: 2}
 --- !u!114 &7658967440879357010
 MonoBehaviour:
   m_ObjectHideFlags: 0

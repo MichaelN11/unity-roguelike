@@ -10,15 +10,7 @@ public class EntityController : MonoBehaviour
     public EntityData EntityState { get; private set; } = new EntityData();
 
     [SerializeField]
-    private float walkSpeed = 1f;
-    [SerializeField]
-    private float interactionDistance = 0.5f;
-    [SerializeField]
-    private float attackDuration = 1f;
-    [SerializeField]
-    private Faction faction;
-    [SerializeField]
-    private List<Faction> enemyFactions;
+    private EntityType entityType;
 
     private AnimatorUpdater animatorUpdater;
     private Attack attack;
@@ -100,7 +92,7 @@ public class EntityController : MonoBehaviour
         float range = 0;
         if (attack != null)
         {
-            range = interactionDistance + attack.AttackType.Range;
+            range = entityType.InteractionDistance + attack.AttackType.Range;
         }
         return range;
     }
@@ -126,7 +118,7 @@ public class EntityController : MonoBehaviour
             attemptedMoveDirection = moveDirection;
             if (movement != null && CanAct())
             {
-                movement.SetMovement(moveDirection, walkSpeed);
+                movement.SetMovement(moveDirection, entityType.WalkSpeed);
 
                 if (moveDirection != Vector2.zero)
                 {
@@ -163,13 +155,13 @@ public class EntityController : MonoBehaviour
     {
         if (attack != null && CanAct())
         {
-            EntityState.StunTimer = attackDuration;
+            EntityState.StunTimer = entityType.AttackDuration;
             EntityState.ActionState = ActionState.Attack;
             if (movement != null)
             {
                 movement.SetMovement(Vector2.zero, 0);
             }
-            attack.Use(EntityState.LookDirection, interactionDistance, enemyFactions);
+            attack.Use(EntityState.LookDirection, entityType.InteractionDistance, entityType.EnemyFactions);
         }
     }
 
@@ -227,7 +219,7 @@ public class EntityController : MonoBehaviour
     private void Idle()
     {
         EntityState.ActionState = ActionState.Idle;
-        movement.SetMovement(Vector2.zero, walkSpeed);
+        movement.SetMovement(Vector2.zero, entityType.WalkSpeed);
     }
 
     /// <summary>
@@ -250,7 +242,7 @@ public class EntityController : MonoBehaviour
     {
         return damageable != null
             && gameObject != attackData.User
-            && attackData.TargetFactions.Contains(faction);
+            && attackData.TargetFactions.Contains(entityType.Faction);
     }
 
     /// <summary>
@@ -261,7 +253,7 @@ public class EntityController : MonoBehaviour
         AttackOnHit attackOnHit = GetComponentInChildren<AttackOnHit>();
         if (attackOnHit != null)
         {
-            attackOnHit.attackData.TargetFactions = enemyFactions;
+            attackOnHit.attackData.TargetFactions = entityType.EnemyFactions;
         }
     }
 }

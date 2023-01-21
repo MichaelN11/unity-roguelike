@@ -72,14 +72,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attackData:
-    attackStats:
-      animation: {fileID: 0}
-      damage: 1
-      range: 0
-      hitboxDuration: 1
-      hitStunMultiplier: 1
-      knockbackMultiplier: 1
-      startupTime: 0
+    attackType: {fileID: 11400000, guid: 2e68e3068d88745fbb1e322e3b557e73, type: 2}
     setDirectionOnHit: 1
   timeBetweenHits: 1
 --- !u!1 &7658967440879357034
@@ -254,11 +247,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f50f1387a6f2949a189a4131252de432, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  walkSpeed: 1.5
-  interactionDistance: 0.5
-  attackDuration: 1
-  faction: 1
-  enemyFactions: 00000000
+  entityType: {fileID: 11400000, guid: 071a3f59cad07401d953f187acfc62c0, type: 2}
 --- !u!114 &7658967440879357010
 MonoBehaviour:
   m_ObjectHideFlags: 0
