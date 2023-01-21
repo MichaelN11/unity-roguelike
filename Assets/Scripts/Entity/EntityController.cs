@@ -162,7 +162,7 @@ public class EntityController : MonoBehaviour
     {
         if (attack != null && CanAct())
         {
-            EntityState.StunTimer = entityType.AttackDuration;
+            EntityState.StunTimer = attack.AttackType.AttackDuration;
             EntityState.ActionState = ActionState.Attack;
             if (movement != null)
             {

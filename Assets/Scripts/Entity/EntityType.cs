@@ -32,10 +32,6 @@ public class EntityType : ScriptableObject
     public float KnockbackAcceleration => knockbackAcceleration;
 
     [SerializeField]
-    private float attackDuration = 1f;
-    public float AttackDuration => attackDuration;
-
-    [SerializeField]
     private Faction faction;
     public Faction Faction => faction;
 

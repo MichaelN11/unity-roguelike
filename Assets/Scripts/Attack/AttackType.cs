@@ -33,4 +33,8 @@ public class AttackType : ScriptableObject
     [SerializeField]
     private float startupTime = 0;
     public float StartupTime => startupTime;
+
+    [SerializeField]
+    private float attackDuration = 1f;
+    public float AttackDuration => attackDuration;
 }
