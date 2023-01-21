@@ -3,8 +3,8 @@ using UnityEngine;
 
 /// <summary>
 /// POCO containing data for the results of an attack.
-/// </summary>
-public class AttackResultData
+/// </summary>r
+public class AttackResult
 {
     public bool IsDead { get; set; } = false;
     public float HitStunDuration { get; set; } = 0;

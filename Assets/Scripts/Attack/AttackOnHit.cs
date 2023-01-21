@@ -8,7 +8,7 @@ using UnityEngine;
 /// </summary>
 public class AttackOnHit : MonoBehaviour
 {
-    public AttackUseData attackData;
+    public AttackData attackData;
 
     [SerializeField]
     private float timeBetweenHits = 1;
@@ -47,7 +47,7 @@ public class AttackOnHit : MonoBehaviour
     /// <param name="collision">The Collider2D object</param>
     private void AttackEntity(Collider2D collision)
     {
-        if (attackData.setDirectionOnHit)
+        if (attackData.SetDirectionOnHit)
         {
             attackData.Direction = GetAttackDirection(collision);
         }

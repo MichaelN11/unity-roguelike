@@ -19,16 +19,16 @@ public class AnimatorUpdater : MonoBehaviour
     /// <summary>
     /// Updates the Animator using the passed entity's state.
     /// </summary>
-    /// <param name="entityState">The entity's state</param>
-    public void UpdateAnimator(EntityStateData entityState)
+    /// <param name="entityData">The entity's state</param>
+    public void UpdateAnimator(EntityData entityData)
     {
         if (animator != null)
         {
-            UpdateAttack(entityState);
-            UpdateLookDirection(entityState);
-            UpdateIsMoving(entityState);
-            UpdateIsHitstun(entityState);
-            UpdateIsIdle(entityState);
+            UpdateAttack(entityData);
+            UpdateLookDirection(entityData);
+            UpdateIsMoving(entityData);
+            UpdateIsHitstun(entityData);
+            UpdateIsIdle(entityData);
         }
     }
 
@@ -36,10 +36,10 @@ public class AnimatorUpdater : MonoBehaviour
     /// Sets the attack trigger on the Animator, if it hasn't been set during the
     /// current attack state.
     /// </summary>
-    /// <param name="entityState">The entity's state</param>
-    private void UpdateAttack(EntityStateData entityState)
+    /// <param name="entityData">The entity's state</param>
+    private void UpdateAttack(EntityData entityData)
     {
-        if (entityState.ActionState == ActionState.Attack)
+        if (entityData.ActionState == ActionState.Attack)
         {
             if (!hasAttacked)
             {
@@ -55,23 +55,23 @@ public class AnimatorUpdater : MonoBehaviour
     /// <summary>
     /// Updates the look direction on the Animator, from the EntityState.
     /// </summary>
-    /// <param name="entityState">The entity's state</param>
-    private void UpdateLookDirection(EntityStateData entityState)
+    /// <param name="entityData">The entity's state</param>
+    private void UpdateLookDirection(EntityData entityData)
     {
-        if (entityState.LookDirection != null)
+        if (entityData.LookDirection != null)
         {
-            animator.SetFloat("xDirection", entityState.LookDirection.x);
-            animator.SetFloat("yDirection", entityState.LookDirection.y);
+            animator.SetFloat("xDirection", entityData.LookDirection.x);
+            animator.SetFloat("yDirection", entityData.LookDirection.y);
         }
     }
 
     /// <summary>
     /// Updates the Animator isMoving property, from the EntityState's Action.
     /// </summary>
-    /// <param name="entityState">The entity's state</param>
-    private void UpdateIsMoving(EntityStateData entityState)
+    /// <param name="entityData">The entity's state</param>
+    private void UpdateIsMoving(EntityData entityData)
     {
-        if (entityState.ActionState == ActionState.Move)
+        if (entityData.ActionState == ActionState.Move)
         {
             animator.SetBool("isMoving", true);
         } else
@@ -83,10 +83,10 @@ public class AnimatorUpdater : MonoBehaviour
     /// <summary>
     /// Updates the Animator isHitstun property, from the EntityState's Action.
     /// </summary>
-    /// <param name="entityState">The entity's state</param>
-    private void UpdateIsHitstun(EntityStateData entityState)
+    /// <param name="entityData">The entity's state</param>
+    private void UpdateIsHitstun(EntityData entityData)
     {
-        if (entityState.ActionState == ActionState.Hitstun)
+        if (entityData.ActionState == ActionState.Hitstun)
         {
             animator.SetBool("isHitstun", true);
         }
@@ -99,10 +99,10 @@ public class AnimatorUpdater : MonoBehaviour
     /// <summary>
     /// Updates the Animator isIdle property, from the EntityState's Action.
     /// </summary>
-    /// <param name="entityState"></param>
-    private void UpdateIsIdle(EntityStateData entityState)
+    /// <param name="entityData"></param>
+    private void UpdateIsIdle(EntityData entityData)
     {
-        if (entityState.ActionState == ActionState.Idle)
+        if (entityData.ActionState == ActionState.Idle)
         {
             animator.SetBool("isIdle", true);
         }

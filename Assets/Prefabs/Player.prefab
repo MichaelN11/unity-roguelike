@@ -149,14 +149,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b11f4f78d5a154620b1b2f81f25f5d65, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackStats:
-    animation: {fileID: 0}
-    damage: 1
-    range: 0
-    hitboxDuration: 0.2
-    hitStunMultiplier: 1
-    knockbackMultiplier: 1
-    startupTime: 0
+  attackType: {fileID: 11400000, guid: 3d4825e50c6db4190a0a5b02a74c789c, type: 2}
   attackObjectResourceName: AttackObject
 --- !u!1 &1796502088
 GameObject:

@@ -7,7 +7,7 @@ using UnityEngine;
 /// </summary>
 public class EntityController : MonoBehaviour
 {
-    public EntityStateData EntityState { get; private set; } = new EntityStateData();
+    public EntityData EntityState { get; private set; } = new EntityData();
 
     [SerializeField]
     private float walkSpeed = 1f;
@@ -76,17 +76,17 @@ public class EntityController : MonoBehaviour
     /// Handles being hit by an incoming attack.
     /// </summary>
     /// <param name="attackData">The attack data</param>
-    public void HandleIncomingAttack(AttackUseData attackData)
+    public void HandleIncomingAttack(AttackData attackData)
     {
         if (IsValidAttackTarget(attackData))
         {
-            AttackResultData attackResults = damageable.HandleAttack(attackData);
-            if (attackResults.IsDead)
+            AttackResult attackResult = damageable.HandleAttack(attackData);
+            if (attackResult.IsDead)
             {
                 Die();
             } else
             {
-                HandleHitstun(attackResults);
+                HandleHitstun(attackResult);
             }
         }
     }
@@ -100,7 +100,7 @@ public class EntityController : MonoBehaviour
         float range = 0;
         if (attack != null)
         {
-            range = interactionDistance + attack.attackStats.range;
+            range = interactionDistance + attack.AttackType.Range;
         }
         return range;
     }
@@ -205,18 +205,18 @@ public class EntityController : MonoBehaviour
     /// <summary>
     /// Handles the hitstun and knockback after being hit by an attack.
     /// </summary>
-    /// <param name="attackResults">The results of the attack</param>
-    private void HandleHitstun(AttackResultData attackResults)
+    /// <param name="attackResult">The results of the attack</param>
+    private void HandleHitstun(AttackResult attackResult)
     {
-        if (attackResults.HitStunDuration > 0)
+        if (attackResult.HitStunDuration > 0)
         {
             Interrupt();
             EntityState.ActionState = ActionState.Hitstun;
-            EntityState.StunTimer = attackResults.HitStunDuration;
+            EntityState.StunTimer = attackResult.HitStunDuration;
             if (movement != null)
             {
-                movement.SetMovement(attackResults.KnockbackDirection,
-                    attackResults.KnockbackSpeed, attackResults.KnockbackAcceleration);
+                movement.SetMovement(attackResult.KnockbackDirection,
+                    attackResult.KnockbackSpeed, attackResult.KnockbackAcceleration);
             }
         }
     }
@@ -246,11 +246,11 @@ public class EntityController : MonoBehaviour
     /// </summary>
     /// <param name="attackData">The AttackData for the attack</param>
     /// <returns>true if the entity is a valid target for the attack</returns>
-    private bool IsValidAttackTarget(AttackUseData attackData)
+    private bool IsValidAttackTarget(AttackData attackData)
     {
         return damageable != null
             && gameObject != attackData.User
-            && attackData.targetFactions.Contains(faction);
+            && attackData.TargetFactions.Contains(faction);
     }
 
     /// <summary>
@@ -261,7 +261,7 @@ public class EntityController : MonoBehaviour
         AttackOnHit attackOnHit = GetComponentInChildren<AttackOnHit>();
         if (attackOnHit != null)
         {
-            attackOnHit.attackData.targetFactions = enemyFactions;
+            attackOnHit.attackData.TargetFactions = enemyFactions;
         }
     }
 }

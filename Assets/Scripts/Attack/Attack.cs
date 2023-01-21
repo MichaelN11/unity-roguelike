@@ -9,7 +9,9 @@ using UnityEngine;
 /// </summary>
 public class Attack : MonoBehaviour
 {
-    public AttackStats attackStats;
+    [SerializeField]
+    private AttackType attackType;
+    public AttackType AttackType => attackType;
 
     [SerializeField]
     private string attackObjectResourceName = "AttackObject";
@@ -49,7 +51,7 @@ public class Attack : MonoBehaviour
         this.direction = direction;
         this.distance = distance;
         this.targetFactions = targetFactions;
-        Invoke(nameof(StartAttack), attackStats.startupTime);
+        Invoke(nameof(StartAttack), attackType.StartupTime);
     }
 
     /// <summary>
@@ -70,20 +72,20 @@ public class Attack : MonoBehaviour
         {
             float angle = Vector2.SignedAngle(Vector2.right, direction) - 90f;
             Quaternion rotation = Quaternion.Euler(0, 0, angle);
-            distance += attackStats.range;
+            distance += attackType.Range;
             Vector3 position = transform.position + (Vector3)direction.normalized * distance;
             GameObject instance = Instantiate(attackPrefab, position, rotation);
 
             DestroyTimer destroyTimer = instance.GetComponent<DestroyTimer>();
-            destroyTimer.Duration = attackStats.hitboxDuration;
+            destroyTimer.Duration = attackType.HitboxDuration;
 
             AttackOnHit attackObject = instance.GetComponent<AttackOnHit>();
-            AttackUseData attackData = new();
-            attackData.attackStats = attackStats;
+            AttackData attackData = new();
+            attackData.AttackType = attackType;
             attackData.User = UnityUtil.GetParentIfExists(gameObject);
             attackData.Direction = direction;
-            attackData.setDirectionOnHit = false;
-            attackData.targetFactions = targetFactions;
+            attackData.SetDirectionOnHit = false;
+            attackData.TargetFactions = targetFactions;
             attackObject.attackData = attackData;
         }
     }
