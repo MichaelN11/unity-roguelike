@@ -20,4 +20,4 @@ MonoBehaviour:
   knockbackAcceleration: -0.2
   faction: 1
   enemyFactions: 00000000
-  deathTimer: 0.4
+  deathTimer: 0.45
