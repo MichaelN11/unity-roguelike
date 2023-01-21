@@ -250,7 +250,7 @@ public class EntityController : MonoBehaviour
     /// </summary>
     private void InitializeHitbox()
     {
-        AttackOnHit attackOnHit = GetComponentInChildren<AttackOnHit>();
+        AttackOnCollision attackOnHit = GetComponentInChildren<AttackOnCollision>();
         if (attackOnHit != null)
         {
             attackOnHit.attackData.TargetFactions = entityType.EnemyFactions;

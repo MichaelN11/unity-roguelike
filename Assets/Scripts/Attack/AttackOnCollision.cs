@@ -6,7 +6,7 @@ using UnityEngine;
 /// Component for an object that Attacks on collision with a hitbox. Should have its AttackData
 /// set in order to work.
 /// </summary>
-public class AttackOnHit : MonoBehaviour
+public class AttackOnCollision : MonoBehaviour
 {
     public AttackData attackData;
 
