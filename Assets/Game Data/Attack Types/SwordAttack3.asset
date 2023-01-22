@@ -16,11 +16,11 @@ MonoBehaviour:
   attackAnimation: 1
   damage: 1
   range: 0
-  hitboxDuration: 0.2
+  hitboxDuration: 0.15
   hitStunMultiplier: 1
   knockbackMultiplier: 1
   startupTime: 0
-  attackDuration: 0.7
-  comboTime: 1
-  moveSpeed: 3
-  moveAcceleration: -0.1
+  attackDuration: 0.525
+  comboTime: 0.75
+  moveSpeed: 4.5
+  moveAcceleration: -0.2

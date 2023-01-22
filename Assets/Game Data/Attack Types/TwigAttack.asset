@@ -13,9 +13,14 @@ MonoBehaviour:
   m_Name: TwigAttack
   m_EditorClassIdentifier: 
   animation: {fileID: 0}
+  attackAnimation: 0
   damage: 1
   range: 0
-  hitboxDuration: 0.2
+  hitboxDuration: 0.15
   hitStunMultiplier: 1
   knockbackMultiplier: 1
-  startupTime: 0.5
+  startupTime: 0.375
+  attackDuration: 0.75
+  comboTime: 1
+  moveSpeed: 0
+  moveAcceleration: 0
