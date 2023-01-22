@@ -8,9 +8,15 @@ using UnityEngine.InputSystem;
 /// </summary>
 public class PlayerController : MonoBehaviour
 {
+    [SerializeField]
+    private float inputBuffer = 0.5f;
+
     public static PlayerController Instance { get; private set; }
 
     private EntityController entityController;
+    private Vector2 lookDirection = Vector2.down;
+    private InputData bufferedInput = null;
+    private float bufferTimer = 0f;
 
     private void Awake()
     {
@@ -24,6 +30,22 @@ public class PlayerController : MonoBehaviour
         }
 
         entityController = GetComponent<EntityController>();
+    }
+
+    private void Update()
+    {
+        if (bufferedInput != null && bufferTimer > 0)
+        {
+            bool updateSuccessful = entityController.UpdateFromInput(bufferedInput);
+            if (updateSuccessful)
+            {
+                bufferTimer = 0;
+                bufferedInput = null;
+            } else
+            {
+                bufferTimer -= Time.deltaTime;
+            }
+        }
     }
 
     private void OnDestroy()
@@ -60,16 +82,25 @@ public class PlayerController : MonoBehaviour
         inputData.Type = InputType.Look;
         inputData.Direction = inputPositionRelativeToEntity;
         entityController.UpdateFromInput(inputData);
+
+        lookDirection = inputPositionRelativeToEntity;
     }
 
     /// <summary>
     /// Called by the Input System. Triggers an attack action for the EntityController.
+    /// Buffers the input so it can be used when entity can next act.
     /// </summary>
     /// <param name="inputValue">The InputValue</param>
     public void OnFire(InputValue inputValue)
     {
         InputData inputData = new();
         inputData.Type = InputType.Attack;
-        entityController.UpdateFromInput(inputData);
+        inputData.Direction = lookDirection;
+        bool updateSuccessful = entityController.UpdateFromInput(inputData);
+        if (!updateSuccessful)
+        {
+            bufferedInput = inputData;
+            bufferTimer = inputBuffer;
+        }
     }
 }

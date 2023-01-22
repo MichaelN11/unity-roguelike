@@ -107,8 +107,8 @@ public class MeleeAttack : MonoBehaviour, IAttack
 
             if (comboStage + 1 < numComboStages)
             {
-                ++comboStage;
                 comboTimer = AttackType.ComboContinueWindow;
+                ++comboStage;
             }
             else
             {

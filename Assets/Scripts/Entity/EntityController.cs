@@ -38,36 +38,35 @@ public class EntityController : MonoBehaviour
         {
             animatorUpdater.UpdateAnimator(EntityData);
         }
-        if (EntityData.ActionState == ActionState.Dead)
-        {
-            Debug.Log("he's dead Jim");
-        }
     }
 
     /// <summary>
     /// Updates the entity based on the passed InputData.
     /// </summary>
     /// <param name="inputData">The input data containing the input type</param>
-    public void UpdateFromInput(InputData inputData)
+    /// <returns>true if the update was successful</returns>
+    public bool UpdateFromInput(InputData inputData)
     {
+        bool updateSuccessful = false;
         switch (inputData.Type)
         {
             case InputType.Look:
-                SetLookDirection(inputData.Direction);
+                updateSuccessful = SetLookDirection(inputData.Direction);
                 break;
             case InputType.Move:
-                SetMovementDirection(inputData.Direction);
+                updateSuccessful = SetMovementDirection(inputData.Direction);
                 break;
             case InputType.Attack:
-                Attack();
+                updateSuccessful = Attack(inputData.Direction);
                 break;
             case InputType.Idle:
-                Idle();
+                updateSuccessful = Idle();
                 break;
             default:
                 // Unrecognized input
                 break;
         }
+        return updateSuccessful;
     }
 
     /// <summary>
@@ -133,8 +132,10 @@ public class EntityController : MonoBehaviour
     /// on the movement component, and changes the entity's state to match the new direction.
     /// </summary>
     /// <param name="moveDirection">The new direction to move</param>
-    private void SetMovementDirection(Vector2 moveDirection)
+    /// <returns>true if the movement was set</returns>
+    private bool SetMovementDirection(Vector2 moveDirection)
     {
+        bool isMovementSet = false;
         if (moveDirection != null)
         {
             attemptedMoveDirection = moveDirection;
@@ -150,34 +151,46 @@ public class EntityController : MonoBehaviour
                 {
                     EntityData.ActionState = ActionState.Stand;
                 }
+
+                isMovementSet = true;
             }
         }
+        return isMovementSet;
     }
 
     /// <summary>
     /// Sets the look direction to the passed vector2.
     /// </summary>
     /// <param name="lookDirection">The new direction to look</param>
-    private void SetLookDirection(Vector2 lookDirection)
+    /// <returns>true if the look direction was set</returns>
+    private bool SetLookDirection(Vector2 lookDirection)
     {
+        bool isLookDirectionSet = false;
         if (lookDirection != null)
         {
             attemptedLookDirection = lookDirection;
             if (CanAct())
             {
                 EntityData.LookDirection = lookDirection;
+                isLookDirectionSet = true;
             }
         }
+        return isLookDirectionSet;
     }
 
     /// <summary>
-    /// Tells the entity to attack, if it's able to act.
+    /// Tells the entity to attack, if it's able to attack. Sets the look direction to
+    /// the attack direction, and sets movement if the attack involves movement. Also
+    /// updates the AnimatorUpdator that a new attack has occured.
     /// </summary>
-    private void Attack()
+    /// <param name="attackDirection">The direction of the attack</param>
+    /// <returns>true if the attack was successful</returns>
+    private bool Attack(Vector2 attackDirection)
     {
+        bool attackSuccessful = false;
         if (CanAttack())
         {
-            EntityData.LookDirection = attemptedLookDirection;
+            EntityData.LookDirection = attackDirection;
             comboableAttackDuration = attack.AttackType.ComboableAttackDuration;
             EntityData.StunTimer = attack.AttackType.AttackDuration + comboableAttackDuration;
             EntityData.ActionState = ActionState.Attack;
@@ -188,7 +201,9 @@ public class EntityController : MonoBehaviour
             }
             attack.Use(EntityData.LookDirection, entityType.InteractionDistance, entityType);
             animatorUpdater.HasAttacked = false;
+            attackSuccessful = true;
         }
+        return attackSuccessful;
     }
 
     /// <summary>
@@ -266,13 +281,17 @@ public class EntityController : MonoBehaviour
     /// <summary>
     /// Makes the entity go idle.
     /// </summary>
-    private void Idle()
+    /// <returns>true if the idle action was successful</returns>
+    private bool Idle()
     {
+        bool isIdleSet = false;
         if (CanAct())
         {
             EntityData.ActionState = ActionState.Idle;
             movement.SetMovement(Vector2.zero, entityType.WalkSpeed);
+            isIdleSet = true;
         }
+        return isIdleSet;
     }
 
     /// <summary>

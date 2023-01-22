@@ -42,7 +42,6 @@ public class AnimatorUpdater : MonoBehaviour
     {
         if (entityData.ActionState == ActionState.Dead)
         {
-            Debug.Log("trying to play death animation!");
             animator.SetBool("isDead", true);
         } else
         {

@@ -197,8 +197,7 @@ public class AIController : MonoBehaviour
     private void Attack()
     {
         Vector2 targetDirection = targetBody.position - body.position;
-        SendInput(InputType.Look, targetDirection);
-        SendInput(InputType.Attack);
+        SendInput(InputType.Attack, targetDirection);
     }
 
     /// <summary>
