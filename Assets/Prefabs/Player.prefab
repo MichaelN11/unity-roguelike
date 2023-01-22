@@ -114,7 +114,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 775062776}
-  - component: {fileID: 775062777}
+  - component: {fileID: 4349704400154469762}
   m_Layer: 0
   m_Name: Attack
   m_TagString: Untagged
@@ -137,7 +137,7 @@ Transform:
   m_Father: {fileID: 116077039412780157}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &775062777
+--- !u!114 &4349704400154469762
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -146,10 +146,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 775062775}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b11f4f78d5a154620b1b2f81f25f5d65, type: 3}
+  m_Script: {fileID: 11500000, guid: 2e82675474b9b48c79378b2336d1ae4d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackType: {fileID: 11400000, guid: 3d4825e50c6db4190a0a5b02a74c789c, type: 2}
+  attackTypes:
+  - {fileID: 11400000, guid: 3d4825e50c6db4190a0a5b02a74c789c, type: 2}
+  - {fileID: 11400000, guid: 028677f86baeb49f8921f7f3c80d7bf5, type: 2}
+  - {fileID: 11400000, guid: c75194342bff4454cb2d87482fe2e687, type: 2}
   attackObjectResourceName: AttackObject
 --- !u!1 &1796502088
 GameObject:
@@ -478,7 +481,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6daa6a364baba40418e887499716d7f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 5
-  hitStunDuration: 0.5
-  knockbackSpeed: 6
-  knockbackAcceleration: -0.2

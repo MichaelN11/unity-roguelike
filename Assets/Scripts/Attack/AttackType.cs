@@ -11,6 +11,10 @@ public class AttackType : ScriptableObject
     public Animation Animation => animation;
 
     [SerializeField]
+    private AttackAnimation attackAnimation = AttackAnimation.Default;
+    public AttackAnimation AttackAnimation => attackAnimation;
+
+    [SerializeField]
     private float damage = 1;
     public float Damage => damage;
 
@@ -37,4 +41,16 @@ public class AttackType : ScriptableObject
     [SerializeField]
     private float attackDuration = 1f;
     public float AttackDuration => attackDuration;
+
+    [SerializeField]
+    private float comboTime = 1f;
+    public float ComboTime => comboTime;
+
+    [SerializeField]
+    private float moveSpeed = 0;
+    public float MoveSpeed => moveSpeed;
+
+    [SerializeField]
+    private float moveAcceleration = 0;
+    public float MoveAcceleration => moveAcceleration;
 }

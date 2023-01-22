@@ -5,18 +5,16 @@ using System.Linq;
 using UnityEngine;
 
 /// <summary>
-/// Component used for using an attack.
+/// Component used for using a combo attack.
 /// </summary>
-public class Attack : MonoBehaviour
+public class MeleeAttack : MonoBehaviour, IAttack
 {
     [SerializeField]
-    private AttackType attackType;
-    public AttackType AttackType => attackType;
+    private List<AttackType> attackTypes;
+    public AttackType AttackType => attackTypes[comboStage];
 
     [SerializeField]
     private string attackObjectResourceName = "AttackObject";
-
-    private readonly List<Faction> allFactions = Enum.GetValues(typeof(Faction)).OfType<Faction>().ToList();
 
     private GameObject attackPrefab;
     private Vector2 direction;
@@ -24,9 +22,26 @@ public class Attack : MonoBehaviour
     private bool interrupted = false;
     private EntityType entityType;
 
+    private int numComboStages;
+    private int comboStage = 0;
+    private float comboTimer = 0;
+
     private void Awake()
     {
         attackPrefab = (GameObject) Resources.Load(attackObjectResourceName);
+        numComboStages = attackTypes.Count();
+    }
+
+    private void Update()
+    {
+        if (comboTimer > 0)
+        {
+            comboTimer -= Time.deltaTime;
+            if (comboTimer <= 0)
+            {
+                ResetCombo();
+            }
+        }
     }
 
     /// <summary>
@@ -41,7 +56,7 @@ public class Attack : MonoBehaviour
         this.direction = direction;
         this.distance = distance;
         this.entityType = entityType;
-        Invoke(nameof(StartAttack), attackType.StartupTime);
+        Invoke(nameof(StartAttack), AttackType.StartupTime);
     }
 
     /// <summary>
@@ -50,6 +65,16 @@ public class Attack : MonoBehaviour
     public void Interrupt()
     {
         interrupted = true;
+        ResetCombo();
+    }
+
+    /// <summary>
+    /// Resets the current combo stage.
+    /// </summary>
+    private void ResetCombo()
+    {
+        comboStage = 0;
+        comboTimer = 0;
     }
 
     /// <summary>
@@ -62,21 +87,33 @@ public class Attack : MonoBehaviour
         {
             float angle = Vector2.SignedAngle(Vector2.right, direction) - 90f;
             Quaternion rotation = Quaternion.Euler(0, 0, angle);
-            distance += attackType.Range;
+            distance += AttackType.Range;
             Vector3 position = transform.position + (Vector3)direction.normalized * distance;
             GameObject instance = Instantiate(attackPrefab, position, rotation);
 
+            instance.transform.parent = gameObject.transform;
+
             DestroyTimer destroyTimer = instance.GetComponent<DestroyTimer>();
-            destroyTimer.Duration = attackType.HitboxDuration;
+            destroyTimer.Duration = AttackType.HitboxDuration;
 
             AttackOnCollision attackObject = instance.GetComponent<AttackOnCollision>();
             AttackData attackData = new();
-            attackData.AttackType = attackType;
+            attackData.AttackType = AttackType;
             attackData.User = UnityUtil.GetParentIfExists(gameObject);
             attackData.Direction = direction;
             attackData.SetDirectionOnHit = false;
             attackData.EntityType = entityType;
             attackObject.attackData = attackData;
+
+            if (comboStage + 1 < numComboStages)
+            {
+                ++comboStage;
+                comboTimer = AttackType.ComboTime;
+            }
+            else
+            {
+                ResetCombo();
+            }
         }
     }
 }

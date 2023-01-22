@@ -14,7 +14,7 @@ public class EntityController : MonoBehaviour
     public EntityType EntityType => entityType;
 
     private AnimatorUpdater animatorUpdater;
-    private Attack attack;
+    private IAttack attack;
     private Movement movement;
     private Damageable damageable;
 
@@ -24,7 +24,7 @@ public class EntityController : MonoBehaviour
     private void Awake()
     {
         movement = GetComponent<Movement>();
-        attack = GetComponentInChildren<Attack>();
+        attack = GetComponentInChildren<IAttack>();
         animatorUpdater = GetComponent<AnimatorUpdater>();
         damageable = GetComponent<Damageable>();
         InitializeComponents();
@@ -178,9 +178,10 @@ public class EntityController : MonoBehaviour
         {
             EntityData.StunTimer = attack.AttackType.AttackDuration;
             EntityData.ActionState = ActionState.Attack;
+            EntityData.AttackAnimation = attack.AttackType.AttackAnimation;
             if (movement != null)
             {
-                movement.SetMovement(Vector2.zero, 0);
+                movement.SetMovement(EntityData.LookDirection, attack.AttackType.MoveSpeed, attack.AttackType.MoveAcceleration);
             }
             attack.Use(EntityData.LookDirection, entityType.InteractionDistance, entityType);
         }

@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 6282227361460998615}
   - component: {fileID: 7593423623987310733}
   - component: {fileID: 5230104169865035883}
+  - component: {fileID: 2097649709469267939}
   m_Layer: 0
   m_Name: AttackObject
   m_TagString: Untagged
@@ -126,15 +127,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attackData:
-    attackStats:
-      animation: {fileID: 0}
-      damage: 1
-      range: 0
-      duration: 1
-      hitStunMultiplier: 1
-      knockbackMultiplier: 1
-    user: {fileID: 0}
-    direction: {x: 0, y: 0}
+    attackType: {fileID: 0}
     setDirectionOnHit: 1
   timeBetweenHits: 1
 --- !u!114 &5230104169865035883
@@ -150,3 +143,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxTimer: 180
+--- !u!50 &2097649709469267939
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 605442877324402279}
+  m_BodyType: 1
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0

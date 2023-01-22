@@ -41,10 +41,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1205336864}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b11f4f78d5a154620b1b2f81f25f5d65, type: 3}
+  m_Script: {fileID: 11500000, guid: 2e82675474b9b48c79378b2336d1ae4d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackType: {fileID: 11400000, guid: 38557446910fd4845868e97d1d9ebb0f, type: 2}
+  attackTypes:
+  - {fileID: 11400000, guid: 38557446910fd4845868e97d1d9ebb0f, type: 2}
   attackObjectResourceName: AttackObject
 --- !u!1 &7658967438887940922
 GameObject:
@@ -290,10 +291,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6daa6a364baba40418e887499716d7f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 2
-  hitStunDuration: 0.4
-  knockbackSpeed: 9
-  knockbackAcceleration: -0.2
 --- !u!114 &7658967440879357011
 MonoBehaviour:
   m_ObjectHideFlags: 0

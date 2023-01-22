@@ -62,6 +62,7 @@ public class AnimatorUpdater : MonoBehaviour
             if (!hasAttacked)
             {
                 animator.SetTrigger("attack");
+                animator.SetInteger("attackAnimation", (int) entityData.AttackAnimation);
                 hasAttacked = true;
             }
         } else
