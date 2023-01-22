@@ -8,9 +8,9 @@ using UnityEngine;
 /// </summary>
 public class AnimatorUpdater : MonoBehaviour
 {
-    private Animator animator;
+    public bool HasAttacked { get; set; } = false;
 
-    private bool hasAttacked = false;
+    private Animator animator;
 
     private void Awake()
     {
@@ -59,15 +59,15 @@ public class AnimatorUpdater : MonoBehaviour
     {
         if (entityData.ActionState == ActionState.Attack)
         {
-            if (!hasAttacked)
+            if (!HasAttacked)
             {
                 animator.SetTrigger("attack");
                 animator.SetInteger("attackAnimation", (int) entityData.AttackAnimation);
-                hasAttacked = true;
+                HasAttacked = true;
             }
         } else
         {
-            hasAttacked = false;
+            HasAttacked = false;
         }
     }
 

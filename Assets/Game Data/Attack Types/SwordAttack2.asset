@@ -21,6 +21,7 @@ MonoBehaviour:
   knockbackMultiplier: 0.6
   startupTime: 0
   attackDuration: 0.225
-  comboTime: 0.75
+  comboableAttackDuration: 0.225
+  comboContinueWindow: 0.45
   moveSpeed: 4.5
   moveAcceleration: -0.2

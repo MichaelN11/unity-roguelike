@@ -20,6 +20,7 @@ public class EntityController : MonoBehaviour
 
     private Vector2 attemptedMoveDirection = Vector2.zero;
     private Vector2 attemptedLookDirection = Vector2.zero;
+    private float comboableAttackDuration = 0f;
 
     private void Awake()
     {
@@ -174,9 +175,11 @@ public class EntityController : MonoBehaviour
     /// </summary>
     private void Attack()
     {
-        if (attack != null && CanAct())
+        if (CanAttack())
         {
-            EntityData.StunTimer = attack.AttackType.AttackDuration;
+            EntityData.LookDirection = attemptedLookDirection;
+            comboableAttackDuration = attack.AttackType.ComboableAttackDuration;
+            EntityData.StunTimer = attack.AttackType.AttackDuration + comboableAttackDuration;
             EntityData.ActionState = ActionState.Attack;
             EntityData.AttackAnimation = attack.AttackType.AttackAnimation;
             if (movement != null)
@@ -184,7 +187,22 @@ public class EntityController : MonoBehaviour
                 movement.SetMovement(EntityData.LookDirection, attack.AttackType.MoveSpeed, attack.AttackType.MoveAcceleration);
             }
             attack.Use(EntityData.LookDirection, entityType.InteractionDistance, entityType);
+            animatorUpdater.HasAttacked = false;
         }
+    }
+
+    /// <summary>
+    /// Determines if the entity can attack. If the entity is in the attack duration, he can
+    /// still attack if he is within the comboable attack duration time.
+    /// </summary>
+    /// <returns>true if the entity can attack</returns>
+    private bool CanAttack()
+    {
+        return attack != null
+            && EntityData.ActionState != ActionState.Hitstun
+            && EntityData.ActionState != ActionState.Dead
+            && (EntityData.ActionState != ActionState.Attack
+                || EntityData.StunTimer <= comboableAttackDuration);
     }
 
     /// <summary>

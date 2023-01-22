@@ -43,8 +43,12 @@ public class AttackType : ScriptableObject
     public float AttackDuration => attackDuration;
 
     [SerializeField]
-    private float comboTime = 1f;
-    public float ComboTime => comboTime;
+    private float comboableAttackDuration = 0f;
+    public float ComboableAttackDuration => comboableAttackDuration;
+
+    [SerializeField]
+    private float comboContinueWindow = 1f;
+    public float ComboContinueWindow => comboContinueWindow;
 
     [SerializeField]
     private float moveSpeed = 0;
