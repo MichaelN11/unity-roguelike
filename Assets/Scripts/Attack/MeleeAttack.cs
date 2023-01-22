@@ -13,6 +13,8 @@ public class MeleeAttack : MonoBehaviour, IAttack
     private List<AttackType> attackTypes;
     public AttackType AttackType => attackTypes[comboStage];
 
+    public event Action<IAttack> OnAttackUsed; 
+
     [SerializeField]
     private string attackObjectResourceName = "AttackObject";
 
@@ -85,6 +87,8 @@ public class MeleeAttack : MonoBehaviour, IAttack
     {
         if (!interrupted)
         {
+            OnAttackUsed?.Invoke(this);
+
             float angle = Vector2.SignedAngle(Vector2.right, direction) - 90f;
             Quaternion rotation = Quaternion.Euler(0, 0, angle);
             distance += AttackType.Range;

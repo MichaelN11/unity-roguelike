@@ -28,6 +28,12 @@ public class EntityController : MonoBehaviour
         attack = GetComponentInChildren<IAttack>();
         animatorUpdater = GetComponent<AnimatorUpdater>();
         damageable = GetComponent<Damageable>();
+
+        if (attack != null)
+        {
+            attack.OnAttackUsed += AttackUsed;
+        }
+
         InitializeComponents();
     }
 
@@ -195,15 +201,23 @@ public class EntityController : MonoBehaviour
             EntityData.StunTimer = attack.AttackType.AttackDuration + comboableAttackDuration;
             EntityData.ActionState = ActionState.Attack;
             EntityData.AttackAnimation = attack.AttackType.AttackAnimation;
-            if (movement != null)
-            {
-                movement.SetMovement(EntityData.LookDirection, attack.AttackType.MoveSpeed, attack.AttackType.MoveAcceleration);
-            }
             attack.Use(EntityData.LookDirection, entityType.InteractionDistance, entityType);
             animatorUpdater.HasAttacked = false;
             attackSuccessful = true;
         }
         return attackSuccessful;
+    }
+
+    /// <summary>
+    /// Method called when an attack used event is triggered.
+    /// </summary>
+    /// <param name="attack">The IAttack that was used</param>
+    private void AttackUsed(IAttack attack)
+    {
+        if (movement != null)
+        {
+            movement.SetMovement(EntityData.LookDirection, attack.AttackType.MoveSpeed, attack.AttackType.MoveAcceleration);
+        }
     }
 
     /// <summary>

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,6 +9,7 @@ using UnityEngine;
 public interface IAttack
 {
     public AttackType AttackType { get; }
+    public event Action<IAttack> OnAttackUsed;
 
     /// <summary>
     /// Use the attack.

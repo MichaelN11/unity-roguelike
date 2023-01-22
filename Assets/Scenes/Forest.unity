@@ -24695,22 +24695,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 519420035, guid: 7bb102ef3e5c54bb0b5c11aefedfd51d, type: 3}
-      propertyPath: m_RefResolutionX
-      value: 480
-      objectReference: {fileID: 0}
-    - target: {fileID: 519420035, guid: 7bb102ef3e5c54bb0b5c11aefedfd51d, type: 3}
-      propertyPath: m_RefResolutionY
-      value: 270
-      objectReference: {fileID: 0}
-    - target: {fileID: 1176349632, guid: 7bb102ef3e5c54bb0b5c11aefedfd51d, type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1176349632, guid: 7bb102ef3e5c54bb0b5c11aefedfd51d, type: 3}
-      propertyPath: m_NotificationBehavior
-      value: 3
-      objectReference: {fileID: 0}
     - target: {fileID: 116077039412780153, guid: 7bb102ef3e5c54bb0b5c11aefedfd51d, type: 3}
       propertyPath: m_Name
       value: Player

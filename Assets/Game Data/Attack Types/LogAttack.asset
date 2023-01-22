@@ -13,9 +13,15 @@ MonoBehaviour:
   m_Name: LogAttack
   m_EditorClassIdentifier: 
   animation: {fileID: 0}
+  attackAnimation: 0
   damage: 1
   range: 0
   hitboxDuration: 1
   hitStunMultiplier: 1
   knockbackMultiplier: 1
   startupTime: 0
+  attackDuration: 1
+  comboableAttackDuration: 0
+  comboContinueWindow: 1
+  moveSpeed: 0
+  moveAcceleration: 0
