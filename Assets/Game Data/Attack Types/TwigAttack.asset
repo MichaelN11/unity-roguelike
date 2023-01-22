@@ -23,5 +23,5 @@ MonoBehaviour:
   attackDuration: 0.75
   comboableAttackDuration: 0
   comboContinueWindow: 1
-  moveSpeed: 10
+  moveSpeed: 3
   moveAcceleration: -0.2
