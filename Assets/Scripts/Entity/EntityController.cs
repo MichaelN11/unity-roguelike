@@ -83,6 +83,7 @@ public class EntityController : MonoBehaviour
     {
         if (damageable != null)
         {
+            AudioManager.Instance.Play(entityType.SoundOnHit);
             damageable.TakeDamage(attackData.AttackType.Damage);
             AttackResult attackResult = new();
             attackResult.HitStunDuration = EntityType.HitStunDuration * attackData.AttackType.HitStunMultiplier;

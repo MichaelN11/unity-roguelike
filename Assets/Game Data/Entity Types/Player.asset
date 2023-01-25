@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2421c10c0751840c281645757ffbf300, type: 3}
   m_Name: Player
   m_EditorClassIdentifier: 
+  soundOnHit: {fileID: 11400000, guid: 32c3869f2625e4ddc9e21348f09f8bb1, type: 2}
   walkSpeed: 6
   interactionDistance: 1
   maxHealth: 5

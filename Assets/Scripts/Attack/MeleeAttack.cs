@@ -109,6 +109,8 @@ public class MeleeAttack : MonoBehaviour, IAttack
             attackData.EntityType = entityType;
             attackObject.attackData = attackData;
 
+            AudioManager.Instance.Play(AttackType.SoundOnUse);
+
             if (comboStage + 1 < numComboStages)
             {
                 comboTimer = AttackType.ComboContinueWindow;

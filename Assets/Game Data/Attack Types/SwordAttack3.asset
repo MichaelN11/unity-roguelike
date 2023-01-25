@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a4ed2bbcf236345c3b1981f57aea9cf0, type: 3}
   m_Name: SwordAttack3
   m_EditorClassIdentifier: 
+  soundOnUse: {fileID: 11400000, guid: 43899a23761e24b1db7b6785e1233577, type: 2}
+  soundOnHit: {fileID: 11400000, guid: db42481b98f464ab291d707fee37fcfd, type: 2}
   animation: {fileID: 0}
   attackAnimation: 1
   damage: 1
@@ -21,6 +23,7 @@ MonoBehaviour:
   knockbackMultiplier: 1
   startupTime: 0
   attackDuration: 0.525
-  comboTime: 0.75
+  comboableAttackDuration: 0
+  comboContinueWindow: 1
   moveSpeed: 4.5
   moveAcceleration: -0.2

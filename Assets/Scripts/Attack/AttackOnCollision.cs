@@ -53,9 +53,11 @@ public class AttackOnCollision : MonoBehaviour
         }
         
         EntityController otherEntityController = collision.gameObject.GetComponentInParent<EntityController>();
-        if (IsValidAttackTarget(collision.gameObject, otherEntityController.EntityType))
+        if (otherEntityController != null
+            && IsValidAttackTarget(collision.gameObject, otherEntityController.EntityType))
         {
-            otherEntityController?.HandleIncomingAttack(attackData);
+            otherEntityController.HandleIncomingAttack(attackData);
+            AudioManager.Instance.Play(attackData.AttackType.SoundOnHit);
         }
     }
 

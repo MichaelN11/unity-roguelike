@@ -8,6 +8,10 @@ using UnityEngine;
 public class EntityType : ScriptableObject
 {
     [SerializeField]
+    private Sound soundOnHit;
+    public Sound SoundOnHit => soundOnHit;
+
+    [SerializeField]
     private float walkSpeed = 1f;
     public float WalkSpeed => walkSpeed;
 
