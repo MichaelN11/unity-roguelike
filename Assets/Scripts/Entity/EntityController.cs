@@ -187,7 +187,7 @@ public class EntityController : MonoBehaviour
 
     /// <summary>
     /// Tells the entity to attack, if it's able to attack. Sets the look direction to
-    /// the attack direction, and sets movement if the attack involves movement. Also
+    /// the attack direction, and sets the attack stun duration. Also
     /// updates the AnimatorUpdator that a new attack has occured.
     /// </summary>
     /// <param name="attackDirection">The direction of the attack</param>
@@ -197,9 +197,12 @@ public class EntityController : MonoBehaviour
         bool attackSuccessful = false;
         if (CanAttack())
         {
+            movement.SetMovement(Vector2.zero, 0);
             EntityData.LookDirection = attackDirection;
             comboableAttackDuration = attack.AttackType.ComboableAttackDuration;
-            EntityData.StunTimer = attack.AttackType.AttackDuration + comboableAttackDuration;
+            EntityData.StunTimer = attack.AttackType.AttackDuration
+                + comboableAttackDuration
+                + attack.AttackType.StartupTime;
             EntityData.ActionState = ActionState.Attack;
             EntityData.AttackAnimation = attack.AttackType.AttackAnimation;
             attack.Use(EntityData.LookDirection, entityType.InteractionDistance, entityType);
