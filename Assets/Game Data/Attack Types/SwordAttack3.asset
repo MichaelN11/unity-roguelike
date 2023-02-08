@@ -18,11 +18,11 @@ MonoBehaviour:
   attackAnimation: 1
   damage: 1
   range: 0
-  hitboxDuration: 0.15
+  hitboxDuration: 0.2
   hitStunMultiplier: 1
   knockbackMultiplier: 1
   startupTime: 0
-  attackDuration: 0.525
+  attackDuration: 0.6
   comboableAttackDuration: 0
   comboContinueWindow: 1
   moveSpeed: 4.5

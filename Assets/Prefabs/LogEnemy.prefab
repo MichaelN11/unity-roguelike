@@ -260,10 +260,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6daa6a364baba40418e887499716d7f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 3
-  hitStunDuration: 0.5
-  knockbackSpeed: 6
-  knockbackAcceleration: -0.2
 --- !u!114 &7658967440879357011
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -316,5 +312,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timeBetweenAIUpdate: 1
-  aggroDistance: 5
+  aggroDistance: 7
   attackDistance: 1
