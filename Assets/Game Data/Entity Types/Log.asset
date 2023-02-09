@@ -12,12 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2421c10c0751840c281645757ffbf300, type: 3}
   m_Name: Log
   m_EditorClassIdentifier: 
+  soundOnHit: {fileID: 0}
   walkSpeed: 2.25
   interactionDistance: 0.5
   maxHealth: 3
   hitStunDuration: 0.375
   knockbackSpeed: 10.5
   knockbackAcceleration: -0.4
+  flashOnHitTime: 0.15
   faction: 1
   enemyFactions: 00000000
   deathTimer: 1

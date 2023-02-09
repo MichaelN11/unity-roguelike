@@ -40,6 +40,7 @@ public class EntityController : MonoBehaviour
     private void Update()
     {
         UpdateStunTimer();
+        UpdateFlashTimer();
         if (animatorUpdater != null)
         {
             animatorUpdater.UpdateAnimator(EntityData);
@@ -83,6 +84,7 @@ public class EntityController : MonoBehaviour
     {
         if (damageable != null)
         {
+            EntityData.FlashTimer = entityType.FlashOnHitTime;
             AudioManager.Instance.Play(entityType.SoundOnHit);
             damageable.TakeDamage(attackData.AttackType.Damage);
             AttackResult attackResult = new();
@@ -274,6 +276,17 @@ public class EntityController : MonoBehaviour
                 SetMovementDirection(attemptedMoveDirection);
                 SetLookDirection(attemptedLookDirection);
             }
+        }
+    }
+
+    /// <summary>
+    /// Updates the flash timer, which controls how long the entity is flashing white.
+    /// </summary>
+    private void UpdateFlashTimer()
+    {
+        if (EntityData.FlashTimer > 0)
+        {
+            EntityData.FlashTimer -= Time.deltaTime;
         }
     }
 

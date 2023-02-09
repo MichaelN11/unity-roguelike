@@ -12,12 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2421c10c0751840c281645757ffbf300, type: 3}
   m_Name: Twig
   m_EditorClassIdentifier: 
+  soundOnHit: {fileID: 0}
   walkSpeed: 3.75
   interactionDistance: 1
   maxHealth: 2
   hitStunDuration: 0.3
   knockbackSpeed: 13.5
   knockbackAcceleration: -0.4
+  flashOnHitTime: 0.15
   faction: 1
   enemyFactions: 00000000
   deathTimer: 1

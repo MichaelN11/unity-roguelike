@@ -19,6 +19,7 @@ MonoBehaviour:
   hitStunDuration: 0.375
   knockbackSpeed: 9
   knockbackAcceleration: -0.4
+  flashOnHitTime: 0.15
   faction: 0
   enemyFactions: 01000000
   deathTimer: 1

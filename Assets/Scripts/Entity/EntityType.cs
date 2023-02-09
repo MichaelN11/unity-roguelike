@@ -36,6 +36,10 @@ public class EntityType : ScriptableObject
     public float KnockbackAcceleration => knockbackAcceleration;
 
     [SerializeField]
+    private float flashOnHitTime = 0.15f;
+    public float FlashOnHitTime => flashOnHitTime;
+
+    [SerializeField]
     private Faction faction;
     public Faction Faction => faction;
 

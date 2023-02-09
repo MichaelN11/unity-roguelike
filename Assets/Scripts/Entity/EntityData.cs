@@ -10,5 +10,6 @@ public class EntityData
     public Vector2 LookDirection { get; set; } = Vector2.zero;
     public ActionState ActionState { get; set; } = ActionState.Stand;
     public float StunTimer { get; set; } = 0f;
+    public float FlashTimer { get; set; } = 0f;
     public AttackAnimation AttackAnimation { get; set; } = AttackAnimation.Default;
 }

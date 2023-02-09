@@ -10,11 +10,20 @@ public class AnimatorUpdater : MonoBehaviour
 {
     public bool HasAttacked { get; set; } = false;
 
+    [SerializeField]
+    private string flashMaterialResourceName = "Flash";
+
     private Animator animator;
+    private SpriteRenderer spriteRenderer;
+    private Material defaultMaterial;
+    private Material flashMaterial;
 
     private void Awake()
     {
         animator = GetComponent<Animator>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        defaultMaterial = spriteRenderer.material;
+        flashMaterial = (Material) Resources.Load(flashMaterialResourceName);
     }
 
     /// <summary>
@@ -31,6 +40,7 @@ public class AnimatorUpdater : MonoBehaviour
             UpdateIsHitstun(entityData);
             UpdateIsIdle(entityData);
             UpdateIsDead(entityData);
+            UpdateFlash(entityData);
         }
     }
 
@@ -117,7 +127,7 @@ public class AnimatorUpdater : MonoBehaviour
     /// <summary>
     /// Updates the Animator isIdle property, from the EntityState's Action.
     /// </summary>
-    /// <param name="entityData"></param>
+    /// <param name="entityData">The entity's state</param>
     private void UpdateIsIdle(EntityData entityData)
     {
         if (entityData.ActionState == ActionState.Idle)
@@ -127,6 +137,21 @@ public class AnimatorUpdater : MonoBehaviour
         else
         {
             animator.SetBool("isIdle", false);
+        }
+    }
+
+    /// <summary>
+    /// Updates the sprites material if the entity is flashing.
+    /// </summary>
+    /// <param name="entityData">The entity's state</param>
+    private void UpdateFlash(EntityData entityData)
+    {
+        if (entityData.FlashTimer > 0)
+        {
+            spriteRenderer.material = flashMaterial;
+        } else
+        {
+            spriteRenderer.material = defaultMaterial;
         }
     }
 }
