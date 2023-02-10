@@ -58,6 +58,10 @@ public class AttackOnCollision : MonoBehaviour
         {
             otherEntityController.HandleIncomingAttack(attackData);
             AudioManager.Instance.Play(attackData.AttackType.SoundOnHit);
+            if (attackData.AttackEvents != null)
+            {
+                attackData.AttackEvents.invokeAttackSuccessful(attackData);
+            }
         }
     }
 

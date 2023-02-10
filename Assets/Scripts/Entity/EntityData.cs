@@ -11,5 +11,24 @@ public class EntityData
     public ActionState ActionState { get; set; } = ActionState.Stand;
     public float StunTimer { get; set; } = 0f;
     public float FlashTimer { get; set; } = 0f;
+    public float StopTimer { get; set; } = 0f;
     public AttackAnimation AttackAnimation { get; set; } = AttackAnimation.Default;
+
+    /// <summary>
+    /// Returns if the entity is flashing.
+    /// </summary>
+    /// <returns>true if the entity is flashing</returns>
+    public bool IsFlashing()
+    {
+        return FlashTimer > 0;
+    }
+
+    /// <summary>
+    /// Returns if the entity is stopped.
+    /// </summary>
+    /// <returns>true if the entity is stopped</returns>
+    public bool IsStopped()
+    {
+        return StopTimer > 0;
+    }
 }

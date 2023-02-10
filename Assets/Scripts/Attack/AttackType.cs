@@ -65,4 +65,8 @@ public class AttackType : ScriptableObject
     [SerializeField]
     private float moveAcceleration = 0;
     public float MoveAcceleration => moveAcceleration;
+
+    [SerializeField]
+    private float hitStop = 0.06f;
+    public float HitStop => hitStop;
 }

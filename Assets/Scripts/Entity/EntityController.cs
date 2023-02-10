@@ -31,7 +31,8 @@ public class EntityController : MonoBehaviour
 
         if (attack != null)
         {
-            attack.OnAttackUsed += AttackUsed;
+            attack.AttackEvents.OnAttackUsed += AttackUsed;
+            attack.AttackEvents.OnAttackSuccessful += AttackSuccessful;
         }
 
         InitializeComponents();
@@ -39,8 +40,25 @@ public class EntityController : MonoBehaviour
 
     private void Update()
     {
-        UpdateStunTimer();
-        UpdateFlashTimer();
+        if (movement != null)
+        {
+            movement.Stopped = EntityData.IsStopped();
+        }
+
+        if (EntityData.IsStopped())
+        {
+            UpdateStopTimer();
+        }
+        else
+        {
+            UpdateStunTimer();
+            UpdateFlashTimer();
+            if (damageable != null && damageable.IsDead())
+            {
+                Die();
+            }
+        }
+
         if (animatorUpdater != null)
         {
             animatorUpdater.UpdateAnimator(EntityData);
@@ -84,6 +102,7 @@ public class EntityController : MonoBehaviour
     {
         if (damageable != null)
         {
+            EntityData.StopTimer = attackData.AttackType.HitStop;
             EntityData.FlashTimer = entityType.FlashOnHitTime;
             AudioManager.Instance.Play(entityType.SoundOnHit);
             damageable.TakeDamage(attackData.AttackType.Damage);
@@ -92,14 +111,7 @@ public class EntityController : MonoBehaviour
             attackResult.KnockbackSpeed = EntityType.KnockbackSpeed * attackData.AttackType.KnockbackMultiplier;
             attackResult.KnockbackDirection = attackData.Direction;
             attackResult.KnockbackAcceleration = EntityType.KnockbackAcceleration;
-
-            if (damageable.IsDead())
-            {
-                Die();
-            } else
-            {
-                HandleHitstun(attackResult);
-            }
+            HandleHitstun(attackResult);
         }
     }
 
@@ -217,13 +229,22 @@ public class EntityController : MonoBehaviour
     /// <summary>
     /// Method called when an attack used event is triggered.
     /// </summary>
-    /// <param name="attack">The IAttack that was used</param>
-    private void AttackUsed(IAttack attack)
+    /// <param name="attackData">The attack data for the event</param>
+    private void AttackUsed(AttackData attackData)
     {
         if (movement != null)
         {
             movement.SetMovement(EntityData.LookDirection, attack.AttackType.MoveSpeed, attack.AttackType.MoveAcceleration);
         }
+    }
+
+    /// <summary>
+    /// Method called when an attack successful event is triggered.
+    /// </summary>
+    /// <param name="attackData">The attack data for the event</param>
+    private void AttackSuccessful(AttackData attackData)
+    {
+        EntityData.StopTimer = attackData.AttackType.HitStop;
     }
 
     /// <summary>
@@ -284,10 +305,18 @@ public class EntityController : MonoBehaviour
     /// </summary>
     private void UpdateFlashTimer()
     {
-        if (EntityData.FlashTimer > 0)
+        if (EntityData.IsFlashing())
         {
             EntityData.FlashTimer -= Time.deltaTime;
         }
+    }
+
+    /// <summary>
+    /// Updates the stop timer, which controls how long the entity is stopped (paused).
+    /// </summary>
+    private void UpdateStopTimer()
+    {
+        EntityData.StopTimer -= Time.deltaTime;
     }
 
     /// <summary>

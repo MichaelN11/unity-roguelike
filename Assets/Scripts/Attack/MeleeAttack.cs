@@ -9,11 +9,11 @@ using UnityEngine;
 /// </summary>
 public class MeleeAttack : MonoBehaviour, IAttack
 {
+    public AttackEvents AttackEvents { get; } = new();
+
     [SerializeField]
     private List<AttackType> attackTypes;
     public AttackType AttackType => attackTypes[comboStage];
-
-    public event Action<IAttack> OnAttackUsed; 
 
     [SerializeField]
     private string attackObjectResourceName = "AttackObject";
@@ -87,8 +87,6 @@ public class MeleeAttack : MonoBehaviour, IAttack
     {
         if (!interrupted)
         {
-            OnAttackUsed?.Invoke(this);
-
             float angle = Vector2.SignedAngle(Vector2.right, direction) - 90f;
             Quaternion rotation = Quaternion.Euler(0, 0, angle);
             distance += AttackType.Range;
@@ -107,7 +105,10 @@ public class MeleeAttack : MonoBehaviour, IAttack
             attackData.Direction = direction;
             attackData.SetDirectionOnHit = false;
             attackData.EntityType = entityType;
+            attackData.AttackEvents = AttackEvents;
             attackObject.attackData = attackData;
+
+            AttackEvents.invokeAttackUsed(attackData);
 
             AudioManager.Instance.Play(AttackType.SoundOnUse);
 

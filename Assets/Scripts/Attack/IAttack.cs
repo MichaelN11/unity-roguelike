@@ -9,7 +9,7 @@ using UnityEngine;
 public interface IAttack
 {
     public AttackType AttackType { get; }
-    public event Action<IAttack> OnAttackUsed;
+    public AttackEvents AttackEvents { get; }
 
     /// <summary>
     /// Use the attack.

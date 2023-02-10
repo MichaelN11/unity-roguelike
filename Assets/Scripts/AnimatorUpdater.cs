@@ -41,6 +41,7 @@ public class AnimatorUpdater : MonoBehaviour
             UpdateIsIdle(entityData);
             UpdateIsDead(entityData);
             UpdateFlash(entityData);
+            UpdateStop(entityData);
         }
     }
 
@@ -146,12 +147,27 @@ public class AnimatorUpdater : MonoBehaviour
     /// <param name="entityData">The entity's state</param>
     private void UpdateFlash(EntityData entityData)
     {
-        if (entityData.FlashTimer > 0)
+        if (entityData.IsFlashing())
         {
             spriteRenderer.material = flashMaterial;
         } else
         {
             spriteRenderer.material = defaultMaterial;
+        }
+    }
+
+    /// <summary>
+    /// Sets the animator speed to 0 when the entity is stopped.
+    /// </summary>
+    /// <param name="entityData">The entity's state</param>
+    private void UpdateStop(EntityData entityData)
+    {
+        if (entityData.IsStopped())
+        {
+            animator.speed = 0;
+        } else
+        {
+            animator.speed = 1;
         }
     }
 }

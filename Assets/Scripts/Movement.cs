@@ -12,6 +12,7 @@ public class Movement : MonoBehaviour
     public Vector2 Direction { get; set; }
     public float Speed { get; set; } = 0;
     public float Acceleration { get; set; } = 0;
+    public bool Stopped { get; set; } = false;
 
     [SerializeField]
     private float collisionOffset = 0.05f;
@@ -31,19 +32,22 @@ public class Movement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        Vector2 movePosition = CalculateMoveOutOfCollisions();
-        if (Direction != null
-            && Direction != Vector2.zero)
+        if (!Stopped)
         {
-            UpdateSpeed();
-            if (movePosition == body.position)
+            Vector2 movePosition = CalculateMoveOutOfCollisions();
+            if (Direction != null
+                && Direction != Vector2.zero)
             {
-                movePosition = CalculateMove();
+                UpdateSpeed();
+                if (movePosition == body.position)
+                {
+                    movePosition = CalculateMove();
+                }
             }
-        }
-        if (movePosition != body.position)
-        {
-            body.MovePosition(movePosition);
+            if (movePosition != body.position)
+            {
+                body.MovePosition(movePosition);
+            }
         }
     }
 

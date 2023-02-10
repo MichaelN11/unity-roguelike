@@ -27,3 +27,4 @@ MonoBehaviour:
   comboContinueWindow: 0.4
   moveSpeed: 4.5
   moveAcceleration: -0.2
+  hitStop: 0.06
