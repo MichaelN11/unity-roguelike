@@ -15,10 +15,6 @@ public class MeleeAttack : MonoBehaviour, IAttack
     private List<AttackType> attackTypes;
     public AttackType AttackType => attackTypes[comboStage];
 
-    [SerializeField]
-    private string attackObjectResourceName = "AttackObject";
-
-    private GameObject attackPrefab;
     private Vector2 direction;
     private float distance;
     private bool interrupted = false;
@@ -30,7 +26,6 @@ public class MeleeAttack : MonoBehaviour, IAttack
 
     private void Awake()
     {
-        attackPrefab = (GameObject) Resources.Load(attackObjectResourceName);
         numComboStages = attackTypes.Count();
     }
 
@@ -91,7 +86,7 @@ public class MeleeAttack : MonoBehaviour, IAttack
             Quaternion rotation = Quaternion.Euler(0, 0, angle);
             distance += AttackType.Range;
             Vector3 position = transform.position + (Vector3)direction.normalized * distance;
-            GameObject instance = Instantiate(attackPrefab, position, rotation);
+            GameObject instance = Instantiate(AttackType.Prefab, position, rotation);
 
             instance.transform.parent = gameObject.transform;
 

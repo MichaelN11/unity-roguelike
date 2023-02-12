@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   soundOnHit: {fileID: 0}
   walkSpeed: 2.25
-  interactionDistance: 0.5
+  interactionDistance: 0
   maxHealth: 3
-  hitStunDuration: 0.375
+  hitStunDuration: 0
   knockbackSpeed: 10.5
   knockbackAcceleration: -0.4
   flashOnHitTime: 0.15

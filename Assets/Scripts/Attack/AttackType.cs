@@ -7,16 +7,16 @@ using UnityEngine;
 public class AttackType : ScriptableObject
 {
     [SerializeField]
+    private GameObject prefab;
+    public GameObject Prefab => prefab;
+
+    [SerializeField]
     private Sound soundOnUse;
     public Sound SoundOnUse => soundOnUse;
 
     [SerializeField]
     private Sound soundOnHit;
     public Sound SoundOnHit => soundOnHit;
-
-    [SerializeField]
-    private Animation animation;
-    public Animation Animation => animation;
 
     [SerializeField]
     private AttackAnimation attackAnimation = AttackAnimation.Default;
