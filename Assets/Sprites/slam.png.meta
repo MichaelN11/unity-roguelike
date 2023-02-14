@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: f5fb9d94dc76d4cad91b7d043b422080
+guid: 67fa1acb0efec491a8b715253d0711b3
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -104,127 +104,148 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: log_jump_0
+      name: slam_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
         width: 32
-        height: 64
-      alignment: 9
-      pivot: {x: 0.5, y: 0.125}
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5ffca3a9a7fd747bc805dac30d47e27f
-      internalID: -1707426697
+      spriteID: ad8c3194acaae4ff58be7b5db6568b7a
+      internalID: -1343318094
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: log_jump_1
+      name: slam_1
       rect:
         serializedVersion: 2
         x: 32
         y: 0
         width: 32
-        height: 64
-      alignment: 9
-      pivot: {x: 0.5, y: 0.125}
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: fb7e7eddbf8b948b7b380c51e96baf43
-      internalID: 1104667149
+      spriteID: f9615d4981a5d4a818d62a427b982ed0
+      internalID: -2069447679
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: log_jump_2
+      name: slam_2
       rect:
         serializedVersion: 2
         x: 64
         y: 0
         width: 32
-        height: 64
-      alignment: 9
-      pivot: {x: 0.5, y: 0.125}
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: cde58d9cd2dee4325ab6ed0a99f98d8e
-      internalID: -1301815919
+      spriteID: 3fa80fac718d849c4ac224521fa35cf6
+      internalID: 1020339429
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: log_jump_3
+      name: slam_3
       rect:
         serializedVersion: 2
         x: 96
         y: 0
         width: 32
-        height: 64
-      alignment: 9
-      pivot: {x: 0.5, y: 0.125}
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 9672ac045adb945e39eabf6ffd0b24e3
-      internalID: -2009068136
+      spriteID: 7058a4b6d1f164c388616d8e21555bf8
+      internalID: 1104636380
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: log_jump_4
+      name: slam_4
       rect:
         serializedVersion: 2
         x: 128
         y: 0
         width: 32
-        height: 64
-      alignment: 9
-      pivot: {x: 0.5, y: 0.125}
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ab45b376b3f0c435280bb49227f05ed1
-      internalID: 1598792889
+      spriteID: 0a792d85c9a5a4ce79161151618c97f7
+      internalID: -1401555255
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: log_jump_5
+      name: slam_5
       rect:
         serializedVersion: 2
         x: 160
         y: 0
         width: 32
-        height: 64
-      alignment: 9
-      pivot: {x: 0.5, y: 0.125}
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 0b7508526b2324a2cbe126b333b941cc
-      internalID: 1788189625
+      spriteID: 73b8db3febd1c445791c38ab646a10a6
+      internalID: -290280088
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: slam_6
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bc0d724f2ba51410b894ad7c1ba2701a
+      internalID: 1660607899
       vertices: []
       indices: 
       edges: []
@@ -240,12 +261,13 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      log_jump_2: -1301815919
-      log_jump_5: 1788189625
-      log_jump_1: 1104667149
-      log_jump_3: -2009068136
-      log_jump_4: 1598792889
-      log_jump_0: -1707426697
+      slam_5: -290280088
+      slam_0: -1343318094
+      slam_1: -2069447679
+      slam_6: 1660607899
+      slam_2: 1020339429
+      slam_3: 1104636380
+      slam_4: -1401555255
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
