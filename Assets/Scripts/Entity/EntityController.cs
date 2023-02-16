@@ -116,7 +116,7 @@ public class EntityController : MonoBehaviour
     }
 
     /// <summary>
-    /// Gets the attack range for the entity, with the interaction distance added.
+    /// Gets the attack range for the entity, with the interaction distance and radius added.
     /// </summary>
     /// <returns>The attack range as a float</returns>
     public float GetAttackRange()
@@ -124,7 +124,7 @@ public class EntityController : MonoBehaviour
         float range = 0;
         if (attack != null)
         {
-            range = entityType.InteractionDistance + attack.AttackType.Range;
+            range = entityType.InteractionDistance + attack.AttackType.Range + attack.AttackType.Radius;
         }
         return range;
     }

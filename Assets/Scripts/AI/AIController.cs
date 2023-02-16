@@ -17,8 +17,6 @@ public class AIController : MonoBehaviour
     private float timeBetweenAIUpdate = 1f;
     [SerializeField]
     private float aggroDistance = 5;
-    [SerializeField]
-    private float attackDistance = 1;
 
     private GameObject target;
     private TilemapPathing tilemapPathing;
@@ -124,7 +122,7 @@ public class AIController : MonoBehaviour
                 currentBehavior = Behavior.Idle;
                 SendInput(InputType.Idle);
             }
-            else if (distanceToTarget <= entityController.GetAttackRange() + attackDistance)
+            else if (distanceToTarget <= entityController.GetAttackRange())
             {
                 currentBehavior = Behavior.Attack;
             }

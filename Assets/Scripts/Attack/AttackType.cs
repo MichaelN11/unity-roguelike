@@ -31,6 +31,10 @@ public class AttackType : ScriptableObject
     public float Range => range;
 
     [SerializeField]
+    private float radius = 0;
+    public float Radius => radius;
+
+    [SerializeField]
     private float hitboxDuration = 1;
     public float HitboxDuration => hitboxDuration;
 
