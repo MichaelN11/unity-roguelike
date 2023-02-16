@@ -82,11 +82,9 @@ public class MeleeAttack : MonoBehaviour, IAttack
     {
         if (!interrupted)
         {
-            float angle = Vector2.SignedAngle(Vector2.right, direction) - 90f;
-            Quaternion rotation = Quaternion.Euler(0, 0, angle);
             distance += AttackType.Range;
             Vector3 position = transform.position + (Vector3)direction.normalized * distance;
-            GameObject instance = Instantiate(AttackType.Prefab, position, rotation);
+            GameObject instance = Instantiate(AttackType.Prefab, position, DetermineRotation(direction));
 
             instance.transform.parent = gameObject.transform;
 
@@ -94,16 +92,8 @@ public class MeleeAttack : MonoBehaviour, IAttack
             destroyTimer.Duration = AttackType.HitboxDuration;
 
             AttackOnCollision attackObject = instance.GetComponent<AttackOnCollision>();
-            AttackData attackData = new();
-            attackData.AttackType = AttackType;
-            attackData.User = UnityUtil.GetParentIfExists(gameObject);
-            attackData.Direction = direction;
-            attackData.SetDirectionOnHit = false;
-            attackData.EntityType = entityType;
-            attackData.AttackEvents = AttackEvents;
-            attackObject.attackData = attackData;
-
-            AttackEvents.invokeAttackUsed(attackData);
+            attackObject.attackData = BuildAttackData();
+            AttackEvents.invokeAttackUsed(attackObject.attackData);
 
             AudioManager.Instance.Play(AttackType.SoundOnUse);
 
@@ -117,5 +107,41 @@ public class MeleeAttack : MonoBehaviour, IAttack
                 ResetCombo();
             }
         }
+    }
+
+    /// <summary>
+    /// Builds the AttackData object used to pass data to the methods handling the attack.
+    /// </summary>
+    /// <returns>The AttackData object</returns>
+    private AttackData BuildAttackData()
+    {
+        AttackData attackData = new();
+        attackData.AttackType = AttackType;
+        attackData.User = UnityUtil.GetParentIfExists(gameObject);
+        attackData.Direction = direction;
+        attackData.SetDirectionOnHit = false;
+        attackData.EntityType = entityType;
+        attackData.AttackEvents = AttackEvents;
+        return attackData;
+    }
+
+    /// <summary>
+    /// Determines the rotation of the attack object, using the direction. Assumes
+    /// the object sprite faces up by default.
+    /// </summary>
+    /// <param name="direction">The direction of the attack as a Vector2</param>
+    /// <returns>The rotation as a Quaternion</returns>
+    private Quaternion DetermineRotation(Vector2 direction)
+    {
+        Quaternion rotation;
+        if (AttackType.RotateAttackObject)
+        {
+            float angle = Vector2.SignedAngle(Vector2.right, direction) - 90f;
+            rotation = Quaternion.Euler(0, 0, angle);
+        } else
+        {
+            rotation = Quaternion.identity;
+        }
+        return rotation;
     }
 }

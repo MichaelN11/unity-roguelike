@@ -62,7 +62,9 @@ public class AnimatorUpdater : MonoBehaviour
 
     /// <summary>
     /// Sets the attack trigger on the Animator, if it hasn't been set during the
-    /// current attack state.
+    /// current attack state. Also sets the attack animation int that corresponds to the
+    /// value in the AttackAnimation enum, so that the animator can determine which attack
+    /// animation to use.
     /// </summary>
     /// <param name="entityData">The entity's state</param>
     private void UpdateAttack(EntityData entityData)

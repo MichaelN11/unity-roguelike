@@ -69,4 +69,8 @@ public class AttackType : ScriptableObject
     [SerializeField]
     private float hitStop = 0.06f;
     public float HitStop => hitStop;
+
+    [SerializeField]
+    private bool rotateAttackObject = true;
+    public bool RotateAttackObject => rotateAttackObject;
 }

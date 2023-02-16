@@ -344,4 +344,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   timeBetweenAIUpdate: 1
   aggroDistance: 7
-  attackDistance: 1.5
+  attackDistance: 1

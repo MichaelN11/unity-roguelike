@@ -6,13 +6,19 @@
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
 
 \f0\fs24 \cf0 soon:\
-fix up log enemy attack\
+log should be above other entities when it\'92s in the air\
+ai attack distance should be determined using attack type, not ai controller\
+ai should raycast and move directly towards player or attack if there are no obstacles\
 replace mirrored sword attacks with reversed attack\
 face in direction of movement unless attacking\
 ranged attacks\
 load resources statically\
 \
 later:\
+fix twig enemy sprites\
+change animator attack trigger to bool\
+better way to handle attack animations\
+hitting an enemy should stop you from moving further in the attack\
 sword stab at end of combo\
 A* cheat for closest tile\
 camera follow script\
