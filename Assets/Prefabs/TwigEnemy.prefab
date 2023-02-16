@@ -46,7 +46,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attackTypes:
   - {fileID: 11400000, guid: 38557446910fd4845868e97d1d9ebb0f, type: 2}
-  attackObjectResourceName: AttackObject
 --- !u!1 &7658967438887940922
 GameObject:
   m_ObjectHideFlags: 0
@@ -198,7 +197,7 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
-  m_SpriteSortPoint: 0
+  m_SpriteSortPoint: 1
 --- !u!95 &7658967440879357035
 Animator:
   serializedVersion: 4
@@ -330,6 +329,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c0506f00fd394647beb23af850e6b64, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  flashMaterialResourceName: Flash
 --- !u!114 &1584865004
 MonoBehaviour:
   m_ObjectHideFlags: 0
