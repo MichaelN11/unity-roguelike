@@ -2,6 +2,7 @@
 public enum Behavior
 {
     Idle,
-    Move,
+    Path,
+    Chase,
     Attack
 }

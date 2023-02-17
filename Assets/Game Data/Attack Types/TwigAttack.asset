@@ -18,6 +18,7 @@ MonoBehaviour:
   attackAnimation: 0
   damage: 1
   range: 0
+  radius: 0.5
   hitboxDuration: 0.2
   hitStunMultiplier: 1
   knockbackMultiplier: 1
@@ -28,3 +29,4 @@ MonoBehaviour:
   moveSpeed: 3
   moveAcceleration: -0.2
   hitStop: 0.06
+  rotateAttackObject: 1

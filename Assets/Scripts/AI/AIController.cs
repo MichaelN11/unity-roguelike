@@ -8,6 +8,8 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody2D), typeof(EntityController))]
 public class AIController : MonoBehaviour
 {
+    private const string WallLayerName = "Wall";
+
     /// <summary>
     /// The distance away from a position required to start moving to the next position.
     /// </summary>
@@ -33,11 +35,18 @@ public class AIController : MonoBehaviour
     private Behavior currentBehavior;
     private Camera mainCamera;
 
+    private Collider2D movementCollider;
+    private List<RaycastHit2D> raycastHits = new();
+    private ContactFilter2D contactFilter2D = new();
+
     private void Awake()
     {
         body = GetComponent<Rigidbody2D>();
         entityController = GetComponent<EntityController>();
+        movementCollider = GetComponent<Collider2D>();
         mainCamera = Camera.main;
+        contactFilter2D.layerMask = LayerMask.GetMask(WallLayerName);
+        contactFilter2D.useLayerMask = true;
     }
 
     private void Start()
@@ -63,11 +72,14 @@ public class AIController : MonoBehaviour
             DetermineBehavior();
             switch(currentBehavior)
             {
-                case Behavior.Move:
+                case Behavior.Path:
                     MoveAlongPath();
                     break;
                 case Behavior.Attack:
                     Attack();
+                    break;
+                case Behavior.Chase:
+                    ChaseTarget();
                     break;
             }
         }
@@ -128,11 +140,34 @@ public class AIController : MonoBehaviour
             }
             else
             {
-                currentBehavior = Behavior.Move;
+                DetermineMovementBehavior(distanceToTarget);
             }
         } else
         {
             currentBehavior = Behavior.Idle;
+        }
+    }
+
+    /// <summary>
+    /// Determines the AI's movement behavior. If there is no solid object in the path of the
+    /// target, the AI will chase directly towards it. Otherwise, pathfind towards the target.
+    /// </summary>
+    /// <param name="distanceToTarget">The distance away from the current target</param>
+    private void DetermineMovementBehavior(float distanceToTarget)
+    {
+        int collisionCount;
+        collisionCount = (movementCollider != null) ?
+            movementCollider.Cast(targetBody.position - body.position,
+            contactFilter2D,
+            raycastHits,
+            distanceToTarget)
+            : 0;
+        if (collisionCount == 0)
+        {
+            currentBehavior = Behavior.Chase;
+        } else
+        {
+            currentBehavior = Behavior.Path;
         }
     }
 
@@ -175,7 +210,7 @@ public class AIController : MonoBehaviour
     private void FindPath()
     {
         if (active
-            && currentBehavior == Behavior.Move
+            && currentBehavior == Behavior.Path
             && targetBody != null
             && pathingGrid != null
             && pathingGrid.Grid.Count > 0)
@@ -196,6 +231,17 @@ public class AIController : MonoBehaviour
     {
         Vector2 targetDirection = targetBody.position - body.position;
         SendInput(InputType.Attack, targetDirection);
+    }
+
+    /// <summary>
+    /// Chase after the current target in a direct line.
+    /// </summary>
+    private void ChaseTarget()
+    {
+        Vector2 moveDirection = targetBody.position - body.position;
+
+        SendInput(InputType.Move, moveDirection);
+        SendInput(InputType.Look, moveDirection);
     }
 
     /// <summary>
