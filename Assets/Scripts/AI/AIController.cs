@@ -79,7 +79,7 @@ public class AIController : MonoBehaviour
                     Attack();
                     break;
                 case Behavior.Chase:
-                    ChaseTarget();
+                    MoveTowardsPoint(targetBody.position);
                     break;
             }
         }
@@ -167,7 +167,12 @@ public class AIController : MonoBehaviour
             currentBehavior = Behavior.Chase;
         } else
         {
+            Behavior oldBehavior = currentBehavior;
             currentBehavior = Behavior.Path;
+            if (oldBehavior != Behavior.Path)
+            {
+                FindPath();
+            }
         }
     }
 
@@ -187,10 +192,7 @@ public class AIController : MonoBehaviour
             }
         }
 
-        Vector2 moveDirection = nextPosition - body.position;
-
-        SendInput(InputType.Move, moveDirection);
-        SendInput(InputType.Look, moveDirection);
+        MoveTowardsPoint(nextPosition);
     }
 
     /// <summary>
@@ -234,11 +236,12 @@ public class AIController : MonoBehaviour
     }
 
     /// <summary>
-    /// Chase after the current target in a direct line.
+    /// Move towards the target point.
     /// </summary>
-    private void ChaseTarget()
+    /// <param name="point">The target to move to</param>
+    private void MoveTowardsPoint(Vector2 point)
     {
-        Vector2 moveDirection = targetBody.position - body.position;
+        Vector2 moveDirection = point - body.position;
 
         SendInput(InputType.Move, moveDirection);
         SendInput(InputType.Look, moveDirection);
