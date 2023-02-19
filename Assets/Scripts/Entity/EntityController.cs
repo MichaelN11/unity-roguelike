@@ -40,10 +40,7 @@ public class EntityController : MonoBehaviour
 
     private void Update()
     {
-        if (movement != null)
-        {
-            movement.Stopped = EntityData.IsStopped();
-        }
+        EntityData.MovementStopped = EntityData.IsStopped();
 
         if (EntityData.IsStopped())
         {
@@ -378,6 +375,10 @@ public class EntityController : MonoBehaviour
         if (damageable != null)
         {
             damageable.MaxHealth = EntityType.MaxHealth;
+        }
+        if (movement != null)
+        {
+            movement.EntityData = EntityData;
         }
     }
 }

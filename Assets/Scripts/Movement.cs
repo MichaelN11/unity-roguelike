@@ -9,10 +9,7 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody2D), typeof(Collider2D))]
 public class Movement : MonoBehaviour
 {
-    public Vector2 Direction { get; set; }
-    public float Speed { get; set; } = 0;
-    public float Acceleration { get; set; } = 0;
-    public bool Stopped { get; set; } = false;
+    public EntityData EntityData { get; set; }
 
     [SerializeField]
     private float collisionOffset = 0.05f;
@@ -32,11 +29,11 @@ public class Movement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (!Stopped)
+        if (!EntityData.MovementStopped)
         {
             Vector2 movePosition = CalculateMoveOutOfCollisions();
-            if (Direction != null
-                && Direction != Vector2.zero)
+            if (EntityData.MoveDirection != null
+                && EntityData.MoveDirection != Vector2.zero)
             {
                 UpdateSpeed();
                 if (movePosition == body.position)
@@ -69,9 +66,9 @@ public class Movement : MonoBehaviour
     /// <param name="acceleration">The movement acceleration</param>
     public void SetMovement(Vector2 direction, float speed, float acceleration)
     {
-        Direction = direction;
-        Speed = speed;
-        Acceleration = acceleration;
+        EntityData.MoveDirection = direction;
+        EntityData.MoveSpeed = speed;
+        EntityData.Acceleration = acceleration;
     }
 
     /// <summary>
@@ -80,11 +77,11 @@ public class Movement : MonoBehaviour
     /// </summary>
     private void UpdateSpeed()
     {
-        Speed += Acceleration;
-        if (Speed <= 0)
+        EntityData.MoveSpeed += EntityData.Acceleration;
+        if (EntityData.MoveSpeed <= 0)
         {
-            Speed = 0;
-            Acceleration = 0;
+            EntityData.MoveSpeed = 0;
+            EntityData.Acceleration = 0;
         }
     }
 
@@ -101,7 +98,7 @@ public class Movement : MonoBehaviour
         foreach (Collider2D collider in colliderHits)
         {
             Vector2 collisionPoint = collider.ClosestPoint(body.position);
-            float distance = (Speed / numOverlaps) * Time.deltaTime;
+            float distance = (EntityData.MoveSpeed / numOverlaps) * Time.deltaTime;
             Vector2 moveDirection = (body.position - collisionPoint).normalized;
             movePosition += moveDirection * distance;
         }
@@ -116,7 +113,7 @@ public class Movement : MonoBehaviour
     private Vector2 CalculateMove()
     {
         //Debug.Log("Attempting normal move " + gameObject.name);
-        Vector2 normalizedDirection = Direction.normalized;
+        Vector2 normalizedDirection = EntityData.MoveDirection.normalized;
         Vector2 movePosition = CalculateMoveInDirection(normalizedDirection);
         if (movePosition == body.position)
         {
@@ -137,7 +134,7 @@ public class Movement : MonoBehaviour
     private Vector2 CalculateMoveInDirection(Vector2 direction)
     {
         Vector2 movePosition = body.position;
-        float distance = Speed * Time.deltaTime;
+        float distance = EntityData.MoveSpeed * Time.deltaTime;
         float offsetDistance = DetermineOffsetDistance(direction);
         int collisionCount = movementCollider.Cast(direction,
             contactFilter2D,

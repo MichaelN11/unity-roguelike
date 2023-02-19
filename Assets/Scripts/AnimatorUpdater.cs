@@ -11,12 +11,15 @@ public class AnimatorUpdater : MonoBehaviour
     public bool HasAttacked { get; set; } = false;
 
     [SerializeField]
+    private float aimModeDuration = 3f;
+    [SerializeField]
     private string flashMaterialResourceName = "Flash";
 
     private Animator animator;
     private SpriteRenderer spriteRenderer;
     private Material defaultMaterial;
     private Material flashMaterial;
+    private float aimModeTimer = 0f;
 
     private void Awake()
     {
@@ -24,6 +27,14 @@ public class AnimatorUpdater : MonoBehaviour
         spriteRenderer = GetComponent<SpriteRenderer>();
         defaultMaterial = spriteRenderer.material;
         flashMaterial = (Material) Resources.Load(flashMaterialResourceName);
+    }
+
+    private void Update()
+    {
+        if (aimModeTimer > 0)
+        {
+            aimModeTimer -= Time.deltaTime;
+        }
     }
 
     /// <summary>
@@ -76,6 +87,7 @@ public class AnimatorUpdater : MonoBehaviour
                 animator.SetTrigger("attack");
                 animator.SetInteger("attackAnimation", (int) entityData.AttackAnimation);
                 HasAttacked = true;
+                aimModeTimer = aimModeDuration;
             }
         } else
         {
@@ -84,16 +96,27 @@ public class AnimatorUpdater : MonoBehaviour
     }
 
     /// <summary>
-    /// Updates the look direction on the Animator, from the EntityState.
+    /// Updates the look direction on the Animator, from the EntityState. Only updates
+    /// the direction if the entity is in aim mode. Otherwise, look direction is determined
+    /// by movement.
     /// </summary>
     /// <param name="entityData">The entity's state</param>
     private void UpdateLookDirection(EntityData entityData)
     {
-        if (entityData.LookDirection != null)
+        if (IsAiming() && entityData.LookDirection != null)
         {
-            animator.SetFloat("xDirection", entityData.LookDirection.x);
-            animator.SetFloat("yDirection", entityData.LookDirection.y);
+            SetLookDirection(entityData.LookDirection);
         }
+    }
+
+    /// <summary>
+    /// Sets the animator's look direction to the passed Vector2.
+    /// </summary>
+    /// <param name="direction">The look direction</param>
+    private void SetLookDirection(Vector2 direction)
+    {
+        animator.SetFloat("xDirection", direction.x);
+        animator.SetFloat("yDirection", direction.y);
     }
 
     /// <summary>
@@ -105,10 +128,23 @@ public class AnimatorUpdater : MonoBehaviour
         if (entityData.ActionState == ActionState.Move)
         {
             animator.SetBool("isMoving", true);
+            if (!IsAiming())
+            {
+                SetLookDirection(entityData.MoveDirection);
+            }
         } else
         {
             animator.SetBool("isMoving", false);
         }
+    }
+
+    /// <summary>
+    /// Determines if the entity is in aim mode.
+    /// </summary>
+    /// <returns>true if the entity is aiming</returns>
+    private bool IsAiming()
+    {
+        return aimModeTimer > 0;
     }
 
     /// <summary>
