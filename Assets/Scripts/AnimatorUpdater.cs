@@ -12,13 +12,10 @@ public class AnimatorUpdater : MonoBehaviour
 
     [SerializeField]
     private float aimModeDuration = 3f;
-    [SerializeField]
-    private string flashMaterialResourceName = "Flash";
 
     private Animator animator;
     private SpriteRenderer spriteRenderer;
     private Material defaultMaterial;
-    private Material flashMaterial;
     private float aimModeTimer = 0f;
 
     private void Awake()
@@ -26,7 +23,6 @@ public class AnimatorUpdater : MonoBehaviour
         animator = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         defaultMaterial = spriteRenderer.material;
-        flashMaterial = (Material) Resources.Load(flashMaterialResourceName);
     }
 
     private void Update()
@@ -187,7 +183,7 @@ public class AnimatorUpdater : MonoBehaviour
     {
         if (entityData.IsFlashing())
         {
-            spriteRenderer.material = flashMaterial;
+            spriteRenderer.material = ResourceManager.Instance.FlashMaterial;
         } else
         {
             spriteRenderer.material = defaultMaterial;
