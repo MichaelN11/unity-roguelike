@@ -411,7 +411,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c0506f00fd394647beb23af850e6b64, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  flashMaterialResourceName: Flash
+  aimModeDuration: 3
 --- !u!114 &116077039412780152
 MonoBehaviour:
   m_ObjectHideFlags: 0
