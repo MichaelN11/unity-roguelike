@@ -8,8 +8,19 @@ public class Damageable : MonoBehaviour
     public float MaxHealth { get; set; }
     public float CurrentHealth { get; private set; }
 
+    private EntityData entityData;
+
+    private void Awake()
+    {
+        entityData = GetComponent<EntityData>();
+    }
+
     private void Start()
     {
+        if (entityData != null)
+        {
+            MaxHealth = entityData.EntityType.MaxHealth;
+        }
         CurrentHealth = MaxHealth;
     }
 
@@ -29,5 +40,19 @@ public class Damageable : MonoBehaviour
     public bool IsDead()
     {
         return CurrentHealth <= 0;
+    }
+
+    /// <summary>
+    /// Gets the EntityType from the EntityData.
+    /// </summary>
+    /// <returns>The EntityType</returns>
+    public EntityType GetEntityType()
+    {
+        EntityType entityType = null;
+        if (entityData != null)
+        {
+            entityType = entityData.EntityType;
+        }
+        return entityType;
     }
 }

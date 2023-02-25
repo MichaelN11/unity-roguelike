@@ -18,6 +18,7 @@ public class MeleeAttackBehavior : AbilityBehavior
     private readonly GameObject user;
     private readonly Movement movement;
     private readonly EntityState entityState;
+    private readonly EntityData entityData;
     private readonly AnimatorUpdater animatorUpdater;
 
     private MeleeAttackComboData NextComboData => meleeAttack.ComboDataList[nextComboStage];
@@ -32,6 +33,7 @@ public class MeleeAttackBehavior : AbilityBehavior
         user = UnityUtil.GetParentIfExists(abilityManager.gameObject);
         movement = user.GetComponent<Movement>();
         entityState = user.GetComponent<EntityState>();
+        entityData = user.GetComponent<EntityData>();
         animatorUpdater = user.GetComponent<AnimatorUpdater>();
 
         numComboStages = meleeAttack.ComboDataList.Count();
@@ -65,7 +67,7 @@ public class MeleeAttackBehavior : AbilityBehavior
         destroyTimer.Duration = NextComboData.PrefabAbilityData.PrefabDuration;
 
         AttackOnCollision attackObject = instance.GetComponent<AttackOnCollision>();
-        attackObject.attackData = BuildAttackData(abilityUse);
+        attackObject.AttackData = BuildAttackData(abilityUse);
 
         AudioManager.Instance.Play(NextComboData.AttackAbilityData.SoundOnUse);
 
@@ -140,7 +142,7 @@ public class MeleeAttackBehavior : AbilityBehavior
         attackData.User = UnityUtil.GetParentIfExists(abilityUse.Component.gameObject);
         attackData.Direction = abilityUse.Direction;
         attackData.SetDirectionOnHit = false;
-        attackData.EntityType = abilityUse.EntityType;
+        attackData.EntityData = entityData;
         attackData.AttackEvents.OnAttackSuccessful += AttackSuccessful;
         return attackData;
     }

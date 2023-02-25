@@ -121,6 +121,8 @@ GameObject:
   - component: {fileID: 7658967440879357011}
   - component: {fileID: 1625324917}
   - component: {fileID: 1584865004}
+  - component: {fileID: 2895836909355115246}
+  - component: {fileID: 8567573335317374069}
   m_Layer: 0
   m_Name: TwigEnemy
   m_TagString: Untagged
@@ -276,7 +278,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f50f1387a6f2949a189a4131252de432, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  entityType: {fileID: 11400000, guid: e621e08a2aba145abbd8b41c75f01540, type: 2}
 --- !u!114 &7658967440879357010
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -343,3 +344,28 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   timeBetweenAIUpdate: 1
   aggroDistance: 8
+--- !u!114 &2895836909355115246
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7658967440879357034}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 19c4d32ddd76e4dfdb1cae74610e3ce0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &8567573335317374069
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7658967440879357034}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3007cf5ee247d4833b17b99ba375de5f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  entityType: {fileID: 11400000, guid: e621e08a2aba145abbd8b41c75f01540, type: 2}

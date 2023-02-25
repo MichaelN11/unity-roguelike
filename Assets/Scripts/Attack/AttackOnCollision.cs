@@ -8,13 +8,13 @@ using UnityEngine;
 /// </summary>
 public class AttackOnCollision : MonoBehaviour
 {
-    public AttackData attackData;
+    public AttackData AttackData { get; set; }
 
     [SerializeField]
     private float timeBetweenHits = 1;
 
     private Rigidbody2D body;
-    private Dictionary<int, float> hitTimeByInstanceID = new();
+    private readonly Dictionary<int, float> hitTimeByInstanceID = new();
 
     private void Awake()
     {
@@ -23,9 +23,9 @@ public class AttackOnCollision : MonoBehaviour
 
     private void Start()
     {
-        if (attackData.User == null)
+        if (AttackData.User == null)
         {
-            attackData.User = UnityUtil.GetParentIfExists(gameObject);
+            AttackData.User = UnityUtil.GetParentIfExists(gameObject);
         }
         if (body != null)
         {
@@ -47,19 +47,21 @@ public class AttackOnCollision : MonoBehaviour
     /// <param name="collision">The Collider2D object</param>
     private void AttackEntity(Collider2D collision)
     {
-        if (attackData.SetDirectionOnHit)
+        if (AttackData.SetDirectionOnHit)
         {
-            attackData.Direction = GetAttackDirection(collision);
+            AttackData.Direction = GetAttackDirection(collision);
         }
         
         EntityController otherEntityController = collision.gameObject.GetComponentInParent<EntityController>();
+        Damageable otherDamageable = collision.gameObject.GetComponentInParent<Damageable>();
         if (otherEntityController != null
-            && IsValidAttackTarget(collision.gameObject, otherEntityController.EntityType))
+            && otherDamageable != null
+            && IsValidAttackTarget(collision.gameObject, otherDamageable.GetEntityType()))
         {
-            otherEntityController.HandleIncomingAttack(attackData);
-            if (attackData.AttackEvents != null)
+            otherEntityController.HandleIncomingAttack(AttackData);
+            if (AttackData.AttackEvents != null)
             {
-                attackData.AttackEvents.InvokeAttackSuccessful(attackData);
+                AttackData.AttackEvents.InvokeAttackSuccessful(AttackData);
             }
         }
     }
@@ -120,7 +122,9 @@ public class AttackOnCollision : MonoBehaviour
     /// <returns>true if the entity is a valid target for the attack</returns>
     private bool IsValidAttackTarget(GameObject entity, EntityType entityType)
     {
-        return entity != attackData.User
-            && attackData.EntityType.EnemyFactions.Contains(entityType.Faction);
+        return entity != AttackData.User
+            && entityType != null
+            && AttackData.EntityData != null
+            && AttackData.EntityData.EntityType.EnemyFactions.Contains(entityType.Faction);
     }
 }
