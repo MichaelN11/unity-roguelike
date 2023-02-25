@@ -13,6 +13,7 @@ public class AnimatorUpdater : MonoBehaviour
     [SerializeField]
     private float aimModeDuration = 3f;
 
+    private EntityState entityState;
     private Animator animator;
     private SpriteRenderer spriteRenderer;
     private Material defaultMaterial;
@@ -22,6 +23,7 @@ public class AnimatorUpdater : MonoBehaviour
     {
         animator = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
+        entityState = GetComponent<EntityState>();
         defaultMaterial = spriteRenderer.material;
     }
 
@@ -44,21 +46,20 @@ public class AnimatorUpdater : MonoBehaviour
             UpdateAttack(entityData);
             UpdateLookDirection(entityData);
             UpdateIsMoving(entityData);
-            UpdateIsHitstun(entityData);
-            UpdateIsIdle(entityData);
-            UpdateIsDead(entityData);
-            UpdateFlash(entityData);
-            UpdateStop(entityData);
+            UpdateIsHitstun();
+            UpdateIsIdle();
+            UpdateIsDead();
+            UpdateFlash();
+            UpdateStop();
         }
     }
 
     /// <summary>
     /// Determines if the entity is dead and sets IsDead on the Animator.
     /// </summary>
-    /// <param name="entityData">The entity's state</param>
-    private void UpdateIsDead(EntityData entityData)
+    private void UpdateIsDead()
     {
-        if (entityData.ActionState == ActionState.Dead)
+        if (entityState.ActionState == ActionState.Dead)
         {
             animator.SetBool("isDead", true);
         } else
@@ -76,7 +77,7 @@ public class AnimatorUpdater : MonoBehaviour
     /// <param name="entityData">The entity's state</param>
     private void UpdateAttack(EntityData entityData)
     {
-        if (entityData.ActionState == ActionState.UsingAbility)
+        if (entityState.ActionState == ActionState.UsingAbility)
         {
             if (!HasAttacked)
             {
@@ -121,7 +122,7 @@ public class AnimatorUpdater : MonoBehaviour
     /// <param name="entityData">The entity's state</param>
     private void UpdateIsMoving(EntityData entityData)
     {
-        if (entityData.ActionState == ActionState.Move)
+        if (entityState.ActionState == ActionState.Move)
         {
             animator.SetBool("isMoving", true);
             if (!IsAiming())
@@ -146,10 +147,9 @@ public class AnimatorUpdater : MonoBehaviour
     /// <summary>
     /// Updates the Animator isHitstun property, from the EntityState's Action.
     /// </summary>
-    /// <param name="entityData">The entity's state</param>
-    private void UpdateIsHitstun(EntityData entityData)
+    private void UpdateIsHitstun()
     {
-        if (entityData.ActionState == ActionState.Hitstun)
+        if (entityState.ActionState == ActionState.Hitstun)
         {
             animator.SetBool("isHitstun", true);
         }
@@ -162,10 +162,9 @@ public class AnimatorUpdater : MonoBehaviour
     /// <summary>
     /// Updates the Animator isIdle property, from the EntityState's Action.
     /// </summary>
-    /// <param name="entityData">The entity's state</param>
-    private void UpdateIsIdle(EntityData entityData)
+    private void UpdateIsIdle()
     {
-        if (entityData.ActionState == ActionState.Idle)
+        if (entityState.ActionState == ActionState.Idle)
         {
             animator.SetBool("isIdle", true);
         }
@@ -178,10 +177,9 @@ public class AnimatorUpdater : MonoBehaviour
     /// <summary>
     /// Updates the sprites material if the entity is flashing.
     /// </summary>
-    /// <param name="entityData">The entity's state</param>
-    private void UpdateFlash(EntityData entityData)
+    private void UpdateFlash()
     {
-        if (entityData.IsFlashing())
+        if (entityState.IsFlashing())
         {
             spriteRenderer.material = ResourceManager.Instance.FlashMaterial;
         } else
@@ -193,10 +191,9 @@ public class AnimatorUpdater : MonoBehaviour
     /// <summary>
     /// Sets the animator speed to 0 when the entity is stopped.
     /// </summary>
-    /// <param name="entityData">The entity's state</param>
-    private void UpdateStop(EntityData entityData)
+    private void UpdateStop()
     {
-        if (entityData.IsStopped())
+        if (entityState.IsStopped())
         {
             animator.speed = 0;
         } else

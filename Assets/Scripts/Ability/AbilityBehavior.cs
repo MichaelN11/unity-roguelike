@@ -54,7 +54,7 @@ public abstract class AbilityBehavior
     /// <param name="abilityUse">AbilityUse object containing data about how the ability was used</param>
     public virtual bool IsUsable(AbilityUse abilityUse)
     {
-        return abilityUse.User.CanAct();
+        return abilityUse.UserState.CanAct();
     }
 
     /// <summary>
@@ -64,7 +64,7 @@ public abstract class AbilityBehavior
     protected virtual void OnUse(AbilityUse abilityUse)
     {
         abilityUse.User.LookDirection = abilityUse.Direction;
-        abilityUse.User.ChangeToAbilityState(CastTime);
+        abilityUse.UserState.AbilityState(CastTime);
     }
 
     /// <summary>

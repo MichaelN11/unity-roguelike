@@ -16,8 +16,7 @@ public class MeleeAttackBehavior : AbilityBehavior
     protected override float CastTime => NextComboData.CastTime;
 
     private MeleeAttackComboData NextComboData => meleeAttack.ComboDataList[nextComboStage];
-
-    private EntityData entityData;
+    private EntityState entityState;
     private readonly int numComboStages;
     private int nextComboStage = 0;
     private float comboTimer = 0;
@@ -32,9 +31,9 @@ public class MeleeAttackBehavior : AbilityBehavior
 
     public override bool IsUsable(AbilityUse abilityUse)
     {
-        return abilityUse.User.CanAct()
-            || (abilityUse.User.ActionState == ActionState.UsingAbility
-                && abilityUse.User.StunTimer <= comboableAttackTime);
+        return abilityUse.UserState.CanAct()
+            || (abilityUse.UserState.ActionState == ActionState.UsingAbility
+                && abilityUse.UserState.StunTimer <= comboableAttackTime);
     }
 
     public override void Interrupt(AbilityManager component)
@@ -45,7 +44,7 @@ public class MeleeAttackBehavior : AbilityBehavior
 
     protected override void StartAbility(AbilityUse abilityUse)
     {
-        entityData = abilityUse.User;
+        entityState = abilityUse.UserState;
 
         Vector2 distance = abilityUse.Direction.normalized * NextComboData.AttackAbilityData.Range;
         Vector3 position = abilityUse.Position + distance;
@@ -86,7 +85,7 @@ public class MeleeAttackBehavior : AbilityBehavior
         abilityUse.User.StopMoving();
         abilityUse.User.AttackAnimation = NextComboData.AttackAbilityData.AttackAnimation;
         abilityUse.User.LookDirection = abilityUse.Direction;
-        abilityUse.User.ChangeToAbilityState(NextComboData.AttackAbilityData.AttackDuration
+        abilityUse.UserState.AbilityState(NextComboData.AttackAbilityData.AttackDuration
                 + NextComboData.ComboableAttackDuration
                 + CastTime);
     }
@@ -174,6 +173,6 @@ public class MeleeAttackBehavior : AbilityBehavior
     private void AttackSuccessful(AttackData attackData)
     {
         AudioManager.Instance.Play(attackData.AbilityData.SoundOnHit);
-        entityData.StopTimer = attackData.AbilityData.HitStop;
+        entityState.Stop(attackData.AbilityData.HitStop);
     }
 }

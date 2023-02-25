@@ -5,6 +5,7 @@ using UnityEngine;
 /// <summary>
 /// Component representing the main controller for an entity.
 /// </summary>
+[RequireComponent(typeof(EntityState))]
 public class EntityController : MonoBehaviour
 {
     public EntityData EntityData { get; private set; } = new EntityData();
@@ -17,6 +18,7 @@ public class EntityController : MonoBehaviour
     private Movement movement;
     private Damageable damageable;
     private AbilityManager abilityManager;
+    private EntityState entityState;
 
     private Vector2 attemptedMoveDirection = Vector2.zero;
     private Vector2 attemptedLookDirection = Vector2.zero;
@@ -27,22 +29,22 @@ public class EntityController : MonoBehaviour
         abilityManager = GetComponentInChildren<AbilityManager>();
         animatorUpdater = GetComponent<AnimatorUpdater>();
         damageable = GetComponent<Damageable>();
+        entityState = GetComponent<EntityState>();
 
         InitializeComponents();
     }
 
+    private void Start()
+    {
+        entityState.UnstunnedEvent += Unstunned;
+    }
+
     private void Update()
     {
-        EntityData.MovementStopped = EntityData.IsStopped();
+        EntityData.MovementStopped = entityState.IsStopped();
 
-        if (EntityData.IsStopped())
+        if (!entityState.IsStopped())
         {
-            UpdateStopTimer();
-        }
-        else
-        {
-            UpdateStunTimer();
-            UpdateFlashTimer();
             if (damageable != null && damageable.IsDead())
             {
                 Die();
@@ -92,8 +94,8 @@ public class EntityController : MonoBehaviour
     {
         if (damageable != null)
         {
-            EntityData.StopTimer = attackData.AbilityData.HitStop;
-            EntityData.FlashTimer = entityType.FlashOnHitTime;
+            entityState.Stop(attackData.AbilityData.HitStop);
+            entityState.Flash(entityType.FlashOnHitTime);
             AudioManager.Instance.Play(entityType.SoundOnHit);
             damageable.TakeDamage(attackData.AbilityData.Damage);
             AttackResult attackResult = new();
@@ -134,7 +136,7 @@ public class EntityController : MonoBehaviour
         {
             movement.SetMovement(Vector2.zero, 0);
         }
-        EntityData.ActionState = ActionState.Dead;
+        entityState.DeadState();
         Destroy(gameObject, EntityType.DeathTimer);
     }
 
@@ -150,17 +152,17 @@ public class EntityController : MonoBehaviour
         if (moveDirection != null)
         {
             attemptedMoveDirection = moveDirection;
-            if (movement != null && EntityData.CanAct())
+            if (movement != null && entityState.CanAct())
             {
                 movement.SetMovement(moveDirection, entityType.WalkSpeed);
 
                 if (moveDirection != Vector2.zero)
                 {
-                    EntityData.ActionState = ActionState.Move;
+                    entityState.MoveState();
                 }
                 else
                 {
-                    EntityData.ActionState = ActionState.Stand;
+                    entityState.StandState();
                 }
 
                 isMovementSet = true;
@@ -180,7 +182,7 @@ public class EntityController : MonoBehaviour
         if (lookDirection != null)
         {
             attemptedLookDirection = lookDirection;
-            if (EntityData.CanAct())
+            if (entityState.CanAct())
             {
                 EntityData.LookDirection = lookDirection;
                 isLookDirectionSet = true;
@@ -202,6 +204,7 @@ public class EntityController : MonoBehaviour
         if (abilityManager != null)
         {
             AbilityUse abilityUse = new AbilityUse();
+            abilityUse.UserState = entityState;
             abilityUse.User = EntityData;
             abilityUse.EntityType = EntityType;
             abilityUse.Direction = attackDirection;
@@ -217,41 +220,12 @@ public class EntityController : MonoBehaviour
     }
 
     /// <summary>
-    /// If the entity is stunned/attacking, subtract the time in seconds passed from the last
-    /// update. If the timer is below 0, tell the entity to change state. Also sets
-    /// the move direction to any move direction attempted while the entity was stunned.
+    /// Sets the movement and look direction when the entity is unstunned.
     /// </summary>
-    private void UpdateStunTimer()
+    private void Unstunned()
     {
-        if (EntityData.IsStunned())
-        {
-            EntityData.StunTimer -= Time.deltaTime;
-            if (EntityData.StunTimer <= 0)
-            {
-                EntityData.ActionState = ActionState.Stand;
-                SetMovementDirection(attemptedMoveDirection);
-                SetLookDirection(attemptedLookDirection);
-            }
-        }
-    }
-
-    /// <summary>
-    /// Updates the flash timer, which controls how long the entity is flashing white.
-    /// </summary>
-    private void UpdateFlashTimer()
-    {
-        if (EntityData.IsFlashing())
-        {
-            EntityData.FlashTimer -= Time.deltaTime;
-        }
-    }
-
-    /// <summary>
-    /// Updates the stop timer, which controls how long the entity is stopped (paused).
-    /// </summary>
-    private void UpdateStopTimer()
-    {
-        EntityData.StopTimer -= Time.deltaTime;
+        SetMovementDirection(attemptedMoveDirection);
+        SetLookDirection(attemptedLookDirection);
     }
 
     /// <summary>
@@ -263,8 +237,7 @@ public class EntityController : MonoBehaviour
         if (attackResult.HitStunDuration > 0)
         {
             Interrupt();
-            EntityData.ActionState = ActionState.Hitstun;
-            EntityData.StunTimer = attackResult.HitStunDuration;
+            entityState.HitstunState(attackResult.HitStunDuration);
             if (movement != null)
             {
                 movement.SetMovement(attackResult.KnockbackDirection,
@@ -280,9 +253,9 @@ public class EntityController : MonoBehaviour
     private bool Idle()
     {
         bool isIdleSet = false;
-        if (EntityData.CanAct())
+        if (entityState.CanAct())
         {
-            EntityData.ActionState = ActionState.Idle;
+            entityState.IdleState();
             movement.SetMovement(Vector2.zero, entityType.WalkSpeed);
             isIdleSet = true;
         }
