@@ -36,7 +36,7 @@ public class AudioManager : MonoBehaviour
         {
             if (soundMap.TryGetValue(sound.name, out AudioSource audioSource))
             {
-                Debug.Log("Found audio source for " + sound.name);
+                //Debug.Log("Found audio source for " + sound.name);
             }
             else
             {
@@ -45,7 +45,7 @@ public class AudioManager : MonoBehaviour
                 audioSource.volume = sound.Volume;
                 audioSource.pitch = sound.Pitch;
                 soundMap.Add(sound.name, audioSource);
-                Debug.Log("Didn't find audio source, creating new one for: " + sound.name);
+                //Debug.Log("Didn't find audio source, creating new one for: " + sound.name);
             }
             audioSource.Play();
         }

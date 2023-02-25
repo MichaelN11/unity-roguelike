@@ -76,7 +76,7 @@ public class AnimatorUpdater : MonoBehaviour
     /// <param name="entityData">The entity's state</param>
     private void UpdateAttack(EntityData entityData)
     {
-        if (entityData.ActionState == ActionState.Attack)
+        if (entityData.ActionState == ActionState.UsingAbility)
         {
             if (!HasAttacked)
             {

@@ -57,10 +57,9 @@ public class AttackOnCollision : MonoBehaviour
             && IsValidAttackTarget(collision.gameObject, otherEntityController.EntityType))
         {
             otherEntityController.HandleIncomingAttack(attackData);
-            AudioManager.Instance.Play(attackData.AttackType.SoundOnHit);
             if (attackData.AttackEvents != null)
             {
-                attackData.AttackEvents.invokeAttackSuccessful(attackData);
+                attackData.AttackEvents.InvokeAttackSuccessful(attackData);
             }
         }
     }

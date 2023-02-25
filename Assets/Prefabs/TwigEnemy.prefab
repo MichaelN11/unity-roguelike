@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1205336865}
-  - component: {fileID: 1205336866}
+  - component: {fileID: 160640438961714935}
   m_Layer: 0
   m_Name: Attack
   m_TagString: Untagged
@@ -32,7 +32,7 @@ Transform:
   m_Father: {fileID: 7658967440879357033}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1205336866
+--- !u!114 &160640438961714935
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -41,11 +41,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1205336864}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2e82675474b9b48c79378b2336d1ae4d, type: 3}
+  m_Script: {fileID: 11500000, guid: 7e2dab7b89d3842b29ff256495ae98ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackTypes:
-  - {fileID: 11400000, guid: 38557446910fd4845868e97d1d9ebb0f, type: 2}
+  ability: {fileID: 11400000, guid: d689db3d0defc4446b94f32d98ac6d28, type: 2}
 --- !u!1 &7658967438887940922
 GameObject:
   m_ObjectHideFlags: 0
@@ -329,7 +328,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c0506f00fd394647beb23af850e6b64, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  flashMaterialResourceName: Flash
+  aimModeDuration: 3
 --- !u!114 &1584865004
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -344,4 +343,3 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   timeBetweenAIUpdate: 1
   aggroDistance: 8
-  attackDistance: 0.5

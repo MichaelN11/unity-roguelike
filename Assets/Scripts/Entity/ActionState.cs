@@ -10,7 +10,7 @@ public enum ActionState
     None,
     Stand,
     Move,
-    Attack,
+    UsingAbility,
     Hitstun,
     Idle,
     Dead

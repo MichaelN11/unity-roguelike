@@ -5,23 +5,13 @@
 /// </summary>
 public class AttackEvents
 {
-    public event Action<AttackData> OnAttackUsed;
     public event Action<AttackData> OnAttackSuccessful;
-
-    /// <summary>
-    /// Invokes the attack used event.
-    /// </summary>
-    /// <param name="attackData">The attack data for the event</param>
-    public void invokeAttackUsed(AttackData attackData)
-    {
-        OnAttackUsed?.Invoke(attackData);
-    }
 
     /// <summary>
     /// Invokes the attack successful event.
     /// </summary>
     /// <param name="attackData">The attack data for the event</param>
-    public void invokeAttackSuccessful(AttackData attackData)
+    public void InvokeAttackSuccessful(AttackData attackData)
     {
         OnAttackSuccessful?.Invoke(attackData);
     }

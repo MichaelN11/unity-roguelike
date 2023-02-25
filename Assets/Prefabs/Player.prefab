@@ -114,7 +114,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 775062776}
-  - component: {fileID: 4349704400154469762}
+  - component: {fileID: 8929130176315561604}
   m_Layer: 0
   m_Name: Attack
   m_TagString: Untagged
@@ -137,7 +137,7 @@ Transform:
   m_Father: {fileID: 116077039412780157}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4349704400154469762
+--- !u!114 &8929130176315561604
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -146,13 +146,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 775062775}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2e82675474b9b48c79378b2336d1ae4d, type: 3}
+  m_Script: {fileID: 11500000, guid: 7e2dab7b89d3842b29ff256495ae98ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackTypes:
-  - {fileID: 11400000, guid: 3d4825e50c6db4190a0a5b02a74c789c, type: 2}
-  - {fileID: 11400000, guid: 028677f86baeb49f8921f7f3c80d7bf5, type: 2}
-  - {fileID: 11400000, guid: c75194342bff4454cb2d87482fe2e687, type: 2}
+  ability: {fileID: 11400000, guid: e6b4b6304f9ad484bb7af9f94006c907, type: 2}
 --- !u!1 &1796502088
 GameObject:
   m_ObjectHideFlags: 0

@@ -9,14 +9,6 @@ using UnityEngine;
 public class AttackData
 {
     [SerializeField]
-    private AttackType attackType;
-    public AttackType AttackType
-    {
-        get => attackType;
-        set { attackType = value; }
-    }
-
-    [SerializeField]
     private bool setDirectionOnHit = true;
     public bool SetDirectionOnHit
     {
@@ -24,8 +16,9 @@ public class AttackData
         set { setDirectionOnHit = value; }
     }
 
+    public AttackAbilityData AbilityData { get; set; }
     public GameObject User { get; set; }
     public Vector2 Direction { get; set; } = Vector2.zero;
     public EntityType EntityType { get; set; }
-    public AttackEvents AttackEvents { get; set; }
+    public AttackEvents AttackEvents { get; set; } = new AttackEvents();
 }

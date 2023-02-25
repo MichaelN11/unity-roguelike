@@ -14,26 +14,19 @@ public class EntityController : MonoBehaviour
     public EntityType EntityType => entityType;
 
     private AnimatorUpdater animatorUpdater;
-    private IAttack attack;
     private Movement movement;
     private Damageable damageable;
+    private AbilityManager abilityManager;
 
     private Vector2 attemptedMoveDirection = Vector2.zero;
     private Vector2 attemptedLookDirection = Vector2.zero;
-    private float comboableAttackDuration = 0f;
 
     private void Awake()
     {
         movement = GetComponent<Movement>();
-        attack = GetComponentInChildren<IAttack>();
+        abilityManager = GetComponentInChildren<AbilityManager>();
         animatorUpdater = GetComponent<AnimatorUpdater>();
         damageable = GetComponent<Damageable>();
-
-        if (attack != null)
-        {
-            attack.AttackEvents.OnAttackUsed += AttackUsed;
-            attack.AttackEvents.OnAttackSuccessful += AttackSuccessful;
-        }
 
         InitializeComponents();
     }
@@ -99,13 +92,13 @@ public class EntityController : MonoBehaviour
     {
         if (damageable != null)
         {
-            EntityData.StopTimer = attackData.AttackType.HitStop;
+            EntityData.StopTimer = attackData.AbilityData.HitStop;
             EntityData.FlashTimer = entityType.FlashOnHitTime;
             AudioManager.Instance.Play(entityType.SoundOnHit);
-            damageable.TakeDamage(attackData.AttackType.Damage);
+            damageable.TakeDamage(attackData.AbilityData.Damage);
             AttackResult attackResult = new();
-            attackResult.HitStunDuration = EntityType.HitStunDuration * attackData.AttackType.HitStunMultiplier;
-            attackResult.KnockbackSpeed = EntityType.KnockbackSpeed * attackData.AttackType.KnockbackMultiplier;
+            attackResult.HitStunDuration = EntityType.HitStunDuration * attackData.AbilityData.HitStunMultiplier;
+            attackResult.KnockbackSpeed = EntityType.KnockbackSpeed * attackData.AbilityData.KnockbackMultiplier;
             attackResult.KnockbackDirection = attackData.Direction;
             attackResult.KnockbackAcceleration = EntityType.KnockbackAcceleration;
             HandleHitstun(attackResult);
@@ -119,9 +112,9 @@ public class EntityController : MonoBehaviour
     public float GetAttackRange()
     {
         float range = 0;
-        if (attack != null)
+        if (abilityManager != null)
         {
-            range = entityType.InteractionDistance + attack.AttackType.Range + attack.AttackType.Radius;
+            range = entityType.InteractionDistance + abilityManager.GetRange();
         }
         return range;
     }
@@ -157,7 +150,7 @@ public class EntityController : MonoBehaviour
         if (moveDirection != null)
         {
             attemptedMoveDirection = moveDirection;
-            if (movement != null && CanAct())
+            if (movement != null && EntityData.CanAct())
             {
                 movement.SetMovement(moveDirection, entityType.WalkSpeed);
 
@@ -187,7 +180,7 @@ public class EntityController : MonoBehaviour
         if (lookDirection != null)
         {
             attemptedLookDirection = lookDirection;
-            if (CanAct())
+            if (EntityData.CanAct())
             {
                 EntityData.LookDirection = lookDirection;
                 isLookDirectionSet = true;
@@ -206,76 +199,21 @@ public class EntityController : MonoBehaviour
     private bool Attack(Vector2 attackDirection)
     {
         bool attackSuccessful = false;
-        if (CanAttack())
+        if (abilityManager != null)
         {
-            movement.SetMovement(Vector2.zero, 0);
-            EntityData.LookDirection = attackDirection;
-            comboableAttackDuration = attack.AttackType.ComboableAttackDuration;
-            EntityData.StunTimer = attack.AttackType.AttackDuration
-                + comboableAttackDuration
-                + attack.AttackType.StartupTime;
-            EntityData.ActionState = ActionState.Attack;
-            EntityData.AttackAnimation = attack.AttackType.AttackAnimation;
-            attack.Use(EntityData.LookDirection, entityType.InteractionDistance, entityType);
-            animatorUpdater.HasAttacked = false;
-            attackSuccessful = true;
+            AbilityUse abilityUse = new AbilityUse();
+            abilityUse.User = EntityData;
+            abilityUse.EntityType = EntityType;
+            abilityUse.Direction = attackDirection;
+            abilityUse.Position = abilityManager.transform.position + (Vector3) (attackDirection.normalized * entityType.InteractionDistance);
+            attackSuccessful = abilityManager.UseAbility(abilityUse);
+
+            if (attackSuccessful)
+            {
+                animatorUpdater.HasAttacked = false;
+            }
         }
         return attackSuccessful;
-    }
-
-    /// <summary>
-    /// Method called when an attack used event is triggered.
-    /// </summary>
-    /// <param name="attackData">The attack data for the event</param>
-    private void AttackUsed(AttackData attackData)
-    {
-        if (movement != null)
-        {
-            movement.SetMovement(EntityData.LookDirection, attack.AttackType.MoveSpeed, attack.AttackType.MoveAcceleration);
-        }
-    }
-
-    /// <summary>
-    /// Method called when an attack successful event is triggered.
-    /// </summary>
-    /// <param name="attackData">The attack data for the event</param>
-    private void AttackSuccessful(AttackData attackData)
-    {
-        EntityData.StopTimer = attackData.AttackType.HitStop;
-    }
-
-    /// <summary>
-    /// Determines if the entity can attack. If the entity is in the attack duration, he can
-    /// still attack if he is within the comboable attack duration time.
-    /// </summary>
-    /// <returns>true if the entity can attack</returns>
-    private bool CanAttack()
-    {
-        return attack != null
-            && EntityData.ActionState != ActionState.Hitstun
-            && EntityData.ActionState != ActionState.Dead
-            && (EntityData.ActionState != ActionState.Attack
-                || EntityData.StunTimer <= comboableAttackDuration);
-    }
-
-    /// <summary>
-    /// Determines if the entity is stunned.
-    /// </summary>
-    /// <returns>true if the entity is stunned</returns>
-    private bool IsStunned()
-    {
-        return EntityData.ActionState == ActionState.Attack
-            || EntityData.ActionState == ActionState.Hitstun;
-    }
-
-    /// <summary>
-    /// Determines if the entity is able to act.
-    /// </summary>
-    /// <returns>true if the entity can act</returns>
-    private bool CanAct()
-    {
-        return !IsStunned()
-            && EntityData.ActionState != ActionState.Dead;
     }
 
     /// <summary>
@@ -285,7 +223,7 @@ public class EntityController : MonoBehaviour
     /// </summary>
     private void UpdateStunTimer()
     {
-        if (IsStunned())
+        if (EntityData.IsStunned())
         {
             EntityData.StunTimer -= Time.deltaTime;
             if (EntityData.StunTimer <= 0)
@@ -342,7 +280,7 @@ public class EntityController : MonoBehaviour
     private bool Idle()
     {
         bool isIdleSet = false;
-        if (CanAct())
+        if (EntityData.CanAct())
         {
             EntityData.ActionState = ActionState.Idle;
             movement.SetMovement(Vector2.zero, entityType.WalkSpeed);
@@ -356,9 +294,9 @@ public class EntityController : MonoBehaviour
     /// </summary>
     private void Interrupt()
     {
-        if (attack != null)
+        if (abilityManager != null)
         {
-            attack.Interrupt();
+            abilityManager.Interrupt();
         }
     }
 
