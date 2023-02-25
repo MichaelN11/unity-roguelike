@@ -15,9 +15,10 @@ public class MeleeAttackBehavior : AbilityBehavior
 
     protected override float CastTime => NextComboData.CastTime;
 
-    private GameObject user;
-    private Movement movement;
-    private EntityState entityState;
+    private readonly GameObject user;
+    private readonly Movement movement;
+    private readonly EntityState entityState;
+    private readonly AnimatorUpdater animatorUpdater;
 
     private MeleeAttackComboData NextComboData => meleeAttack.ComboDataList[nextComboStage];
     private readonly int numComboStages;
@@ -31,6 +32,7 @@ public class MeleeAttackBehavior : AbilityBehavior
         user = UnityUtil.GetParentIfExists(abilityManager.gameObject);
         movement = user.GetComponent<Movement>();
         entityState = user.GetComponent<EntityState>();
+        animatorUpdater = user.GetComponent<AnimatorUpdater>();
 
         numComboStages = meleeAttack.ComboDataList.Count();
         abilityManager.UpdateEvent += UpdateAbility;
@@ -67,7 +69,7 @@ public class MeleeAttackBehavior : AbilityBehavior
 
         AudioManager.Instance.Play(NextComboData.AttackAbilityData.SoundOnUse);
 
-        UpdateMovement(abilityUse.User);
+        UpdateMovement(abilityUse.Direction);
 
         if (nextComboStage + 1 < numComboStages)
         {
@@ -91,8 +93,11 @@ public class MeleeAttackBehavior : AbilityBehavior
         {
             movement.StopMoving();
         }
-        abilityUse.User.AttackAnimation = NextComboData.AttackAbilityData.AttackAnimation;
-        abilityUse.User.LookDirection = abilityUse.Direction;
+        if (animatorUpdater != null)
+        {
+            animatorUpdater.AttackAnimation = NextComboData.AttackAbilityData.AttackAnimation;
+            animatorUpdater.LookDirection = abilityUse.Direction;
+        }
         entityState.AbilityState(NextComboData.AttackAbilityData.AttackDuration
                 + NextComboData.ComboableAttackDuration
                 + CastTime);
@@ -164,14 +169,12 @@ public class MeleeAttackBehavior : AbilityBehavior
     /// <summary>
     /// Updates the movement speed, direction, and acceleration.
     /// </summary>
-    /// <param name="direction">The Vector2 direction to move in</param>
-    /// <param name="speed">The movement speed</param>
-    /// <param name="acceleration">The movement acceleration</param>
-    private void UpdateMovement(EntityData entityData)
+    /// <param name="attackDirection">The direction of the attack as a vector2</param>
+    private void UpdateMovement(Vector2 attackDirection)
     {
         if (movement != null)
         {
-            movement.SetMovement(entityData.LookDirection,
+            movement.SetMovement(attackDirection,
                 NextComboData.MovementAbilityData.MoveSpeed,
                 NextComboData.MovementAbilityData.MoveAcceleration);
         }

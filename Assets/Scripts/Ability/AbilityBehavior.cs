@@ -52,21 +52,13 @@ public abstract class AbilityBehavior
     /// Determines if the ability is usable in the current state.
     /// </summary>
     /// <param name="abilityUse">AbilityUse object containing data about how the ability was used</param>
-    public virtual bool IsUsable(AbilityUse abilityUse)
-    {
-        return abilityUse.UserState.CanAct();
-    }
+    public abstract bool IsUsable(AbilityUse abilityUse);
 
     /// <summary>
     /// Method called when the ability is successfully used. This is called before the initial cast time.
     /// </summary>
     /// <param name="abilityUse">AbilityUse object containing data about how the ability was used</param>
-    protected virtual void OnUse(AbilityUse abilityUse)
-    {
-        abilityUse.User.LookDirection = abilityUse.Direction;
-        abilityUse.UserState.AbilityState(CastTime);
-    }
-
+    protected abstract void OnUse(AbilityUse abilityUse);
     /// <summary>
     /// Starts the ability. This is called after the initial cast time.
     /// </summary>

@@ -7,8 +7,6 @@ using UnityEngine;
 /// </summary>
 public class AbilityUse
 {
-    public EntityState UserState { get; set; }
-    public EntityData User { get; set; }
     public EntityType EntityType { get; set; }
     public AbilityManager Component { get; set; }
     public Vector2 Position { get; set; }

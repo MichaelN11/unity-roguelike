@@ -8,8 +8,6 @@ using UnityEngine;
 [RequireComponent(typeof(EntityState))]
 public class EntityController : MonoBehaviour
 {
-    public EntityData EntityData { get; private set; } = new EntityData();
-
     [SerializeField]
     private EntityType entityType;
     public EntityType EntityType => entityType;
@@ -52,11 +50,6 @@ public class EntityController : MonoBehaviour
             {
                 Die();
             }
-        }
-
-        if (animatorUpdater != null)
-        {
-            animatorUpdater.UpdateAnimator(EntityData);
         }
     }
 
@@ -187,7 +180,10 @@ public class EntityController : MonoBehaviour
             attemptedLookDirection = lookDirection;
             if (entityState.CanAct())
             {
-                EntityData.LookDirection = lookDirection;
+                if (animatorUpdater != null)
+                {
+                    animatorUpdater.LookDirection = lookDirection;
+                }
                 isLookDirectionSet = true;
             }
         }
@@ -207,8 +203,6 @@ public class EntityController : MonoBehaviour
         if (abilityManager != null)
         {
             AbilityUse abilityUse = new AbilityUse();
-            abilityUse.UserState = entityState;
-            abilityUse.User = EntityData;
             abilityUse.EntityType = EntityType;
             abilityUse.Direction = attackDirection;
             abilityUse.Position = abilityManager.transform.position + (Vector3) (attackDirection.normalized * entityType.InteractionDistance);

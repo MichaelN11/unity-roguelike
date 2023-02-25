@@ -9,6 +9,8 @@ using UnityEngine;
 public class AnimatorUpdater : MonoBehaviour
 {
     public bool HasAttacked { get; set; } = false;
+    public Vector2 LookDirection { get; set; } = Vector2.zero;
+    public AttackAnimation AttackAnimation { get; set; } = AttackAnimation.Default;
 
     [SerializeField]
     private float aimModeDuration = 3f;
@@ -35,19 +37,12 @@ public class AnimatorUpdater : MonoBehaviour
         {
             aimModeTimer -= Time.deltaTime;
         }
-    }
 
-    /// <summary>
-    /// Updates the Animator using the passed entity's state.
-    /// </summary>
-    /// <param name="entityData">The entity's state</param>
-    public void UpdateAnimator(EntityData entityData)
-    {
         if (animator != null)
         {
-            UpdateAttack(entityData);
-            UpdateLookDirection(entityData);
-            UpdateIsMoving(entityData);
+            UpdateAttack();
+            UpdateLookDirection();
+            UpdateIsMoving();
             UpdateIsHitstun();
             UpdateIsIdle();
             UpdateIsDead();
@@ -76,15 +71,14 @@ public class AnimatorUpdater : MonoBehaviour
     /// value in the AttackAnimation enum, so that the animator can determine which attack
     /// animation to use.
     /// </summary>
-    /// <param name="entityData">The entity's state</param>
-    private void UpdateAttack(EntityData entityData)
+    private void UpdateAttack()
     {
         if (entityState.ActionState == ActionState.UsingAbility)
         {
             if (!HasAttacked)
             {
                 animator.SetTrigger("attack");
-                animator.SetInteger("attackAnimation", (int) entityData.AttackAnimation);
+                animator.SetInteger("attackAnimation", (int) AttackAnimation);
                 HasAttacked = true;
                 aimModeTimer = aimModeDuration;
             }
@@ -99,12 +93,11 @@ public class AnimatorUpdater : MonoBehaviour
     /// the direction if the entity is in aim mode. Otherwise, look direction is determined
     /// by movement.
     /// </summary>
-    /// <param name="entityData">The entity's state</param>
-    private void UpdateLookDirection(EntityData entityData)
+    private void UpdateLookDirection()
     {
-        if (IsAiming() && entityData.LookDirection != null)
+        if (IsAiming() && LookDirection != null)
         {
-            SetLookDirection(entityData.LookDirection);
+            SetLookDirection(LookDirection);
         }
     }
 
@@ -121,8 +114,7 @@ public class AnimatorUpdater : MonoBehaviour
     /// <summary>
     /// Updates the Animator isMoving property, from the EntityState's Action.
     /// </summary>
-    /// <param name="entityData">The entity's state</param>
-    private void UpdateIsMoving(EntityData entityData)
+    private void UpdateIsMoving()
     {
         if (entityState.ActionState == ActionState.Move)
         {
