@@ -41,7 +41,10 @@ public class EntityController : MonoBehaviour
 
     private void Update()
     {
-        EntityData.MovementStopped = entityState.IsStopped();
+        if (movement != null)
+        {
+            movement.Stopped = entityState.IsStopped();
+        }
 
         if (!entityState.IsStopped())
         {
@@ -286,10 +289,6 @@ public class EntityController : MonoBehaviour
         if (damageable != null)
         {
             damageable.MaxHealth = EntityType.MaxHealth;
-        }
-        if (movement != null)
-        {
-            movement.EntityData = EntityData;
         }
     }
 }

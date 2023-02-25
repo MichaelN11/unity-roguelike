@@ -15,8 +15,11 @@ public class MeleeAttackBehavior : AbilityBehavior
 
     protected override float CastTime => NextComboData.CastTime;
 
-    private MeleeAttackComboData NextComboData => meleeAttack.ComboDataList[nextComboStage];
+    private GameObject user;
+    private Movement movement;
     private EntityState entityState;
+
+    private MeleeAttackComboData NextComboData => meleeAttack.ComboDataList[nextComboStage];
     private readonly int numComboStages;
     private int nextComboStage = 0;
     private float comboTimer = 0;
@@ -25,15 +28,19 @@ public class MeleeAttackBehavior : AbilityBehavior
     public MeleeAttackBehavior(MeleeAttack meleeAttack, AbilityManager abilityManager)
     {
         this.meleeAttack = meleeAttack;
+        user = UnityUtil.GetParentIfExists(abilityManager.gameObject);
+        movement = user.GetComponent<Movement>();
+        entityState = user.GetComponent<EntityState>();
+
         numComboStages = meleeAttack.ComboDataList.Count();
         abilityManager.UpdateEvent += UpdateAbility;
     }
 
     public override bool IsUsable(AbilityUse abilityUse)
     {
-        return abilityUse.UserState.CanAct()
-            || (abilityUse.UserState.ActionState == ActionState.UsingAbility
-                && abilityUse.UserState.StunTimer <= comboableAttackTime);
+        return entityState.CanAct()
+            || (entityState.ActionState == ActionState.UsingAbility
+                && entityState.StunTimer <= comboableAttackTime);
     }
 
     public override void Interrupt(AbilityManager component)
@@ -44,8 +51,6 @@ public class MeleeAttackBehavior : AbilityBehavior
 
     protected override void StartAbility(AbilityUse abilityUse)
     {
-        entityState = abilityUse.UserState;
-
         Vector2 distance = abilityUse.Direction.normalized * NextComboData.AttackAbilityData.Range;
         Vector3 position = abilityUse.Position + distance;
         GameObject instance = Object.Instantiate(NextComboData.PrefabAbilityData.Prefab,
@@ -82,10 +87,13 @@ public class MeleeAttackBehavior : AbilityBehavior
     /// <param name="abilityUse">AbilityUse object containing data about how the ability was used</param>
     protected override void OnUse(AbilityUse abilityUse)
     {
-        abilityUse.User.StopMoving();
+        if (movement != null)
+        {
+            movement.StopMoving();
+        }
         abilityUse.User.AttackAnimation = NextComboData.AttackAbilityData.AttackAnimation;
         abilityUse.User.LookDirection = abilityUse.Direction;
-        abilityUse.UserState.AbilityState(NextComboData.AttackAbilityData.AttackDuration
+        entityState.AbilityState(NextComboData.AttackAbilityData.AttackDuration
                 + NextComboData.ComboableAttackDuration
                 + CastTime);
     }
@@ -161,9 +169,12 @@ public class MeleeAttackBehavior : AbilityBehavior
     /// <param name="acceleration">The movement acceleration</param>
     private void UpdateMovement(EntityData entityData)
     {
-        entityData.MoveDirection = entityData.LookDirection;
-        entityData.MoveSpeed = NextComboData.MovementAbilityData.MoveSpeed;
-        entityData.Acceleration = NextComboData.MovementAbilityData.MoveAcceleration;
+        if (movement != null)
+        {
+            movement.SetMovement(entityData.LookDirection,
+                NextComboData.MovementAbilityData.MoveSpeed,
+                NextComboData.MovementAbilityData.MoveAcceleration);
+        }
     }
 
     /// <summary>

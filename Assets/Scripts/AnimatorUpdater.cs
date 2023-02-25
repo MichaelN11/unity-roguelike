@@ -16,6 +16,7 @@ public class AnimatorUpdater : MonoBehaviour
     private EntityState entityState;
     private Animator animator;
     private SpriteRenderer spriteRenderer;
+    private Movement movement;
     private Material defaultMaterial;
     private float aimModeTimer = 0f;
 
@@ -24,6 +25,7 @@ public class AnimatorUpdater : MonoBehaviour
         animator = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         entityState = GetComponent<EntityState>();
+        movement = GetComponent<Movement>();
         defaultMaterial = spriteRenderer.material;
     }
 
@@ -125,9 +127,9 @@ public class AnimatorUpdater : MonoBehaviour
         if (entityState.ActionState == ActionState.Move)
         {
             animator.SetBool("isMoving", true);
-            if (!IsAiming())
+            if (!IsAiming() && movement != null)
             {
-                SetLookDirection(entityData.MoveDirection);
+                SetLookDirection(movement.Direction);
             }
         } else
         {
