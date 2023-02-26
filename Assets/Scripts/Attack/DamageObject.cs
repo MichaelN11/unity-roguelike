@@ -52,13 +52,11 @@ public class DamageObject : MonoBehaviour
             AttackData.Direction = GetAttackDirection(collision);
         }
         
-        EntityController otherEntityController = collision.gameObject.GetComponentInParent<EntityController>();
         Damageable otherDamageable = collision.gameObject.GetComponentInParent<Damageable>();
-        if (otherEntityController != null
-            && otherDamageable != null
+        if (otherDamageable != null
             && IsValidAttackTarget(collision.gameObject, otherDamageable.GetEntityType()))
         {
-            otherEntityController.HandleIncomingAttack(AttackData);
+            otherDamageable.HandleIncomingAttack(AttackData);
             if (AttackData.AttackEvents != null)
             {
                 AttackData.AttackEvents.InvokeAttackSuccessful(AttackData);

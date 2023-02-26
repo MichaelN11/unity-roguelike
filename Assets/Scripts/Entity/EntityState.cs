@@ -15,6 +15,13 @@ public class EntityState : MonoBehaviour
     public float FlashTimer { get; private set; } = 0f;
     public float StopTimer { get; private set; } = 0f;
 
+    private AbilityManager abilityManager;
+
+    private void Awake()
+    {
+        abilityManager = GetComponentInChildren<AbilityManager>();
+    }
+
     private void Update()
     {
         if (IsStopped())
@@ -102,6 +109,10 @@ public class EntityState : MonoBehaviour
     {
         ActionState = ActionState.Hitstun;
         StunTimer = duration;
+        if (abilityManager != null)
+        {
+            abilityManager.Interrupt();
+        }
     }
 
     /// <summary>
@@ -110,6 +121,10 @@ public class EntityState : MonoBehaviour
     public void DeadState()
     {
         ActionState = ActionState.Dead;
+        if (abilityManager != null)
+        {
+            abilityManager.Interrupt();
+        }
     }
 
     /// <summary>

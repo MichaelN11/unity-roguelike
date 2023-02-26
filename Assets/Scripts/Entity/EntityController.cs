@@ -39,14 +39,6 @@ public class EntityController : MonoBehaviour
         {
             movement.Stopped = entityState.IsStopped();
         }
-
-        if (!entityState.IsStopped())
-        {
-            if (damageable != null && damageable.IsDead())
-            {
-                Die();
-            }
-        }
     }
 
     /// <summary>
@@ -79,27 +71,6 @@ public class EntityController : MonoBehaviour
     }
 
     /// <summary>
-    /// Handles being hit by an incoming attack.
-    /// </summary>
-    /// <param name="attackData">The attack data</param>
-    public void HandleIncomingAttack(AttackData attackData)
-    {
-        if (damageable != null)
-        {
-            entityState.Stop(attackData.AbilityData.HitStop);
-            entityState.Flash(entityData.EntityType.FlashOnHitTime);
-            AudioManager.Instance.Play(entityData.EntityType.SoundOnHit);
-            damageable.TakeDamage(attackData.AbilityData.Damage);
-            AttackResult attackResult = new();
-            attackResult.HitStunDuration = entityData.EntityType.HitStunDuration * attackData.AbilityData.HitStunMultiplier;
-            attackResult.KnockbackSpeed = entityData.EntityType.KnockbackSpeed * attackData.AbilityData.KnockbackMultiplier;
-            attackResult.KnockbackDirection = attackData.Direction;
-            attackResult.KnockbackAcceleration = entityData.EntityType.KnockbackAcceleration;
-            HandleHitstun(attackResult);
-        }
-    }
-
-    /// <summary>
     /// Gets the attack range for the entity, with the interaction distance and radius added.
     /// </summary>
     /// <returns>The attack range as a float</returns>
@@ -111,25 +82,6 @@ public class EntityController : MonoBehaviour
             range = entityData.EntityType.InteractionDistance + abilityManager.GetRange();
         }
         return range;
-    }
-
-    /// <summary>
-    /// Kills the entity.
-    /// </summary>
-    private void Die()
-    {
-        Interrupt();
-        Collider2D[] colliders = GetComponentsInChildren<Collider2D>();
-        foreach (Collider2D collider in colliders)
-        {
-            collider.enabled = false;
-        }
-        if (movement != null)
-        {
-            movement.SetMovement(Vector2.zero, 0);
-        }
-        entityState.DeadState();
-        Destroy(gameObject, entityData.EntityType.DeathTimer);
     }
 
     /// <summary>
@@ -219,24 +171,6 @@ public class EntityController : MonoBehaviour
     {
         SetMovementDirection(attemptedMoveDirection);
         SetLookDirection(attemptedLookDirection);
-    }
-
-    /// <summary>
-    /// Handles the hitstun and knockback after being hit by an attack.
-    /// </summary>
-    /// <param name="attackResult">The results of the attack</param>
-    private void HandleHitstun(AttackResult attackResult)
-    {
-        if (attackResult.HitStunDuration > 0)
-        {
-            Interrupt();
-            entityState.HitstunState(attackResult.HitStunDuration);
-            if (movement != null)
-            {
-                movement.SetMovement(attackResult.KnockbackDirection,
-                    attackResult.KnockbackSpeed, attackResult.KnockbackAcceleration);
-            }
-        }
     }
 
     /// <summary>
