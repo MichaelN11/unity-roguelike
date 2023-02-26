@@ -7,8 +7,6 @@ using UnityEngine;
 /// </summary>
 public abstract class AbilityBehavior
 {
-    public abstract Ability Ability { get; }
-
     /// <summary>
     /// For the AI.
     /// TODO The AI will need more data than this. Should make an object(s).
@@ -59,6 +57,7 @@ public abstract class AbilityBehavior
     /// </summary>
     /// <param name="abilityUse">AbilityUse object containing data about how the ability was used</param>
     protected abstract void OnUse(AbilityUse abilityUse);
+
     /// <summary>
     /// Starts the ability. This is called after the initial cast time.
     /// </summary>

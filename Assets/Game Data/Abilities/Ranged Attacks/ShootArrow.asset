@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 15aa2334b95684a1b84c0c293a78c1eb, type: 3}
+  m_Name: ShootArrow
+  m_EditorClassIdentifier: 
+  prefabAbilityData:
+    prefab: {fileID: 0}
+    prefabDuration: 1
+    rotatePrefab: 1
+  attackAbilityData:
+    soundOnUse: {fileID: 0}
+    soundOnHit: {fileID: 0}
+    attackAnimation: 0
+    damage: 1
+    range: 0
+    radius: 0
+    hitStunMultiplier: 1
+    knockbackMultiplier: 1
+    attackDuration: 3
+    hitStop: 0.06
+  castTime: 0

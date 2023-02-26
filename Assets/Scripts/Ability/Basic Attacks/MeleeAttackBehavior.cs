@@ -8,9 +8,6 @@ using UnityEngine;
 /// </summary>
 public class MeleeAttackBehavior : AbilityBehavior
 {
-    private readonly MeleeAttack meleeAttack;
-    public override Ability Ability => meleeAttack;
-
     public override float Range => NextComboData.AttackAbilityData.Range + NextComboData.AttackAbilityData.Radius;
 
     protected override float CastTime => NextComboData.CastTime;
@@ -21,6 +18,7 @@ public class MeleeAttackBehavior : AbilityBehavior
     private readonly EntityData entityData;
     private readonly AnimatorUpdater animatorUpdater;
 
+    private readonly MeleeAttack meleeAttack;
     private MeleeAttackComboData NextComboData => meleeAttack.ComboDataList[nextComboStage];
     private readonly int numComboStages;
     private int nextComboStage = 0;
@@ -55,21 +53,15 @@ public class MeleeAttackBehavior : AbilityBehavior
 
     protected override void StartAbility(AbilityUse abilityUse)
     {
-        Vector2 distance = abilityUse.Direction.normalized * NextComboData.AttackAbilityData.Range;
-        Vector3 position = abilityUse.Position + distance;
-        GameObject instance = Object.Instantiate(NextComboData.PrefabAbilityData.Prefab,
-            position,
-            DetermineRotation(abilityUse.Direction));
+        AttackData attackData = AttackAbilityUtil.BuildAttackData(abilityUse, NextComboData.AttackAbilityData, entityData);
+        attackData.AttackEvents.OnAttackSuccessful += AttackSuccessful;
 
-        instance.transform.parent = abilityUse.Component.gameObject.transform;
+        GameObject instance = AttackAbilityUtil.InstantiateDamageObject(abilityUse,
+            NextComboData.AttackAbilityData,
+            NextComboData.PrefabAbilityData,
+            attackData);
 
-        DestroyTimer destroyTimer = instance.GetComponent<DestroyTimer>();
-        destroyTimer.Duration = NextComboData.PrefabAbilityData.PrefabDuration;
-
-        DamageObject attackObject = instance.GetComponent<DamageObject>();
-        attackObject.AttackData = BuildAttackData(abilityUse);
-
-        AudioManager.Instance.Play(NextComboData.AttackAbilityData.SoundOnUse);
+        instance.transform.parent = user.transform;
 
         UpdateMovement(abilityUse.Direction);
 
@@ -128,44 +120,6 @@ public class MeleeAttackBehavior : AbilityBehavior
         nextComboStage = 0;
         comboTimer = 0;
         comboableAttackTime = 0;
-    }
-
-    /// <summary>
-    /// Builds the AttackData object used to pass data to the methods handling the attack.
-    /// </summary>
-    /// <param name="abilityUse">The object containing data about how the ability was used</param>
-    /// <returns>The AttackData object</returns>
-    private AttackData BuildAttackData(AbilityUse abilityUse)
-    {
-        AttackData attackData = new();
-        attackData.AbilityData = NextComboData.AttackAbilityData;
-        attackData.User = UnityUtil.GetParentIfExists(abilityUse.Component.gameObject);
-        attackData.Direction = abilityUse.Direction;
-        attackData.SetDirectionOnHit = false;
-        attackData.EntityData = entityData;
-        attackData.AttackEvents.OnAttackSuccessful += AttackSuccessful;
-        return attackData;
-    }
-
-    /// <summary>
-    /// Determines the rotation of the attack object, using the direction. Assumes
-    /// the object sprite faces up by default.
-    /// </summary>
-    /// <param name="direction">The direction of the attack as a Vector2</param>
-    /// <returns>The rotation as a Quaternion</returns>
-    private Quaternion DetermineRotation(Vector2 direction)
-    {
-        Quaternion rotation;
-        if (NextComboData.PrefabAbilityData.RotatePrefab)
-        {
-            float angle = Vector2.SignedAngle(Vector2.right, direction) - 90f;
-            rotation = Quaternion.Euler(0, 0, angle);
-        }
-        else
-        {
-            rotation = Quaternion.identity;
-        }
-        return rotation;
     }
 
     /// <summary>

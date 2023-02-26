@@ -149,7 +149,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e2dab7b89d3842b29ff256495ae98ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ability: {fileID: 11400000, guid: e6b4b6304f9ad484bb7af9f94006c907, type: 2}
+  ability: {fileID: 11400000, guid: 3de9f8cdd5aa3420da24f086a510f8f4, type: 2}
 --- !u!1 &1796502088
 GameObject:
   m_ObjectHideFlags: 0
@@ -229,7 +229,7 @@ GameObject:
   - component: {fileID: 4583359606302003219}
   - component: {fileID: 4996814688387964725}
   m_Layer: 0
-  m_Name: Player
+  m_Name: Hunter
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
