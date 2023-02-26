@@ -28,10 +28,14 @@ public class AbilityManager : MonoBehaviour
     /// <summary>
     /// Uses the ability
     /// </summary>
-    /// <param name="abilityUse">Object containing ability use data</param>
+    /// <param name="direction">The direction in which the ability was used</param>
+    /// <param name="positionOffset">The position offset from the entity</param>
     /// <returns>true if the ability was used successfully</returns>
-    public bool UseAbility(AbilityUse abilityUse)
+    public bool UseAbility(Vector2 direction, Vector2 positionOffset)
     {
+        AbilityUse abilityUse = new AbilityUse();
+        abilityUse.Direction = direction;
+        abilityUse.Position = transform.position + (Vector3) positionOffset;
         abilityUse.Component = this;
         return abilityBehavior.Use(abilityUse);
     }

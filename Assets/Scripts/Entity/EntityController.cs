@@ -141,11 +141,8 @@ public class EntityController : MonoBehaviour
         bool attackSuccessful = false;
         if (abilityManager != null)
         {
-            AbilityUse abilityUse = new AbilityUse();
-            abilityUse.Direction = attackDirection;
-            // TODO handle this position differently
-            abilityUse.Position = abilityManager.transform.position + (Vector3) (attackDirection.normalized * entityData.EntityType.InteractionDistance);
-            attackSuccessful = abilityManager.UseAbility(abilityUse);
+            Vector2 positionOffset = attackDirection.normalized * entityData.EntityType.InteractionDistance;
+            attackSuccessful = abilityManager.UseAbility(attackDirection, positionOffset);
 
             if (attackSuccessful)
             {

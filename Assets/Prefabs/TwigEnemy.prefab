@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1205336865}
   - component: {fileID: 160640438961714935}
   m_Layer: 0
-  m_Name: Attack
+  m_Name: AbilitySource
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
