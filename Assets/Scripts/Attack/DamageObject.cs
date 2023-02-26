@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// Component for an object that Attacks on collision with a hitbox. Should have its AttackData
+/// Component for an object that damages on collision with a hitbox. Should have its AttackData
 /// set in order to work.
 /// </summary>
-public class AttackOnCollision : MonoBehaviour
+public class DamageObject : MonoBehaviour
 {
     public AttackData AttackData { get; set; }
 

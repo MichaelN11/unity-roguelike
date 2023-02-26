@@ -66,7 +66,7 @@ public class MeleeAttackBehavior : AbilityBehavior
         DestroyTimer destroyTimer = instance.GetComponent<DestroyTimer>();
         destroyTimer.Duration = NextComboData.PrefabAbilityData.PrefabDuration;
 
-        AttackOnCollision attackObject = instance.GetComponent<AttackOnCollision>();
+        DamageObject attackObject = instance.GetComponent<DamageObject>();
         attackObject.AttackData = BuildAttackData(abilityUse);
 
         AudioManager.Instance.Play(NextComboData.AttackAbilityData.SoundOnUse);
