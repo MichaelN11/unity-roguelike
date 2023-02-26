@@ -63,7 +63,7 @@ public class EntityState : MonoBehaviour
     }
 
     /// <summary>
-    /// Determines if the entity is stopped.
+    /// Determines if the entity is stopped/frozen from something like hit stop.
     /// </summary>
     /// <returns>true if the entity is stopped</returns>
     public bool IsStopped()

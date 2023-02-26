@@ -10,7 +10,6 @@ public class EntityController : MonoBehaviour
 {
     private AnimatorUpdater animatorUpdater;
     private Movement movement;
-    private Damageable damageable;
     private AbilityManager abilityManager;
     private EntityState entityState;
     private EntityData entityData;
@@ -23,7 +22,6 @@ public class EntityController : MonoBehaviour
         movement = GetComponent<Movement>();
         abilityManager = GetComponentInChildren<AbilityManager>();
         animatorUpdater = GetComponent<AnimatorUpdater>();
-        damageable = GetComponent<Damageable>();
         entityState = GetComponent<EntityState>();
         entityData = GetComponent<EntityData>();
     }
@@ -31,14 +29,6 @@ public class EntityController : MonoBehaviour
     private void Start()
     {
         entityState.UnstunnedEvent += Unstunned;
-    }
-
-    private void Update()
-    {
-        if (movement != null)
-        {
-            movement.Stopped = entityState.IsStopped();
-        }
     }
 
     /// <summary>
@@ -72,6 +62,7 @@ public class EntityController : MonoBehaviour
 
     /// <summary>
     /// Gets the attack range for the entity, with the interaction distance and radius added.
+    /// TODO This will later return info about the entity's abilities for the AI.
     /// </summary>
     /// <returns>The attack range as a float</returns>
     public float GetAttackRange()
@@ -165,15 +156,6 @@ public class EntityController : MonoBehaviour
     }
 
     /// <summary>
-    /// Sets the movement and look direction when the entity is unstunned.
-    /// </summary>
-    private void Unstunned()
-    {
-        SetMovementDirection(attemptedMoveDirection);
-        SetLookDirection(attemptedLookDirection);
-    }
-
-    /// <summary>
     /// Makes the entity go idle.
     /// </summary>
     /// <returns>true if the idle action was successful</returns>
@@ -190,13 +172,11 @@ public class EntityController : MonoBehaviour
     }
 
     /// <summary>
-    /// Interrupts what the entity is currently doing.
+    /// Sets the movement and look direction when the entity is unstunned.
     /// </summary>
-    private void Interrupt()
+    private void Unstunned()
     {
-        if (abilityManager != null)
-        {
-            abilityManager.Interrupt();
-        }
+        SetMovementDirection(attemptedMoveDirection);
+        SetLookDirection(attemptedLookDirection);
     }
 }

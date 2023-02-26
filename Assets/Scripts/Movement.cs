@@ -9,11 +9,6 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody2D), typeof(Collider2D))]
 public class Movement : MonoBehaviour
 {
-    /// <summary>
-    /// If the entity is stopped/frozen from something like hit stop.
-    /// </summary>
-    public bool Stopped { get; set; } = false;
-
     public Vector2 Direction { get; private set; } = Vector2.zero;
     public float Speed { get; private set; } = 0;
     public float Acceleration { get; private set; } = 0;
@@ -23,6 +18,7 @@ public class Movement : MonoBehaviour
     [SerializeField]
     private ContactFilter2D contactFilter2D;
 
+    private EntityState entityState;
     private Rigidbody2D body;
     private Collider2D movementCollider;
     private List<RaycastHit2D> raycastHits = new();
@@ -30,13 +26,14 @@ public class Movement : MonoBehaviour
 
     private void Awake()
     {
+        entityState = GetComponent<EntityState>();
         body = GetComponent<Rigidbody2D>();
         movementCollider = GetComponent<Collider2D>();
     }
 
     private void FixedUpdate()
     {
-        if (!Stopped)
+        if (entityState == null || !entityState.IsStopped())
         {
             Vector2 movePosition = CalculateMoveOutOfCollisions();
             if (Direction != null

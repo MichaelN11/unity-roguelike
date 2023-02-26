@@ -1,7 +1,7 @@
 using UnityEngine;
 
 /// <summary>
-/// Component for managing health.
+/// Component for taking damage and managing health.
 /// </summary>
 public class Damageable : MonoBehaviour
 {
