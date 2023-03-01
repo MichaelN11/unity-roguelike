@@ -22,7 +22,7 @@ public class AttackAbilityUtil
     {
         Vector2 distance = abilityUse.Direction.normalized * attackAbilityData.Range;
         Vector3 position = abilityUse.Position + distance;
-        Quaternion rotation = (prefabAbilityData.RotatePrefab) ? DetermineRotation(abilityUse.Direction) : Quaternion.identity;
+        Quaternion rotation = (prefabAbilityData.RotatePrefab) ? UnityUtil.RotateTowardsVector(abilityUse.Direction) : Quaternion.identity;
         GameObject instance = Object.Instantiate(prefabAbilityData.Prefab, position, rotation);
 
         DestroyTimer destroyTimer = instance.GetComponent<DestroyTimer>();
@@ -54,17 +54,5 @@ public class AttackAbilityUtil
         attackData.SetDirectionOnHit = false;
         attackData.EntityData = userEntityData;
         return attackData;
-    }
-
-    /// <summary>
-    /// Determines the rotation of the attack object, using the direction. Assumes
-    /// the object sprite faces up by default.
-    /// </summary>
-    /// <param name="direction">The direction of the attack as a Vector2</param>
-    /// <returns>The rotation as a Quaternion</returns>
-    private static Quaternion DetermineRotation(Vector2 direction)
-    {
-        float angle = Vector2.SignedAngle(Vector2.right, direction);
-        return Quaternion.Euler(0, 0, angle);
     }
 }

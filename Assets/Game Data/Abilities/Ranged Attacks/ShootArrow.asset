@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: ShootArrow
   m_EditorClassIdentifier: 
   prefabAbilityData:
-    prefab: {fileID: 0}
+    prefab: {fileID: 605442877324402279, guid: 40b8610a8b1cc4b488bec9fe0330737a, type: 3}
     prefabDuration: 1
     rotatePrefab: 1
   attackAbilityData:
@@ -23,8 +23,10 @@ MonoBehaviour:
     damage: 1
     range: 0
     radius: 0
-    hitStunMultiplier: 1
-    knockbackMultiplier: 1
-    attackDuration: 3
+    hitStunMultiplier: 0.5
+    knockbackMultiplier: 0.7
+    attackDuration: 0.1
     hitStop: 0.06
-  castTime: 0
+  projectileAbilityData:
+    speed: 10
+  castTime: 0.3

@@ -41,6 +41,12 @@ public class Projectile : MonoBehaviour
     /// <param name="attackData">The AttackData</param>
     private void AttackSuccessful(AttackData attackData)
     {
-        Destroy(gameObject);
+        Collider2D collider = GetComponent<Collider2D>();
+        if (collider != null)
+        {
+            collider.enabled = false;
+        }
+        Speed = 0;
+        Destroy(gameObject, attackData.AbilityData.HitStop);
     }
 }

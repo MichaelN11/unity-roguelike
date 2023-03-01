@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 869e27b9eb8cd482aa5f58a1dfd3a74b
+guid: bf475615ccc6a4061b0a1a4456fbb842
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -33,7 +33,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 0
+    filterMode: 2
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -69,7 +69,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 0
+    textureCompression: 2
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -104,13 +104,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: bowandarrow_0
+      name: bowandarrow_large_0
       rect:
         serializedVersion: 2
         x: 0
-        y: 32
-        width: 32
-        height: 32
+        y: 256
+        width: 256
+        height: 256
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -118,20 +118,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 47bdeb78b7c44415a8da7b4ccf626b76
-      internalID: -1182243527
+      spriteID: 71fa48d9e0f6e43d5bd498d1dfdc27f8
+      internalID: -1853125959
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: bowandarrow_1
+      name: bowandarrow_large_1
       rect:
         serializedVersion: 2
-        x: 32
-        y: 32
-        width: 32
-        height: 32
+        x: 256
+        y: 256
+        width: 256
+        height: 256
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -139,20 +139,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: cc12db0b3b6d045ada03912d3cd066dc
-      internalID: 760228725
+      spriteID: 3ca7d5574a1a64193a673e7f55c22738
+      internalID: 1973777569
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: bowandarrow_2
+      name: bowandarrow_large_2
       rect:
         serializedVersion: 2
-        x: 64
-        y: 32
-        width: 32
-        height: 32
+        x: 512
+        y: 256
+        width: 256
+        height: 256
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -160,20 +160,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f0e81be85432c40a18bf02ecacc04c98
-      internalID: 197089737
+      spriteID: 7ff00cf7d0dfe4513be26ab309bfffae
+      internalID: -770242103
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: bowandarrow_3
+      name: bowandarrow_large_3
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 32
-        height: 32
+        width: 256
+        height: 256
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -181,20 +181,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: eac206dd5232d4604a94de5c960264ef
-      internalID: -492664514
+      spriteID: a00e2f1aa66664531ba33ab8fe455fb7
+      internalID: 1673182538
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: bowandarrow_4
+      name: bowandarrow_large_4
       rect:
         serializedVersion: 2
-        x: 32
+        x: 256
         y: 0
-        width: 32
-        height: 32
+        width: 256
+        height: 256
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -202,8 +202,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 405998ef6f91f4224896b2bdf60ebc8c
-      internalID: 797819049
+      spriteID: 30e8f2e32eaa3444c98ca136db4191ab
+      internalID: 1579769540
       vertices: []
       indices: 
       edges: []
@@ -219,11 +219,11 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      bowandarrow_0: -1182243527
-      bowandarrow_1: 760228725
-      bowandarrow_4: 797819049
-      bowandarrow_2: 197089737
-      bowandarrow_3: -492664514
+      bowandarrow_large_2: -770242103
+      bowandarrow_large_3: 1673182538
+      bowandarrow_large_4: 1579769540
+      bowandarrow_large_0: -1853125959
+      bowandarrow_large_1: 1973777569
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

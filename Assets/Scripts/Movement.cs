@@ -205,20 +205,4 @@ public class Movement : MonoBehaviour
         }
         return movePosition;
     }
-
-    /// <summary>
-    /// Clamps the passed movement vector to a rounded pixel position, in order to
-    /// reduce jittering.
-    /// </summary>
-    /// <param name="moveVector">The Vector2 representing a position used for movement</param>
-    /// <param name="pixelsPerUnit">The number of pixels per unit for the sprite</param>
-    /// <returns>Precise pixel location based on pixels per unit</returns>
-    [Obsolete("Doesn't seem necessary with pixel perfect camera")]
-    private Vector2 PixelPerfectClamp(Vector2 moveVector, float pixelsPerUnit)
-    {
-        Vector2 vectorInPixels = new Vector2(
-            Mathf.RoundToInt(moveVector.x * pixelsPerUnit),
-            Mathf.RoundToInt(moveVector.y * pixelsPerUnit));
-        return vectorInPixels / pixelsPerUnit;
-    }
 }

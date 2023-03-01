@@ -52,6 +52,15 @@ public class AnimatorUpdater : MonoBehaviour
     }
 
     /// <summary>
+    /// Determines if the entity is in aim mode.
+    /// </summary>
+    /// <returns>true if the entity is aiming</returns>
+    public bool IsAiming()
+    {
+        return aimModeTimer > 0;
+    }
+
+    /// <summary>
     /// Determines if the entity is dead and sets IsDead on the Animator.
     /// </summary>
     private void UpdateIsDead()
@@ -127,15 +136,6 @@ public class AnimatorUpdater : MonoBehaviour
         {
             animator.SetBool("isMoving", false);
         }
-    }
-
-    /// <summary>
-    /// Determines if the entity is in aim mode.
-    /// </summary>
-    /// <returns>true if the entity is aiming</returns>
-    private bool IsAiming()
-    {
-        return aimModeTimer > 0;
     }
 
     /// <summary>
