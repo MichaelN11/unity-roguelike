@@ -8,6 +8,7 @@ using UnityEngine;
 /// </summary>
 public class EntityState : MonoBehaviour
 {
+    public event Action AbilityEvent;
     public event Action UnstunnedEvent;
 
     public ActionState ActionState { get; private set; } = ActionState.Stand;
@@ -77,7 +78,7 @@ public class EntityState : MonoBehaviour
     /// <returns>true if the entity is stunned</returns>
     public bool IsStunned()
     {
-        return ActionState == ActionState.UsingAbility
+        return ActionState == ActionState.Ability
             || ActionState == ActionState.Hitstun;
     }
 
@@ -92,13 +93,14 @@ public class EntityState : MonoBehaviour
     }
 
     /// <summary>
-    /// Changes state to the UsingAbility state, using the passed duration.
+    /// Changes state to the Ability state, using the passed duration.
     /// </summary>
     /// <param name="duration">The time in the ability state as a float</param>
     public void AbilityState(float duration)
     {
-        ActionState = ActionState.UsingAbility;
+        ActionState = ActionState.Ability;
         StunTimer = duration;
+        AbilityEvent?.Invoke();
     }
 
     /// <summary>

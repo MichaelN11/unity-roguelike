@@ -82,7 +82,7 @@ public class AnimatorUpdater : MonoBehaviour
     /// </summary>
     private void UpdateAttack()
     {
-        if (entityState.ActionState == ActionState.UsingAbility)
+        if (entityState.ActionState == ActionState.Ability)
         {
             if (!HasAttacked)
             {

@@ -41,7 +41,7 @@ public class MeleeAttackBehavior : AbilityBehavior
     public override bool IsUsable(AbilityUse abilityUse)
     {
         return entityState.CanAct()
-            || (entityState.ActionState == ActionState.UsingAbility
+            || (entityState.ActionState == ActionState.Ability
                 && entityState.StunTimer <= comboableAttackTime);
     }
 

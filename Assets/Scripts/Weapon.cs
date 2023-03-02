@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Component for controlling a weapon attached to an entity.
+/// </summary>
 public class Weapon : MonoBehaviour
 {
     [SerializeField]
@@ -13,6 +16,7 @@ public class Weapon : MonoBehaviour
     private EntityState entityState;
     private float distance = 0;
     private float yOffset = 0;
+    private bool attacking = false;
 
     private void Awake()
     {
@@ -26,17 +30,23 @@ public class Weapon : MonoBehaviour
     {
         distance = transform.localPosition.x;
         yOffset = transform.localPosition.y;
+        entityState.AbilityEvent += Attack;
+        entityState.UnstunnedEvent += StopAttack;
     }
 
     private void Update()
     {
+        if (entityState.ActionState != ActionState.Ability)
+        {
+            StopAttack();
+        }
+
         Vector2 direction = animatorUpdater.LookDirection.normalized;
         if (animatorUpdater.IsAiming())
         {
             spriteRenderer.enabled = true;
             transform.localPosition = DetermineLocalPosition(direction);
             transform.rotation = UnityUtil.RotateTowardsVector(direction);
-            UpdateAttackAnimation();
         } else
         {
             spriteRenderer.enabled = false;
@@ -56,17 +66,26 @@ public class Weapon : MonoBehaviour
     }
 
     /// <summary>
-    /// Sets the attack trigger on the Animator, if it hasn't been set during the
-    /// current attack state.
+    /// Sets the attack trigger on the Animator. Triggered by the attack event.
     /// </summary>
-    private void UpdateAttackAnimation()
+    private void Attack()
     {
-        if (entityState.ActionState == ActionState.UsingAbility)
+        if (!attacking)
         {
-            if (!animatorUpdater.HasAttacked)
-            {
-                animator.SetTrigger("attack");
-            }
+            animator.SetTrigger("startAttack");
+            attacking = true;
+        }
+    }
+
+    /// <summary>
+    /// Sets the attack to stop on the Animator.
+    /// </summary>
+    private void StopAttack()
+    {
+        if (attacking)
+        {
+            animator.SetTrigger("stopAttack");
+            attacking = false;
         }
     }
 }
