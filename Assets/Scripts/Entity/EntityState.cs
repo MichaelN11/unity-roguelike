@@ -8,7 +8,6 @@ using UnityEngine;
 /// </summary>
 public class EntityState : MonoBehaviour
 {
-    public event Action AbilityEvent;
     public event Action UnstunnedEvent;
 
     public ActionState ActionState { get; private set; } = ActionState.Stand;
@@ -100,7 +99,6 @@ public class EntityState : MonoBehaviour
     {
         ActionState = ActionState.Ability;
         StunTimer = duration;
-        AbilityEvent?.Invoke();
     }
 
     /// <summary>

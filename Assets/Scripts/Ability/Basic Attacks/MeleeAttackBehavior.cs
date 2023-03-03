@@ -35,7 +35,7 @@ public class MeleeAttackBehavior : AbilityBehavior
         animatorUpdater = user.GetComponent<AnimatorUpdater>();
 
         numComboStages = meleeAttack.ComboDataList.Count();
-        abilityManager.UpdateEvent += UpdateAbility;
+        abilityManager.OnUpdate += UpdateAbility;
     }
 
     public override bool IsUsable(AbilityUse abilityUse)

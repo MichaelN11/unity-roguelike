@@ -8,7 +8,6 @@ using UnityEngine;
 /// </summary>
 public class AnimatorUpdater : MonoBehaviour
 {
-    public bool HasAttacked { get; set; } = false;
     public Vector2 LookDirection { get; set; } = Vector2.zero;
     public AttackAnimation AttackAnimation { get; set; } = AttackAnimation.Default;
 
@@ -19,6 +18,7 @@ public class AnimatorUpdater : MonoBehaviour
     private Animator animator;
     private SpriteRenderer spriteRenderer;
     private Movement movement;
+    private AbilityManager abilityManager;
     private Material defaultMaterial;
     private float aimModeTimer = 0f;
 
@@ -28,7 +28,13 @@ public class AnimatorUpdater : MonoBehaviour
         spriteRenderer = GetComponent<SpriteRenderer>();
         entityState = GetComponent<EntityState>();
         movement = GetComponent<Movement>();
+        abilityManager = GetComponentInChildren<AbilityManager>();
+    }
+
+    private void Start()
+    {
         defaultMaterial = spriteRenderer.material;
+        abilityManager.OnAbilityUse += Attack;
     }
 
     private void Update()
@@ -40,7 +46,6 @@ public class AnimatorUpdater : MonoBehaviour
 
         if (animator != null)
         {
-            UpdateAttack();
             UpdateLookDirection();
             UpdateIsMoving();
             UpdateIsHitstun();
@@ -80,21 +85,12 @@ public class AnimatorUpdater : MonoBehaviour
     /// value in the AttackAnimation enum, so that the animator can determine which attack
     /// animation to use.
     /// </summary>
-    private void UpdateAttack()
+    /// <param name="ability">The ability being used</param>
+    private void Attack(Ability ability)
     {
-        if (entityState.ActionState == ActionState.Ability)
-        {
-            if (!HasAttacked)
-            {
-                animator.SetTrigger("attack");
-                animator.SetInteger("attackAnimation", (int) AttackAnimation);
-                HasAttacked = true;
-                aimModeTimer = aimModeDuration;
-            }
-        } else
-        {
-            HasAttacked = false;
-        }
+        animator.SetTrigger("attack");
+        animator.SetInteger("attackAnimation", (int)AttackAnimation);
+        aimModeTimer = aimModeDuration;
     }
 
     /// <summary>

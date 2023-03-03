@@ -143,11 +143,6 @@ public class EntityController : MonoBehaviour
         {
             Vector2 positionOffset = attackDirection.normalized * entityData.EntityType.InteractionDistance;
             attackSuccessful = abilityManager.UseAbility(attackDirection, positionOffset);
-
-            if (attackSuccessful)
-            {
-                animatorUpdater.HasAttacked = false;
-            }
         }
         return attackSuccessful;
     }

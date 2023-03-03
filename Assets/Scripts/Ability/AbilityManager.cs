@@ -8,7 +8,8 @@ using UnityEngine;
 /// </summary>
 public class AbilityManager : MonoBehaviour
 {
-    public event Action UpdateEvent;
+    public event Action<Ability> OnAbilityUse;
+    public event Action OnUpdate;
 
     [SerializeField]
     private Ability ability;
@@ -22,7 +23,7 @@ public class AbilityManager : MonoBehaviour
 
     private void Update()
     {
-        UpdateEvent?.Invoke();
+        OnUpdate?.Invoke();
     }
 
     /// <summary>
@@ -37,7 +38,12 @@ public class AbilityManager : MonoBehaviour
         abilityUse.Direction = direction;
         abilityUse.Position = transform.position + (Vector3) positionOffset;
         abilityUse.Component = this;
-        return abilityBehavior.Use(abilityUse);
+        bool success = abilityBehavior.Use(abilityUse);
+        if (success)
+        {
+            OnAbilityUse?.Invoke(ability);
+        }
+        return success;
     }
 
     /// <summary>
