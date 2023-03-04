@@ -18,10 +18,6 @@ public class AttackAbilityData
     public Sound SoundOnHit => soundOnHit;
 
     [SerializeField]
-    private AttackAnimation attackAnimation = AttackAnimation.Default;
-    public AttackAnimation AttackAnimation => attackAnimation;
-
-    [SerializeField]
     private float damage = 1;
     public float Damage => damage;
 

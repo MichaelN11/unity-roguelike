@@ -13,14 +13,14 @@ MonoBehaviour:
   m_Name: SwordAttack
   m_EditorClassIdentifier: 
   comboDataList:
-  - prefabAbilityData:
+  - attackAnimation: 1
+    prefabAbilityData:
       prefab: {fileID: 605442877324402279, guid: adcaddf81d8a540d1add179926d5a435, type: 3}
       prefabDuration: 0.2
       rotatePrefab: 1
     attackAbilityData:
       soundOnUse: {fileID: 11400000, guid: 24e03b321bd684136a6a6e935d02bca9, type: 2}
       soundOnHit: {fileID: 11400000, guid: db42481b98f464ab291d707fee37fcfd, type: 2}
-      attackAnimation: 1
       damage: 1
       range: 0
       radius: 0
@@ -34,14 +34,14 @@ MonoBehaviour:
     castTime: 0
     comboableAttackDuration: 0.1
     comboContinueWindow: 0.4
-  - prefabAbilityData:
+  - attackAnimation: 2
+    prefabAbilityData:
       prefab: {fileID: 605442877324402279, guid: adcaddf81d8a540d1add179926d5a435, type: 3}
       prefabDuration: 0.2
       rotatePrefab: 1
     attackAbilityData:
       soundOnUse: {fileID: 11400000, guid: 24e03b321bd684136a6a6e935d02bca9, type: 2}
       soundOnHit: {fileID: 11400000, guid: db42481b98f464ab291d707fee37fcfd, type: 2}
-      attackAnimation: 2
       damage: 1
       range: 0
       radius: 0
@@ -55,14 +55,14 @@ MonoBehaviour:
     castTime: 0
     comboableAttackDuration: 0.1
     comboContinueWindow: 0.4
-  - prefabAbilityData:
+  - attackAnimation: 1
+    prefabAbilityData:
       prefab: {fileID: 605442877324402279, guid: adcaddf81d8a540d1add179926d5a435, type: 3}
       prefabDuration: 0.2
       rotatePrefab: 1
     attackAbilityData:
       soundOnUse: {fileID: 11400000, guid: 43899a23761e24b1db7b6785e1233577, type: 2}
       soundOnHit: {fileID: 11400000, guid: db42481b98f464ab291d707fee37fcfd, type: 2}
-      attackAnimation: 1
       damage: 1
       range: 0
       radius: 0

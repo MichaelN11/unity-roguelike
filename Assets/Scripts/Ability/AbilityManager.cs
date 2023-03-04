@@ -8,8 +8,9 @@ using UnityEngine;
 /// </summary>
 public class AbilityManager : MonoBehaviour
 {
-    public event Action<Ability> OnAbilityUse;
     public event Action OnUpdate;
+
+    public AbilityEvents AbilityEvents { get; private set; } = new();
 
     [SerializeField]
     private Ability ability;
@@ -34,15 +35,13 @@ public class AbilityManager : MonoBehaviour
     /// <returns>true if the ability was used successfully</returns>
     public bool UseAbility(Vector2 direction, Vector2 positionOffset)
     {
-        AbilityUse abilityUse = new AbilityUse();
-        abilityUse.Direction = direction;
-        abilityUse.Position = transform.position + (Vector3) positionOffset;
-        abilityUse.Component = this;
-        bool success = abilityBehavior.Use(abilityUse);
-        if (success)
+        AbilityUse abilityUse = new()
         {
-            OnAbilityUse?.Invoke(ability);
-        }
+            Direction = direction,
+            Position = transform.position + (Vector3)positionOffset,
+            Component = this
+        };
+        bool success = abilityBehavior.Use(abilityUse);
         return success;
     }
 

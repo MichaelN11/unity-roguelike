@@ -31,7 +31,7 @@ public class RangedAttackBehavior : AbilityBehavior
         return entityState.CanAct();
     }
 
-    protected override void OnUse(AbilityUse abilityUse)
+    protected override AbilityUseEventInfo OnUse(AbilityUse abilityUse)
     {
         if (movement != null)
         {
@@ -42,6 +42,12 @@ public class RangedAttackBehavior : AbilityBehavior
             animatorUpdater.LookDirection = abilityUse.Direction;
         }
         entityState.AbilityState(rangedAttack.AttackAbilityData.AttackDuration + CastTime);
+
+        return new AbilityUseEventInfo()
+        {
+            AbilityUse = abilityUse,
+            AbilityAnimation = rangedAttack.AttackAnimation
+        };
     }
 
     protected override void StartAbility(AbilityUse abilityUse)

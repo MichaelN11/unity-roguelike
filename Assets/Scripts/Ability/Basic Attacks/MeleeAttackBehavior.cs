@@ -77,11 +77,7 @@ public class MeleeAttackBehavior : AbilityBehavior
         }
     }
 
-    /// <summary>
-    /// Method called when the ability is successfully used. This is called before the initial cast time.
-    /// </summary>
-    /// <param name="abilityUse">AbilityUse object containing data about how the ability was used</param>
-    protected override void OnUse(AbilityUse abilityUse)
+    protected override AbilityUseEventInfo OnUse(AbilityUse abilityUse)
     {
         if (movement != null)
         {
@@ -89,12 +85,16 @@ public class MeleeAttackBehavior : AbilityBehavior
         }
         if (animatorUpdater != null)
         {
-            animatorUpdater.AttackAnimation = NextComboData.AttackAbilityData.AttackAnimation;
             animatorUpdater.LookDirection = abilityUse.Direction;
         }
         entityState.AbilityState(NextComboData.AttackAbilityData.AttackDuration
                 + NextComboData.ComboableAttackDuration
                 + CastTime);
+        return new AbilityUseEventInfo()
+        {
+            AbilityUse = abilityUse,
+            AbilityAnimation = NextComboData.AttackAnimation
+        };
     }
 
     /// <summary>

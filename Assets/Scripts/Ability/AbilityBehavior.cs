@@ -27,7 +27,8 @@ public abstract class AbilityBehavior
         bool successful = false;
         if (IsUsable(abilityUse))
         {
-            OnUse(abilityUse);
+            AbilityUseEventInfo abilityUseEventInfo = OnUse(abilityUse);
+            abilityUse.Component.AbilityEvents.RaiseAbilityUseEvent(abilityUseEventInfo);
             coroutine = Delay(abilityUse);
             abilityUse.Component.StartCoroutine(coroutine);
             successful = true;
@@ -56,7 +57,8 @@ public abstract class AbilityBehavior
     /// Method called when the ability is successfully used. This is called before the initial cast time.
     /// </summary>
     /// <param name="abilityUse">AbilityUse object containing data about how the ability was used</param>
-    protected abstract void OnUse(AbilityUse abilityUse);
+    /// <returns>The ability use data to pass with the on ability use event</returns>
+    protected abstract AbilityUseEventInfo OnUse(AbilityUse abilityUse);
 
     /// <summary>
     /// Starts the ability. This is called after the initial cast time.

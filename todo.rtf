@@ -6,50 +6,47 @@
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
 
 \f0\fs24 \cf0 soon:\
+ability data passed in ability used event, replace attack animation in animator updater\
 ranged attacks\
-move look direction and attack animation (refactored to attack stage) to entity state\
-entity state handles stop moving?\
-refactor duration out of attack ability data\
+refactor duration (time after ability cast where entity can\'92t act) out of attack ability data\
+refactor attack succesful event\
+refactor projectile data to include prefab data\
+ability manager update event refactored to method\
+refactor look direction out of animator updater\
 \
 later:\
+allow using abilities while moving\
+move aiming and look direction out of animator updater\
 give simpler entities their own animator updater\
 make bow look less terrible when rotating\
 rework how hitstun / knockback is handled, in regard to entity and ability data\
-refactor entitydata/entitycontroller relationship, make entitydata a component?\
-fix twig enemy sprites\
-better way to handle attack animations (use override controllers instead of enum)\
+fix twig enemy sprites (color pallet and shadow)\
+better way to handle attack animations\
 hitting an enemy should stop you from moving further in the attack\
-sword stab at end of combo\
+sword stab at end of combo?\
 A* cheat for closest tile, for target and position\
+A* should take into account edges and not just tiles (i.e cliffs)\
 camera follow script\
 slide around corners\
 better rotation for attacks/ability sprites/graphics\
 normalize angles better\
-support for attacks using different animations/hitboxes\
 AI finds targets instead of using player singleton\
 better handling for pathing grid than tilemap singleton\
 invincibility frames after being hit, player only\
 attacking at 0,0 at the start bug\
-consider refactoring how EntityController initializes AttackOnCollision\
-enemies should clump together less\
+AI move in weighted directions when not pathing\
 enemies should \'93leash\'94 back to their spawn point after running too far\
 damping functions for movement?\
 enemies shake when hit\
 better sound effects\
 figure out sound effect attributions\
-hunter class\
 \
 far future:\
 camera track while dashing\
 get someone to playtest\
 object pooling\
 AI behavior tree\
-AI move in weighted directions when close to player\
-CI/CD\
 \
 look into:\
-scriptable objects\
-coroutines\
-late update\
 webgl\
-using events for sound}
+CI/CD}

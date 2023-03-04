@@ -8,6 +8,10 @@ using UnityEngine;
 public class MeleeAttackComboData
 {
     [SerializeField]
+    private AbilityAnimation attackAnimation = AbilityAnimation.Default;
+    public AbilityAnimation AttackAnimation => attackAnimation;
+
+    [SerializeField]
     private PrefabAbilityData prefabAbilityData;
     public PrefabAbilityData PrefabAbilityData => prefabAbilityData;
 

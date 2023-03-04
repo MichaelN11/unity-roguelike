@@ -29,7 +29,7 @@ public class Weapon : MonoBehaviour
     {
         distance = transform.localPosition.x;
         yOffset = transform.localPosition.y;
-        abilityManager.OnAbilityUse += Attack;
+        abilityManager.AbilityEvents.OnAbilityUse += Attack;
     }
 
     private void Update()
@@ -61,8 +61,8 @@ public class Weapon : MonoBehaviour
     /// <summary>
     /// Sets the attack trigger on the Animator. Triggered by the attack event.
     /// </summary>
-    /// <param name="ability">The ability being used</param>
-    private void Attack(Ability ability)
+    /// <param name="eventInfo">The ability use event data</param>
+    private void Attack(AbilityUseEventInfo eventInfo)
     {
         animator.SetTrigger("attack");
     }

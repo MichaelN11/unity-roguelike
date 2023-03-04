@@ -9,7 +9,6 @@ using UnityEngine;
 public class AnimatorUpdater : MonoBehaviour
 {
     public Vector2 LookDirection { get; set; } = Vector2.zero;
-    public AttackAnimation AttackAnimation { get; set; } = AttackAnimation.Default;
 
     [SerializeField]
     private float aimModeDuration = 3f;
@@ -34,7 +33,7 @@ public class AnimatorUpdater : MonoBehaviour
     private void Start()
     {
         defaultMaterial = spriteRenderer.material;
-        abilityManager.OnAbilityUse += Attack;
+        abilityManager.AbilityEvents.OnAbilityUse += Attack;
     }
 
     private void Update()
@@ -85,12 +84,32 @@ public class AnimatorUpdater : MonoBehaviour
     /// value in the AttackAnimation enum, so that the animator can determine which attack
     /// animation to use.
     /// </summary>
-    /// <param name="ability">The ability being used</param>
-    private void Attack(Ability ability)
+    /// <param name="eventInfo">Info about the triggered ability use event</param>
+    private void Attack(AbilityUseEventInfo eventInfo)
     {
         animator.SetTrigger("attack");
-        animator.SetInteger("attackAnimation", (int)AttackAnimation);
+        animator.SetInteger("attackStage", GetAttackStage(eventInfo.AbilityAnimation));
         aimModeTimer = aimModeDuration;
+    }
+
+    /// <summary>
+    /// Gets the attack stage for the animator. The attack stage determines which animation to use with the attack for combos.
+    /// </summary>
+    /// <param name="abilityAnimation">The attack ability animation</param>
+    /// <returns>The attack stage as an int</returns>
+    private int GetAttackStage(AbilityAnimation abilityAnimation)
+    {
+        int animationStage = 0;
+        switch (abilityAnimation)
+        {
+            case AbilityAnimation.Attack1:
+                animationStage = 1;
+                break;
+            case AbilityAnimation.Attack2:
+                animationStage = 2;
+                break;  
+        }
+        return animationStage;
     }
 
     /// <summary>
