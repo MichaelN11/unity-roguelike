@@ -13,10 +13,6 @@ public class RangedAttack : Ability
     public AbilityAnimation AttackAnimation => attackAnimation;
 
     [SerializeField]
-    private PrefabAbilityData prefabAbilityData;
-    public PrefabAbilityData PrefabAbilityData => prefabAbilityData;
-
-    [SerializeField]
     private AttackAbilityData attackAbilityData;
     public AttackAbilityData AttackAbilityData => attackAbilityData;
 

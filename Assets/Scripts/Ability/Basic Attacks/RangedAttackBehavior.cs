@@ -57,7 +57,7 @@ public class RangedAttackBehavior : AbilityBehavior
 
         GameObject instance = AttackAbilityUtil.InstantiateDamageObject(abilityUse,
             rangedAttack.AttackAbilityData,
-            rangedAttack.PrefabAbilityData,
+            rangedAttack.ProjectileAbilityData.PrefabAbilityData,
             attackData);
 
         Projectile projectile = instance.GetComponent<Projectile>();

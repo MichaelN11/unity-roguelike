@@ -8,6 +8,10 @@ using UnityEngine;
 public class ProjectileAbilityData
 {
     [SerializeField]
+    private PrefabAbilityData prefabAbilityData;
+    public PrefabAbilityData PrefabAbilityData => prefabAbilityData;
+
+    [SerializeField]
     private float speed = 0;
     public float Speed => speed;
 }
