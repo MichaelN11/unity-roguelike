@@ -49,6 +49,11 @@ public abstract class AbilityBehavior
     }
 
     /// <summary>
+    /// Called during the ability manager's update.
+    /// </summary>
+    public virtual void OnUpdate() { }
+
+    /// <summary>
     /// Determines if the ability is usable in the current state.
     /// </summary>
     /// <param name="abilityUse">AbilityUse object containing data about how the ability was used</param>

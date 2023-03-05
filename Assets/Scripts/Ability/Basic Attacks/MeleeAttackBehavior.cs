@@ -35,7 +35,6 @@ public class MeleeAttackBehavior : AbilityBehavior
         animatorUpdater = user.GetComponent<AnimatorUpdater>();
 
         numComboStages = meleeAttack.ComboDataList.Count();
-        abilityManager.OnUpdate += UpdateAbility;
     }
 
     public override bool IsUsable(AbilityUse abilityUse)
@@ -49,6 +48,18 @@ public class MeleeAttackBehavior : AbilityBehavior
     {
         ResetCombo();
         base.Interrupt(component);
+    }
+
+    public override void OnUpdate()
+    {
+        if (comboTimer > 0)
+        {
+            comboTimer -= Time.deltaTime;
+            if (comboTimer <= 0)
+            {
+                ResetCombo();
+            }
+        }
     }
 
     protected override void StartAbility(AbilityUse abilityUse)
@@ -95,21 +106,6 @@ public class MeleeAttackBehavior : AbilityBehavior
             AbilityUse = abilityUse,
             AbilityAnimation = NextComboData.AttackAnimation
         };
-    }
-
-    /// <summary>
-    /// Updates the ability's state. Subscribed to the AbilityManager's UpdateEvent.
-    /// </summary>
-    private void UpdateAbility()
-    {
-        if (comboTimer > 0)
-        {
-            comboTimer -= Time.deltaTime;
-            if (comboTimer <= 0)
-            {
-                ResetCombo();
-            }
-        }
     }
 
     /// <summary>

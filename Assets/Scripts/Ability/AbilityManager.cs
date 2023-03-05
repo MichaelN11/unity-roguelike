@@ -8,8 +8,6 @@ using UnityEngine;
 /// </summary>
 public class AbilityManager : MonoBehaviour
 {
-    public event Action OnUpdate;
-
     public AbilityEvents AbilityEvents { get; private set; } = new();
 
     [SerializeField]
@@ -24,7 +22,7 @@ public class AbilityManager : MonoBehaviour
 
     private void Update()
     {
-        OnUpdate?.Invoke();
+        abilityBehavior.OnUpdate();
     }
 
     /// <summary>
