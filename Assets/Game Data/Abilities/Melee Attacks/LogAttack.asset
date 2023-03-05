@@ -13,20 +13,20 @@ MonoBehaviour:
   m_Name: LogAttack
   m_EditorClassIdentifier: 
   comboDataList:
-  - prefabAbilityData:
+  - attackAnimation: 0
+    prefabAbilityData:
       prefab: {fileID: 605442877324402279, guid: f08b13487d7884969b178d3f9a9fa912, type: 3}
       prefabDuration: 0.35
       rotatePrefab: 0
     attackAbilityData:
       soundOnUse: {fileID: 0}
       soundOnHit: {fileID: 0}
-      attackAnimation: 0
       damage: 1
       range: 0
       radius: 1
       hitStunMultiplier: 1
       knockbackMultiplier: 1
-      attackDuration: 0.7
+      recoveryDuration: 0.7
       hitStop: 0.06
     movementAbilityData:
       moveSpeed: 0

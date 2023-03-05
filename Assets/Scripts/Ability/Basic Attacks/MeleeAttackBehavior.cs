@@ -87,7 +87,7 @@ public class MeleeAttackBehavior : AbilityBehavior
         {
             animatorUpdater.LookDirection = abilityUse.Direction;
         }
-        entityState.AbilityState(NextComboData.AttackAbilityData.AttackDuration
+        entityState.AbilityState(NextComboData.AttackAbilityData.RecoveryDuration
                 + NextComboData.ComboableAttackDuration
                 + CastTime);
         return new AbilityUseEventInfo()

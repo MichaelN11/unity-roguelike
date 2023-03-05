@@ -21,7 +21,7 @@ MonoBehaviour:
     radius: 0
     hitStunMultiplier: 0.5
     knockbackMultiplier: 0.7
-    attackDuration: 0.1
+    recoveryDuration: 0.4
     hitStop: 0.06
   projectileAbilityData:
     prefabAbilityData:

@@ -41,7 +41,7 @@ public class RangedAttackBehavior : AbilityBehavior
         {
             animatorUpdater.LookDirection = abilityUse.Direction;
         }
-        entityState.AbilityState(rangedAttack.AttackAbilityData.AttackDuration + CastTime);
+        entityState.AbilityState(rangedAttack.AttackAbilityData.RecoveryDuration + CastTime);
 
         return new AbilityUseEventInfo()
         {

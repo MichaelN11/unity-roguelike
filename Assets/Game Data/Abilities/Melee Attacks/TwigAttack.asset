@@ -13,20 +13,20 @@ MonoBehaviour:
   m_Name: TwigAttack
   m_EditorClassIdentifier: 
   comboDataList:
-  - prefabAbilityData:
+  - attackAnimation: 0
+    prefabAbilityData:
       prefab: {fileID: 605442877324402279, guid: adcaddf81d8a540d1add179926d5a435, type: 3}
       prefabDuration: 0.2
       rotatePrefab: 1
     attackAbilityData:
       soundOnUse: {fileID: 0}
       soundOnHit: {fileID: 0}
-      attackAnimation: 0
       damage: 1
       range: 0
       radius: 0.5
       hitStunMultiplier: 1
       knockbackMultiplier: 1
-      attackDuration: 0.4
+      recoveryDuration: 0.4
       hitStop: 0.06
     movementAbilityData:
       moveSpeed: 3

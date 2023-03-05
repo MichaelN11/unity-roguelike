@@ -38,8 +38,8 @@ public class AttackAbilityData
     public float KnockbackMultiplier => knockbackMultiplier;
 
     [SerializeField]
-    private float attackDuration = 1f;
-    public float AttackDuration => attackDuration;
+    private float recoveryDuration = 1f;
+    public float RecoveryDuration => recoveryDuration;
 
     [SerializeField]
     private float hitStop = 0.06f;

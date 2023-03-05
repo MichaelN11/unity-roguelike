@@ -26,7 +26,7 @@ MonoBehaviour:
       radius: 0
       hitStunMultiplier: 1
       knockbackMultiplier: 0.6
-      attackDuration: 0.3
+      recoveryDuration: 0.3
       hitStop: 0.06
     movementAbilityData:
       moveSpeed: 4.5
@@ -47,7 +47,7 @@ MonoBehaviour:
       radius: 0
       hitStunMultiplier: 1
       knockbackMultiplier: 0.6
-      attackDuration: 0.3
+      recoveryDuration: 0.3
       hitStop: 0.06
     movementAbilityData:
       moveSpeed: 4.5
@@ -68,7 +68,7 @@ MonoBehaviour:
       radius: 0
       hitStunMultiplier: 1
       knockbackMultiplier: 1
-      attackDuration: 0.6
+      recoveryDuration: 0.6
       hitStop: 0.06
     movementAbilityData:
       moveSpeed: 4.5
