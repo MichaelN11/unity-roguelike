@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Utility class for static methods.
+/// </summary>
 public class UnityUtil
 {
     /// <returns>The parent game object if one exists, otherwise returns the passed game object.</returns>

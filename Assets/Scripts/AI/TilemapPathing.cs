@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -26,7 +27,6 @@ public class TilemapPathing : MonoBehaviour
         }
 
         tilemap = GetComponent<Tilemap>();
-        PathingGrid.Tilemap = tilemap;
     }
 
     private void OnDestroy()
@@ -46,6 +46,9 @@ public class TilemapPathing : MonoBehaviour
     /// <param name="tilemap">The Tilemap used to build the grid</param>
     private void BuildPathingGrid(Tilemap tilemap)
     {
+        PathingGrid.CellWidth = tilemap.cellSize.x;
+        PathingGrid.Position = tilemap.localBounds.min;
+
         BoundsInt bounds = tilemap.cellBounds;
         TileBase[] allTiles = tilemap.GetTilesBlock(bounds);
 
@@ -107,11 +110,6 @@ public class TilemapPathing : MonoBehaviour
                 AddAdjacentAction(node, 0, -1, PathingGrid.StraightMoveCost);
                 AddAdjacentAction(node, 1, 0, PathingGrid.StraightMoveCost);
                 AddAdjacentAction(node, -1, 0, PathingGrid.StraightMoveCost);
-
-                //AddAdjacentAction(node, 1, 1, PathingGrid.DiagonalMoveCost);
-                //AddAdjacentAction(node, -1, 1, PathingGrid.DiagonalMoveCost);
-                //AddAdjacentAction(node, 1, -1, PathingGrid.DiagonalMoveCost);
-                //AddAdjacentAction(node, -1, -1, PathingGrid.DiagonalMoveCost);
             }
         }
     }

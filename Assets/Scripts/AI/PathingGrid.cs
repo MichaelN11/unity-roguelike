@@ -4,15 +4,32 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 
 /// <summary>
-/// Class representing a grid used for pathfinding.
+/// Class representing a grid used for pathfinding. Assumes the grid cells are squares.
 /// </summary>
 public class PathingGrid
 {
     public const float StraightMoveCost = 10;
-    public const float DiagonalMoveCost = 14;
 
     public List<List<GridNode>> Grid { get; set; } = new();
-    public Tilemap Tilemap { private get; set; }
+    public Vector2 Position { get; set; }
+    public float CellWidth { get; set; }
+
+    /// <returns>The width of the grid in cells</returns>
+    public int GetGridWidth()
+    {
+        return Grid.Count;
+    }
+
+    /// <returns>The height of the grid in cells</returns>
+    public int GetGridHeight()
+    {
+        int height = 0;
+        if (Grid.Count > 0)
+        {
+            height = Grid[0].Count;
+        }
+        return height;
+    }
 
     /// <summary>
     /// Converts the passed world position to a GridNode in the grid.
@@ -21,9 +38,9 @@ public class PathingGrid
     /// <returns>The corresponding GridNode</returns>
     public GridNode WorldToNode(Vector2 worldPosition)
     {
-        Vector3Int tilemapCell = Tilemap.WorldToCell(worldPosition);
-        Vector3Int gridCell = TilemapCellToGridCell(tilemapCell);
-        return Grid[gridCell.x][gridCell.y];
+        int xPosition = (int)((worldPosition.x - Position.x) / CellWidth);
+        int yPosition = (int)((worldPosition.y - Position.y) / CellWidth);
+        return Grid[xPosition][yPosition];
     }
 
     /// <summary>
@@ -34,32 +51,8 @@ public class PathingGrid
     /// <returns>The corresponding world position as a Vector2</returns>
     public Vector2 NodeToWorld(GridNode node)
     {
-        Vector3Int gridCell = new(node.X, node.Y, 0);
-        Vector3Int tilemapCell = GridCellToTilemapCell(gridCell);
-        return Tilemap.GetCellCenterWorld(tilemapCell);
-    }
-
-    /// <summary>
-    /// Converts a cell in the grid to a cell in the tilemap. The grid starts at (0,0)
-    /// and only uses positive integer positions.
-    /// </summary>
-    /// <param name="gridCell">The Vector3Int cell position in the grid</param>
-    /// <returns>The Vector3Int cell position in the tilemap</returns>
-    private Vector3Int GridCellToTilemapCell(Vector3Int gridCell)
-    {
-        BoundsInt cellBounds = Tilemap.cellBounds;
-        return gridCell + cellBounds.min;
-    }
-
-    /// <summary>
-    /// Converts a cell in the tilemap to a cell in the grid. The grid starts at (0,0)
-    /// and only uses positive integer positions.
-    /// </summary>
-    /// <param name="tilemapCell">The Vector3Int cell position in the tilemap</param>
-    /// <returns>The Vector3Int cell position in the grid</returns>
-    private Vector3Int TilemapCellToGridCell(Vector3Int tilemapCell)
-    {
-        BoundsInt cellBounds = Tilemap.cellBounds;
-        return tilemapCell - cellBounds.min;
+        float xPosition = (node.X * CellWidth) + (CellWidth * 0.5f) + Position.x;
+        float yPosition = (node.Y * CellWidth) + (CellWidth * 0.5f) + Position.y;
+        return new Vector2(xPosition, yPosition);
     }
 }

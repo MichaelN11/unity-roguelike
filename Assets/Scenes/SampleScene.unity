@@ -4931,6 +4931,51 @@ MonoBehaviour:
   m_TrackedDeviceOrientationAction: {fileID: 7970375526676320489, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
   m_DeselectOnBackgroundClick: 1
   m_PointerBehavior: 0
+--- !u!1 &641237364
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 641237366}
+  - component: {fileID: 641237365}
+  m_Layer: 0
+  m_Name: ResourceManager (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &641237365
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 641237364}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 60295679b21fe440ca9cdc34e43c39f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  flashMaterial: Flash
+--- !u!4 &641237366
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 641237364}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 13
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &769037266
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5144,6 +5189,50 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 202308009805890736, guid: 5c22ff94e2e4142d6abaeb34cf92c4b8, type: 3}
   m_PrefabInstance: {fileID: 1645813735}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1316751712
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1316751714}
+  - component: {fileID: 1316751713}
+  m_Layer: 0
+  m_Name: AudioManager (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1316751713
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1316751712}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 397e82cd84e0a429b86a1fea01951426, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &1316751714
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1316751712}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 12
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1473634768
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5222,11 +5311,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 116077039412780157, guid: 7bb102ef3e5c54bb0b5c11aefedfd51d, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.54
+      value: 0.55
       objectReference: {fileID: 0}
     - target: {fileID: 116077039412780157, guid: 7bb102ef3e5c54bb0b5c11aefedfd51d, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2.01
+      value: -0.68
       objectReference: {fileID: 0}
     - target: {fileID: 116077039412780157, guid: 7bb102ef3e5c54bb0b5c11aefedfd51d, type: 3}
       propertyPath: m_LocalPosition.z
@@ -5269,6 +5358,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1584865004, guid: 1967cb95051e242a89da6f9def849649, type: 3}
+      propertyPath: aggroDistance
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 7658967440879357033, guid: 1967cb95051e242a89da6f9def849649, type: 3}
       propertyPath: m_RootOrder
       value: 5

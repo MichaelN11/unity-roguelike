@@ -65,8 +65,7 @@ public class GridSearchProblem : ISearchProblem<GridNode, GridAction>
         float xDistance = Mathf.Abs(goal.X - start.X);
         float yDistance = Mathf.Abs(goal.Y - start.Y);
         float remaining = Mathf.Abs(xDistance - yDistance);
-        float totalDiagonalCost = Mathf.Min(xDistance, yDistance) * PathingGrid.DiagonalMoveCost;
         float totalAdjacentCost = remaining * PathingGrid.StraightMoveCost;
-        return totalDiagonalCost + totalAdjacentCost;
+        return totalAdjacentCost;
     }
 }
