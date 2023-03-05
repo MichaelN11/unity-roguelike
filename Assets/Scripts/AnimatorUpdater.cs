@@ -8,8 +8,6 @@ using UnityEngine;
 /// </summary>
 public class AnimatorUpdater : MonoBehaviour
 {
-    public Vector2 LookDirection { get; set; } = Vector2.zero;
-
     [SerializeField]
     private float aimModeDuration = 3f;
 
@@ -119,9 +117,9 @@ public class AnimatorUpdater : MonoBehaviour
     /// </summary>
     private void UpdateLookDirection()
     {
-        if (IsAiming() && LookDirection != null)
+        if (IsAiming() && entityState.LookDirection != null)
         {
-            SetLookDirection(LookDirection);
+            SetLookDirection(entityState.LookDirection);
         }
     }
 

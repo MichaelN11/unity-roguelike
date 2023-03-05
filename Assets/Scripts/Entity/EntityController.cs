@@ -119,10 +119,7 @@ public class EntityController : MonoBehaviour
             attemptedLookDirection = lookDirection;
             if (entityState.CanAct())
             {
-                if (animatorUpdater != null)
-                {
-                    animatorUpdater.LookDirection = lookDirection;
-                }
+                entityState.LookDirection = lookDirection;
                 isLookDirectionSet = true;
             }
         }

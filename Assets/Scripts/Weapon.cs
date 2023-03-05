@@ -14,6 +14,7 @@ public class Weapon : MonoBehaviour
     private Animator animator;
     private SpriteRenderer spriteRenderer;
     private AbilityManager abilityManager;
+    private EntityState entityState;
     private float distance = 0;
     private float yOffset = 0;
 
@@ -23,6 +24,7 @@ public class Weapon : MonoBehaviour
         animatorUpdater = GetComponentInParent<AnimatorUpdater>();
         animator = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
+        entityState = GetComponentInParent<EntityState>();
     }
 
     private void Start()
@@ -34,7 +36,7 @@ public class Weapon : MonoBehaviour
 
     private void Update()
     {
-        Vector2 direction = animatorUpdater.LookDirection.normalized;
+        Vector2 direction = entityState.LookDirection.normalized;
         if (animatorUpdater.IsAiming())
         {
             spriteRenderer.enabled = true;

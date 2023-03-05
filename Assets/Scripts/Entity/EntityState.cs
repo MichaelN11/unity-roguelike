@@ -10,6 +10,7 @@ public class EntityState : MonoBehaviour
 {
     public event Action UnstunnedEvent;
 
+    public Vector2 LookDirection { get; set; } = Vector2.zero;
     public ActionState ActionState { get; private set; } = ActionState.Stand;
     public float StunTimer { get; private set; } = 0f;
     public float FlashTimer { get; private set; } = 0f;

@@ -16,7 +16,6 @@ public class MeleeAttackBehavior : AbilityBehavior
     private readonly Movement movement;
     private readonly EntityState entityState;
     private readonly EntityData entityData;
-    private readonly AnimatorUpdater animatorUpdater;
 
     private readonly MeleeAttack meleeAttack;
     private MeleeAttackComboData NextComboData => meleeAttack.ComboDataList[nextComboStage];
@@ -32,7 +31,6 @@ public class MeleeAttackBehavior : AbilityBehavior
         movement = user.GetComponent<Movement>();
         entityState = user.GetComponent<EntityState>();
         entityData = user.GetComponent<EntityData>();
-        animatorUpdater = user.GetComponent<AnimatorUpdater>();
 
         numComboStages = meleeAttack.ComboDataList.Count();
     }
@@ -94,10 +92,7 @@ public class MeleeAttackBehavior : AbilityBehavior
         {
             movement.StopMoving();
         }
-        if (animatorUpdater != null)
-        {
-            animatorUpdater.LookDirection = abilityUse.Direction;
-        }
+        entityState.LookDirection = abilityUse.Direction;
         entityState.AbilityState(NextComboData.AttackAbilityData.RecoveryDuration
                 + NextComboData.ComboableAttackDuration
                 + CastTime);

@@ -12,7 +12,6 @@ public class RangedAttackBehavior : AbilityBehavior
     private readonly Movement movement;
     private readonly EntityState entityState;
     private readonly EntityData entityData;
-    private readonly AnimatorUpdater animatorUpdater;
 
     private RangedAttack rangedAttack;
 
@@ -23,7 +22,6 @@ public class RangedAttackBehavior : AbilityBehavior
         movement = user.GetComponent<Movement>();
         entityState = user.GetComponent<EntityState>();
         entityData = user.GetComponent<EntityData>();
-        animatorUpdater = user.GetComponent<AnimatorUpdater>();
     }
 
     public override bool IsUsable(AbilityUse abilityUse)
@@ -37,10 +35,8 @@ public class RangedAttackBehavior : AbilityBehavior
         {
             movement.StopMoving();
         }
-        if (animatorUpdater != null)
-        {
-            animatorUpdater.LookDirection = abilityUse.Direction;
-        }
+
+        entityState.LookDirection = abilityUse.Direction;
         entityState.AbilityState(rangedAttack.AttackAbilityData.RecoveryDuration + CastTime);
 
         return new AbilityUseEventInfo()
