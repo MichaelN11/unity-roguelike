@@ -18,17 +18,18 @@ public abstract class AbilityBehavior
     protected IEnumerator coroutine;
 
     /// <summary>
-    /// Use the ability.
+    /// Use the ability. Raises the ability use event on the AbilityManager component.
+    /// Starts a coroutine for the start of the ability, which is delayed by the cast time.
     /// </summary>
     /// <param name="abilityUse">AbilityUse object containing data about how the ability was used</param>
-    /// <returns>true if the ability was started successfully</returns>
+    /// <returns>true if the ability was used successfully</returns>
     public virtual bool Use(AbilityUse abilityUse)
     {
         bool successful = false;
         if (IsUsable(abilityUse))
         {
             AbilityUseEventInfo abilityUseEventInfo = OnUse(abilityUse);
-            abilityUse.Component.AbilityEvents.RaiseAbilityUseEvent(abilityUseEventInfo);
+            abilityUse.Component.AbilityEvents.InvokeAbilityUseEvent(abilityUseEventInfo);
             coroutine = Delay(abilityUse);
             abilityUse.Component.StartCoroutine(coroutine);
             successful = true;

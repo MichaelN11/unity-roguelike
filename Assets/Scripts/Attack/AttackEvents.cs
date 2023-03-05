@@ -1,10 +1,13 @@
 ﻿using System;
 
 /// <summary>
-/// Container for events related to an attack.
+/// Container for events related to a specific attack instance.
 /// </summary>
 public class AttackEvents
 {
+    /// <summary>
+    /// The event that fires when the specific attack instance successfully attacks.
+    /// </summary>
     public event Action<AttackData> OnAttackSuccessful;
 
     /// <summary>
