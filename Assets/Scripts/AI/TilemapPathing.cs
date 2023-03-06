@@ -49,7 +49,7 @@ public class TilemapPathing : MonoBehaviour
     /// <returns>true if the tilemap is using a passable layer</returns>
     private bool IsPassableLayer(Tilemap tilemap)
     {
-        return tilemap.gameObject.layer != LayerMask.NameToLayer("Wall");
+        return !LayerUtil.IsUnwalkable(tilemap.gameObject.layer);
     }
 
     /// <summary>

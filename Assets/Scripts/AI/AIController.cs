@@ -8,8 +8,6 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody2D), typeof(EntityController))]
 public class AIController : MonoBehaviour
 {
-    private const string WallLayerName = "Wall";
-
     /// <summary>
     /// The distance away from a position required to start moving to the next position.
     /// </summary>
@@ -45,7 +43,7 @@ public class AIController : MonoBehaviour
         entityController = GetComponent<EntityController>();
         movementCollider = GetComponent<Collider2D>();
         mainCamera = Camera.main;
-        contactFilter2D.layerMask = LayerMask.GetMask(WallLayerName);
+        contactFilter2D.layerMask = LayerUtil.GetUnwalkableLayerMask();
         contactFilter2D.useLayerMask = true;
     }
 
