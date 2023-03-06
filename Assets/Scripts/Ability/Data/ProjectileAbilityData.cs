@@ -14,4 +14,8 @@ public class ProjectileAbilityData
     [SerializeField]
     private float speed = 0;
     public float Speed => speed;
+
+    [SerializeField]
+    private float wallStickDuration = 0;
+    public float WallStickDuration => wallStickDuration;
 }

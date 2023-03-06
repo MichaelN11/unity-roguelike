@@ -30,6 +30,15 @@ public class LayerUtil
     }
 
     /// <summary>
+    /// Gets the layer mask for the wall collision layer.
+    /// </summary>
+    /// <returns> The layer mask for the wall layer as an int</returns>
+    public static int GetWallLayerMask()
+    {
+        return LayerMask.GetMask(WallLayerName);
+    }
+
+    /// <summary>
     /// Determines if the passed layer is an unwalkable/unpathable layer.
     /// </summary>
     /// <param name="layer">The layer as an int</param>
@@ -38,5 +47,16 @@ public class LayerUtil
     {
         String layerName = LayerMask.LayerToName(layer);
         return Array.Exists(unwalkableLayerNames, name => name == layerName);
+    }
+
+    /// <summary>
+    /// Determines if the passed layer is a wall layer.
+    /// </summary>
+    /// <param name="layer">The layer as an int</param>
+    /// <returns>true if the layer is a wall</returns>
+    public static bool IsWall(int layer)
+    {
+        String layerName = LayerMask.LayerToName(layer);
+        return layerName == WallLayerName;
     }
 }

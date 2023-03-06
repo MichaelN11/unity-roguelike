@@ -59,6 +59,7 @@ public class RangedAttackBehavior : AbilityBehavior
         Projectile projectile = instance.GetComponent<Projectile>();
         projectile.Speed = rangedAttack.ProjectileAbilityData.Speed;
         projectile.Direction = abilityUse.Direction;
+        projectile.WallStickDuration = rangedAttack.ProjectileAbilityData.WallStickDuration;
     }
 
     /// <summary>

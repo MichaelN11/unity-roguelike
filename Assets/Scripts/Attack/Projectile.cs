@@ -9,14 +9,19 @@ public class Projectile : MonoBehaviour
 {
     public float Speed { get; set; }
     public Vector2 Direction { get; set; }
+    public float WallStickDuration { get; set; } = 0;
 
     private Rigidbody2D body;
     private DamageObject damageObject;
+    private Collider2D colliderComponent;
+    private DestroyTimer destroyTimer;
 
     private void Awake()
     {
         body = GetComponent<Rigidbody2D>();
         damageObject = GetComponent<DamageObject>();
+        colliderComponent = GetComponent<Collider2D>();
+        destroyTimer = GetComponent<DestroyTimer>();
     }
 
     private void Start()
@@ -35,18 +40,38 @@ public class Projectile : MonoBehaviour
         }
     }
 
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (LayerUtil.IsWall(collision.gameObject.layer))
+        {
+            Stop();
+            Destroy(gameObject, WallStickDuration);
+        }
+    }
+
     /// <summary>
     /// Method called on a successful attack event for the projectile object.
     /// </summary>
     /// <param name="attackData">The AttackData</param>
     private void AttackSuccessful(AttackData attackData)
     {
-        Collider2D collider = GetComponent<Collider2D>();
-        if (collider != null)
+        Stop();
+        Destroy(gameObject, attackData.AbilityData.HitStop);
+    }
+
+    /// <summary>
+    /// Stops the projectile and disables the collider component.
+    /// </summary>
+    private void Stop()
+    {
+        if (destroyTimer != null)
         {
-            collider.enabled = false;
+            destroyTimer.enabled = false;
+        }
+        if (colliderComponent != null)
+        {
+            colliderComponent.enabled = false;
         }
         Speed = 0;
-        Destroy(gameObject, attackData.AbilityData.HitStop);
     }
 }

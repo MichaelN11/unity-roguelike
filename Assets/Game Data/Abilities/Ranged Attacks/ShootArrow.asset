@@ -29,4 +29,5 @@ MonoBehaviour:
       prefabDuration: 1
       rotatePrefab: 1
     speed: 10
+    wallStickDuration: 1
   castTime: 0.3
