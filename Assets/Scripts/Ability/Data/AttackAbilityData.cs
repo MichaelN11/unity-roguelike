@@ -22,8 +22,8 @@ public class AttackAbilityData
     public float Damage => damage;
 
     [SerializeField]
-    private float range = 0;
-    public float Range => range;
+    private float attackDistance = 0;
+    public float AttackDistance => attackDistance;
 
     [SerializeField]
     private float radius = 0;

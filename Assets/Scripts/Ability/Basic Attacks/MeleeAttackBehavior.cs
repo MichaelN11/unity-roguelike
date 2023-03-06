@@ -8,7 +8,7 @@ using UnityEngine;
 /// </summary>
 public class MeleeAttackBehavior : AbilityBehavior
 {
-    public override float Range => NextComboData.AttackAbilityData.Range + NextComboData.AttackAbilityData.Radius;
+    public override float Range => NextComboData.AttackAbilityData.AttackDistance + NextComboData.AttackAbilityData.Radius;
 
     protected override float CastTime => NextComboData.CastTime;
 

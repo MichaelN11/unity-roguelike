@@ -10,11 +10,14 @@ public class Projectile : MonoBehaviour
     public float Speed { get; set; }
     public Vector2 Direction { get; set; }
     public float WallStickDuration { get; set; } = 0;
+    public float GroundStickDuration { get; set; } = 0;
+    public float MaxDistance { get; set; } = 1;
 
     private Rigidbody2D body;
     private DamageObject damageObject;
     private Collider2D colliderComponent;
     private DestroyTimer destroyTimer;
+    private float totalDistance = 0;
 
     private void Awake()
     {
@@ -34,9 +37,16 @@ public class Projectile : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (totalDistance > MaxDistance)
+        {
+            Stop();
+            Destroy(gameObject, GroundStickDuration);
+        }
         if (Direction != null && Direction != Vector2.zero && Speed > 0)
         {
-            body.MovePosition(body.position + (Speed * Time.deltaTime * Direction.normalized));
+            float distance = Speed * Time.deltaTime;
+            totalDistance += distance;
+            body.MovePosition(body.position + (distance * Direction.normalized));
         }
     }
 

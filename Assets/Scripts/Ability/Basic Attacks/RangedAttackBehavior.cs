@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class RangedAttackBehavior : AbilityBehavior
 {
-    public override float Range => rangedAttack.AttackAbilityData.Range;
+    public override float Range => rangedAttack.AttackAbilityData.AttackDistance + rangedAttack.ProjectileAbilityData.Range;
 
     protected override float CastTime => rangedAttack.CastTime;
 
@@ -59,7 +59,9 @@ public class RangedAttackBehavior : AbilityBehavior
         Projectile projectile = instance.GetComponent<Projectile>();
         projectile.Speed = rangedAttack.ProjectileAbilityData.Speed;
         projectile.Direction = abilityUse.Direction;
+        projectile.MaxDistance = rangedAttack.ProjectileAbilityData.Range;
         projectile.WallStickDuration = rangedAttack.ProjectileAbilityData.WallStickDuration;
+        projectile.GroundStickDuration = rangedAttack.ProjectileAbilityData.GroundStickDuration;
     }
 
     /// <summary>

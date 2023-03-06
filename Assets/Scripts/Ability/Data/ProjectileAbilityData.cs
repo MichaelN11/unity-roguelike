@@ -12,10 +12,18 @@ public class ProjectileAbilityData
     public PrefabAbilityData PrefabAbilityData => prefabAbilityData;
 
     [SerializeField]
+    private float range = 0;
+    public float Range => range;
+
+    [SerializeField]
     private float speed = 0;
     public float Speed => speed;
 
     [SerializeField]
     private float wallStickDuration = 0;
     public float WallStickDuration => wallStickDuration;
+
+    [SerializeField]
+    private float groundStickDuration = 0;
+    public float GroundStickDuration => groundStickDuration;
 }

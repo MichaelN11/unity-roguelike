@@ -17,7 +17,7 @@ MonoBehaviour:
     soundOnUse: {fileID: 0}
     soundOnHit: {fileID: 0}
     damage: 1
-    range: 0
+    attackDistance: 0
     radius: 0
     hitStunMultiplier: 0.5
     knockbackMultiplier: 0.7
@@ -26,8 +26,10 @@ MonoBehaviour:
   projectileAbilityData:
     prefabAbilityData:
       prefab: {fileID: 605442877324402279, guid: 40b8610a8b1cc4b488bec9fe0330737a, type: 3}
-      prefabDuration: 1
+      prefabDuration: 10
       rotatePrefab: 1
+    range: 6
     speed: 10
     wallStickDuration: 1
+    groundStickDuration: 0
   castTime: 0.3

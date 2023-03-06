@@ -20,7 +20,7 @@ public class AttackAbilityUtil
         PrefabAbilityData prefabAbilityData,
         AttackData attackData)
     {
-        Vector2 distance = abilityUse.Direction.normalized * attackAbilityData.Range;
+        Vector2 distance = abilityUse.Direction.normalized * attackAbilityData.AttackDistance;
         Vector3 position = abilityUse.Position + distance;
         Quaternion rotation = (prefabAbilityData.RotatePrefab) ? UnityUtil.RotateTowardsVector(abilityUse.Direction) : Quaternion.identity;
         GameObject instance = Object.Instantiate(prefabAbilityData.Prefab, position, rotation);
