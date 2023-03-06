@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -17,6 +18,16 @@ public class AIController : MonoBehaviour
     private float timeBetweenAIUpdate = 1f;
     [SerializeField]
     private float aggroDistance = 5;
+    /// <summary>
+    /// The distance at which we no longer need to check for line of sight to attack.
+    /// </summary>
+    [SerializeField]
+    private float meleeRadius = 1;
+    /// <summary>
+    /// The y offset for aiming attacks. We want to aim slightly higher than the center of the target.
+    /// </summary>
+    [SerializeField]
+    private float attackTargetYOffset = 0.1f;
 
     private GameObject target;
     private TilemapPathing tilemapPathing;
@@ -132,7 +143,7 @@ public class AIController : MonoBehaviour
                 currentBehavior = Behavior.Idle;
                 SendInput(InputType.Idle);
             }
-            else if (distanceToTarget <= entityController.GetAttackRange())
+            else if (CanAttack(body.position, GetAttackTargetPosition(), distanceToTarget, entityController.GetAttackRange()))
             {
                 currentBehavior = Behavior.Attack;
             }
@@ -144,6 +155,51 @@ public class AIController : MonoBehaviour
         {
             currentBehavior = Behavior.Idle;
         }
+    }
+
+    /// <returns>true if the entity can attack the target</returns>
+    private bool CanAttack(Vector2 position, Vector2 targetPosition, float distanceToTarget, float attackRange)
+    {
+        bool canAttack = false;
+        if (distanceToTarget <= attackRange)
+        {
+            if (distanceToTarget <= meleeRadius)
+            {
+                canAttack = true;
+            }
+            else
+            {
+                canAttack = HasLineOfSightOnTarget(position, targetPosition, distanceToTarget);
+            }
+        }
+        return canAttack;
+    }
+
+    /// <returns>true if the entity has line of sight (no walls in the way) on the target position</returns>
+    private bool HasLineOfSightOnTarget(Vector2 position, Vector2 targetPosition, float distance)
+    {
+        bool lineOfSight = false;
+        ContactFilter2D contactFilter = new()
+        {
+            useLayerMask = true,
+            layerMask = LayerUtil.GetWallLayerMask()
+        };
+        int collisionCount = Physics2D.Raycast(position, targetPosition - position,
+            contactFilter, raycastHits, distance);
+        if (collisionCount == 0)
+        {
+            lineOfSight = true;
+        }
+        return lineOfSight;
+    }
+
+    /// <summary>
+    /// Determines the attack target position. The target's position plus a y offset to aim higher than the target's center.
+    /// </summary>
+    /// <returns>The attack target position as a Vector2</returns>
+    private Vector2 GetAttackTargetPosition()
+    {
+        return targetBody.position + new Vector2(0, attackTargetYOffset);
     }
 
     /// <summary>
@@ -229,7 +285,7 @@ public class AIController : MonoBehaviour
     /// </summary>
     private void Attack()
     {
-        Vector2 targetDirection = targetBody.position - body.position;
+        Vector2 targetDirection = GetAttackTargetPosition() - body.position;
         SendInput(InputType.Attack, targetDirection);
     }
 
