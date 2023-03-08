@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 15aa2334b95684a1b84c0c293a78c1eb, type: 3}
-  m_Name: ShootArrow
+  m_Name: BanditShootArrow
   m_EditorClassIdentifier: 
   attackAnimation: 0
   attackAbilityData:
@@ -21,7 +21,7 @@ MonoBehaviour:
     radius: 0
     hitStunMultiplier: 0.5
     knockbackMultiplier: 0.7
-    recoveryDuration: 0.4
+    recoveryDuration: 0.6
     hitStop: 0.06
   projectileAbilityData:
     prefabAbilityData:
@@ -32,4 +32,4 @@ MonoBehaviour:
     speed: 10
     wallStickDuration: 1
     groundStickDuration: 0
-  castTime: 0.3
+  castTime: 0.6

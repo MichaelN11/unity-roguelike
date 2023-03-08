@@ -8,6 +8,8 @@ using UnityEngine;
 public class Weapon : MonoBehaviour
 {
     [SerializeField]
+    private float animationSpeed = 1;
+    [SerializeField]
     private float pixelsPerUnit = 16;
 
     private AnimatorUpdater animatorUpdater;
@@ -32,6 +34,7 @@ public class Weapon : MonoBehaviour
         distance = transform.localPosition.x;
         yOffset = transform.localPosition.y;
         abilityManager.AbilityEvents.OnAbilityUse += Attack;
+        animator.speed = animationSpeed;
     }
 
     private void Update()

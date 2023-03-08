@@ -209,7 +209,7 @@ Animator:
   m_GameObject: {fileID: 7658967440879357034}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 7d49909b61f7148c1a22aa442c36e353, type: 2}
+  m_Controller: {fileID: 22100000, guid: 6410eefbaee534c349162d1246418435, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -344,6 +344,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   timeBetweenAIUpdate: 1
   aggroDistance: 8
+  meleeRadius: 1
+  attackTargetYOffset: 0.1
 --- !u!114 &2895836909355115246
 MonoBehaviour:
   m_ObjectHideFlags: 0
