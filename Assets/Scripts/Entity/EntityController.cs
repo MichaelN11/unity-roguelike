@@ -8,7 +8,6 @@ using UnityEngine;
 [RequireComponent(typeof(EntityState), typeof(EntityData))]
 public class EntityController : MonoBehaviour
 {
-    private AnimatorUpdater animatorUpdater;
     private Movement movement;
     private AbilityManager abilityManager;
     private EntityState entityState;
@@ -21,7 +20,6 @@ public class EntityController : MonoBehaviour
     {
         movement = GetComponent<Movement>();
         abilityManager = GetComponentInChildren<AbilityManager>();
-        animatorUpdater = GetComponent<AnimatorUpdater>();
         entityState = GetComponent<EntityState>();
         entityData = GetComponent<EntityData>();
     }
@@ -73,6 +71,12 @@ public class EntityController : MonoBehaviour
             range = entityData.EntityType.InteractionDistance + abilityManager.GetRange();
         }
         return range;
+    }
+
+    /// <returns>The ability source position as a Vector2, the point from which the entity uses its abilities</returns>
+    public Vector2 GetAbilitySourcePosition()
+    {
+        return (abilityManager != null) ? abilityManager.transform.position : transform.position;
     }
 
     /// <summary>

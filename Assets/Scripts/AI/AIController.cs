@@ -143,7 +143,8 @@ public class AIController : MonoBehaviour
                 currentBehavior = Behavior.Idle;
                 SendInput(InputType.Idle);
             }
-            else if (CanAttack(body.position, GetAttackTargetPosition(), distanceToTarget, entityController.GetAttackRange()))
+            else if (CanAttack(entityController.GetAbilitySourcePosition(), GetAttackTargetPosition(),
+                distanceToTarget, entityController.GetAttackRange()))
             {
                 currentBehavior = Behavior.Attack;
             }
