@@ -2539,6 +2539,27 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: Adventurer Sprite Sheet v1.5_116
+      rect:
+        serializedVersion: 2
+        x: 384
+        y: 160
+        width: 32
+        height: 32
+      alignment: 9
+      pivot: {x: 0.45, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6bb57ac4a47ed43c4af51b556d28cdab
+      internalID: 193352598
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -2588,6 +2609,7 @@ TextureImporter:
       Adventurer Sprite Sheet v1.5_95: -1023121136
       Adventurer Sprite Sheet v1.5_48: 1061176166
       Adventurer Sprite Sheet v1.5_79: 1246391271
+      Adventurer Sprite Sheet v1.5_116: 193352598
       Adventurer Sprite Sheet v1.5_29: 1721042846
       Adventurer Sprite Sheet v1.5_107: -672772008
       Adventurer Sprite Sheet v1.5_56: 2038022540
@@ -2613,12 +2635,12 @@ TextureImporter:
       Adventurer Sprite Sheet v1.5_6: -1957286868
       Adventurer Sprite Sheet v1.5_42: -1909107138
       Adventurer Sprite Sheet v1.5_69: -974405062
-      Adventurer Sprite Sheet v1.5_25: 491882281
+      Adventurer Sprite Sheet v1.5_67: -1898008289
       Adventurer Sprite Sheet v1.5_97: -1264268867
-      Adventurer Sprite Sheet v1.5_8: 321266498
+      Adventurer Sprite Sheet v1.5_25: 491882281
       Adventurer Sprite Sheet v1.5_20: -364892743
       Adventurer Sprite Sheet v1.5_23: 1060233814
-      Adventurer Sprite Sheet v1.5_67: -1898008289
+      Adventurer Sprite Sheet v1.5_8: 321266498
       Adventurer Sprite Sheet v1.5_53: -562183358
       Adventurer Sprite Sheet v1.5_85: 1961959164
       Adventurer Sprite Sheet v1.5_82: -613526138

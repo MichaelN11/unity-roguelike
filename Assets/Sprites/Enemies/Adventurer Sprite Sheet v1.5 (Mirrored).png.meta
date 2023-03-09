@@ -2539,6 +2539,27 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: Adventurer Sprite Sheet v1.5 (Mirrored)_116
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 160
+        width: 32
+        height: 32
+      alignment: 9
+      pivot: {x: 0.55, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c8cf9dbb68e7d4cb288d8ebc56501da6
+      internalID: 1726498933
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -2565,6 +2586,7 @@ TextureImporter:
       Adventurer Sprite Sheet v1.5 (Mirrored)_47: -199546552
       Adventurer Sprite Sheet v1.5 (Mirrored)_67: 873533163
       Adventurer Sprite Sheet v1.5 (Mirrored)_39: -930315855
+      Adventurer Sprite Sheet v1.5 (Mirrored)_116: 1726498933
       Adventurer Sprite Sheet v1.5 (Mirrored)_68: 1545517124
       Adventurer Sprite Sheet v1.5 (Mirrored)_106: 1995094979
       Adventurer Sprite Sheet v1.5 (Mirrored)_113: -659573522
