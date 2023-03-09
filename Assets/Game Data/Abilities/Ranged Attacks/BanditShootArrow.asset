@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attackAnimation: 0
   attackAbilityData:
-    soundOnUse: {fileID: 0}
+    soundOnUse: {fileID: 11400000, guid: 93f9eef3d6926430c989975dba98a7b6, type: 2}
     soundOnHit: {fileID: 0}
     damage: 1
     attackDistance: 0
