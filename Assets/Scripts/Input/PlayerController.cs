@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 using static UnityEngine.InputSystem.InputAction;
 
 /// <summary>
@@ -41,6 +42,9 @@ public class PlayerController : MonoBehaviour
         inputActions.Player.Move.performed += OnMovePerformed;
         inputActions.Player.Move.canceled += OnMoveCancelled;
         inputActions.Player.Look.performed += OnLook;
+
+        inputActions.UI.Restart.performed += OnRestart;
+        inputActions.UI.Quit.performed += OnQuit;
     }
 
     private void Update()
@@ -156,5 +160,23 @@ public class PlayerController : MonoBehaviour
         inputData.Type = InputType.Move;
         inputData.Direction = moveDirection;
         entityController.UpdateFromInput(inputData);
+    }
+
+    /// <summary>
+    /// Reloads the current scene when the restart key is pressed.
+    /// </summary>
+    /// <param name="ctx">The callback context</param>
+    private void OnRestart(CallbackContext ctx)
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    /// <summary>
+    /// Quits the game when the quit key is pressed.
+    /// </summary>
+    /// <param name="ctx">The callback context</param>
+    private void OnQuit(CallbackContext ctx)
+    {
+        Application.Quit();
     }
 }
