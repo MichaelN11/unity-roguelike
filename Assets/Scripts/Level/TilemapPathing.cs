@@ -5,41 +5,29 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 
 /// <summary>
-/// Singleton component for building a grid for pathfinding out of a collidable tilemap.
+/// Class for building a grid for pathfinding out of collidable tilemaps.
 /// </summary>
-public class TilemapPathing : MonoBehaviour
+public class TilemapPathing
 {
-    public static TilemapPathing Instance { get; private set; }
-
-    public PathingGrid PathingGrid { get; set; } = new();
-
-    private List<Tilemap> tilemapList;
-
-    private void Awake()
+    /// <summary>
+    /// Builds the pathing grid used for tilemap pathing from the passed list of tilemaps.
+    /// </summary>
+    /// <param name="tilemapList">The list of all of the tilemaps in the level</param>
+    /// <returns>A PathingGrid object which can be used for pathing AI</returns>
+    public PathingGrid Build(List<Tilemap> tilemapList)
     {
-        if (Instance != null && Instance != this)
+        List<Tilemap> unpathableTilemapList = new();
+        foreach (Tilemap tilemap in tilemapList)
         {
-            Destroy(this.gameObject);
+            if (!IsPassableLayer(tilemap))
+            {
+                unpathableTilemapList.Add(tilemap);
+            }
         }
-        else
-        {
-            Instance = this;
-        }
 
-        tilemapList = GetComponentsInChildren<Tilemap>().ToList();
-    }
-
-    private void OnDestroy()
-    {
-        Instance = null;
-    }
-
-    private void Start()
-    {
-        tilemapList.RemoveAll(IsPassableLayer);
-
-        BuildPathingGrid(tilemapList);
-        BuildAdjacentActions();
+        PathingGrid pathingGrid = BuildPathingGrid(unpathableTilemapList);
+        BuildAdjacentActions(pathingGrid);
+        return pathingGrid;
     }
 
     /// <summary>
@@ -56,8 +44,10 @@ public class TilemapPathing : MonoBehaviour
     /// Builds the PathingGrid from the passed Tilemap list. Assumes the tilemap cells are the same size.
     /// </summary>
     /// <param name="tilemapList">The Tilemap list used to build the grid</param>
-    private void BuildPathingGrid(List<Tilemap> tilemapList)
+    /// <returns>The PathingGrid object used for AI pathing</returns>
+    private PathingGrid BuildPathingGrid(List<Tilemap> tilemapList)
     {
+        PathingGrid pathingGrid = new();
         Vector2 minPosition = Vector2.positiveInfinity;
         Vector2 maxPosition = Vector2.negativeInfinity;
         List<TileBase[]> allTilemapTilesList = new();
@@ -75,27 +65,28 @@ public class TilemapPathing : MonoBehaviour
             allTilemapTilesList.Add(allTiles);
         }
 
-        PathingGrid.CellWidth = tilemapList[0].cellSize.x;
-        PathingGrid.Position = minPosition;
+        pathingGrid.CellWidth = tilemapList[0].cellSize.x;
+        pathingGrid.Position = minPosition;
 
-        int gridWidth = (int)((maxPosition.x - minPosition.x) / PathingGrid.CellWidth);
-        int gridHeight = (int)((maxPosition.y - minPosition.y) / PathingGrid.CellWidth);
+        int gridWidth = (int)((maxPosition.x - minPosition.x) / pathingGrid.CellWidth);
+        int gridHeight = (int)((maxPosition.y - minPosition.y) / pathingGrid.CellWidth);
 
         for (int x = 0; x < gridWidth; x++)
         {
             List<GridNode> column = new();
-            PathingGrid.Grid.Add(column);
+            pathingGrid.Grid.Add(column);
             for (int y = 0; y < gridHeight; y++)
             {
                 GridNode node = new();
                 node.X = x;
                 node.Y = y;
 
-                node.Passable = IsPositionPassable(x, y, tilemapList, allTilemapTilesList, PathingGrid);
+                node.Passable = IsPositionPassable(x, y, tilemapList, allTilemapTilesList, pathingGrid);
 
                 column.Add(node);
             }
         }
+        return pathingGrid;
     }
 
     /// <summary>
@@ -167,18 +158,19 @@ public class TilemapPathing : MonoBehaviour
     /// <summary>
     /// Builds the adjacent actions for the nodes in the PathingGrid.
     /// </summary>
-    private void BuildAdjacentActions()
+    /// <param name="pathingGrid">The PathingGrid used for AI pathing</param>
+    private void BuildAdjacentActions(PathingGrid pathingGrid)
     {
-        for (int x = 0; x < PathingGrid.Grid.Count; x++)
+        for (int x = 0; x < pathingGrid.Grid.Count; x++)
         {
-            for (int y = 0; y < PathingGrid.Grid[x].Count; y++)
+            for (int y = 0; y < pathingGrid.Grid[x].Count; y++)
             {
-                GridNode node = PathingGrid.Grid[x][y];
+                GridNode node = pathingGrid.Grid[x][y];
 
-                AddAdjacentAction(node, 0, 1, PathingGrid.StraightMoveCost);
-                AddAdjacentAction(node, 0, -1, PathingGrid.StraightMoveCost);
-                AddAdjacentAction(node, 1, 0, PathingGrid.StraightMoveCost);
-                AddAdjacentAction(node, -1, 0, PathingGrid.StraightMoveCost);
+                AddAdjacentAction(node, 0, 1, PathingGrid.StraightMoveCost, pathingGrid);
+                AddAdjacentAction(node, 0, -1, PathingGrid.StraightMoveCost, pathingGrid);
+                AddAdjacentAction(node, 1, 0, PathingGrid.StraightMoveCost, pathingGrid);
+                AddAdjacentAction(node, -1, 0, PathingGrid.StraightMoveCost, pathingGrid);
             }
         }
     }
@@ -190,14 +182,15 @@ public class TilemapPathing : MonoBehaviour
     /// <param name="relativeX">The relative X position for the action to the node</param>
     /// <param name="relativeY">The relative Y position for the action to the node</param>
     /// <param name="cost">The cost of the action</param>
-    private void AddAdjacentAction(GridNode node, int relativeX, int relativeY, float cost)
+    /// <param name="pathingGrid">The PathingGrid used for AI pathing</param>
+    private void AddAdjacentAction(GridNode node, int relativeX, int relativeY, float cost, PathingGrid pathingGrid)
     {
         int adjacentX = node.X + relativeX;
         int adjacentY = node.Y + relativeY;
 
-        if (IsCellInGrid(adjacentX, adjacentY))
+        if (IsCellInGrid(adjacentX, adjacentY, pathingGrid))
         {
-            GridNode adjacentNode = PathingGrid.Grid[adjacentX][adjacentY];
+            GridNode adjacentNode = pathingGrid.Grid[adjacentX][adjacentY];
             GridAction action = new();
             action.Node = adjacentNode;
             action.Cost = cost;
@@ -210,12 +203,13 @@ public class TilemapPathing : MonoBehaviour
     /// </summary>
     /// <param name="x">The x position of the cell</param>
     /// <param name="y">The y position of the cell</param>
+    /// <param name="pathingGrid">The PathingGrid used for AI pathing</param>
     /// <returns>true if the cell is in the grid</returns>
-    private bool IsCellInGrid(int x, int y)
+    private bool IsCellInGrid(int x, int y, PathingGrid pathingGrid)
     {
         return x >= 0
-            && x < PathingGrid.Grid.Count
+            && x < pathingGrid.Grid.Count
             && y >= 0
-            && y < PathingGrid.Grid[0].Count;
+            && y < pathingGrid.Grid[0].Count;
     }
 }

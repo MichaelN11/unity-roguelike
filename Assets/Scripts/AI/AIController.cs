@@ -30,7 +30,7 @@ public class AIController : MonoBehaviour
     private float attackTargetYOffset = 0.1f;
 
     private GameObject target;
-    private TilemapPathing tilemapPathing;
+    private Level level;
 
     private PathingGrid pathingGrid;
     private Rigidbody2D body;
@@ -61,14 +61,14 @@ public class AIController : MonoBehaviour
     private void Start()
     {
         target = PlayerController.Instance.gameObject;
-        tilemapPathing = TilemapPathing.Instance;
+        level = Level.Instance;
         if (target != null)
         {
             targetBody = target.GetComponent<Rigidbody2D>();
         }
-        if (tilemapPathing != null)
+        if (level != null)
         {
-            pathingGrid = tilemapPathing.PathingGrid;
+            pathingGrid = level.PathingGrid;
         }
         nextPosition = body.position;
         InvokeRepeating(nameof(FindPath), 0, timeBetweenAIUpdate);
