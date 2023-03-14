@@ -30,7 +30,7 @@ public class AIController : MonoBehaviour
     private float attackTargetYOffset = 0.1f;
 
     private GameObject target;
-    private Level level;
+    private LevelManager level;
 
     private PathingGrid pathingGrid;
     private Rigidbody2D body;
@@ -61,7 +61,7 @@ public class AIController : MonoBehaviour
     private void Start()
     {
         target = PlayerController.Instance.gameObject;
-        level = Level.Instance;
+        level = LevelManager.Instance;
         if (target != null)
         {
             targetBody = target.GetComponent<Rigidbody2D>();

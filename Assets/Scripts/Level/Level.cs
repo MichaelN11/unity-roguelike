@@ -1,38 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
-using UnityEngine.Tilemaps;
 
 /// <summary>
-/// Singleton component for managing the level. Should be on a Grid object.
+/// Scriptable object representing a level.
 /// </summary>
-public class Level : MonoBehaviour
+[CreateAssetMenu(menuName = "Game Data/Level")]
+public class Level : ScriptableObject
 {
-    public static Level Instance { get; private set; }
-
-    public PathingGrid PathingGrid { get; set; }
-
-    private TilemapPathing tilemapPathing = new();
-    private List<Tilemap> tilemapList;
-
-    private void Awake()
-    {
-        if (Instance != null && Instance != this)
-        {
-            Destroy(this.gameObject);
-        }
-        else
-        {
-            Instance = this;
-        }
-
-        tilemapList = GetComponentsInChildren<Tilemap>().ToList();
-        PathingGrid = tilemapPathing.Build(tilemapList);
-    }
-
-    private void OnDestroy()
-    {
-        Instance = null;
-    }
+    [SerializeField]
+    private List<GameObject> tiles;
+    public List<GameObject> Tiles => tiles;
 }
