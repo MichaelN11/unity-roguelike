@@ -12,42 +12,48 @@ public class LevelTile : MonoBehaviour
     private float tileWidth = 16;
 
     /// <summary>
-    /// Places the object as the tile.
+    /// Places the object as the tile. Returns a list of GameObjects that were created with the tile.
     /// </summary>
     /// <param name="gameObject">The tile object being placed</param>
     /// <param name="grid">The Grid object being used by the level</param>
-    public void Place(GameObject tile, GameObject grid)
+    /// <returns>TileObjects that were created with the tile</returns>
+    public TileObjects Place(GameObject tile, GameObject grid)
     {
         GameObject placedObject = Object.Instantiate(tile, transform.position, transform.rotation, grid.transform);
-        DetachNonTilemaps(placedObject.transform);
         Destroy(gameObject);
+        return DetachNonTilemaps(placedObject.transform);
     }
 
     /// <summary>
-    /// Places the object as the tile, mirrored in the x direction.
+    /// Places the object as the tile, mirrored in the x direction. Returns a list of GameObjects that were created with the tile.
     /// </summary>
     /// <param name="gameObject">The tile object being placed</param>
     /// <param name="grid">The Grid object being used by the level</param>
-    public void PlaceMirrored(GameObject tile, GameObject grid)
+    /// <returns>TileObjects that were created with the tile</returns>
+    public TileObjects PlaceMirrored(GameObject tile, GameObject grid)
     {
         GameObject placedObject = Instantiate(tile, transform.position, transform.rotation, grid.transform);
-        MirrorTileInXDirection(placedObject.transform);
-        DetachNonTilemaps(placedObject.transform);
         Destroy(gameObject);
+        MirrorTileInXDirection(placedObject.transform);
+        return DetachNonTilemaps(placedObject.transform);
     }
 
     /// <summary>
     /// Detach children that don't have the tilemap component. If the tilemap was mirrored, unmirror the children.
+    /// Returns a list of the detached objects.
     /// </summary>
     /// <param name="parent"></param>
-    private void DetachNonTilemaps(Transform parent)
+    /// <returns>TileObjects that were detached</returns>
+    private TileObjects DetachNonTilemaps(Transform parent)
     {
+        TileObjects tileObjects = new();
         // Loop backward to make it safe to detach child in the loop
         for (int i = parent.childCount - 1; i >= 0; i--)
         {
             Transform child = parent.GetChild(i);
             if (!child.GetComponent<Tilemap>())
             {
+                tileObjects.objectList.Add(child.gameObject);
                 child.parent = null;
                 if (parent.transform.localScale.x == -1)
                 {
@@ -55,6 +61,7 @@ public class LevelTile : MonoBehaviour
                 }
             }
         }
+        return tileObjects;
     }
 
     /// <summary>

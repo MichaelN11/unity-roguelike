@@ -17,3 +17,8 @@ MonoBehaviour:
   - {fileID: 6607943243475814378, guid: 6e282bf8d575447829e1318f011caf07, type: 3}
   - {fileID: 7465472504445559538, guid: 06519636658b547cba88d06fa5744b2e, type: 3}
   - {fileID: 881752346381456588, guid: cce45bf859de04393adf43f0cfc42011, type: 3}
+  meleeEnemies:
+  - {fileID: 7658967440879357034, guid: 4a3f8e7a4a1114b19bbe5d6c0b1a4d65, type: 3}
+  - {fileID: 7658967440879357034, guid: 1967cb95051e242a89da6f9def849649, type: 3}
+  rangedEnemies:
+  - {fileID: 7658967440879357034, guid: 1c7bc75ce48bb491fb871a0cf0598f67, type: 3}
