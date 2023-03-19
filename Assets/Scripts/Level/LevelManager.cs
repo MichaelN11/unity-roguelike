@@ -17,6 +17,9 @@ public class LevelManager : MonoBehaviour
     private Level level;
 
     [SerializeField]
+    private float minimumSpawnDistanceFromPlayer = 8;
+
+    [SerializeField]
     private bool highlightPathingGrid = false;
 
     [SerializeField]
@@ -64,7 +67,10 @@ public class LevelManager : MonoBehaviour
                 Spawner spawner = tileObject.GetComponent<Spawner>();
                 if (spawner != null)
                 {
-                    SpawnObject(spawner);
+                    if (!IsTooCloseToPlayer(spawner.transform))
+                    {
+                        SpawnObject(spawner);
+                    }
                     Destroy(tileObject);
                 }
             }
@@ -151,5 +157,23 @@ public class LevelManager : MonoBehaviour
         {
             return tileLocation.PlaceMirrored(tile, gameObject);
         }
+    }
+
+    /// <summary>
+    /// Determines if the passed transform object is too close to the player. This is to prevent enemies from
+    /// spawning next to the player.
+    /// </summary>
+    /// <param name="transform"></param>
+    /// <returns>true if the passed transform is too lose to the player's position</returns>
+    private bool IsTooCloseToPlayer(Transform transform)
+    {
+        bool isTooClose = false;
+        PlayerController playerController = PlayerController.Instance;
+        if (playerController != null)
+        {
+            float distance = Vector2.Distance(playerController.transform.position, transform.position);
+            isTooClose = distance <= minimumSpawnDistanceFromPlayer;
+        }
+        return isTooClose;
     }
 }

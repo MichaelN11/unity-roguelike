@@ -377,7 +377,7 @@ BoxCollider2D:
   m_Offset: {x: -0.124269485, y: -0.17493623}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.25}
+    pivot: {x: 0.45, y: 0.15}
     oldSize: {x: 2, y: 2}
     newSize: {x: 2, y: 2}
     adaptiveTilingThreshold: 0.5
@@ -464,7 +464,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timeBetweenAIUpdate: 1
-  aggroDistance: 12
+  aggroDistance: 8
   meleeRadius: 1
   attackTargetYOffset: 0.1
 --- !u!114 &2895836909355115246
