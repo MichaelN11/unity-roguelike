@@ -114,18 +114,14 @@ public class TilemapPathing
             Tilemap tilemap = tilemapList[i];
             BoundsInt cellBounds = tilemap.cellBounds;
 
-            Vector2 tilemapPosition = tilemap.CellToWorld(tilemap.origin);
-            Vector2 tilemapOffset = tilemapPosition - pathingGrid.Position;
-            Vector2Int tilemapCellOffset = Vector2Int.FloorToInt(tilemapOffset / pathingGrid.CellWidth);
-            int tilemapX = node.X - tilemapCellOffset.x;
-            int tilemapY = node.Y - tilemapCellOffset.y;
-            
-            if (tilemapX >= 0
-                && tilemapY >= 0
-                && tilemapX < cellBounds.size.x
-                && tilemapY < cellBounds.size.y)
+            Vector2Int tilemapCell = GetTilemapCellEquivalent(tilemap, pathingGrid, node);
+
+            if (tilemapCell.x >= 0
+                && tilemapCell.y >= 0
+                && tilemapCell.x < cellBounds.size.x
+                && tilemapCell.y < cellBounds.size.y)
             {
-                int arrayIndex = CalculateTileArrayPosition(tilemapX, tilemapY, cellBounds);
+                int arrayIndex = CalculateTileArrayPosition(tilemapCell.x, tilemapCell.y, cellBounds);
                 TileBase tile = allTiles[arrayIndex];
                 passable = passable && IsTilePassable(tile);
                 if (!passable)
@@ -140,6 +136,47 @@ public class TilemapPathing
         }
 
         return passable;
+    }
+
+    /// <summary>
+    /// Gets the position of a cell in the passed Tilemap equivalent to the passed GridNode in the passed PathingGrid.
+    /// Accounts for tilemaps mirrored in the x direction.
+    /// </summary>
+    /// <param name="tilemap"></param>
+    /// <param name="pathingGrid"></param>
+    /// <param name="node"></param>
+    /// <returns>The int position of the tilemap cell equivalent to the node</returns>
+    private Vector2Int GetTilemapCellEquivalent(Tilemap tilemap, PathingGrid pathingGrid, GridNode node)
+    {
+        Vector2 tilemapPosition = GetTilemapPosition(tilemap);
+        Vector2 tilemapOffset = tilemapPosition - pathingGrid.Position;
+        Vector2Int tilemapCellOffset = Vector2Int.FloorToInt(tilemapOffset / pathingGrid.CellWidth);
+        Vector2Int tilemapCellPosition = new(node.X - tilemapCellOffset.x, node.Y - tilemapCellOffset.y);
+
+        if (tilemap.transform.lossyScale.x == -1)
+        {
+            tilemapCellPosition.x = tilemap.size.x - tilemapCellPosition.x - 1;
+        }
+
+        return tilemapCellPosition;
+    }
+
+    /// <summary>
+    /// Gets the position of the tilemap, accounting for mirrored tilemaps in the x direction.
+    /// </summary>
+    /// <param name="tilemap"></param>
+    /// <returns>The position of the tilemap as a Vector2</returns>
+    private Vector2 GetTilemapPosition(Tilemap tilemap)
+    {
+        Vector2 tilemapPosition = Vector2.zero;
+        if (tilemap.transform.lossyScale.x == 1)
+        {
+            tilemapPosition = tilemap.CellToWorld(tilemap.origin);
+        } else if (tilemap.transform.lossyScale.x == -1)
+        {
+            tilemapPosition = tilemap.CellToWorld(tilemap.origin + new Vector3Int(tilemap.size.x, 0, 0));
+        }
+        return tilemapPosition;
     }
 
     /// <summary>

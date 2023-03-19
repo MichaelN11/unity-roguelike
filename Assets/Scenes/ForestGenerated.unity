@@ -3408,6 +3408,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 116077039412780157, guid: 7bb102ef3e5c54bb0b5c11aefedfd51d, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 116077039412780157, guid: 7bb102ef3e5c54bb0b5c11aefedfd51d, type: 3}
       propertyPath: m_LocalPosition.x
       value: -10.04
       objectReference: {fileID: 0}
@@ -8064,6 +8068,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   level: {fileID: 11400000, guid: 7db087a2a8c34460f9bbc1026721321f, type: 2}
+  highlightPathingGrid: 0
   highlightObject: {fileID: 7174054329565096041, guid: fae2b1ded2f7f40ac84d5be0c5d1f401, type: 3}
 --- !u!156049354 &2035194519
 Grid:

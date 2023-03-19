@@ -49,6 +49,12 @@ public class LevelManager : MonoBehaviour
         Instance = null;
     }
 
+    /// <summary>
+    /// Builds a level out of the passed list of LevelTiles representing the locations. The tiles
+    /// that can be used to build the level are pulled from the Level object. A tile can only be
+    /// used once in the level, and they can be randomly mirrored in the x direction.
+    /// </summary>
+    /// <param name="tileLocations">The list of LevelTiles representing the tile locations</param>
     private void BuildLevel(List<LevelTile> tileLocations)
     {
         if (level != null && tileLocations.Count > 0)
@@ -63,15 +69,34 @@ public class LevelManager : MonoBehaviour
             {
                 if (placeableTiles.Count > 0)
                 {
-                    int randomIndex = Random.Range(0, placeableTiles.Count);
-                    GameObject tile = placeableTiles[randomIndex];
-                    placeableTiles.RemoveAt(randomIndex);
-                    tileLocation.Place(tile, gameObject);
-                } else
+                    PlaceRandomTile(placeableTiles, tileLocation);
+                }
+                else
                 {
                     break;
                 }
             }
+        }
+    }
+
+    /// <summary>
+    /// Places a random tile from the list of placeable tiles, removing it from the list. The tile
+    /// can be randomly chosen to be mirrored in the x direction.
+    /// </summary>
+    /// <param name="placeableTiles">The deck of placeable tiles</param>
+    /// <param name="tileLocation">The LevelTile representing the tile location</param>
+    private void PlaceRandomTile(List<GameObject> placeableTiles, LevelTile tileLocation)
+    {
+        int randomIndex = Random.Range(0, placeableTiles.Count);
+        GameObject tile = placeableTiles[randomIndex];
+        placeableTiles.RemoveAt(randomIndex);
+        int mirrored = Random.Range(0, 2);
+        if (mirrored == 0)
+        {
+            tileLocation.Place(tile, gameObject);
+        } else
+        {
+            tileLocation.PlaceMirrored(tile, gameObject);
         }
     }
 }
