@@ -8064,6 +8064,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   level: {fileID: 11400000, guid: 7db087a2a8c34460f9bbc1026721321f, type: 2}
+  highlightObject: {fileID: 7174054329565096041, guid: fae2b1ded2f7f40ac84d5be0c5d1f401, type: 3}
 --- !u!156049354 &2035194519
 Grid:
   m_ObjectHideFlags: 0

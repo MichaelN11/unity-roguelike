@@ -9,6 +9,13 @@ using UnityEngine.Tilemaps;
 /// </summary>
 public class TilemapPathing
 {
+    private readonly GameObject highlightObject;
+
+    public TilemapPathing(GameObject highlightObject)
+    {
+        this.highlightObject = highlightObject;
+    }
+
     /// <summary>
     /// Builds the pathing grid used for tilemap pathing from the passed list of tilemaps.
     /// </summary>
@@ -81,7 +88,7 @@ public class TilemapPathing
                 node.X = x;
                 node.Y = y;
 
-                node.Passable = IsPositionPassable(x, y, tilemapList, allTilemapTilesList, pathingGrid);
+                node.Passable = IsPositionPassable(node, tilemapList, allTilemapTilesList, pathingGrid);
 
                 column.Add(node);
             }
@@ -92,13 +99,12 @@ public class TilemapPathing
     /// <summary>
     /// Determines if the passed position is passable using the passed list of tilemaps and list of all the tilemap tiles.
     /// </summary>
-    /// <param name="x">The int x position of the cell in the grid</param>
-    /// <param name="y">The int y position of the cell in the grid</param>
+    /// <param name="node">The node position being checked</param>
     /// <param name="tilemapList">The list of tilemaps</param>
     /// <param name="allTilemapTilesList">The list of TileBase[] representing all of the tiles in each tilemap</param>
     /// <param name="pathingGrid">The pathing grid</param>
     /// <returns>true if the grid position is passable</returns>
-    private bool IsPositionPassable(int x, int y, List<Tilemap> tilemapList,
+    private bool IsPositionPassable(GridNode node, List<Tilemap> tilemapList,
         List<TileBase[]> allTilemapTilesList, PathingGrid pathingGrid)
     {
         bool passable = true;
@@ -108,11 +114,11 @@ public class TilemapPathing
             Tilemap tilemap = tilemapList[i];
             BoundsInt cellBounds = tilemap.cellBounds;
 
-            Vector2 tilemapPosition = tilemap.localBounds.min;
+            Vector2 tilemapPosition = tilemap.CellToWorld(tilemap.origin);
             Vector2 tilemapOffset = tilemapPosition - pathingGrid.Position;
             Vector2Int tilemapCellOffset = Vector2Int.FloorToInt(tilemapOffset / pathingGrid.CellWidth);
-            int tilemapX = x - tilemapCellOffset.x;
-            int tilemapY = y - tilemapCellOffset.y;
+            int tilemapX = node.X - tilemapCellOffset.x;
+            int tilemapY = node.Y - tilemapCellOffset.y;
             
             if (tilemapX >= 0
                 && tilemapY >= 0
@@ -124,10 +130,15 @@ public class TilemapPathing
                 passable = passable && IsTilePassable(tile);
                 if (!passable)
                 {
+                    if (highlightObject != null)
+                    {
+                        Object.Instantiate(highlightObject, pathingGrid.NodeToWorld(node), Quaternion.identity);
+                    }
                     break;
                 }
             }
         }
+
         return passable;
     }
 

@@ -16,10 +16,18 @@ public class LevelManager : MonoBehaviour
     [SerializeField]
     private Level level;
 
-    private TilemapPathing tilemapPathing = new();
+    [SerializeField]
+    private bool highlightPathingGrid = false;
+
+    [SerializeField]
+    private GameObject highlightObject;
+
+    private TilemapPathing tilemapPathing;
 
     private void Awake()
     {
+        tilemapPathing = (highlightPathingGrid) ? new(highlightObject) : new(null);
+
         if (Instance != null && Instance != this)
         {
             Destroy(this.gameObject);
