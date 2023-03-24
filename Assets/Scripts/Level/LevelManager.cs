@@ -26,6 +26,7 @@ public class LevelManager : MonoBehaviour
     private GameObject highlightObject;
 
     private TilemapPathing tilemapPathing;
+    private List<TileObjects> tileObjectsList;
 
     private void Awake()
     {
@@ -41,11 +42,15 @@ public class LevelManager : MonoBehaviour
         }
 
         List<LevelTile> unplacedTiles = GetComponentsInChildren<LevelTile>().ToList();
-        List<TileObjects> tileObjectsList = BuildLevel(unplacedTiles);
-        SpawnObjects(tileObjectsList);
+        tileObjectsList = BuildLevel(unplacedTiles);
 
         List<Tilemap>  tilemapList = GetComponentsInChildren<Tilemap>().ToList();
         PathingGrid = tilemapPathing.Build(tilemapList);
+    }
+
+    private void Start()
+    {
+        SpawnObjects(tileObjectsList);
     }
 
     private void OnDestroy()

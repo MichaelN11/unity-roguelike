@@ -168,6 +168,7 @@ public class PlayerController : MonoBehaviour
     /// <param name="ctx">The callback context</param>
     private void OnRestart(CallbackContext ctx)
     {
+        inputActions.Dispose();
         Time.timeScale = 1;
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
