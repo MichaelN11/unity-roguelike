@@ -9,6 +9,10 @@ using UnityEngine;
 public class Level : ScriptableObject
 {
     [SerializeField]
+    private int maxEnemiesPerTile = 4;
+    public int MaxEnemiesPerTile => maxEnemiesPerTile;
+
+    [SerializeField]
     private List<GameObject> tiles;
     public List<GameObject> Tiles => tiles;
 

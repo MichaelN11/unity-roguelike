@@ -50,7 +50,7 @@ public class LevelManager : MonoBehaviour
 
     private void Start()
     {
-        SpawnObjects(tileObjectsList);
+        SpawnObjects(tileObjectsList, level);
     }
 
     private void OnDestroy()
@@ -62,20 +62,32 @@ public class LevelManager : MonoBehaviour
     /// Gets the spawners from the tile objects list, and decides which objects to spawn in each tile.
     /// </summary>
     /// <param name="tileObjectsList">The list of TileObjects containing spawners</param>
-    private void SpawnObjects(List<TileObjects> tileObjectsList)
+    /// <param name="level">The level scriptable object</param>
+    private void SpawnObjects(List<TileObjects> tileObjectsList, Level level)
     {
         foreach (TileObjects tileObjects in tileObjectsList)
         {
-            // Loop backwards through the objects, so they can be destroyed in the loop
-            for (int i = tileObjects.objectList.Count - 1; i >= 0; i--) {
-                GameObject tileObject = tileObjects.objectList[i];
+            int spawnedObjectCount = 0;
+            while (spawnedObjectCount < level.MaxEnemiesPerTile && tileObjects.objectList.Count > 0)
+            {
+                int randomIndex = Random.Range(0, tileObjects.objectList.Count);
+                GameObject tileObject = tileObjects.objectList[randomIndex];
                 Spawner spawner = tileObject.GetComponent<Spawner>();
                 if (spawner != null)
                 {
                     if (!IsTooCloseToPlayer(spawner.transform))
                     {
-                        SpawnObject(spawner);
+                        SpawnObject(spawner, level);
+                        ++spawnedObjectCount;
                     }
+                    Destroy(tileObject);
+                    tileObjects.objectList.RemoveAt(randomIndex);
+                }
+            }
+            foreach (GameObject tileObject in tileObjects.objectList)
+            {
+                if (tileObject.GetComponent<Spawner>() != null)
+                {
                     Destroy(tileObject);
                 }
             }
@@ -86,7 +98,8 @@ public class LevelManager : MonoBehaviour
     /// Spawns an object from the passed spawner.
     /// </summary>
     /// <param name="spawner">The spawner component</param>
-    private void SpawnObject(Spawner spawner)
+    /// <param name="level">The level scriptable object</param>
+    private void SpawnObject(Spawner spawner, Level level)
     {
         List<GameObject> spawnableObjects = new();
         foreach (Spawnable spawnable in spawner.Spawnables)
