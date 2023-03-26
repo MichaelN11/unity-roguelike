@@ -12,11 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c4fa90dd27724c31b55cf4a70758574, type: 3}
   m_Name: ForestLevel
   m_EditorClassIdentifier: 
+  maxEnemiesPerTile: 4
   tiles:
   - {fileID: 1212566642934411307, guid: 4879d5d8a4bb24641af930b3afad9b00, type: 3}
   - {fileID: 6607943243475814378, guid: 6e282bf8d575447829e1318f011caf07, type: 3}
   - {fileID: 7465472504445559538, guid: 06519636658b547cba88d06fa5744b2e, type: 3}
   - {fileID: 881752346381456588, guid: cce45bf859de04393adf43f0cfc42011, type: 3}
+  - {fileID: 6607943243475814378, guid: 588b355fa0a6541819742da7a07d71ec, type: 3}
   meleeEnemies:
   - {fileID: 7658967440879357034, guid: 4a3f8e7a4a1114b19bbe5d6c0b1a4d65, type: 3}
   - {fileID: 7658967440879357034, guid: 1967cb95051e242a89da6f9def849649, type: 3}
