@@ -7881,7 +7881,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8b4b6bf84801447dadb2a8f706f1106, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  winText: {fileID: 65047966}
+  newScene: {fileID: 102900000, guid: 4e135362f7fd84ded86af53aefd0b464, type: 3}
+  endText: {fileID: 0}
 --- !u!61 &1626782573
 BoxCollider2D:
   m_ObjectHideFlags: 0
