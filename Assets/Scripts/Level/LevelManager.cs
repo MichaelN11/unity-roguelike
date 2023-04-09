@@ -13,6 +13,9 @@ public class LevelManager : MonoBehaviour
 
     public PathingGrid PathingGrid { get; set; }
 
+    private LevelBounds levelBounds;
+    public LevelBounds LevelBounds => levelBounds;
+
     [SerializeField]
     private Level level;
 
@@ -24,6 +27,9 @@ public class LevelManager : MonoBehaviour
 
     [SerializeField]
     private GameObject highlightObject;
+
+    [SerializeField]
+    private bool spawnObjects = true;
 
     private TilemapPathing tilemapPathing;
     private List<TileObjects> tileObjectsList;
@@ -46,6 +52,8 @@ public class LevelManager : MonoBehaviour
 
         List<Tilemap>  tilemapList = GetComponentsInChildren<Tilemap>().ToList();
         PathingGrid = tilemapPathing.Build(tilemapList);
+
+        levelBounds = GetComponentInChildren<LevelBounds>();
     }
 
     private void Start()
@@ -75,7 +83,7 @@ public class LevelManager : MonoBehaviour
                 Spawner spawner = tileObject.GetComponent<Spawner>();
                 if (spawner != null)
                 {
-                    if (!IsTooCloseToPlayer(spawner.transform))
+                    if (spawnObjects && !IsTooCloseToPlayer(spawner.transform))
                     {
                         SpawnObject(spawner, level);
                         ++spawnedObjectCount;
