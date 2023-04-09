@@ -9,7 +9,7 @@ using UnityEngine.SceneManagement;
 public class LevelTransition : MonoBehaviour
 {
     [SerializeField]
-    private Object newScene;
+    private string newScene;
 
     [SerializeField]
     private GameObject endText;
@@ -20,7 +20,7 @@ public class LevelTransition : MonoBehaviour
         {
             if (newScene != null)
             {
-                SceneManager.LoadScene(newScene.name);
+                SceneManager.LoadScene(newScene);
             }
             if (endText != null)
             {
