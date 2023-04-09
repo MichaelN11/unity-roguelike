@@ -70,6 +70,7 @@ public class PlayerController : MonoBehaviour
     private void OnDestroy()
     {
         Instance = null;
+        inputActions.Dispose();
     }
 
     /// <summary>
@@ -168,7 +169,6 @@ public class PlayerController : MonoBehaviour
     /// <param name="ctx">The callback context</param>
     private void OnRestart(CallbackContext ctx)
     {
-        inputActions.Dispose();
         Time.timeScale = 1;
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
