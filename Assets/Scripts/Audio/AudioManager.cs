@@ -11,7 +11,7 @@ public class AudioManager : MonoBehaviour
 
     private Dictionary<string, AudioSource> soundMap = new();
 
-    void Awake()
+    private void Awake()
     {
         if (Instance != null && Instance != this)
         {

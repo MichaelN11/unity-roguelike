@@ -52,10 +52,13 @@ public class CameraController : MonoBehaviour
         {
             yield return new WaitForFixedUpdate();
 
-            float xPosition = LerpPosition(transform.position.x, followTarget.position.x, xDeadzone, xSmoothing);
-            float yPosition = LerpPosition(transform.position.y, followTarget.position.y, yDeadzone, ySmoothing);
+            if (followTarget != null)
+            {
+                float xPosition = LerpPosition(transform.position.x, followTarget.position.x, xDeadzone, xSmoothing);
+                float yPosition = LerpPosition(transform.position.y, followTarget.position.y, yDeadzone, ySmoothing);
 
-            transform.position = ClampToBounds(new(xPosition, yPosition, transform.position.z));
+                transform.position = ClampToBounds(new(xPosition, yPosition, transform.position.z));
+            }
         }
     }
 

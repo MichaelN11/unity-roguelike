@@ -171,6 +171,7 @@ public class PlayerController : MonoBehaviour
     {
         Time.timeScale = 1;
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        Debug.Log("Done restarting");
     }
 
     /// <summary>

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,25 +9,39 @@ using UnityEngine.SceneManagement;
 /// </summary>
 public class LevelTransition : MonoBehaviour
 {
+    public bool TransitionEnabled { get; set; } = true;
+
     [SerializeField]
     private string newScene;
+
+    [SerializeField]
+    private string transitionName;
+    public string TransitionName => transitionName;
 
     [SerializeField]
     private GameObject endText;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("Player"))
+        if (collision.CompareTag("Player") && TransitionEnabled)
         {
-            if (newScene != null)
+            if (newScene != null && newScene != "")
             {
-                SceneManager.LoadScene(newScene);
+                GameManager.Instance.TransitionScene(newScene, transitionName);
             }
             if (endText != null)
             {
                 endText.SetActive(true);
                 Time.timeScale = 0;
             }
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Player"))
+        {
+            TransitionEnabled = true;
         }
     }
 }
