@@ -12,6 +12,10 @@ public class LevelTransition : MonoBehaviour
     public bool TransitionEnabled { get; set; } = true;
 
     [SerializeField]
+    private bool isStart = false;
+    public bool IsStart => isStart;
+
+    [SerializeField]
     private string newScene;
 
     [SerializeField]

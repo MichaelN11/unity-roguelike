@@ -26,14 +26,19 @@ public class GameManager : MonoBehaviour
         else
         {
             Instance = this;
+            Initialize();
         }
+    }
 
+    private void Initialize()
+    {
+        LoadLevel();
         DontDestroyOnLoad(gameObject);
     }
 
     private void Start()
     {
-        SceneManager.sceneLoaded += LoadLevel;
+        SceneManager.sceneLoaded += SceneLoaded;
     }
 
     /// <summary>
@@ -47,28 +52,49 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene(sceneName);
     }
 
+    private void SceneLoaded(Scene scene, LoadSceneMode test)
+    {
+        LoadLevel();
+    }
+
     /// <summary>
-    /// Subscribed to the scene loaded event. Loads the level.
+    /// Loads the level. Spawns the player at the correct transition object.
     /// </summary>
     /// <param name="scene"></param>
     /// <param name="test"></param>
-    private void LoadLevel(Scene scene, LoadSceneMode test)
+    private void LoadLevel()
     {
-        if (currentTransition != null)
+        Debug.Log("level loaded. current transition: " + currentTransition);
+        LevelTransition startTransition = null;
+        bool playerSpawned = false;
+        LevelTransition[] levelTransitions = GameObject.FindObjectsOfType<LevelTransition>();
+        foreach (LevelTransition transition in levelTransitions)
         {
-            LevelTransition[] levelTransitions = GameObject.FindObjectsOfType<LevelTransition>();
-            foreach (LevelTransition transition in levelTransitions)
+            if (!string.IsNullOrWhiteSpace(currentTransition) && transition.TransitionName == currentTransition)
             {
-                Debug.Log("transition looked at: " + transition.TransitionName + " looking for: " + currentTransition);
-                if (transition.TransitionName == currentTransition)
-                {
-                    Debug.Log("instantiating player");
-                    transition.TransitionEnabled = false;
-                    Instantiate(player, transition.transform.position, Quaternion.identity);
-                    break;
-                }
+                SpawnPlayer(transition);
+                playerSpawned = true;
+                break;
             }
-            currentTransition = null;
+            if (transition.IsStart)
+            {
+                startTransition = transition;
+            }
         }
+        if (!playerSpawned && startTransition != null)
+        {
+            SpawnPlayer(startTransition);
+        }
+        currentTransition = null;
+    }
+
+    /// <summary>
+    /// Spawns the player at the passed transition object.
+    /// </summary>
+    /// <param name="transition"></param>
+    private void SpawnPlayer(LevelTransition transition)
+    {
+        transition.TransitionEnabled = false;
+        Instantiate(player, transition.transform.position, Quaternion.identity);
     }
 }
