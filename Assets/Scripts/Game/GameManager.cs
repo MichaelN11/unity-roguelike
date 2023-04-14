@@ -64,7 +64,6 @@ public class GameManager : MonoBehaviour
     /// <param name="test"></param>
     private void LoadLevel()
     {
-        Debug.Log("level loaded. current transition: " + currentTransition);
         LevelTransition startTransition = null;
         bool playerSpawned = false;
         LevelTransition[] levelTransitions = GameObject.FindObjectsOfType<LevelTransition>();
