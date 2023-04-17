@@ -12,6 +12,8 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
 
+    public SaveObject GameState { get; private set; }
+
     [SerializeField]
     private GameObject player;
 
@@ -32,7 +34,7 @@ public class GameManager : MonoBehaviour
 
     private void Initialize()
     {
-        LoadLevel();
+        LoadTransition();
         DontDestroyOnLoad(gameObject);
     }
 
@@ -54,15 +56,13 @@ public class GameManager : MonoBehaviour
 
     private void SceneLoaded(Scene scene, LoadSceneMode test)
     {
-        LoadLevel();
+        LoadTransition();
     }
 
     /// <summary>
-    /// Loads the level. Spawns the player at the correct transition object.
+    /// Spawns the player at the correct transition object.
     /// </summary>
-    /// <param name="scene"></param>
-    /// <param name="test"></param>
-    private void LoadLevel()
+    private void LoadTransition()
     {
         LevelTransition startTransition = null;
         bool playerSpawned = false;
@@ -88,7 +88,7 @@ public class GameManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Spawns the player at the passed transition object.
+    /// Instantiates the player at the passed transition object.
     /// </summary>
     /// <param name="transition"></param>
     private void SpawnPlayer(LevelTransition transition)

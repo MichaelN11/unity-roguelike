@@ -121,5 +121,5 @@ MonoBehaviour:
   followTarget: {fileID: 0}
   xSmoothing: 0.125
   ySmoothing: 0.125
-  xDeadzone: 2
-  yDeadzone: 1
+  xDeadzone: 0.5
+  yDeadzone: 0.25
