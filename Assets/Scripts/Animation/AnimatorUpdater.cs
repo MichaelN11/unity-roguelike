@@ -50,6 +50,7 @@ public class AnimatorUpdater : MonoBehaviour
             UpdateIsDead();
             UpdateFlash();
             UpdateStop();
+            UpdateAttack();
         }
     }
 
@@ -86,6 +87,7 @@ public class AnimatorUpdater : MonoBehaviour
     private void Attack(AbilityUseEventInfo eventInfo)
     {
         animator.SetTrigger("attack");
+        animator.SetBool("isAttacking", true);
         animator.SetInteger("attackStage", GetAttackStage(eventInfo.AbilityAnimation));
         aimModeTimer = aimModeDuration;
     }
@@ -108,6 +110,14 @@ public class AnimatorUpdater : MonoBehaviour
                 break;  
         }
         return animationStage;
+    }
+
+    private void UpdateAttack()
+    {
+        if (entityState.ActionState != ActionState.Ability)
+        {
+            animator.SetBool("isAttacking", false);
+        }
     }
 
     /// <summary>
