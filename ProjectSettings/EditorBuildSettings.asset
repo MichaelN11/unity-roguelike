@@ -20,4 +20,5 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Forest3x3.unity
     guid: 4f5d91c32ef4b43bb9cf6d869a15e2e8
-  m_configObjects: {}
+  m_configObjects:
+    com.unity.addressableassets: {fileID: 11400000, guid: d70ae2cd0267f43b8bac6b44b1bb47ea, type: 2}

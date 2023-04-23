@@ -11,6 +11,28 @@ public class EntityFactory
     private static readonly List<Faction> EnemyEnemies = new() { Faction.Player };
 
     /// <summary>
+    /// Creates a new instance of an entity as a player, at the passed location, using the passed entity name.
+    /// </summary>
+    /// <param name="entityName"></param>
+    /// <param name="position"></param>
+    /// <returns></returns>
+    public static GameObject CreatePlayer(string entityName, Vector2 position)
+    {
+        return CreatePlayer(AddressableService.LoadEntity(entityName), position);
+    }
+
+    /// <summary>
+    /// Creates a new instance of an entity as a player, at the passed location, using the passed entity name.
+    /// </summary>
+    /// <param name="entityName"></param>
+    /// <param name="position"></param>
+    /// <returns></returns>
+    public static GameObject CreateEnemy(string entityName, Vector2 position)
+    {
+        return CreateEnemy(AddressableService.LoadEntity(entityName), position);
+    }
+
+    /// <summary>
     /// Creates a new instance of the passed entity as a player, at the passed location.
     /// </summary>
     /// <param name="entity"></param>
