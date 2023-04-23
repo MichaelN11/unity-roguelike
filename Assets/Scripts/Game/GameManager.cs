@@ -12,12 +12,13 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
 
-    public SaveObject GameState { get; private set; }
+    public SaveObject GameState { get; private set; } = new();
 
     [SerializeField]
     private Entity player;
 
     private string currentTransition;
+    private string firstScene;
 
     private void Awake()
     {
@@ -34,6 +35,7 @@ public class GameManager : MonoBehaviour
 
     private void Initialize()
     {
+        firstScene = SceneManager.GetActiveScene().name;
         LoadTransition();
         DontDestroyOnLoad(gameObject);
     }
@@ -44,12 +46,23 @@ public class GameManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Transitions to the scene with the passed name, instantiates the player in the scene using the 
+    /// Restarts the game.
+    /// </summary>
+    public void Restart()
+    {
+        GameState = new();
+        Time.timeScale = 1;
+        SceneManager.LoadScene(firstScene);
+    }
+
+    /// <summary>
+    /// Transitions to the scene with the passed name.
     /// </summary>
     /// <param name="sceneName"></param>
     /// <param name="transitionName"></param>
     public void TransitionScene(string sceneName, string transitionName)
     {
+        SaveCurrentScene();
         currentTransition = transitionName;
         SceneManager.LoadScene(sceneName);
     }
@@ -94,6 +107,31 @@ public class GameManager : MonoBehaviour
     private void SpawnPlayer(LevelTransition transition)
     {
         transition.TransitionEnabled = false;
-        EntityFactory.CreatePlayer(player, transition.transform.position);
+        if (GameState.Player != null)
+        {
+            GameState.Player.Position = transition.transform.position;
+            EntityFactory.LoadPlayer(GameState.Player);
+        } else
+        {
+            EntityFactory.CreatePlayer(player, transition.transform.position);
+        }
+    }
+
+    /// <summary>
+    /// Saves the state of the current scene to the save object.
+    /// </summary>
+    private void SaveCurrentScene()
+    {
+        GameState.Player = new();
+        Damageable playerDamageable = PlayerController.Instance.GetComponent<Damageable>();
+        if (playerDamageable != null)
+        {
+            GameState.Player.Health = playerDamageable.CurrentHealth;
+        }
+        EntityData playerEntityData = PlayerController.Instance.GetComponent<EntityData>();
+        if (playerEntityData != null)
+        {
+            GameState.Player.Name = playerEntityData.Entity.name;
+        }
     }
 }

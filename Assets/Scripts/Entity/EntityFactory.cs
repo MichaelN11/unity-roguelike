@@ -44,7 +44,7 @@ public class EntityFactory
         player.SetActive(false);
 
         EntityData.AddToObject(player, entity, Faction.Player, PlayerEnemies);
-        BuildCommonComponents(entity, player);
+        CreateNewCommonComponents(entity, player);
         player.AddComponent<PlayerController>();
         player.tag = "Player";
 
@@ -64,11 +64,80 @@ public class EntityFactory
         enemy.SetActive(false);
 
         EntityData.AddToObject(enemy, entity, Faction.Enemy, EnemyEnemies);
-        BuildCommonComponents(entity, enemy);
+        CreateNewCommonComponents(entity, enemy);
         AIController.AddToObject(enemy, entity.EntityAI);
 
         enemy.SetActive(true);
         return enemy;
+    }
+
+    /// <summary>
+    /// Loads the player entity from the passed entity save data.
+    /// </summary>
+    /// <param name="saveData"></param>
+    /// <returns></returns>
+    public static GameObject LoadPlayer(EntitySave saveData)
+    {
+        Entity entity = AddressableService.LoadEntity(saveData.Name);
+        GameObject player = GameObject.Instantiate(entity.BaseObject, saveData.Position, Quaternion.identity);
+        player.SetActive(false);
+
+        EntityData.AddToObject(player, entity, Faction.Player, PlayerEnemies);
+        LoadCommonComponents(entity, player, saveData);
+        player.AddComponent<PlayerController>();
+        player.tag = "Player";
+
+        player.SetActive(true);
+        return player;
+    }
+
+    /// <summary>
+    /// Loads the enemy entity from the passed entity save data.
+    /// </summary>
+    /// <param name="saveData"></param>
+    /// <returns></returns>
+    public static GameObject LoadEnemy(EntitySave saveData)
+    {
+        Entity entity = AddressableService.LoadEntity(saveData.Name);
+        GameObject enemy = GameObject.Instantiate(entity.BaseObject, saveData.Position, Quaternion.identity);
+        enemy.SetActive(false);
+
+        EntityData.AddToObject(enemy, entity, Faction.Enemy, EnemyEnemies);
+        LoadCommonComponents(entity, enemy, saveData);
+        AIController.AddToObject(enemy, entity.EntityAI);
+
+        enemy.SetActive(true);
+        return enemy;
+    }
+
+    /// <summary>
+    /// Creates new components for a newly created entity.
+    /// </summary>
+    /// <param name="entity"></param>
+    /// <param name="entityObject"></param>
+    private static void CreateNewCommonComponents(Entity entity, GameObject entityObject)
+    {
+        Damageable.AddToObject(entityObject, entity.MaxHealth);
+        BuildCommonComponents(entity, entityObject);
+    }
+
+    /// <summary>
+    /// Loads the common components for an entity from the passed save data. 
+    /// </summary>
+    /// <param name="entity"></param>
+    /// <param name="entityObject"></param>
+    /// <param name="saveData"></param>
+    private static void LoadCommonComponents(Entity entity, GameObject entityObject, EntitySave saveData)
+    {
+        if (saveData.Health > 0)
+        {
+            Damageable.AddToObject(entityObject, entity.MaxHealth, saveData.Health);
+        }
+        else
+        {
+            Damageable.AddToObject(entityObject, entity.MaxHealth);
+        }
+        BuildCommonComponents(entity, entityObject);
     }
 
     /// <summary>
@@ -80,7 +149,6 @@ public class EntityFactory
     {
         entityObject.AddComponent<EntityState>();
         entityObject.AddComponent<EntityController>();
-        entityObject.AddComponent<Damageable>();
         entityObject.AddComponent<Movement>();
         entityObject.AddComponent<AnimatorUpdater>();
 

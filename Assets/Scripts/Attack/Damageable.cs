@@ -5,7 +5,7 @@ using UnityEngine;
 /// </summary>
 public class Damageable : MonoBehaviour
 {
-    public float MaxHealth { get; set; }
+    public float MaxHealth { get; private set; }
     public float CurrentHealth { get; private set; }
 
     private EntityData entityData;
@@ -23,11 +23,11 @@ public class Damageable : MonoBehaviour
 
     private void Start()
     {
-        if (entityData != null)
+        if (MaxHealth <= 0 && entityData != null)
         {
             MaxHealth = entityData.Entity.MaxHealth;
+            CurrentHealth = MaxHealth;
         }
-        CurrentHealth = MaxHealth;
     }
 
     private void Update()
@@ -38,6 +38,27 @@ public class Damageable : MonoBehaviour
         {
             Die();
         }
+    }
+
+    /// <summary>
+    /// Creates a new Damageable component and adds it to the passed object.
+    /// </summary>
+    /// <param name="gameObject"></param>
+    /// <param name="maxHealth"></param>
+    /// <param name="currentHealth"></param>
+    /// <returns></returns>
+    public static Damageable AddToObject(GameObject gameObject, float maxHealth, float currentHealth = 0)
+    {
+        Damageable damageable = gameObject.AddComponent<Damageable>();
+        damageable.MaxHealth = maxHealth;
+        if (currentHealth > 0)
+        {
+            damageable.CurrentHealth = currentHealth;
+        } else
+        {
+            damageable.CurrentHealth = maxHealth;
+        }
+        return damageable;
     }
 
     /// <summary>

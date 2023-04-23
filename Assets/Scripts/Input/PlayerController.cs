@@ -168,9 +168,7 @@ public class PlayerController : MonoBehaviour
     /// <param name="ctx">The callback context</param>
     private void OnRestart(CallbackContext ctx)
     {
-        Time.timeScale = 1;
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-        Debug.Log("Done restarting");
+        GameManager.Instance.Restart();
     }
 
     /// <summary>
