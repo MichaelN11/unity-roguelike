@@ -9,6 +9,8 @@ public class Damageable : MonoBehaviour
     public float CurrentHealth { get; private set; }
 
     private EntityData entityData;
+    public EntityData EntityData => entityData;
+
     private EntityState entityState;
     private Movement movement;
 
@@ -23,7 +25,7 @@ public class Damageable : MonoBehaviour
     {
         if (entityData != null)
         {
-            MaxHealth = entityData.EntityType.MaxHealth;
+            MaxHealth = entityData.Entity.MaxHealth;
         }
         CurrentHealth = MaxHealth;
     }
@@ -39,20 +41,6 @@ public class Damageable : MonoBehaviour
     }
 
     /// <summary>
-    /// Gets the EntityType from the EntityData.
-    /// </summary>
-    /// <returns>The EntityType</returns>
-    public EntityType GetEntityType()
-    {
-        EntityType entityType = null;
-        if (entityData != null)
-        {
-            entityType = entityData.EntityType;
-        }
-        return entityType;
-    }
-
-    /// <summary>
     /// Handles being hit by an incoming attack.
     /// </summary>
     /// <param name="attackData">The attack data</param>
@@ -62,13 +50,13 @@ public class Damageable : MonoBehaviour
         if (entityState != null && entityData != null)
         {
             entityState.Stop(attackData.AbilityData.HitStop);
-            entityState.Flash(entityData.EntityType.FlashOnHitTime);
-            AudioManager.Instance.Play(entityData.EntityType.SoundOnHit);
+            entityState.Flash(entityData.Entity.FlashOnHitTime);
+            AudioManager.Instance.Play(entityData.Entity.SoundOnHit);
             AttackResult attackResult = new();
-            attackResult.HitStunDuration = entityData.EntityType.HitStunDuration * attackData.AbilityData.HitStunMultiplier;
-            attackResult.KnockbackSpeed = entityData.EntityType.KnockbackSpeed * attackData.AbilityData.KnockbackMultiplier;
+            attackResult.HitStunDuration = entityData.Entity.HitStunDuration * attackData.AbilityData.HitStunMultiplier;
+            attackResult.KnockbackSpeed = entityData.Entity.KnockbackSpeed * attackData.AbilityData.KnockbackMultiplier;
             attackResult.KnockbackDirection = attackData.Direction;
-            attackResult.KnockbackAcceleration = entityData.EntityType.KnockbackAcceleration;
+            attackResult.KnockbackAcceleration = entityData.Entity.KnockbackAcceleration;
             HandleHitstun(attackResult);
         }
     }
@@ -109,7 +97,7 @@ public class Damageable : MonoBehaviour
         if (entityState != null && entityData != null)
         {
             entityState.DeadState();
-            Destroy(gameObject, entityData.EntityType.DeathTimer);
+            Destroy(gameObject, entityData.Entity.DeathTimer);
         } else
         {
             Destroy(gameObject);

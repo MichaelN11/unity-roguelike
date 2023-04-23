@@ -4,9 +4,17 @@ using UnityEngine;
 /// <summary>
 /// Scriptable object representing an entity type.
 /// </summary>
-[CreateAssetMenu(menuName = "Game Data/Entity Type")]
-public class EntityType : ScriptableObject
+[CreateAssetMenu(menuName = "Game Data/Entity")]
+public class Entity : ScriptableObject
 {
+    [SerializeField]
+    private GameObject baseObject;
+    public GameObject BaseObject => baseObject;
+
+    [SerializeField]
+    private List<Ability> abilities;
+    public List<Ability> Abilities => abilities;
+
     [SerializeField]
     private Sound soundOnHit;
     public Sound SoundOnHit => soundOnHit;
@@ -40,14 +48,14 @@ public class EntityType : ScriptableObject
     public float FlashOnHitTime => flashOnHitTime;
 
     [SerializeField]
-    private Faction faction;
-    public Faction Faction => faction;
-
-    [SerializeField]
-    private List<Faction> enemyFactions;
-    public List<Faction> EnemyFactions => enemyFactions;
-
-    [SerializeField]
     private float deathTimer;
     public float DeathTimer => deathTimer;
+
+    [SerializeField]
+    private EntityAI entityAI;
+    public EntityAI EntityAI => entityAI;
+
+    [SerializeField]
+    private Weapon weapon;
+    public Weapon Weapon => weapon;
 }

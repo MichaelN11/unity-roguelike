@@ -5,13 +5,12 @@ using UnityEngine;
 /// <summary>
 /// Component for controlling a weapon attached to an entity.
 /// </summary>
-public class Weapon : MonoBehaviour
+public class WeaponController : MonoBehaviour
 {
-    [SerializeField]
-    private float animationSpeed = 1;
     [SerializeField]
     private float pixelsPerUnit = 16;
 
+    private Weapon weapon;
     private AnimatorUpdater animatorUpdater;
     private Animator animator;
     private SpriteRenderer spriteRenderer;
@@ -34,7 +33,7 @@ public class Weapon : MonoBehaviour
         distance = transform.localPosition.x;
         yOffset = transform.localPosition.y;
         abilityManager.AbilityEvents.OnAbilityUse += Attack;
-        animator.speed = animationSpeed;
+        animator.speed = weapon.AnimationSpeed;
     }
 
     private void Update()
@@ -49,6 +48,19 @@ public class Weapon : MonoBehaviour
         {
             spriteRenderer.enabled = false;
         }
+    }
+
+    /// <summary>
+    /// Creates a new WeaponController component and adds it to the passed object.
+    /// </summary>
+    /// <param name="gameObject"></param>
+    /// <param name="weapon"></param>
+    /// <returns></returns>
+    public static WeaponController AddToObject(GameObject gameObject, Weapon weapon)
+    {
+        WeaponController weaponController = gameObject.AddComponent<WeaponController>();
+        weaponController.weapon = weapon;
+        return weaponController;
     }
 
     /// <summary>

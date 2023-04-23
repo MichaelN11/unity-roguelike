@@ -10,8 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2421c10c0751840c281645757ffbf300, type: 3}
-  m_Name: Player
+  m_Name: Hunter
   m_EditorClassIdentifier: 
+  baseObject: {fileID: 116077039412780153, guid: 7d52d213c0519434d9241cb312130350, type: 3}
+  abilities:
+  - {fileID: 11400000, guid: 3de9f8cdd5aa3420da24f086a510f8f4, type: 2}
   soundOnHit: {fileID: 11400000, guid: 32c3869f2625e4ddc9e21348f09f8bb1, type: 2}
   walkSpeed: 5.5
   interactionDistance: 1
@@ -20,6 +23,9 @@ MonoBehaviour:
   knockbackSpeed: 9
   knockbackAcceleration: -0.4
   flashOnHitTime: 0.15
-  faction: 0
-  enemyFactions: 01000000
   deathTimer: 1
+  entityAI:
+    aggroDistance: 7
+    meleeRadius: 1
+    attackTargetYOffset: 0.1
+  weapon: {fileID: 11400000, guid: e978c1629a017493cb1ed17195979337, type: 2}

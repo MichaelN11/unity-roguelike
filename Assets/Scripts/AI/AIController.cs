@@ -9,25 +9,21 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody2D), typeof(EntityController))]
 public class AIController : MonoBehaviour
 {
+    private const float TimeBetweenAIUpdate = 1f;
     /// <summary>
     /// The distance away from a position required to start moving to the next position.
     /// </summary>
     private const float MovementBuffer = 0.5f;
-
-    [SerializeField]
-    private float timeBetweenAIUpdate = 1f;
-    [SerializeField]
-    private float aggroDistance = 5;
     /// <summary>
     /// The distance at which we no longer need to check for line of sight to attack.
     /// </summary>
-    [SerializeField]
-    private float meleeRadius = 1;
+    private const float MeleeRadius = 1;
     /// <summary>
     /// The y offset for aiming attacks. We want to aim slightly higher than the center of the target.
     /// </summary>
-    [SerializeField]
-    private float attackTargetYOffset = 0.1f;
+    private const float AttackTargetYOffset = 0.1f;
+
+    private EntityAI entityAI;
 
     private GameObject target;
     private LevelManager level;
@@ -71,7 +67,7 @@ public class AIController : MonoBehaviour
             pathingGrid = level.PathingGrid;
         }
         nextPosition = body.position;
-        InvokeRepeating(nameof(FindPath), 0, timeBetweenAIUpdate);
+        InvokeRepeating(nameof(FindPath), 0, TimeBetweenAIUpdate);
     }
 
     private void Update()
@@ -92,6 +88,19 @@ public class AIController : MonoBehaviour
                     break;
             }
         }
+    }
+
+    /// <summary>
+    /// Creates a new AIController component and adds it to the passed object.
+    /// </summary>
+    /// <param name="gameObject"></param>
+    /// <param name="entityAI"></param>
+    /// <returns></returns>
+    public static AIController AddToObject(GameObject gameObject, EntityAI entityAI)
+    {
+        AIController aiController = gameObject.AddComponent<AIController>();
+        aiController.entityAI = entityAI;
+        return aiController;
     }
 
     /// <summary>
@@ -138,7 +147,7 @@ public class AIController : MonoBehaviour
         if (targetBody != null)
         {
             float distanceToTarget = Vector2.Distance(body.position, targetBody.position);
-            if (distanceToTarget > aggroDistance)
+            if (distanceToTarget > entityAI.AggroDistance)
             {
                 currentBehavior = Behavior.Idle;
                 SendInput(InputType.Idle);
@@ -164,7 +173,7 @@ public class AIController : MonoBehaviour
         bool canAttack = false;
         if (distanceToTarget <= attackRange)
         {
-            if (distanceToTarget <= meleeRadius)
+            if (distanceToTarget <= MeleeRadius)
             {
                 canAttack = true;
             }
@@ -200,7 +209,7 @@ public class AIController : MonoBehaviour
     /// <returns>The attack target position as a Vector2</returns>
     private Vector2 GetAttackTargetPosition()
     {
-        return targetBody.position + new Vector2(0, attackTargetYOffset);
+        return targetBody.position + new Vector2(0, AttackTargetYOffset);
     }
 
     /// <summary>

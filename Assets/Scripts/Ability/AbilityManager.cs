@@ -10,7 +10,6 @@ public class AbilityManager : MonoBehaviour
 {
     public AbilityEvents AbilityEvents { get; private set; } = new();
 
-    [SerializeField]
     private Ability ability;
 
     private AbilityBehavior abilityBehavior;
@@ -23,6 +22,22 @@ public class AbilityManager : MonoBehaviour
     private void Update()
     {
         abilityBehavior.OnUpdate();
+    }
+
+    /// <summary>
+    /// Creates a new AbilityManager component and adds it to the passed object.
+    /// </summary>
+    /// <param name="gameObject"></param>
+    /// <param name="abilities"></param>
+    /// <returns></returns>
+    public static AbilityManager AddToObject(GameObject gameObject, List<Ability> abilities)
+    {
+        AbilityManager abilityManager = gameObject.AddComponent<AbilityManager>();
+        if (abilities.Count > 0)
+        {
+            abilityManager.ability = abilities[0];
+        }
+        return abilityManager;
     }
 
     /// <summary>

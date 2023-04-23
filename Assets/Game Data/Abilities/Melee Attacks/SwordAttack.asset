@@ -22,8 +22,8 @@ MonoBehaviour:
       soundOnUse: {fileID: 11400000, guid: 24e03b321bd684136a6a6e935d02bca9, type: 2}
       soundOnHit: {fileID: 11400000, guid: db42481b98f464ab291d707fee37fcfd, type: 2}
       damage: 1
-      range: 0
-      radius: 0
+      attackDistance: 0
+      radius: 1
       hitStunMultiplier: 1
       knockbackMultiplier: 0.6
       recoveryDuration: 0.3
@@ -43,8 +43,8 @@ MonoBehaviour:
       soundOnUse: {fileID: 11400000, guid: 24e03b321bd684136a6a6e935d02bca9, type: 2}
       soundOnHit: {fileID: 11400000, guid: db42481b98f464ab291d707fee37fcfd, type: 2}
       damage: 1
-      range: 0
-      radius: 0
+      attackDistance: 0
+      radius: 1
       hitStunMultiplier: 1
       knockbackMultiplier: 0.6
       recoveryDuration: 0.3
@@ -64,8 +64,8 @@ MonoBehaviour:
       soundOnUse: {fileID: 11400000, guid: 43899a23761e24b1db7b6785e1233577, type: 2}
       soundOnHit: {fileID: 11400000, guid: db42481b98f464ab291d707fee37fcfd, type: 2}
       damage: 1
-      range: 0
-      radius: 0
+      attackDistance: 0
+      radius: 1
       hitStunMultiplier: 1
       knockbackMultiplier: 1
       recoveryDuration: 0.6

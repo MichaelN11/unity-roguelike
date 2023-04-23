@@ -10,16 +10,22 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2421c10c0751840c281645757ffbf300, type: 3}
-  m_Name: Log
+  m_Name: BanditArcher
   m_EditorClassIdentifier: 
+  baseObject: {fileID: 7658967440879357034, guid: 1c7bc75ce48bb491fb871a0cf0598f67, type: 3}
+  abilities:
+  - {fileID: 11400000, guid: d65dc515d17cd4e47b5dda7ef733059b, type: 2}
   soundOnHit: {fileID: 0}
-  walkSpeed: 2.25
-  interactionDistance: 0
-  maxHealth: 3
-  hitStunDuration: 0.4
-  knockbackSpeed: 10.5
+  walkSpeed: 3.75
+  interactionDistance: 1
+  maxHealth: 2
+  hitStunDuration: 0.3
+  knockbackSpeed: 13.5
   knockbackAcceleration: -0.4
   flashOnHitTime: 0.15
-  faction: 1
-  enemyFactions: 00000000
   deathTimer: 1
+  entityAI:
+    aggroDistance: 8
+    meleeRadius: 1
+    attackTargetYOffset: 0.1
+  weapon: {fileID: 11400000, guid: 3748e5892658a4f81ac319180f568308, type: 2}

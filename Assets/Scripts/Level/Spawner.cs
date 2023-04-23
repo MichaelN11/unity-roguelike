@@ -10,4 +10,27 @@ public class Spawner : MonoBehaviour
     [SerializeField]
     private List<Spawnable> spawnables;
     public List<Spawnable> Spawnables => spawnables;
+
+    [SerializeField]
+    private Entity singleSpawn;
+    public Entity SingleSpawn => singleSpawn;
+
+    [SerializeField]
+    private bool isPlayer = false;
+    public bool IsPlayer => isPlayer;
+
+    private void Start()
+    {
+        if (singleSpawn != null)
+        {
+            if (isPlayer)
+            {
+                EntityFactory.CreatePlayer(singleSpawn, transform.position);
+            } else
+            {
+                EntityFactory.CreateEnemy(singleSpawn, transform.position);
+            }
+            Destroy(gameObject);
+        }
+    }
 }

@@ -9307,7 +9307,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2520a33951ccb42dfa6ac99803169c52, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 116077039412780153, guid: 7bb102ef3e5c54bb0b5c11aefedfd51d, type: 3}
+  player: {fileID: 11400000, guid: ed02114de662f4ecba0305c56aa8ac03, type: 2}
 --- !u!4 &1585281798
 Transform:
   m_ObjectHideFlags: 0

@@ -8,8 +8,7 @@ using UnityEngine;
 /// </summary>
 public class AnimatorUpdater : MonoBehaviour
 {
-    [SerializeField]
-    private float aimModeDuration = 3f;
+    private const float AimModeDuration = 3f;
 
     private EntityState entityState;
     private Animator animator;
@@ -89,7 +88,7 @@ public class AnimatorUpdater : MonoBehaviour
         animator.SetTrigger("attack");
         animator.SetBool("isAttacking", true);
         animator.SetInteger("attackStage", GetAttackStage(eventInfo.AbilityAnimation));
-        aimModeTimer = aimModeDuration;
+        aimModeTimer = AimModeDuration;
     }
 
     /// <summary>

@@ -68,7 +68,7 @@ public class EntityController : MonoBehaviour
         float range = 0;
         if (abilityManager != null)
         {
-            range = entityData.EntityType.InteractionDistance + abilityManager.GetRange();
+            range = entityData.Entity.InteractionDistance + abilityManager.GetRange();
         }
         return range;
     }
@@ -93,7 +93,7 @@ public class EntityController : MonoBehaviour
             attemptedMoveDirection = moveDirection;
             if (movement != null && entityState.CanAct())
             {
-                movement.SetMovement(moveDirection, entityData.EntityType.WalkSpeed);
+                movement.SetMovement(moveDirection, entityData.Entity.WalkSpeed);
 
                 if (moveDirection != Vector2.zero)
                 {
@@ -142,7 +142,7 @@ public class EntityController : MonoBehaviour
         bool attackSuccessful = false;
         if (abilityManager != null)
         {
-            Vector2 positionOffset = attackDirection.normalized * entityData.EntityType.InteractionDistance;
+            Vector2 positionOffset = attackDirection.normalized * entityData.Entity.InteractionDistance;
             attackSuccessful = abilityManager.UseAbility(attackDirection, positionOffset);
         }
         return attackSuccessful;
@@ -158,7 +158,7 @@ public class EntityController : MonoBehaviour
         if (entityState.CanAct())
         {
             entityState.IdleState();
-            movement.SetMovement(Vector2.zero, entityData.EntityType.WalkSpeed);
+            movement.SetMovement(Vector2.zero, entityData.Entity.WalkSpeed);
             isIdleSet = true;
         }
         return isIdleSet;

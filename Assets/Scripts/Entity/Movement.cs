@@ -9,15 +9,13 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody2D), typeof(Collider2D))]
 public class Movement : MonoBehaviour
 {
+    private const float CollisionOffset = 0.05f;
+
     public Vector2 Direction { get; private set; } = Vector2.zero;
     public float Speed { get; private set; } = 0;
     public float Acceleration { get; private set; } = 0;
 
-    [SerializeField]
-    private float collisionOffset = 0.05f;
-    [SerializeField]
-    private ContactFilter2D contactFilter2D;
-
+    private ContactFilter2D contactFilter2D = new();
     private EntityState entityState;
     private Rigidbody2D body;
     private Collider2D movementCollider;
@@ -174,8 +172,8 @@ public class Movement : MonoBehaviour
         Vector2 offsetDirection = direction;
         float xSign = (offsetDirection.x != 0) ? Mathf.Sign(offsetDirection.x) : 0;
         float ySign = (offsetDirection.y != 0) ? Mathf.Sign(offsetDirection.y) : 0;
-        offsetDirection.x += collisionOffset * xSign;
-        offsetDirection.y += collisionOffset * ySign;
+        offsetDirection.x += CollisionOffset * xSign;
+        offsetDirection.y += CollisionOffset * ySign;
         return offsetDirection.magnitude - direction.magnitude;
     }
 

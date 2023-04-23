@@ -15,7 +15,7 @@ public class GameManager : MonoBehaviour
     public SaveObject GameState { get; private set; }
 
     [SerializeField]
-    private GameObject player;
+    private Entity player;
 
     private string currentTransition;
 
@@ -94,6 +94,6 @@ public class GameManager : MonoBehaviour
     private void SpawnPlayer(LevelTransition transition)
     {
         transition.TransitionEnabled = false;
-        Instantiate(player, transition.transform.position, Quaternion.identity);
+        EntityFactory.CreatePlayer(player, transition.transform.position);
     }
 }

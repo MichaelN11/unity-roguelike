@@ -54,7 +54,7 @@ public class DamageObject : MonoBehaviour
         
         Damageable otherDamageable = collision.gameObject.GetComponentInParent<Damageable>();
         if (otherDamageable != null
-            && IsValidAttackTarget(collision.gameObject, otherDamageable.GetEntityType()))
+            && IsValidAttackTarget(collision.gameObject, otherDamageable.EntityData))
         {
             otherDamageable.HandleIncomingAttack(AttackData);
             if (AttackData.AttackEvents != null)
@@ -116,13 +116,13 @@ public class DamageObject : MonoBehaviour
     /// Determines if the passed entity is a valid attack target for the attack.
     /// </summary>
     /// <param name="entity">The entity GameObject</param>
-    /// <param name="entityType">The EntityType containing data about the entity</param>
+    /// <param name="entityData">The EntityData containing data about the entity</param>
     /// <returns>true if the entity is a valid target for the attack</returns>
-    private bool IsValidAttackTarget(GameObject entity, EntityType entityType)
+    private bool IsValidAttackTarget(GameObject entity, EntityData entityData)
     {
         return entity != AttackData.User
-            && entityType != null
+            && entityData != null
             && AttackData.EntityData != null
-            && AttackData.EntityData.EntityType.EnemyFactions.Contains(entityType.Faction);
+            && AttackData.EntityData.EnemyFactions.Contains(entityData.Faction);
     }
 }

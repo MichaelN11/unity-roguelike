@@ -109,7 +109,7 @@ public class LevelManager : MonoBehaviour
     /// <param name="level">The level scriptable object</param>
     private void SpawnObject(Spawner spawner, Level level)
     {
-        List<GameObject> spawnableObjects = new();
+        List<Entity> spawnableObjects = new();
         foreach (Spawnable spawnable in spawner.Spawnables)
         {
             switch (spawnable)
@@ -125,7 +125,7 @@ public class LevelManager : MonoBehaviour
         if (spawnableObjects.Count > 0)
         {
             int randomIndex = Random.Range(0, spawnableObjects.Count);
-            Instantiate(spawnableObjects[randomIndex], spawner.transform.position, spawner.transform.rotation);
+            EntityFactory.CreateEnemy(spawnableObjects[randomIndex], spawner.transform.position);
         }
     }
 

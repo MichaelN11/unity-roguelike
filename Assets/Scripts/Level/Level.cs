@@ -17,10 +17,10 @@ public class Level : ScriptableObject
     public List<GameObject> Tiles => tiles;
 
     [SerializeField]
-    private List<GameObject> meleeEnemies;
-    public List<GameObject> MeleeEnemies => meleeEnemies;
+    private List<Entity> meleeEnemies;
+    public List<Entity> MeleeEnemies => meleeEnemies;
 
     [SerializeField]
-    private List<GameObject> rangedEnemies;
-    public List<GameObject> RangedEnemies => rangedEnemies;
+    private List<Entity> rangedEnemies;
+    public List<Entity> RangedEnemies => rangedEnemies;
 }

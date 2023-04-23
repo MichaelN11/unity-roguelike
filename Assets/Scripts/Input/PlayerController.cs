@@ -10,8 +10,7 @@ using static UnityEngine.InputSystem.InputAction;
 /// </summary>
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField]
-    private float inputBuffer = 0.5f;
+    private const float InputBuffer = 0.2f;
 
     public static PlayerController Instance { get; private set; }
 
@@ -126,7 +125,7 @@ public class PlayerController : MonoBehaviour
         if (!updateSuccessful)
         {
             bufferedInput = inputData;
-            bufferTimer = inputBuffer;
+            bufferTimer = InputBuffer;
         }
     }
 
