@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.Tilemaps;
 
 /// <summary>
@@ -33,6 +34,7 @@ public class LevelManager : MonoBehaviour
 
     private TilemapPathing tilemapPathing;
     private List<TileObjects> tileObjectsList;
+    private SceneSave loadedScene;
 
     private void Awake()
     {
@@ -47,8 +49,17 @@ public class LevelManager : MonoBehaviour
             Instance = this;
         }
 
+        string sceneName = SceneManager.GetActiveScene().name;
+        GameManager.Instance.GameState.SavedScenes.ScenesByName.TryGetValue(sceneName, out SceneSave sceneSave);
+        loadedScene = sceneSave;
         List<LevelTile> unplacedTiles = GetComponentsInChildren<LevelTile>().ToList();
-        tileObjectsList = BuildLevel(unplacedTiles);
+        if (loadedScene == null)
+        {
+            tileObjectsList = BuildLevel(unplacedTiles);
+        } else
+        {
+            LoadLevel(unplacedTiles, loadedScene);
+        }
 
         List<Tilemap>  tilemapList = GetComponentsInChildren<Tilemap>().ToList();
         PathingGrid = tilemapPathing.Build(tilemapList);
@@ -58,7 +69,13 @@ public class LevelManager : MonoBehaviour
 
     private void Start()
     {
-        SpawnObjects(tileObjectsList, level);
+        if (loadedScene == null)
+        {
+            SpawnObjects(tileObjectsList, level);
+        } else
+        {
+            LoadEntities(loadedScene);
+        }
     }
 
     private void OnDestroy()
@@ -201,5 +218,67 @@ public class LevelManager : MonoBehaviour
             isTooClose = distance <= minimumSpawnDistanceFromPlayer;
         }
         return isTooClose;
+    }
+
+    /// <summary>
+    /// Loads the level tiles from the saved scene.
+    /// </summary>
+    /// <param name="levelTiles"></param>
+    /// <param name="sceneSave"></param>
+    private void LoadLevel(List<LevelTile> levelTiles, SceneSave sceneSave)
+    {
+        foreach (LevelTile levelTile in levelTiles)
+        {
+            sceneSave.SavedTiles.TilesByPosition.TryGetValue(levelTile.transform.position, out TileSave tileSave);
+            if (tileSave != null)
+            {
+                LoadTile(levelTile, tileSave);
+            }
+        }
+    }
+
+    /// <summary>
+    /// Loads the saved tile.
+    /// </summary>
+    /// <param name="levelTile"></param>
+    /// <param name="tileSave"></param>
+    private void LoadTile(LevelTile levelTile, TileSave tileSave)
+    {
+        GameObject loadedTile = null;
+        foreach (GameObject tile in level.Tiles)
+        {
+            if (tile.name == tileSave.Name)
+            {
+                loadedTile = tile;
+            }
+        }
+        if (loadedTile != null)
+        {
+            TileObjects tileObjects;
+            if (tileSave.IsFlipped)
+            {
+                tileObjects = levelTile.PlaceMirrored(loadedTile, gameObject);
+            }
+            else
+            {
+                tileObjects = levelTile.Place(loadedTile, gameObject);
+            }
+            foreach (GameObject gameObject in tileObjects.objectList)
+            {
+                Destroy(gameObject);
+            }
+        }
+    }
+
+    /// <summary>
+    /// Loads the entities from the saved scene.
+    /// </summary>
+    /// <param name="sceneSave"></param>
+    private void LoadEntities(SceneSave sceneSave)
+    {
+        foreach (EntitySave entitySave in sceneSave.SavedEntities.EntityList)
+        {
+            EntityFactory.LoadEnemy(entitySave);
+        }
     }
 }

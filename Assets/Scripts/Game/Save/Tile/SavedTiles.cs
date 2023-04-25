@@ -7,5 +7,5 @@ using UnityEngine;
 /// </summary>
 public class SavedTiles
 {
-    public List<TileSave> TileList { get; set; } = new();
+    public Dictionary<Vector2, TileSave> TilesByPosition { get; set; } = new();
 }

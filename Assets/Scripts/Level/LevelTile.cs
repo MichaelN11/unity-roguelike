@@ -11,6 +11,9 @@ public class LevelTile : MonoBehaviour
     [SerializeField]
     private float tileWidth = 16;
 
+    public string TileName { get; private set; }
+    public bool IsFlipped { get; private set; } = false;
+
     /// <summary>
     /// Places the object as the tile. Returns a list of GameObjects that were created with the tile.
     /// </summary>
@@ -20,7 +23,8 @@ public class LevelTile : MonoBehaviour
     public TileObjects Place(GameObject tile, GameObject grid)
     {
         GameObject placedObject = Object.Instantiate(tile, transform.position, transform.rotation, grid.transform);
-        Destroy(gameObject);
+        GetComponent<SpriteRenderer>().enabled = false;
+        TileName = tile.name;
         return DetachNonTilemaps(placedObject.transform);
     }
 
@@ -33,7 +37,9 @@ public class LevelTile : MonoBehaviour
     public TileObjects PlaceMirrored(GameObject tile, GameObject grid)
     {
         GameObject placedObject = Instantiate(tile, transform.position, transform.rotation, grid.transform);
-        Destroy(gameObject);
+        GetComponent<SpriteRenderer>().enabled = false;
+        TileName = tile.name;
+        IsFlipped = true;
         MirrorTileInXDirection(placedObject.transform);
         return DetachNonTilemaps(placedObject.transform);
     }

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
@@ -122,6 +123,21 @@ public class GameManager : MonoBehaviour
     /// </summary>
     private void SaveCurrentScene()
     {
+        string name = SceneManager.GetActiveScene().name;
+        SceneSave sceneSave = new();
+        GameState.SavedScenes.ScenesByName[name] = sceneSave;
+        sceneSave.Name = name;
+
+        SavePlayer();
+        SaveTiles(sceneSave);
+        SaveEntities(sceneSave);
+    }
+
+    /// <summary>
+    /// Saves the state of the player.
+    /// </summary>
+    private void SavePlayer()
+    {
         GameState.Player = new();
         Damageable playerDamageable = PlayerController.Instance.GetComponent<Damageable>();
         if (playerDamageable != null)
@@ -132,6 +148,40 @@ public class GameManager : MonoBehaviour
         if (playerEntityData != null)
         {
             GameState.Player.Name = playerEntityData.Entity.name;
+        }
+    }
+
+    /// <summary>
+    /// Saves the tiles in the scene.
+    /// </summary>
+    /// <param name="sceneSave"></param>
+    private void SaveTiles(SceneSave sceneSave)
+    {
+        foreach (LevelTile levelTile in FindObjectsOfType<LevelTile>())
+        {
+            TileSave tileSave = new();
+            tileSave.Name = levelTile.TileName;
+            tileSave.IsFlipped = levelTile.IsFlipped;
+            tileSave.Position = levelTile.transform.position;
+            sceneSave.SavedTiles.TilesByPosition[tileSave.Position] = tileSave;
+        }
+    }
+
+    /// <summary>
+    /// Saves the entities in the scene.
+    /// </summary>
+    /// <param name="sceneSave"></param>
+    private void SaveEntities(SceneSave sceneSave)
+    {
+        foreach (EntityController entityController in FindObjectsOfType<EntityController>())
+        {
+            if (!entityController.CompareTag("Player") && entityController.GetComponent<EntityState>().ActionState != ActionState.Dead)
+            {
+                EntitySave entitySave = new();
+                entitySave.Name = entityController.GetComponent<EntityData>().Entity.name;
+                entitySave.Position = entityController.transform.position;
+                sceneSave.SavedEntities.EntityList.Add(entitySave);
+            }
         }
     }
 }

@@ -7,5 +7,5 @@ using UnityEngine;
 /// </summary>
 public class SavedScenes
 {
-    public List<SceneSave> SceneList { get; set; } = new();
+    public Dictionary<string, SceneSave> ScenesByName { get; set; } = new();
 }
