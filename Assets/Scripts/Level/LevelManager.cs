@@ -50,8 +50,7 @@ public class LevelManager : MonoBehaviour
         }
 
         string sceneName = SceneManager.GetActiveScene().name;
-        GameManager.Instance.GameState.SavedScenes.ScenesByName.TryGetValue(sceneName, out SceneSave sceneSave);
-        loadedScene = sceneSave;
+        loadedScene = GameManager.Instance.GameState.SavedScenes.GetScene(sceneName);
         List<LevelTile> unplacedTiles = GetComponentsInChildren<LevelTile>().ToList();
         if (loadedScene == null)
         {
@@ -229,7 +228,7 @@ public class LevelManager : MonoBehaviour
     {
         foreach (LevelTile levelTile in levelTiles)
         {
-            sceneSave.SavedTiles.TilesByPosition.TryGetValue(levelTile.transform.position, out TileSave tileSave);
+            TileSave tileSave = sceneSave.SavedTiles.GetTile(levelTile.transform.position);
             if (tileSave != null)
             {
                 LoadTile(levelTile, tileSave);

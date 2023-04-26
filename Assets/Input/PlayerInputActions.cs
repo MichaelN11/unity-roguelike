@@ -389,6 +389,24 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Save"",
+                    ""type"": ""Button"",
+                    ""id"": ""1cfd9a08-6faa-4d8a-b838-f93f2d063e2a"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Load"",
+                    ""type"": ""Button"",
+                    ""id"": ""821cd861-d59d-4579-96f6-dd447e437624"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -831,6 +849,28 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                     ""action"": ""Quit"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""73927fd4-3c3a-4771-9a94-0f70ef8fcc0a"",
+                    ""path"": ""<Keyboard>/k"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Save"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""dec33df7-c28c-4ae5-a85e-979bb1317795"",
+                    ""path"": ""<Keyboard>/l"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Load"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -917,6 +957,8 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
         m_UI_TrackedDeviceOrientation = m_UI.FindAction("TrackedDeviceOrientation", throwIfNotFound: true);
         m_UI_Restart = m_UI.FindAction("Restart", throwIfNotFound: true);
         m_UI_Quit = m_UI.FindAction("Quit", throwIfNotFound: true);
+        m_UI_Save = m_UI.FindAction("Save", throwIfNotFound: true);
+        m_UI_Load = m_UI.FindAction("Load", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -1037,6 +1079,8 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
     private readonly InputAction m_UI_TrackedDeviceOrientation;
     private readonly InputAction m_UI_Restart;
     private readonly InputAction m_UI_Quit;
+    private readonly InputAction m_UI_Save;
+    private readonly InputAction m_UI_Load;
     public struct UIActions
     {
         private @PlayerInputActions m_Wrapper;
@@ -1053,6 +1097,8 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
         public InputAction @TrackedDeviceOrientation => m_Wrapper.m_UI_TrackedDeviceOrientation;
         public InputAction @Restart => m_Wrapper.m_UI_Restart;
         public InputAction @Quit => m_Wrapper.m_UI_Quit;
+        public InputAction @Save => m_Wrapper.m_UI_Save;
+        public InputAction @Load => m_Wrapper.m_UI_Load;
         public InputActionMap Get() { return m_Wrapper.m_UI; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1098,6 +1144,12 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                 @Quit.started -= m_Wrapper.m_UIActionsCallbackInterface.OnQuit;
                 @Quit.performed -= m_Wrapper.m_UIActionsCallbackInterface.OnQuit;
                 @Quit.canceled -= m_Wrapper.m_UIActionsCallbackInterface.OnQuit;
+                @Save.started -= m_Wrapper.m_UIActionsCallbackInterface.OnSave;
+                @Save.performed -= m_Wrapper.m_UIActionsCallbackInterface.OnSave;
+                @Save.canceled -= m_Wrapper.m_UIActionsCallbackInterface.OnSave;
+                @Load.started -= m_Wrapper.m_UIActionsCallbackInterface.OnLoad;
+                @Load.performed -= m_Wrapper.m_UIActionsCallbackInterface.OnLoad;
+                @Load.canceled -= m_Wrapper.m_UIActionsCallbackInterface.OnLoad;
             }
             m_Wrapper.m_UIActionsCallbackInterface = instance;
             if (instance != null)
@@ -1138,6 +1190,12 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                 @Quit.started += instance.OnQuit;
                 @Quit.performed += instance.OnQuit;
                 @Quit.canceled += instance.OnQuit;
+                @Save.started += instance.OnSave;
+                @Save.performed += instance.OnSave;
+                @Save.canceled += instance.OnSave;
+                @Load.started += instance.OnLoad;
+                @Load.performed += instance.OnLoad;
+                @Load.canceled += instance.OnLoad;
             }
         }
     }
@@ -1207,5 +1265,7 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
         void OnTrackedDeviceOrientation(InputAction.CallbackContext context);
         void OnRestart(InputAction.CallbackContext context);
         void OnQuit(InputAction.CallbackContext context);
+        void OnSave(InputAction.CallbackContext context);
+        void OnLoad(InputAction.CallbackContext context);
     }
 }

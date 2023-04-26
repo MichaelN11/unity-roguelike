@@ -15,11 +15,15 @@ public class GameManager : MonoBehaviour
 
     public SaveObject GameState { get; private set; } = new();
 
+    private static string SaveFilePath = "/GameSave.sav";
+
     [SerializeField]
     private Entity player;
 
+    private bool loadingSave = false;
     private string currentTransition;
     private string firstScene;
+    private JsonFileService jsonFileService = new();
 
     private void Awake()
     {
@@ -68,9 +72,46 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene(sceneName);
     }
 
+    /// <summary>
+    /// Saves the current game state to a file.
+    /// </summary>
+    public void SaveGame()
+    {
+        SaveCurrentScene();
+        jsonFileService.WriteToFile(GameState, Application.persistentDataPath + SaveFilePath);
+    }
+
+    /// <summary>
+    /// Loads the game state from a file.
+    /// </summary>
+    public void LoadGame()
+    {
+        SaveObject savedGame = jsonFileService.ReadFromFile(Application.persistentDataPath + SaveFilePath);
+        if (savedGame != null)
+        {
+            loadingSave = true;
+            GameState = savedGame;
+            SceneManager.LoadScene(GameState.CurrentSceneName);
+        }
+    }
+
+    /// <summary>
+    /// Called whenever a scene is loaded. When loading a save, the player is loaded at the
+    /// saved position. Otherwise, the player is transitioning between scenes.
+    /// </summary>
+    /// <param name="scene"></param>
+    /// <param name="test"></param>
     private void SceneLoaded(Scene scene, LoadSceneMode test)
     {
-        LoadTransition();
+        if (loadingSave)
+        {
+            EntityFactory.LoadPlayer(GameState.Player);
+            loadingSave = false;
+        }
+        else
+        {
+            LoadTransition();
+        }
     }
 
     /// <summary>
@@ -124,9 +165,10 @@ public class GameManager : MonoBehaviour
     private void SaveCurrentScene()
     {
         string name = SceneManager.GetActiveScene().name;
+        GameState.CurrentSceneName = name;
         SceneSave sceneSave = new();
-        GameState.SavedScenes.ScenesByName[name] = sceneSave;
         sceneSave.Name = name;
+        GameState.SavedScenes.StoreScene(sceneSave);
 
         SavePlayer();
         SaveTiles(sceneSave);
@@ -148,6 +190,7 @@ public class GameManager : MonoBehaviour
         if (playerEntityData != null)
         {
             GameState.Player.Name = playerEntityData.Entity.name;
+            GameState.Player.Position = playerEntityData.transform.position;
         }
     }
 
@@ -163,7 +206,7 @@ public class GameManager : MonoBehaviour
             tileSave.Name = levelTile.TileName;
             tileSave.IsFlipped = levelTile.IsFlipped;
             tileSave.Position = levelTile.transform.position;
-            sceneSave.SavedTiles.TilesByPosition[tileSave.Position] = tileSave;
+            sceneSave.SavedTiles.TilesList.Add(tileSave);
         }
     }
 

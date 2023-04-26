@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,6 +6,7 @@ using UnityEngine;
 /// <summary>
 /// POCO representing a saved tile in a level.
 /// </summary>
+[Serializable]
 public class TileSave
 {
     public string Name { get; set; }

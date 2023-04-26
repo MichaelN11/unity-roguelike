@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,6 +6,7 @@ using UnityEngine;
 /// <summary>
 /// POCO representing a saved scene.
 /// </summary>
+[Serializable]
 public class SceneSave
 {
     public string Name { get; set; }

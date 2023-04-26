@@ -44,6 +44,8 @@ public class PlayerController : MonoBehaviour
 
         inputActions.UI.Restart.performed += OnRestart;
         inputActions.UI.Quit.performed += OnQuit;
+        inputActions.UI.Save.performed += OnSave;
+        inputActions.UI.Load.performed += OnLoad;
     }
 
     private void Update()
@@ -178,5 +180,23 @@ public class PlayerController : MonoBehaviour
     private void OnQuit(CallbackContext ctx)
     {
         Application.Quit();
+    }
+
+    /// <summary>
+    /// Saves the game.
+    /// </summary>
+    /// <param name="ctx"></param>
+    private void OnSave(CallbackContext ctx)
+    {
+        GameManager.Instance.SaveGame();
+    }
+
+    /// <summary>
+    /// Loads the game.
+    /// </summary>
+    /// <param name="ctx"></param>
+    private void OnLoad(CallbackContext ctx)
+    {
+        GameManager.Instance.LoadGame();
     }
 }
