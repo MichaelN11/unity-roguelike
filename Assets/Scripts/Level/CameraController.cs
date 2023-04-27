@@ -84,8 +84,20 @@ public class CameraController : MonoBehaviour
         if (levelBounds != null)
         {
             Bounds bounds = levelBounds.Bounds;
-            clampedPosition.x = Mathf.Clamp(cameraPosition.x, bounds.min.x + halfWidth, bounds.max.x - halfWidth);
-            clampedPosition.y = Mathf.Clamp(cameraPosition.y, bounds.min.y + halfHeight, bounds.max.y - halfHeight);
+            if (halfWidth < bounds.extents.x)
+            {
+                clampedPosition.x = Mathf.Clamp(cameraPosition.x, bounds.min.x + halfWidth, bounds.max.x - halfWidth);
+            } else
+            {
+                clampedPosition.x = bounds.center.x;
+            }
+            if (halfHeight < bounds.extents.y)
+            {
+                clampedPosition.y = Mathf.Clamp(cameraPosition.y, bounds.min.y + halfHeight, bounds.max.y - halfHeight);
+            } else
+            {
+                clampedPosition.y = bounds.center.y;
+            }
         }
 
         return clampedPosition;
