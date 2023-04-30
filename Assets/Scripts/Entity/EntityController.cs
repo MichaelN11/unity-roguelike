@@ -36,6 +36,11 @@ public class EntityController : MonoBehaviour
     /// <returns>true if the update was successful</returns>
     public bool UpdateFromInput(InputData inputData)
     {
+        if (GameManager.Instance.IsPaused)
+        {
+            return true;
+        }
+
         bool updateSuccessful = false;
         switch (inputData.Type)
         {

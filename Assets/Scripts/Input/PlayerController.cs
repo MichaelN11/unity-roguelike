@@ -43,7 +43,6 @@ public class PlayerController : MonoBehaviour
         inputActions.Player.Look.performed += OnLook;
 
         inputActions.UI.Restart.performed += OnRestart;
-        inputActions.UI.Quit.performed += OnQuit;
         inputActions.UI.Save.performed += OnSave;
         inputActions.UI.Load.performed += OnLoad;
     }
@@ -142,7 +141,6 @@ public class PlayerController : MonoBehaviour
 
     /// <summary>
     /// Actions taken while the fire button is held. Triggers an attack action for the EntityController.
-    /// Buffers the input so it can be used when entity can next act.
     /// </summary>
     private void FireHeld()
     {
@@ -171,15 +169,6 @@ public class PlayerController : MonoBehaviour
     private void OnRestart(CallbackContext ctx)
     {
         GameManager.Instance.Restart();
-    }
-
-    /// <summary>
-    /// Quits the game when the quit key is pressed.
-    /// </summary>
-    /// <param name="ctx">The callback context</param>
-    private void OnQuit(CallbackContext ctx)
-    {
-        Application.Quit();
     }
 
     /// <summary>

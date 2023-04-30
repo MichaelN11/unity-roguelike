@@ -36,7 +36,7 @@ public class LevelTransition : MonoBehaviour
             if (endText != null)
             {
                 endText.SetActive(true);
-                Time.timeScale = 0;
+                GameManager.Instance.PauseGame();
             }
         }
     }

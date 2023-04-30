@@ -14,8 +14,9 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance { get; private set; }
 
     public SaveObject GameState { get; private set; } = new();
+    public bool IsPaused { get; private set; } = false;
 
-    private static string SaveFilePath = "/GameSave.sav";
+    private static readonly string SaveFilePath = "/GameSave.sav";
 
     [SerializeField]
     private Entity player;
@@ -23,7 +24,7 @@ public class GameManager : MonoBehaviour
     private bool loadingSave = false;
     private string currentTransition;
     private string firstScene;
-    private JsonFileService jsonFileService = new();
+    private readonly JsonFileService jsonFileService = new();
 
     private void Awake()
     {
@@ -56,7 +57,6 @@ public class GameManager : MonoBehaviour
     public void Restart()
     {
         GameState = new();
-        Time.timeScale = 1;
         SceneManager.LoadScene(firstScene);
     }
 
@@ -93,6 +93,32 @@ public class GameManager : MonoBehaviour
             GameState = savedGame;
             SceneManager.LoadScene(GameState.CurrentSceneName);
         }
+    }
+
+    /// <summary>
+    /// Pauses the game.
+    /// </summary>
+    public void PauseGame()
+    {
+        IsPaused = true;
+        Time.timeScale = 0;
+    }
+
+    /// <summary>
+    /// Resumes the game.
+    /// </summary>
+    public void ResumeGame()
+    {
+        IsPaused = false;
+        Time.timeScale = 1;
+    }
+
+    /// <summary>
+    /// Quits the game.
+    /// </summary>
+    public void QuitGame()
+    {
+        Application.Quit();
     }
 
     /// <summary>
