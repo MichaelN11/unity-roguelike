@@ -19,7 +19,7 @@ public class Spawner : MonoBehaviour
     private bool isPlayer = false;
     public bool IsPlayer => isPlayer;
 
-    private void Start()
+    private void Awake()
     {
         if (singleSpawn != null)
         {
