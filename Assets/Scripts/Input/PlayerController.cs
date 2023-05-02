@@ -41,10 +41,6 @@ public class PlayerController : MonoBehaviour
         inputActions.Player.Move.performed += OnMovePerformed;
         inputActions.Player.Move.canceled += OnMoveCancelled;
         inputActions.Player.Look.performed += OnLook;
-
-        inputActions.UI.Restart.performed += OnRestart;
-        inputActions.UI.Save.performed += OnSave;
-        inputActions.UI.Load.performed += OnLoad;
     }
 
     private void Update()
@@ -160,32 +156,5 @@ public class PlayerController : MonoBehaviour
         inputData.Type = InputType.Move;
         inputData.Direction = moveDirection;
         entityController.UpdateFromInput(inputData);
-    }
-
-    /// <summary>
-    /// Reloads the current scene when the restart key is pressed.
-    /// </summary>
-    /// <param name="ctx">The callback context</param>
-    private void OnRestart(CallbackContext ctx)
-    {
-        GameManager.Instance.Restart();
-    }
-
-    /// <summary>
-    /// Saves the game.
-    /// </summary>
-    /// <param name="ctx"></param>
-    private void OnSave(CallbackContext ctx)
-    {
-        GameManager.Instance.SaveGame();
-    }
-
-    /// <summary>
-    /// Loads the game.
-    /// </summary>
-    /// <param name="ctx"></param>
-    private void OnLoad(CallbackContext ctx)
-    {
-        GameManager.Instance.LoadGame();
     }
 }
