@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40075b0f1472d4c8e8feda58174357ec, type: 3}
   m_Name: ForestMusic
   m_EditorClassIdentifier: 
-  audioClip: {fileID: 0}
-  isMusic: 0
-  loop: 0
-  volume: 1
+  audioClip: {fileID: 8300000, guid: f6401f6d47fbb4449890560652b9ba4f, type: 3}
+  isMusic: 1
+  loop: 1
+  volume: 0.1
   pitch: 1

@@ -25,6 +25,7 @@ public class ResourceManager : MonoBehaviour
             Instance = this;
         }
 
+        transform.parent = null;
         DontDestroyOnLoad(gameObject);
         LoadResources();
     }

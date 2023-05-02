@@ -43,6 +43,7 @@ public class GameManager : MonoBehaviour
     {
         firstScene = SceneManager.GetActiveScene().name;
         LoadTransition();
+        transform.parent = null;
         DontDestroyOnLoad(gameObject);
     }
 
