@@ -54,17 +54,16 @@ public class AudioManager : MonoBehaviour
                 return;
             }
 
-            float volume;
             if (sound.IsMusic)
             {
                 StopMusic();
-                volume = MusicVolume;
                 currentMusic = audioSource;
+                audioSource.volume = MusicVolume * sound.Volume;
+                audioSource.Play();
             } else
             {
-                volume = SfxVolume;
+                audioSource.PlayOneShot(sound.AudioClip, SfxVolume);
             }
-            audioSource.PlayOneShot(sound.AudioClip, volume);
         }
     }
 
