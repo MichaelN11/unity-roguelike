@@ -9,7 +9,11 @@ public class AudioManager : MonoBehaviour
 {
     public static AudioManager Instance { get; private set; }
 
-    private Dictionary<string, AudioSource> soundMap = new();
+    public float MusicVolume { get; set; } = 1;
+    public float SfxVolume { get; set; } = 1;
+
+    private readonly Dictionary<string, AudioSource> soundMap = new();
+    private AudioSource currentMusic;
 
     private void Awake()
     {
@@ -34,20 +38,43 @@ public class AudioManager : MonoBehaviour
     {
         if (sound != null)
         {
-            if (soundMap.TryGetValue(sound.name, out AudioSource audioSource))
-            {
-                //Debug.Log("Found audio source for " + sound.name);
-            }
-            else
+            if (!soundMap.TryGetValue(sound.name, out AudioSource audioSource))
             {
                 audioSource = gameObject.AddComponent<AudioSource>();
                 audioSource.clip = sound.AudioClip;
                 audioSource.volume = sound.Volume;
                 audioSource.pitch = sound.Pitch;
+                audioSource.loop = sound.Loop;
                 soundMap.Add(sound.name, audioSource);
-                //Debug.Log("Didn't find audio source, creating new one for: " + sound.name);
             }
-            audioSource.Play();
+
+            if (audioSource == currentMusic && audioSource.isPlaying)
+            {
+                return;
+            }
+
+            float volume;
+            if (sound.IsMusic)
+            {
+                StopMusic();
+                volume = MusicVolume;
+                currentMusic = audioSource;
+            } else
+            {
+                volume = SfxVolume;
+            }
+            audioSource.PlayOneShot(sound.AudioClip, volume);
+        }
+    }
+
+    /// <summary>
+    /// Stops the current music.
+    /// </summary>
+    public void StopMusic()
+    {
+        if (currentMusic != null)
+        {
+            currentMusic.Stop();
         }
     }
 }

@@ -13,6 +13,14 @@ public class Sound : ScriptableObject
     public AudioClip AudioClip => audioClip;
 
     [SerializeField]
+    private bool isMusic = false;
+    public bool IsMusic => isMusic;
+
+    [SerializeField]
+    private bool loop = false;
+    public bool Loop => loop;
+
+    [SerializeField]
     [Range(0f, 1f)]
     private float volume = 1f;
     public float Volume => volume;

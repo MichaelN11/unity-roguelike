@@ -9,3 +9,8 @@ https://elthen.itch.io/2d-pixel-art-twig-blight
 
 Libraries:
 https://github.com/BlueRaja/High-Speed-Priority-Queue-for-C-Sharp
+
+Music
+Alexandr Zhelanov
+https://opengameart.org/content/mystery-forest
+https://creativecommons.org/licenses/by/3.0/

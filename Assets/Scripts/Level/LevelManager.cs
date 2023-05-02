@@ -75,6 +75,7 @@ public class LevelManager : MonoBehaviour
         {
             LoadEntities(loadedScene);
         }
+        AudioManager.Instance.Play(level.Music);
     }
 
     private void OnDestroy()

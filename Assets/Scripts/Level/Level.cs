@@ -23,4 +23,8 @@ public class Level : ScriptableObject
     [SerializeField]
     private List<Entity> rangedEnemies;
     public List<Entity> RangedEnemies => rangedEnemies;
+
+    [SerializeField]
+    private Sound music;
+    public Sound Music => music;
 }
