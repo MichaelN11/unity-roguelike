@@ -19,10 +19,10 @@ MonoBehaviour:
       prefabDuration: 0.35
       rotatePrefab: 0
     attackAbilityData:
-      soundOnUse: {fileID: 0}
+      soundOnUse: {fileID: 11400000, guid: 89c02a6c42e14496eba18d0dffc19630, type: 2}
       soundOnHit: {fileID: 0}
       damage: 1
-      range: 0
+      attackDistance: 0
       radius: 1
       hitStunMultiplier: 1
       knockbackMultiplier: 1
