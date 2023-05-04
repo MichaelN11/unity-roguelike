@@ -6,6 +6,8 @@ ArMM1998
 https://opengameart.org/content/zelda-like-tilesets-and-sprites
 Elthen's Pixel Art Shop
 https://elthen.itch.io/2d-pixel-art-twig-blight
+MELLE
+https://opengameart.org/content/fantasy-gui-0
 
 Libraries:
 https://github.com/BlueRaja/High-Speed-Priority-Queue-for-C-Sharp
