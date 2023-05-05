@@ -12,7 +12,10 @@ https://opengameart.org/content/fantasy-gui-0
 Libraries:
 https://github.com/BlueRaja/High-Speed-Priority-Queue-for-C-Sharp
 
-Music
+Music:
 Alexandr Zhelanov
 https://opengameart.org/content/mystery-forest
 https://creativecommons.org/licenses/by/3.0/
+Janne Hanhisuanto for Radakan
+https://lpc.opengameart.org/content/radakan-menu
+https://creativecommons.org/licenses/by-sa/3.0/

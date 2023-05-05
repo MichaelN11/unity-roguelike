@@ -12,6 +12,9 @@ EditorBuildSettings:
     path: Assets/Scenes/ForestStatic.unity
     guid: d45af64a442844429add72499245defe
   - enabled: 1
+    path: Assets/Scenes/MainMenu.unity
+    guid: 08bba5af4ba7f4a129cca1acded60fbe
+  - enabled: 1
     path: Assets/Scenes/Forest2x2.unity
     guid: d270fd179f6a34545abc55fed3dc95a3
   - enabled: 1
