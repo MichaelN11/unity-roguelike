@@ -6,12 +6,15 @@
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
 
 \f0\fs24 \cf0 soon:\
-main menu\
+volume controls\
+options screen for pause menu\
+main menu on pause instead of restart\
 better win screen\
 ai updates\
 shadows for all entities\
 \
 later:\
+refactoring abilities: should only need one class per ability (or less). different ways to handle ability state, but really, ability state is probably not necessary. for combos, the entity could keep track of the last ability used (and when) Not a fan of abstract class usage either. Would prefer interface. Ability could just be a single class, that is made up of a combination of effects. Parry ability might need state?\
 ai stop shooting arrows into walls\
 bug where if you click fast enough it thinks you\'92re holding the mouse button\
 replace resource folder with addressables\
