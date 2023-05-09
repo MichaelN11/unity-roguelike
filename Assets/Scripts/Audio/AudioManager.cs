@@ -9,11 +9,18 @@ public class AudioManager : MonoBehaviour
 {
     public static AudioManager Instance { get; private set; }
 
-    public float MusicVolume { get; set; } = 1;
-    public float SfxVolume { get; set; } = 1;
+    private float masterVolume = 1;
+    public float MasterVolume => masterVolume;
+
+    private float musicVolume = 1;
+    public float MusicVolume => musicVolume;
+
+    private float sfxVolume = 1;
+    public float SfxVolume => sfxVolume;
 
     private readonly Dictionary<string, AudioSource> soundMap = new();
-    private AudioSource currentMusic;
+    private AudioSource musicSource;
+    private Sound currentMusic;
 
     private void Awake()
     {
@@ -49,7 +56,7 @@ public class AudioManager : MonoBehaviour
                 soundMap.Add(sound.name, audioSource);
             }
 
-            if (audioSource == currentMusic && audioSource.isPlaying)
+            if (audioSource == musicSource && audioSource.isPlaying)
             {
                 return;
             }
@@ -57,12 +64,13 @@ public class AudioManager : MonoBehaviour
             if (sound.IsMusic)
             {
                 StopMusic();
-                currentMusic = audioSource;
-                audioSource.volume = MusicVolume * sound.Volume;
+                currentMusic = sound;
+                musicSource = audioSource;
+                UpdateCurrentMusicVolume();
                 audioSource.Play();
             } else
             {
-                audioSource.PlayOneShot(sound.AudioClip, SfxVolume);
+                audioSource.PlayOneShot(sound.AudioClip, sfxVolume * masterVolume);
             }
         }
     }
@@ -72,9 +80,31 @@ public class AudioManager : MonoBehaviour
     /// </summary>
     public void StopMusic()
     {
-        if (currentMusic != null)
+        if (musicSource != null)
         {
-            currentMusic.Stop();
+            musicSource.Stop();
         }
+    }
+
+    public void SetMasterVolume(float masterVolume)
+    {
+        this.masterVolume = masterVolume;
+        UpdateCurrentMusicVolume();
+    }
+
+    public void SetMusicVolume(float musicVolume)
+    {
+        this.musicVolume = musicVolume;
+        UpdateCurrentMusicVolume();
+    }
+
+    public void SetSfxVolume(float sfxVolume)
+    {
+        this.sfxVolume = sfxVolume;
+    }
+
+    private void UpdateCurrentMusicVolume()
+    {
+        musicSource.volume = musicVolume * masterVolume * currentMusic.Volume;
     }
 }
