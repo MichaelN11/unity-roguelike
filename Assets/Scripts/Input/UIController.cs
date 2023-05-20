@@ -74,6 +74,7 @@ public class UIController : MonoBehaviour
     /// </summary>
     public void Resume()
     {
+        optionsMenu.SetActive(false);
         pauseMenu.SetActive(false);
         GameManager.Instance.ResumeGame();
     }
