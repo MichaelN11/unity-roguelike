@@ -27,7 +27,7 @@ public class MainMenu : MonoBehaviour
 
     public void NewGame()
     {
-        SceneManager.LoadScene(firstScene);
+        GameManager.Instance.NewGame(firstScene);
     }
 
     public void Continue()

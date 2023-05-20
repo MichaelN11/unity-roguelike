@@ -13,6 +13,12 @@ public class UIController : MonoBehaviour
     [SerializeField]
     private GameObject pauseMenu;
 
+    [SerializeField]
+    private GameObject optionsMenu;
+
+    [SerializeField]
+    private string mainMenuSceneName = "MainMenu";
+
     private PlayerInputActions inputActions;
 
     private void Awake()
@@ -73,19 +79,29 @@ public class UIController : MonoBehaviour
     }
 
     /// <summary>
-    /// Quits the game.
+    /// Loads the main menu scene.
     /// </summary>
-    public void Quit()
+    public void LoadMainMenu()
     {
-        GameManager.Instance.QuitGame();
+        GameManager.Instance.TransitionScene(mainMenuSceneName);
     }
 
     /// <summary>
-    /// Restarts the game.
+    /// Shows the options menu and hides the pause menu.
     /// </summary>
-    public void Restart()
+    public void ShowOptionsMenu()
     {
-        GameManager.Instance.Restart();
+        pauseMenu.SetActive(false);
+        optionsMenu.SetActive(true);
+    }
+
+    /// <summary>
+    /// Hides the options menu and shows the pause menu.
+    /// </summary>
+    public void HideOptionsMenu()
+    {
+        pauseMenu.SetActive(true);
+        optionsMenu.SetActive(false);
     }
 
     /// <summary>

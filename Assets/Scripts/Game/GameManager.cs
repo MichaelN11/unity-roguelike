@@ -53,6 +53,15 @@ public class GameManager : MonoBehaviour
     }
 
     /// <summary>
+    /// Starts a new game.
+    /// </summary>
+    public void NewGame(String firstScene)
+    {
+        GameState = new();
+        SceneManager.LoadScene(firstScene);
+    }
+
+    /// <summary>
     /// Restarts the game.
     /// </summary>
     public void Restart()
@@ -66,7 +75,7 @@ public class GameManager : MonoBehaviour
     /// </summary>
     /// <param name="sceneName"></param>
     /// <param name="transitionName"></param>
-    public void TransitionScene(string sceneName, string transitionName)
+    public void TransitionScene(string sceneName, string transitionName = "")
     {
         SaveCurrentScene();
         currentTransition = transitionName;
