@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using static UnityEngine.InputSystem.InputAction;
 
 /// <summary>
@@ -87,7 +88,7 @@ public class UIController : MonoBehaviour
     /// </summary>
     public void LoadMainMenu()
     {
-        GameManager.Instance.TransitionScene(mainMenuSceneName);
+        SceneManager.LoadScene(mainMenuSceneName);
     }
 
     /// <summary>
