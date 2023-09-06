@@ -36,7 +36,10 @@ public class UIController : MonoBehaviour
         inputActions.Enable();
 
         inputActions.UI.Quit.performed += OnPause;
-        Resume();
+        if (GameManager.Instance != null)
+        {
+            Resume();
+        }
     }
 
     private void Start()
