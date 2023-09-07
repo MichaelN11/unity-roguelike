@@ -36,7 +36,27 @@ public class GridSearchProblem : ISearchProblem<GridNode, GridAction>
     {
         List<(GridNode, GridAction)> successors = new();
         foreach (GridAction action in state.AdjacentActions) {
-            if (action.Node.Passable)
+            if (action.Direction == Vector2.up
+                && state.TopPassable
+                && action.Node.BottomPassable)
+            {
+                successors.Add((action.Node, action));
+            }
+            else if (action.Direction == Vector2.down
+                && state.BottomPassable
+                && action.Node.TopPassable)
+            {
+                successors.Add((action.Node, action));
+            }
+            else if (action.Direction == Vector2.left
+                && state.LeftPassable
+                && action.Node.RightPassable)
+            {
+                successors.Add((action.Node, action));
+            }
+            else if (action.Direction == Vector2.right
+                && state.RightPassable
+                && action.Node.LeftPassable)
             {
                 successors.Add((action.Node, action));
             }

@@ -9,4 +9,5 @@ public class GridAction
 {
     public GridNode Node { get; set; }
     public float Cost { get; set; }
+    public Vector2 Direction { get; set; }
 }

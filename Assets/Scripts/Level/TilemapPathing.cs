@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -88,7 +89,12 @@ public class TilemapPathing
                 node.X = x;
                 node.Y = y;
 
-                node.Passable = IsPositionPassable(node, tilemapList, allTilemapTilesList, pathingGrid);
+                DeterminePassableEdges(node, pathingGrid);
+
+                if (highlightObject != null)
+                {
+                    HighlightPathing(pathingGrid, node);
+                }
 
                 column.Add(node);
             }
@@ -97,110 +103,29 @@ public class TilemapPathing
     }
 
     /// <summary>
-    /// Determines if the passed position is passable using the passed list of tilemaps and list of all the tilemap tiles.
+    /// Determines the passable edges of the node. Checks the four corners of the cell
+    /// for collisions, and determines that a edge is passable if either of the corners
+    /// on the edge are empty.
     /// </summary>
-    /// <param name="node">The node position being checked</param>
-    /// <param name="tilemapList">The list of tilemaps</param>
-    /// <param name="allTilemapTilesList">The list of TileBase[] representing all of the tiles in each tilemap</param>
-    /// <param name="pathingGrid">The pathing grid</param>
-    /// <returns>true if the grid position is passable</returns>
-    private bool IsPositionPassable(GridNode node, List<Tilemap> tilemapList,
-        List<TileBase[]> allTilemapTilesList, PathingGrid pathingGrid)
-    {
-        bool passable = true;
-        for (int i = 0; i < tilemapList.Count; i++)
-        {
-            TileBase[] allTiles = allTilemapTilesList[i];
-            Tilemap tilemap = tilemapList[i];
-            BoundsInt cellBounds = tilemap.cellBounds;
-
-            Vector2Int tilemapCell = GetTilemapCellEquivalent(tilemap, pathingGrid, node);
-
-            if (tilemapCell.x >= 0
-                && tilemapCell.y >= 0
-                && tilemapCell.x < cellBounds.size.x
-                && tilemapCell.y < cellBounds.size.y)
-            {
-                int arrayIndex = CalculateTileArrayPosition(tilemapCell.x, tilemapCell.y, cellBounds);
-                TileBase tile = allTiles[arrayIndex];
-                passable = passable && IsTilePassable(tile);
-                if (!passable)
-                {
-                    if (highlightObject != null)
-                    {
-                        Object.Instantiate(highlightObject, pathingGrid.NodeToWorld(node), Quaternion.identity);
-                    }
-                    break;
-                }
-            }
-        }
-
-        return passable;
-    }
-
-    /// <summary>
-    /// Gets the position of a cell in the passed Tilemap equivalent to the passed GridNode in the passed PathingGrid.
-    /// Accounts for tilemaps mirrored in the x direction.
-    /// </summary>
-    /// <param name="tilemap"></param>
-    /// <param name="pathingGrid"></param>
     /// <param name="node"></param>
-    /// <returns>The int position of the tilemap cell equivalent to the node</returns>
-    private Vector2Int GetTilemapCellEquivalent(Tilemap tilemap, PathingGrid pathingGrid, GridNode node)
+    /// <param name="pathingGrid"></param>
+    private void DeterminePassableEdges(GridNode node, PathingGrid pathingGrid)
     {
-        Vector2 tilemapPosition = GetTilemapPosition(tilemap);
-        Vector2 tilemapOffset = tilemapPosition - pathingGrid.Position;
-        Vector2Int tilemapCellOffset = Vector2Int.FloorToInt(tilemapOffset / pathingGrid.CellWidth);
-        Vector2Int tilemapCellPosition = new(node.X - tilemapCellOffset.x, node.Y - tilemapCellOffset.y);
-
-        if (tilemap.transform.lossyScale.x == -1)
-        {
-            tilemapCellPosition.x = tilemap.size.x - tilemapCellPosition.x - 1;
-        }
-
-        return tilemapCellPosition;
-    }
-
-    /// <summary>
-    /// Gets the position of the tilemap, accounting for mirrored tilemaps in the x direction.
-    /// </summary>
-    /// <param name="tilemap"></param>
-    /// <returns>The position of the tilemap as a Vector2</returns>
-    private Vector2 GetTilemapPosition(Tilemap tilemap)
-    {
-        Vector2 tilemapPosition = Vector2.zero;
-        if (tilemap.transform.lossyScale.x == 1)
-        {
-            tilemapPosition = tilemap.CellToWorld(tilemap.origin);
-        } else if (tilemap.transform.lossyScale.x == -1)
-        {
-            tilemapPosition = tilemap.CellToWorld(tilemap.origin + new Vector3Int(tilemap.size.x, 0, 0));
-        }
-        return tilemapPosition;
-    }
-
-    /// <summary>
-    /// Determines if the TileBase is passable. If there is a tile at the position, the node is not passable.
-    /// </summary>
-    /// <param name="tile">The tile corresponding to the position of the node</param>
-    /// <returns>true if tile is null</returns>
-    private bool IsTilePassable(TileBase tile)
-    {
-        return (tile == null);
-    }
-
-    /// <summary>
-    /// Calculates the position in the 1-dimensional array of tiles, of a tile
-    /// at x and y in a 2-dimensional grid with the passed bounds.
-    /// </summary>
-    /// <param name="x">The x position in the grid</param>
-    /// <param name="y">The y position in the grid</param>
-    /// <param name="bounds">The bounds of the grid</param>
-    /// <returns>The position of the tile in the 1-dimensional array corresponding
-    /// to the passed x and y position</returns>
-    private int CalculateTileArrayPosition(int x, int y, BoundsInt bounds)
-    {
-        return x + y * bounds.size.x;
+        Vector2 worldPosition = pathingGrid.NodeToWorld(node);
+        float centerOffset = pathingGrid.CellWidth / 4;
+        float colliderWidth = pathingGrid.CellWidth * 0.2f;
+        Collider2D bottomRight = Physics2D.OverlapBox(new Vector2(worldPosition.x + centerOffset, worldPosition.y - centerOffset),
+            new Vector2(colliderWidth, colliderWidth), 0);
+        Collider2D bottomLeft = Physics2D.OverlapBox(new Vector2(worldPosition.x - centerOffset, worldPosition.y - centerOffset),
+            new Vector2(colliderWidth, colliderWidth), 0);
+        Collider2D topRight = Physics2D.OverlapBox(new Vector2(worldPosition.x + centerOffset, worldPosition.y + centerOffset),
+            new Vector2(colliderWidth, colliderWidth), 0);
+        Collider2D topLeft = Physics2D.OverlapBox(new Vector2(worldPosition.x - centerOffset, worldPosition.y + centerOffset),
+            new Vector2(colliderWidth, colliderWidth), 0);
+        node.BottomPassable = (bottomRight == null) || (bottomLeft == null);
+        node.TopPassable = (topRight == null) || (topLeft == null);
+        node.LeftPassable = (bottomLeft == null) || (topLeft == null);
+        node.RightPassable = (bottomRight == null) || (topRight == null);
     }
 
     /// <summary>
@@ -240,6 +165,7 @@ public class TilemapPathing
         {
             GridNode adjacentNode = pathingGrid.Grid[adjacentX][adjacentY];
             GridAction action = new();
+            action.Direction = new Vector2(relativeX, relativeY);
             action.Node = adjacentNode;
             action.Cost = cost;
             node.AdjacentActions.Add(action);
@@ -259,5 +185,41 @@ public class TilemapPathing
             && x < pathingGrid.Grid.Count
             && y >= 0
             && y < pathingGrid.Grid[0].Count;
+    }
+
+    private void HighlightPathing(PathingGrid pathingGrid, GridNode node)
+    {
+        float borderOffset = pathingGrid.CellWidth * 0.4f;
+        if (!node.TopPassable && !node.BottomPassable && !node.LeftPassable && !node.RightPassable)
+        {
+            Object.Instantiate(highlightObject, pathingGrid.NodeToWorld(node), Quaternion.identity);
+        }
+        else
+        {
+            if (!node.BottomPassable)
+            {
+                GameObject highlight = Object.Instantiate(highlightObject, pathingGrid.NodeToWorld(node), Quaternion.identity);
+                highlight.transform.localScale = new Vector3(1, 0.2f);
+                highlight.transform.position = new Vector3(highlight.transform.position.x, highlight.transform.position.y - borderOffset);
+            }
+            if (!node.TopPassable)
+            {
+                GameObject highlight = Object.Instantiate(highlightObject, pathingGrid.NodeToWorld(node), Quaternion.identity);
+                highlight.transform.localScale = new Vector3(1, 0.2f);
+                highlight.transform.position = new Vector3(highlight.transform.position.x, highlight.transform.position.y + borderOffset);
+            }
+            if (!node.LeftPassable)
+            {
+                GameObject highlight = Object.Instantiate(highlightObject, pathingGrid.NodeToWorld(node), Quaternion.identity);
+                highlight.transform.localScale = new Vector3(0.2f, 1);
+                highlight.transform.position = new Vector3(highlight.transform.position.x - borderOffset, highlight.transform.position.y);
+            }
+            if (!node.RightPassable)
+            {
+                GameObject highlight = Object.Instantiate(highlightObject, pathingGrid.NodeToWorld(node), Quaternion.identity);
+                highlight.transform.localScale = new Vector3(0.2f, 1);
+                highlight.transform.position = new Vector3(highlight.transform.position.x + borderOffset, highlight.transform.position.y);
+            }
+        }
     }
 }

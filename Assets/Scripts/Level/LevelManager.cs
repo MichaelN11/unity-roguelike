@@ -60,6 +60,9 @@ public class LevelManager : MonoBehaviour
             LoadLevel(unplacedTiles, loadedScene);
         }
 
+        // Sync the transforms to account for flipped tiles when building the pathing grid.
+        Physics2D.SyncTransforms();
+
         List<Tilemap>  tilemapList = GetComponentsInChildren<Tilemap>().ToList();
         PathingGrid = tilemapPathing.Build(tilemapList);
 
