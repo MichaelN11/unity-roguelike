@@ -37,6 +37,7 @@ public class UIController : MonoBehaviour
         inputActions.Enable();
 
         inputActions.UI.Quit.performed += OnPause;
+        inputActions.UI.Restart.performed += OnRestart;
         if (GameManager.Instance != null)
         {
             Resume();
@@ -123,5 +124,10 @@ public class UIController : MonoBehaviour
             pauseMenu.SetActive(true);
             GameManager.Instance.PauseGame();
         }
+    }
+
+    private void OnRestart(CallbackContext ctx)
+    {
+        GameManager.Instance.Restart();
     }
 }

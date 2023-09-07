@@ -22,6 +22,10 @@ public class AIController : MonoBehaviour
     /// The y offset for aiming attacks. We want to aim slightly higher than the center of the target.
     /// </summary>
     private const float AttackTargetYOffset = 0.1f;
+    /// <summary>
+    /// The maximum number of iterations to perform in the A* search.
+    /// </summary>
+    private const int MaxIterations = 400;
 
     private EntityAI entityAI;
 
@@ -249,7 +253,7 @@ public class AIController : MonoBehaviour
         {
             if (nextPathStep < movementPath.Count)
             {
-                nextPosition = pathingGrid.NodeToWorld(movementPath[nextPathStep++].Node);
+                nextPosition = pathingGrid.NodeToWorldWithOffset(movementPath[nextPathStep++].Node);
             } else
             {
                 nextPosition = targetBody.position;
@@ -285,7 +289,7 @@ public class AIController : MonoBehaviour
             GridNode targetNode = pathingGrid.WorldToNode(targetBody.position);
 
             GridSearchProblem search = new(thisNode, targetNode);
-            movementPath = AStarSearch<GridNode, GridAction>.AStar(search, 200);
+            movementPath = AStarSearch<GridNode, GridAction>.AStar(search, MaxIterations);
             nextPathStep = 0;
         }
     }

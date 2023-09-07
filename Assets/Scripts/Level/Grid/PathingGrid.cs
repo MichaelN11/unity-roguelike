@@ -55,4 +55,35 @@ public class PathingGrid
         float yPosition = (node.Y * CellWidth) + (CellWidth * 0.5f) + Position.y;
         return new Vector2(xPosition, yPosition);
     }
+
+    /// <summary>
+    /// Converts the passed GridNode to a position in world space, using the center
+    /// of the node, with the center offset depending on which of the node's edges are blocked.
+    /// </summary>
+    /// <param name="node">The GridNode</param>
+    /// <returns>The corresponding world position with offset as a Vector2</returns>
+    public Vector2 NodeToWorldWithOffset(GridNode node)
+    {
+        float xPosition = (node.X * CellWidth) + (CellWidth * 0.5f) + Position.x;
+        float yPosition = (node.Y * CellWidth) + (CellWidth * 0.5f) + Position.y;
+
+        if (!node.TopPassable)
+        {
+            yPosition -= CellWidth * 0.25f;
+        }
+        if (!node.BottomPassable)
+        {
+            yPosition += CellWidth * 0.25f;
+        }
+        if (!node.LeftPassable)
+        {
+            xPosition += CellWidth * 0.25f;
+        }
+        if (!node.RightPassable)
+        {
+            xPosition -= CellWidth * 0.25f;
+        }
+
+        return new Vector2(xPosition, yPosition);
+    }
 }
