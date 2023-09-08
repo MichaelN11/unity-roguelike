@@ -25,6 +25,9 @@ public class LevelTransition : MonoBehaviour
     [SerializeField]
     private GameObject endText;
 
+    [SerializeField]
+    private Sound endSound;
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Player") && TransitionEnabled)
@@ -35,8 +38,12 @@ public class LevelTransition : MonoBehaviour
             }
             if (endText != null)
             {
+                if (endSound != null)
+                {
+                    AudioManager.Instance.Play(endSound);
+                }
                 endText.SetActive(true);
-                GameManager.Instance.PauseGame();
+                GameManager.Instance.EndGame();
             }
         }
     }

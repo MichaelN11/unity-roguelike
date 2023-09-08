@@ -6260,11 +6260,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1261693791232312715, guid: e1ff84b3a447943598d116b5efa36d95, type: 3}
   m_PrefabInstance: {fileID: 977544673}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1251739798 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7847272158923247657, guid: b0e329376af984326b0acfb103634847, type: 3}
-  m_PrefabInstance: {fileID: 1928537441}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1347441686
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10539,7 +10534,8 @@ MonoBehaviour:
   isStart: 0
   newScene: 
   transitionName: 
-  endText: {fileID: 1251739798}
+  endText: {fileID: 1928537442}
+  endSound: {fileID: 11400000, guid: db04adf4e3b5e4bd3b3ec2c6e8f1d7e8, type: 2}
 --- !u!61 &1626782573
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -10932,6 +10928,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b0e329376af984326b0acfb103634847, type: 3}
+--- !u!1 &1928537442 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3947688980738362270, guid: b0e329376af984326b0acfb103634847, type: 3}
+  m_PrefabInstance: {fileID: 1928537441}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2035194517
 GameObject:
   m_ObjectHideFlags: 0

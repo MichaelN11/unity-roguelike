@@ -15,6 +15,7 @@ public class GameManager : MonoBehaviour
 
     public SaveObject GameState { get; private set; } = new();
     public bool IsPaused { get; private set; } = false;
+    public bool IsGameOver { get; private set; } = false;
 
     private static readonly string SaveFilePath = "/GameSave.sav";
 
@@ -57,6 +58,7 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public void NewGame(String firstScene)
     {
+        IsGameOver = false;
         GameState = new();
         SceneManager.LoadScene(firstScene);
     }
@@ -66,8 +68,7 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public void Restart()
     {
-        GameState = new();
-        SceneManager.LoadScene(firstScene);
+        NewGame(firstScene);
     }
 
     /// <summary>
@@ -100,6 +101,7 @@ public class GameManager : MonoBehaviour
         if (savedGame != null)
         {
             loadingSave = true;
+            IsGameOver = false;
             GameState = savedGame;
             SceneManager.LoadScene(GameState.CurrentSceneName);
         }
@@ -119,8 +121,17 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public void ResumeGame()
     {
-        IsPaused = false;
-        Time.timeScale = 1;
+        if (!IsGameOver)
+        {
+            IsPaused = false;
+            Time.timeScale = 1;
+        }
+    }
+
+    public void EndGame()
+    {
+        IsGameOver = true;
+        PauseGame();
     }
 
     /// <summary>

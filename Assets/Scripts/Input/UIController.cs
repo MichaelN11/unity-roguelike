@@ -110,6 +110,11 @@ public class UIController : MonoBehaviour
         optionsMenu.SetActive(false);
     }
 
+    public void Quit()
+    {
+        Application.Quit();
+    }
+
     /// <summary>
     /// Pauses/unpauses the game when the input is pressed.
     /// </summary>
