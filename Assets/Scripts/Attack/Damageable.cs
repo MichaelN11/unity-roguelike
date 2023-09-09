@@ -110,6 +110,12 @@ public class Damageable : MonoBehaviour
             collider.enabled = false;
         }
 
+        Transform shadow = transform.Find("Shadow");
+        if (shadow != null)
+        {
+            Destroy(shadow.gameObject);
+        }
+
         if (movement != null)
         {
             movement.StopMoving();
