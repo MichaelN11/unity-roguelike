@@ -13,5 +13,7 @@ MonoBehaviour:
   m_Name: PlayerHit
   m_EditorClassIdentifier: 
   audioClip: {fileID: 8300000, guid: e75056a21f39a4e1f8c1a0b4ff8bba1a, type: 3}
-  volume: 0.5
+  isMusic: 0
+  loop: 0
+  volume: 0.3
   pitch: 1.2
