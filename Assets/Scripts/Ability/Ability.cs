@@ -3,9 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// Abstract scriptable object representing an ability.
+/// Abstract class marking an ability scriptable object.
 /// </summary>
 public abstract class Ability : ScriptableObject
-{
-    public abstract AbilityBehavior BuildBehavior(AbilityManager abilityManager);
-}
+{}

@@ -67,15 +67,15 @@ public class Damageable : MonoBehaviour
     /// <param name="attackData">The attack data</param>
     public void HandleIncomingAttack(AttackData attackData)
     {
-        TakeDamage(attackData.AbilityData.Damage);
+        TakeDamage(attackData.EffectData.Damage);
         if (entityState != null && entityData != null)
         {
-            entityState.Stop(attackData.AbilityData.HitStop);
+            entityState.Stop(attackData.EffectData.HitStop);
             entityState.Flash(entityData.Entity.FlashOnHitTime);
             AudioManager.Instance.Play(entityData.Entity.SoundOnHit);
             AttackResult attackResult = new();
-            attackResult.HitStunDuration = entityData.Entity.HitStunDuration * attackData.AbilityData.HitStunMultiplier;
-            attackResult.KnockbackSpeed = entityData.Entity.KnockbackSpeed * attackData.AbilityData.KnockbackMultiplier;
+            attackResult.HitStunDuration = entityData.Entity.HitStunDuration * attackData.EffectData.HitStunMultiplier;
+            attackResult.KnockbackSpeed = entityData.Entity.KnockbackSpeed * attackData.EffectData.KnockbackMultiplier;
             attackResult.KnockbackDirection = attackData.Direction;
             attackResult.KnockbackAcceleration = entityData.Entity.KnockbackAcceleration;
             HandleHitstun(attackResult);

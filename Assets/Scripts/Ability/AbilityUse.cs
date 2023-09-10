@@ -3,11 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// POCO storing data passed into an ability when it is used.
+/// Class storing data for an effect being triggered.
 /// </summary>
-public class AbilityUse
+public class EffectData
 {
-    public AbilityManager Component { get; set; }
+    public GameObject Entity { get; set; }
+    public EntityData EntityData { get; set; }
+    public EntityState EntityState { get; set; }
+    public Movement EntityMovement { get; set; }
+
     public Vector2 Position { get; set; }
     public Vector2 Direction { get; set; } = Vector2.zero;
 }

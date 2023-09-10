@@ -8,20 +8,41 @@ using UnityEngine;
 /// </summary>
 public class AbilityManager : MonoBehaviour
 {
-    public AbilityEvents AbilityEvents { get; private set; } = new();
+    /// <summary>
+    /// The event that fires when an ability is used by the entity.
+    /// </summary>
+    public event Action<AbilityUseEventInfo> OnAbilityUse;
 
     private Ability ability;
 
-    private AbilityBehavior abilityBehavior;
+    private EntityData entityData;
+    private EntityState entityState;
+    private Movement movement;
+
+    private IEnumerator coroutine;
+
+    private ComboAbility currentComboAbility;
+    private int nextComboNumber = 0;
+    private float comboTimer = 0;
+    private float comboableTime = 0;
 
     private void Awake()
     {
-        abilityBehavior = ability.BuildBehavior(this);
+        entityData = GetComponentInParent<EntityData>();
+        entityState = GetComponentInParent<EntityState>();
+        movement = GetComponentInParent<Movement>();
     }
 
     private void Update()
     {
-        abilityBehavior.OnUpdate();
+        if (comboTimer > 0)
+        {
+            comboTimer -= Time.deltaTime;
+            if (comboTimer <= 0)
+            {
+                ResetCombo();
+            }
+        }
     }
 
     /// <summary>
@@ -41,21 +62,23 @@ public class AbilityManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Uses the ability
+    /// Uses the ability.
     /// </summary>
     /// <param name="direction">The direction in which the ability was used</param>
     /// <param name="positionOffset">The position offset from the entity</param>
     /// <returns>true if the ability was used successfully</returns>
     public bool UseAbility(Vector2 direction, Vector2 positionOffset)
     {
-        AbilityUse abilityUse = new()
+        if (ability is OnUseAbility onUseAbility)
         {
-            Direction = direction,
-            Position = transform.position + (Vector3)positionOffset,
-            Component = this
-        };
-        bool success = abilityBehavior.Use(abilityUse);
-        return success;
+            return UseOnUseAbility(onUseAbility, direction, positionOffset);
+        }
+        else if (ability is ComboAbility comboAbility)
+        {
+            return UseComboAbility(comboAbility, direction, positionOffset);
+        }
+  
+        return false;
     }
 
     /// <summary>
@@ -63,18 +86,11 @@ public class AbilityManager : MonoBehaviour
     /// </summary>
     public void Interrupt()
     {
-        abilityBehavior.Interrupt(this);
-    }
-
-    /// <summary>
-    /// Determines if the ability is usable.
-    /// </summary>
-    /// <param name="abilityUse">Object containing ability use data</param>
-    /// <returns>true if the ability is usable</returns>
-    public bool IsUsable(AbilityUse abilityUse)
-    {
-        abilityUse.Component = this;
-        return abilityBehavior.IsUsable(abilityUse);
+        ResetCombo();
+        if (coroutine != null)
+        {
+            StopCoroutine(coroutine);
+        }
     }
 
     /// <summary>
@@ -83,6 +99,109 @@ public class AbilityManager : MonoBehaviour
     /// <returns>The ability range as a float</returns>
     public float GetRange()
     {
-        return abilityBehavior.Range;
+        if (ability is OnUseAbility onUseAbility)
+        {
+            return onUseAbility.AIRange;
+        }
+        return 0;
+    }
+
+    private bool UseOnUseAbility(OnUseAbility onUseAbility, Vector2 direction, Vector2 positionOffset)
+    {
+        if (entityState.CanAct())
+        {
+            EffectData abilityUse = StartCastingAbility(onUseAbility, direction, positionOffset);
+            coroutine = DelayOnUseAbility(onUseAbility, abilityUse);
+            StartCoroutine(coroutine);
+            return true;
+        } else
+        {
+            return false;
+        }
+    }
+
+    private bool UseComboAbility(ComboAbility comboAbility, Vector2 direction, Vector2 positionOffset)
+    {
+        if (currentComboAbility != comboAbility)
+        {
+            ResetCombo();
+            currentComboAbility = comboAbility;
+        }
+        if (entityState.CanAct()
+                || (entityState.ActionState == ActionState.Ability
+                && entityState.StunTimer <= comboableTime)) {
+            ComboStage nextComboStage = comboAbility.ComboStages[nextComboNumber];
+            EffectData abilityUse = StartCastingAbility(nextComboStage.Ability, direction, positionOffset);
+            coroutine = DelayComboAbility(comboAbility, nextComboStage, abilityUse);
+            StartCoroutine(coroutine);
+            return true;
+        } else
+        {
+            return false;
+        }
+    }
+
+    private EffectData StartCastingAbility(OnUseAbility onUseAbility, Vector2 direction, Vector2 positionOffset)
+    {
+        EffectData abilityUse = new()
+        {
+            Direction = direction,
+            Position = transform.position + (Vector3)positionOffset,
+            Entity = gameObject,
+            EntityData = entityData,
+            EntityState = entityState,
+            EntityMovement = movement
+        };
+
+        if (movement != null)
+        {
+            movement.StopMoving();
+        }
+
+        entityState.LookDirection = direction;
+        entityState.AbilityState(onUseAbility.RecoveryTime + onUseAbility.CastTime);
+        OnAbilityUse?.Invoke(new AbilityUseEventInfo()
+        {
+            AbilityUse = abilityUse,
+            AbilityAnimation = onUseAbility.AbilityAnimation
+        });
+
+        return abilityUse;
+    }
+
+    private void ResetCombo()
+    {
+        nextComboNumber = 0;
+        comboTimer = 0;
+        comboableTime = 0;
+    }
+
+    /// <summary>
+    /// Coroutine method that delays the on use ability's start time. Used for cast or startup times.
+    /// </summary>
+    /// <param name="onUseAbility"></param>
+    /// <param name="abilityUse"></param>
+    /// <returns>IEnumerator used for the coroutine</returns>
+    private IEnumerator DelayOnUseAbility(OnUseAbility onUseAbility, EffectData abilityUse)
+    {
+        yield return new WaitForSeconds(onUseAbility.CastTime);
+        onUseAbility.Use(abilityUse);
+    }
+
+    private IEnumerator DelayComboAbility(ComboAbility comboAbility, ComboStage nextComboStage, EffectData abilityUse)
+    {
+        yield return new WaitForSeconds(nextComboStage.Ability.CastTime);
+        nextComboStage.Ability.Use(abilityUse);
+
+        if (nextComboNumber + 1 < comboAbility.ComboStages.Count)
+        {
+            comboTimer = nextComboStage.ComboContinueWindow;
+            comboableTime = nextComboStage.ComboableDuration;
+            ++nextComboNumber;
+        }
+        else
+        {
+            ResetCombo();
+        }
     }
 }

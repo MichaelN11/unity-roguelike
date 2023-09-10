@@ -122,7 +122,7 @@ public class DamageObject : MonoBehaviour
     {
         return entity != AttackData.User
             && entityData != null
-            && AttackData.EntityData != null
-            && AttackData.EntityData.EnemyFactions.Contains(entityData.Faction);
+            && AttackData.UserEntityData != null
+            && AttackData.UserEntityData.EnemyFactions.Contains(entityData.Faction);
     }
 }

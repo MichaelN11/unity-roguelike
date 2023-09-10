@@ -32,7 +32,7 @@ public class WeaponController : MonoBehaviour
     {
         distance = transform.localPosition.x;
         yOffset = transform.localPosition.y;
-        abilityManager.AbilityEvents.OnAbilityUse += Attack;
+        abilityManager.OnAbilityUse += Attack;
         animator.speed = weapon.AnimationSpeed;
     }
 

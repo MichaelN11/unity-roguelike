@@ -7501,6 +7501,7 @@ MonoBehaviour:
   newScene: Forest3x2
   transitionName: 1to2
   endText: {fileID: 0}
+  endSound: {fileID: 0}
 --- !u!61 &1626782573
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -8457,6 +8458,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6069404172088919429, guid: a39955bdf5e604d2c8a4f37e3958a219, type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 11400000, guid: ed02114de662f4ecba0305c56aa8ac03, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a39955bdf5e604d2c8a4f37e3958a219, type: 3}
 --- !u!1001 &7847272158975647159
