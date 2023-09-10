@@ -130,6 +130,7 @@ public class AbilityManager : MonoBehaviour
         if (entityState.CanAct()
                 || (entityState.ActionState == ActionState.Ability
                 && entityState.StunTimer <= comboableTime)) {
+            comboTimer = 0;
             ComboStage nextComboStage = comboAbility.ComboStages[nextComboNumber];
             EffectData abilityUse = StartCastingAbility(nextComboStage.Ability, direction, positionOffset);
             coroutine = DelayComboAbility(comboAbility, nextComboStage, abilityUse);
