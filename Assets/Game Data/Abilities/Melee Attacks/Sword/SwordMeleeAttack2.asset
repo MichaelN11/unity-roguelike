@@ -16,7 +16,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 17b1cc746dc7842edb47be29d93f86e5, type: 2}
   - {fileID: 11400000, guid: c78084f72c890434cb80586da68ef885, type: 2}
   castTime: 0
-  recoveryTime: 0.4
+  recoveryTime: 0.18
+  activeTime: 0.22
   cooldown: 0
   aiRange: 1
   soundOnUse: {fileID: 11400000, guid: 24e03b321bd684136a6a6e935d02bca9, type: 2}

@@ -160,11 +160,13 @@ public class AbilityManager : MonoBehaviour
         }
 
         entityState.LookDirection = direction;
-        entityState.AbilityState(onUseAbility.RecoveryTime + onUseAbility.CastTime);
+        entityState.AbilityState(onUseAbility.RecoveryTime + onUseAbility.CastTime + onUseAbility.ActiveTime);
         OnAbilityUse?.Invoke(new AbilityUseEventInfo()
         {
             AbilityUse = abilityUse,
-            AbilityAnimation = onUseAbility.AbilityAnimation
+            AbilityAnimation = onUseAbility.AbilityAnimation,
+            CastTime = onUseAbility.CastTime,
+            ActiveTime = onUseAbility.ActiveTime
         });
 
         return abilityUse;

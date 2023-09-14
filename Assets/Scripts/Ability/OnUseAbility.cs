@@ -21,6 +21,10 @@ public class OnUseAbility : Ability
     public float RecoveryTime => recoveryTime;
 
     [SerializeField]
+    private float activeTime;
+    public float ActiveTime => activeTime;
+
+    [SerializeField]
     private float cooldown;
     public float Cooldown => cooldown;
 

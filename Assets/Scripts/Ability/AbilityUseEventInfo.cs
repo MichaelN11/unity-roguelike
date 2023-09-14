@@ -7,4 +7,6 @@ public class AbilityUseEventInfo
 {
     public EffectData AbilityUse { get; set; }
     public AbilityAnimation AbilityAnimation { get; set; }
+    public float CastTime { get; set; }
+    public float ActiveTime { get; set; }
 }
