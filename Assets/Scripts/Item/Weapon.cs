@@ -8,7 +8,4 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Game Data/Weapon")]
 public class Weapon : ScriptableObject
 {
-    [SerializeField]
-    private float animationSpeed = 1;
-    public float AnimationSpeed => animationSpeed;
 }

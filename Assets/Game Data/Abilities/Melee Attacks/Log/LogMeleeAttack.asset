@@ -15,7 +15,8 @@ MonoBehaviour:
   effects:
   - {fileID: 11400000, guid: 7f0d082f1b5104b32a58363352451327, type: 2}
   castTime: 0.63
-  recoveryTime: 0.7
+  recoveryTime: 0.35
+  activeTime: 0.35
   cooldown: 0
   aiRange: 1
   soundOnUse: {fileID: 11400000, guid: 89c02a6c42e14496eba18d0dffc19630, type: 2}

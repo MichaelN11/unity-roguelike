@@ -105,7 +105,6 @@ public class AnimatorUpdater : MonoBehaviour
         }
         animator.SetFloat("castSpeed", castSpeed);
         animator.SetFloat("abilitySpeed", abilitySpeed);
-        Debug.Log("Cast speed: " + eventInfo.CastTime + " Ability Speed: " + eventInfo.ActiveTime);
     }
 
     /// <summary>

@@ -9,4 +9,5 @@ public class AbilityUseEventInfo
     public AbilityAnimation AbilityAnimation { get; set; }
     public float CastTime { get; set; }
     public float ActiveTime { get; set; }
+    public float RecoveryTime { get; set; }
 }

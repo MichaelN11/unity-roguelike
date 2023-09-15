@@ -33,7 +33,6 @@ public class WeaponController : MonoBehaviour
         distance = transform.localPosition.x;
         yOffset = transform.localPosition.y;
         abilityManager.OnAbilityUse += Attack;
-        animator.speed = weapon.AnimationSpeed;
     }
 
     private void Update()
@@ -82,5 +81,19 @@ public class WeaponController : MonoBehaviour
     private void Attack(AbilityUseEventInfo eventInfo)
     {
         animator.SetTrigger("attack");
+
+        float castSpeed = -1;
+        float abilitySpeed = -1;
+        if (eventInfo.CastTime > 0)
+        {
+            castSpeed = 1 / eventInfo.CastTime;
+        }
+        float totalAbilityTime = eventInfo.ActiveTime + eventInfo.RecoveryTime;
+        if (totalAbilityTime > 0)
+        {
+            abilitySpeed = 1 / totalAbilityTime;
+        }
+        animator.SetFloat("castSpeed", castSpeed);
+        animator.SetFloat("abilitySpeed", abilitySpeed);
     }
 }

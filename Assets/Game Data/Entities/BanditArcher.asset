@@ -26,4 +26,4 @@ MonoBehaviour:
   deathTimer: 1
   entityAI:
     aggroDistance: 8
-  weapon: {fileID: 11400000, guid: 3748e5892658a4f81ac319180f568308, type: 2}
+  weapon: {fileID: 11400000, guid: e978c1629a017493cb1ed17195979337, type: 2}

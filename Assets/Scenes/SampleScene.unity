@@ -7112,7 +7112,7 @@ PrefabInstance:
     - target: {fileID: 7592322252978789698, guid: 4a6a27821ee1a4c30afb357bcc5f5aae, type: 3}
       propertyPath: singleSpawn
       value: 
-      objectReference: {fileID: 11400000, guid: e621e08a2aba145abbd8b41c75f01540, type: 2}
+      objectReference: {fileID: 11400000, guid: ed02114de662f4ecba0305c56aa8ac03, type: 2}
     - target: {fileID: 7592322252978790076, guid: 4a6a27821ee1a4c30afb357bcc5f5aae, type: 3}
       propertyPath: m_RootOrder
       value: 3

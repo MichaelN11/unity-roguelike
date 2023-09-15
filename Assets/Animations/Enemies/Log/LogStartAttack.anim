@@ -6,7 +6,7 @@ AnimationClip:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: LogAttack
+  m_Name: LogStartAttack
   serializedVersion: 6
   m_Legacy: 0
   m_Compressed: 0
@@ -20,16 +20,26 @@ AnimationClip:
   m_PPtrCurves:
   - curve:
     - time: 0
-      value: {fileID: 1104667149, guid: f5fb9d94dc76d4cad91b7d043b422080, type: 3}
-    - time: 0.25
       value: {fileID: -1707426697, guid: f5fb9d94dc76d4cad91b7d043b422080, type: 3}
-    - time: 0.75
-      value: {fileID: -961481860, guid: 72d98a59f6ea74d908c9888fd67784e3, type: 3}
+    - time: 0.46153846
+      value: {fileID: 1104667149, guid: f5fb9d94dc76d4cad91b7d043b422080, type: 3}
+    - time: 0.53846157
+      value: {fileID: -1301815919, guid: f5fb9d94dc76d4cad91b7d043b422080, type: 3}
+    - time: 0.61538464
+      value: {fileID: -2009068136, guid: f5fb9d94dc76d4cad91b7d043b422080, type: 3}
+    - time: 0.6923077
+      value: {fileID: 1598792889, guid: f5fb9d94dc76d4cad91b7d043b422080, type: 3}
+    - time: 0.7692308
+      value: {fileID: 1788189625, guid: f5fb9d94dc76d4cad91b7d043b422080, type: 3}
+    - time: 0.84615386
+      value: {fileID: 1788189625, guid: f5fb9d94dc76d4cad91b7d043b422080, type: 3}
+    - time: 0.9230769
+      value: {fileID: -2009068136, guid: f5fb9d94dc76d4cad91b7d043b422080, type: 3}
     attribute: m_Sprite
     path: 
     classID: 212
     script: {fileID: 0}
-  m_SampleRate: 4
+  m_SampleRate: 13
   m_WrapMode: 0
   m_Bounds:
     m_Center: {x: 0, y: 0, z: 0}
@@ -44,9 +54,14 @@ AnimationClip:
       customType: 23
       isPPtrCurve: 1
     pptrCurveMapping:
-    - {fileID: 1104667149, guid: f5fb9d94dc76d4cad91b7d043b422080, type: 3}
     - {fileID: -1707426697, guid: f5fb9d94dc76d4cad91b7d043b422080, type: 3}
-    - {fileID: -961481860, guid: 72d98a59f6ea74d908c9888fd67784e3, type: 3}
+    - {fileID: 1104667149, guid: f5fb9d94dc76d4cad91b7d043b422080, type: 3}
+    - {fileID: -1301815919, guid: f5fb9d94dc76d4cad91b7d043b422080, type: 3}
+    - {fileID: -2009068136, guid: f5fb9d94dc76d4cad91b7d043b422080, type: 3}
+    - {fileID: 1598792889, guid: f5fb9d94dc76d4cad91b7d043b422080, type: 3}
+    - {fileID: 1788189625, guid: f5fb9d94dc76d4cad91b7d043b422080, type: 3}
+    - {fileID: 1788189625, guid: f5fb9d94dc76d4cad91b7d043b422080, type: 3}
+    - {fileID: -2009068136, guid: f5fb9d94dc76d4cad91b7d043b422080, type: 3}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}
