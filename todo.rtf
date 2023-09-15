@@ -6,7 +6,12 @@
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
 
 \f0\fs24 \cf0 soon:\
-set animation speed for ability startup and actions based on ability data\
+interrupting ability effects, i.e if acceleration is delayed it needs to be interrupted\
+dash has invincibility and goes through enemies\
+dash melee attack prefab should be destroyed when stopped (but not when hitstop)\
+should dash even hitstop?\
+dash sound effect\
+\
 Main menu button spacing is off\
 You can walk off the screen in the beginning by going to the left\
 The archers shoot their arrows into corners of walls sometimes\
@@ -14,30 +19,23 @@ AI still struggles a bit with longer paths\
 AI gets stuck on the upper corners of the house\
 \
 later:\
-refactoring abilities: should only need one class per ability (or less). different ways to handle ability state, but really, ability state is probably not necessary. for combos, the entity could keep track of the last ability used (and when) Not a fan of abstract class usage either. Would prefer interface. Ability could just be a single class, that is made up of a combination of effects. Parry ability might need state?\
-ai stop shooting arrows into walls\
-bug where if you click fast enough it thinks you\'92re holding the mouse button\
 replace resource folder with addressables\
 enemies should only aggro when in line of sight\
-cancel frames? (instead of comboable duration)\
 facing in diagonal directions should be consistent\
 attack projectiles out of the air\
 remove pixel perfect clamp from weapon script?\
 custom projectile collision detection so arrows don\'92t get stuck in walls so easily\
-enemies have indicators in the direction they are attacking\
-animation speeds scale with attack speed\
+enemies have indicators in the direction they are attacking?\
 can shoot projectiles over a cliff\
 height system for projectiles?\
 pathing bug with high aggro distance? A* iteration too much\
 knockback not tied to hitstun\
 allow using abilities while moving\
 give simpler entities their own animator updater\
-make bow look less terrible when rotating\
 rework how hitstun / knockback is handled, in regard to entity and ability data\
-fix twig enemy sprites (color pallet and shadow)\
+consistent color palette?\
 better way to handle attack animations\
-hitting an enemy should stop you from moving further in the attack\
-sword stab at end of combo?\
+hitting an enemy should stop you from moving further in the attack?\
 A* cheat for closest tile, for target and position\
 AI finds targets instead of using player singleton\
 invincibility frames after being hit, player only\

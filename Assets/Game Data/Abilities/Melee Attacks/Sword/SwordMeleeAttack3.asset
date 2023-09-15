@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   effects:
   - {fileID: 11400000, guid: 4d80518f933e74246a43e32f7550c33c, type: 2}
-  - {fileID: 11400000, guid: c78084f72c890434cb80586da68ef885, type: 2}
+  - {fileID: 11400000, guid: befe851b852a54d44ad77eb0f8416d33, type: 2}
   castTime: 0
   recoveryTime: 0.38
   activeTime: 0.22

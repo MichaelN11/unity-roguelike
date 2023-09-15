@@ -9,9 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b224dcb5c731c4ea0be3129ab9a06909, type: 3}
+  m_Script: {fileID: 11500000, guid: 2a953cc86aec84c10bfe74842dd2b504, type: 3}
   m_Name: SwordMovementEffect
   m_EditorClassIdentifier: 
   soundOnUse: {fileID: 0}
   moveSpeed: 4.5
   moveAcceleration: -0.2
+  accelerationDelay: 0

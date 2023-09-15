@@ -54,4 +54,12 @@ public class OnUseAbility : Ability
             abilityEffect.Trigger(abilityUse);
         }
     }
+
+    public void Interrupt(EffectData abilityUse)
+    {
+        foreach (AbilityEffect abilityEffect in effects)
+        {
+            abilityEffect.Interrupt(abilityUse);
+        }
+    }
 }

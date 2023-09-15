@@ -12,4 +12,6 @@ public abstract class AbilityEffect : ScriptableObject
     public Sound SoundOnUse => soundOnUse;
 
     public abstract void Trigger(EffectData effectData);
+
+    public virtual void Interrupt(EffectData effectData) { }
 }
