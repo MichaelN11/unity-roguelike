@@ -300,7 +300,7 @@ public class AIController : MonoBehaviour
     private void Attack()
     {
         Vector2 targetDirection = GetAttackTargetPosition() - body.position;
-        SendInput(InputType.Attack, targetDirection);
+        SendInput(InputType.Ability, targetDirection, 1);
     }
 
     /// <summary>
@@ -329,11 +329,16 @@ public class AIController : MonoBehaviour
     /// </summary>
     /// <param name="inputType">The InputType</param>
     /// <param name="direction">The Vector2 direction</param>
-    private void SendInput(InputType inputType, Vector2 direction)
+    /// <param name="abilityNumber">The number of the ability being used</param>
+    private void SendInput(InputType inputType, Vector2 direction, int abilityNumber = 0)
     {
         InputData inputData = new();
         inputData.Type = inputType;
         inputData.Direction = direction;
+        if (abilityNumber > 0)
+        {
+            inputData.AbilityNumber = abilityNumber;
+        }
         entityController.UpdateFromInput(inputData);
     }
 }

@@ -19,7 +19,10 @@ public class PlayerController : MonoBehaviour
     private Vector2 lookDirection = Vector2.down;
     private InputData bufferedInput = null;
     private float bufferTimer = 0f;
-    private bool isFireHeld = false;
+    /// <summary>
+    /// List of ability numbers currently being held down, in order of when they were pressed.
+    /// </summary>
+    private readonly List<int> heldAbilities = new();
 
     private void Awake()
     {
@@ -38,6 +41,9 @@ public class PlayerController : MonoBehaviour
         inputActions.Enable();
         inputActions.Player.Fire.started += OnFireStarted;
         inputActions.Player.Fire.canceled += OnFireCancelled;
+        inputActions.Player.SecondaryFire.started += OnSecondaryFireStarted;
+        inputActions.Player.SecondaryFire.canceled += OnSecondaryFireCancelled;
+
         inputActions.Player.Move.performed += OnMovePerformed;
         inputActions.Player.Move.canceled += OnMoveCancelled;
         inputActions.Player.Look.performed += OnLook;
@@ -45,9 +51,9 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        if (isFireHeld)
+        if (heldAbilities.Count != 0)
         {
-            FireHeld();
+            AbilityHeld();
         }
         if (bufferedInput != null && bufferTimer > 0)
         {
@@ -108,16 +114,34 @@ public class PlayerController : MonoBehaviour
         lookDirection = inputPositionRelativeToEntity;
     }
 
-    /// <summary>
-    /// Called by the Input System. Tried to attack, and sets the attack buffer if the attack failed.
-    /// </summary>
-    /// <param name="ctx">The callback context</param>
     public void OnFireStarted(CallbackContext ctx)
     {
-        isFireHeld = true;
+        AbilityStarted(1);
+    }
+
+    public void OnFireCancelled(CallbackContext ctx)
+    {
+        AbilityCanceled(1);
+    }
+
+    public void OnSecondaryFireStarted(CallbackContext ctx)
+    {
+        AbilityStarted(2);
+    }
+
+    public void OnSecondaryFireCancelled(CallbackContext ctx)
+    {
+        AbilityCanceled(2);
+    }
+
+    private void AbilityStarted(int abilityNumber)
+    {
+        heldAbilities.Add(abilityNumber);
+
         InputData inputData = new();
-        inputData.Type = InputType.Attack;
+        inputData.Type = InputType.Ability;
         inputData.Direction = lookDirection;
+        inputData.AbilityNumber = abilityNumber;
         bool updateSuccessful = entityController.UpdateFromInput(inputData);
         if (!updateSuccessful)
         {
@@ -126,23 +150,19 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Called by the Input System. Sets fire held to false.
-    /// </summary>
-    /// <param name="ctx">The callback context</param>
-    public void OnFireCancelled(CallbackContext ctx)
+    private void AbilityCanceled(int abilityNumber)
     {
-        isFireHeld = false;
+        heldAbilities.Remove(abilityNumber);
     }
 
-    /// <summary>
-    /// Actions taken while the fire button is held. Triggers an attack action for the EntityController.
-    /// </summary>
-    private void FireHeld()
+    private void AbilityHeld()
     {
+        int currentAbility = heldAbilities[^1];
+
         InputData inputData = new();
-        inputData.Type = InputType.Attack;
+        inputData.Type = InputType.Ability;
         inputData.Direction = lookDirection;
+        inputData.AbilityNumber = currentAbility;
         entityController.UpdateFromInput(inputData);
     }
 

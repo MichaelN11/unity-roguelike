@@ -15,8 +15,8 @@ MonoBehaviour:
   effects:
   - {fileID: 11400000, guid: 5eb5e0f08349f498e8aae81c8f37eebc, type: 2}
   - {fileID: 11400000, guid: 836388cd017f74023bd3e41a1c091700, type: 2}
-  castTime: 0
-  recoveryTime: 0.6
+  castTime: 0.1
+  recoveryTime: 0.4
   activeTime: 0.22
   cooldown: 0
   aiRange: 0

@@ -13,7 +13,7 @@ public class AbilityManager : MonoBehaviour
     /// </summary>
     public event Action<AbilityUseEventInfo> OnAbilityUse;
 
-    private Ability ability;
+    private List<Ability> abilities;
 
     private EntityData entityData;
     private EntityState entityState;
@@ -56,7 +56,7 @@ public class AbilityManager : MonoBehaviour
         AbilityManager abilityManager = gameObject.AddComponent<AbilityManager>();
         if (abilities.Count > 0)
         {
-            abilityManager.ability = abilities[0];
+            abilityManager.abilities = abilities;
         }
         return abilityManager;
     }
@@ -64,11 +64,13 @@ public class AbilityManager : MonoBehaviour
     /// <summary>
     /// Uses the ability.
     /// </summary>
+    /// <param name="abilityNumber">The number of the used ability in the hotbar/UI</param>
     /// <param name="direction">The direction in which the ability was used</param>
     /// <param name="positionOffset">The position offset from the entity</param>
     /// <returns>true if the ability was used successfully</returns>
-    public bool UseAbility(Vector2 direction, Vector2 positionOffset)
+    public bool UseAbility(int abilityNumber, Vector2 direction, Vector2 positionOffset)
     {
+        Ability ability = GetAbility(abilityNumber - 1);
         if (ability is OnUseAbility onUseAbility)
         {
             return UseOnUseAbility(onUseAbility, direction, positionOffset);
@@ -99,11 +101,22 @@ public class AbilityManager : MonoBehaviour
     /// <returns>The ability range as a float</returns>
     public float GetRange()
     {
+        Ability ability = GetAbility(0);
         if (ability is OnUseAbility onUseAbility)
         {
             return onUseAbility.AIRange;
         }
         return 0;
+    }
+
+    private Ability GetAbility(int abilityNumber)
+    {
+        Ability ability = null;
+        if (abilityNumber < abilities.Count)
+        {
+            ability = abilities[abilityNumber];
+        }
+        return ability;
     }
 
     private bool UseOnUseAbility(OnUseAbility onUseAbility, Vector2 direction, Vector2 positionOffset)

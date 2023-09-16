@@ -50,8 +50,8 @@ public class EntityController : MonoBehaviour
             case InputType.Move:
                 updateSuccessful = SetMovementDirection(inputData.Direction);
                 break;
-            case InputType.Attack:
-                updateSuccessful = Attack(inputData.Direction);
+            case InputType.Ability:
+                updateSuccessful = Ability(inputData.AbilityNumber, inputData.Direction);
                 break;
             case InputType.Idle:
                 updateSuccessful = Idle();
@@ -135,22 +135,15 @@ public class EntityController : MonoBehaviour
         return isLookDirectionSet;
     }
 
-    /// <summary>
-    /// Tells the entity to attack, if it's able to attack. Sets the look direction to
-    /// the attack direction, and sets the attack stun duration. Also
-    /// updates the AnimatorUpdator that a new attack has occured.
-    /// </summary>
-    /// <param name="attackDirection">The direction of the attack</param>
-    /// <returns>true if the attack was successful</returns>
-    private bool Attack(Vector2 attackDirection)
+    private bool Ability(int abilityNumber, Vector2 abilityDirection)
     {
-        bool attackSuccessful = false;
+        bool successful = false;
         if (abilityManager != null)
         {
-            Vector2 positionOffset = attackDirection.normalized * entityData.Entity.InteractionDistance;
-            attackSuccessful = abilityManager.UseAbility(attackDirection, positionOffset);
+            Vector2 positionOffset = abilityDirection.normalized * entityData.Entity.InteractionDistance;
+            successful = abilityManager.UseAbility(abilityNumber, abilityDirection, positionOffset);
         }
-        return attackSuccessful;
+        return successful;
     }
 
     /// <summary>
