@@ -180,7 +180,8 @@ public class AbilityManager : MonoBehaviour
             AbilityAnimation = onUseAbility.AbilityAnimation,
             CastTime = onUseAbility.CastTime,
             ActiveTime = onUseAbility.ActiveTime,
-            RecoveryTime = onUseAbility.RecoveryTime
+            RecoveryTime = onUseAbility.RecoveryTime,
+            AimDuration = onUseAbility.AimDuration
         });
 
         return abilityUse;

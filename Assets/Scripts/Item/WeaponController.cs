@@ -38,7 +38,7 @@ public class WeaponController : MonoBehaviour
     private void Update()
     {
         Vector2 direction = entityState.LookDirection.normalized;
-        if (animatorUpdater.IsAiming() && entityState.ActionState != ActionState.Dead)
+        if (animatorUpdater.IsAiming && entityState.ActionState != ActionState.Dead)
         {
             spriteRenderer.enabled = true;
             transform.localPosition = DetermineLocalPosition(direction);

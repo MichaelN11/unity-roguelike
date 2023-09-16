@@ -36,6 +36,10 @@ public class OnUseAbility : Ability
     public float AIRange => aiRange;
 
     [SerializeField]
+    private float aimDuration = 0;
+    public float AimDuration => aimDuration;
+
+    [SerializeField]
     private Sound soundOnUse;
     public Sound SoundOnUse => soundOnUse;
 

@@ -8,7 +8,8 @@ using UnityEngine;
 /// </summary>
 public class AnimatorUpdater : MonoBehaviour
 {
-    private const float AimModeDuration = 3f;
+    public bool IsAiming { get; private set; } = false;
+    private float aimModeTimer = 0f;
 
     private EntityState entityState;
     private Animator animator;
@@ -16,7 +17,6 @@ public class AnimatorUpdater : MonoBehaviour
     private Movement movement;
     private AbilityManager abilityManager;
     private Material defaultMaterial;
-    private float aimModeTimer = 0f;
 
     private void Awake()
     {
@@ -38,14 +38,23 @@ public class AnimatorUpdater : MonoBehaviour
 
     private void Update()
     {
-        if (aimModeTimer > 0)
-        {
-            aimModeTimer -= Time.deltaTime;
+        if (IsAiming)
+        { 
+            if (aimModeTimer > 0)
+            {
+                aimModeTimer -= Time.deltaTime;
+            }
+            else {
+                IsAiming = false;
+            }
         }
 
         if (animator != null)
         {
-            UpdateLookDirection();
+            if (IsAiming)
+            {
+                UpdateLookDirection();
+            }
             UpdateIsMoving();
             UpdateIsHitstun();
             UpdateIsIdle();
@@ -57,12 +66,14 @@ public class AnimatorUpdater : MonoBehaviour
     }
 
     /// <summary>
-    /// Determines if the entity is in aim mode.
+    /// Starts aiming, where the sprite looks toward the look direction as opposed to the
+    /// direction of movement.
     /// </summary>
-    /// <returns>true if the entity is aiming</returns>
-    public bool IsAiming()
+    /// <param name="duration"></param>
+    private void StartAiming(float duration)
     {
-        return aimModeTimer > 0;
+        IsAiming = true;
+        aimModeTimer = duration;
     }
 
     /// <summary>
@@ -88,10 +99,10 @@ public class AnimatorUpdater : MonoBehaviour
     /// <param name="eventInfo">Info about the triggered ability use event</param>
     private void Attack(AbilityUseEventInfo eventInfo)
     {
+        UpdateLookDirection();
         animator.SetTrigger("attack");
         animator.SetBool("isAttacking", true);
         animator.SetInteger("attackStage", GetAttackStage(eventInfo.AbilityAnimation));
-        aimModeTimer = AimModeDuration;
 
         float castSpeed = -1;
         float abilitySpeed = -1;
@@ -105,6 +116,11 @@ public class AnimatorUpdater : MonoBehaviour
         }
         animator.SetFloat("castSpeed", castSpeed);
         animator.SetFloat("abilitySpeed", abilitySpeed);
+
+        if (eventInfo.AimDuration > 0)
+        {
+            StartAiming(eventInfo.AimDuration);
+        }
     }
 
     /// <summary>
@@ -142,7 +158,7 @@ public class AnimatorUpdater : MonoBehaviour
     /// </summary>
     private void UpdateLookDirection()
     {
-        if (IsAiming() && entityState.LookDirection != null)
+        if (entityState.LookDirection != null)
         {
             SetLookDirection(entityState.LookDirection);
         }
@@ -166,7 +182,7 @@ public class AnimatorUpdater : MonoBehaviour
         if (entityState.ActionState == ActionState.Move)
         {
             animator.SetBool("isMoving", true);
-            if (!IsAiming() && movement != null)
+            if (!IsAiming && movement != null)
             {
                 SetLookDirection(movement.Direction);
             }

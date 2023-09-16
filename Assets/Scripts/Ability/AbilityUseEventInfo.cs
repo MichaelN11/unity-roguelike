@@ -10,4 +10,5 @@ public class AbilityUseEventInfo
     public float CastTime { get; set; }
     public float ActiveTime { get; set; }
     public float RecoveryTime { get; set; }
+    public float AimDuration { get; set; }
 }
