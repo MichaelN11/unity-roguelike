@@ -6,11 +6,12 @@
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
 
 \f0\fs24 \cf0 soon:\
-interrupting ability effects, i.e if acceleration is delayed it needs to be interrupted\
-dash has invincibility and goes through enemies\
-dash melee attack prefab should be destroyed when stopped (but not when hitstop)\
+acceleration delay moved from movement effect to movement component\
+dash has invincibility and goes through enemies (make sure it\'92s not too glitchy when dash ends in middle of enemy)\
 should dash even hitstop?\
 dash sound effect\
+separate keybind for dash\
+cancel attacks into dash\
 \
 Main menu button spacing is off\
 You can walk off the screen in the beginning by going to the left\
@@ -19,6 +20,7 @@ AI still struggles a bit with longer paths\
 AI gets stuck on the upper corners of the house\
 \
 later:\
+interrupting ability effects\
 replace resource folder with addressables\
 enemies should only aggro when in line of sight\
 facing in diagonal directions should be consistent\
