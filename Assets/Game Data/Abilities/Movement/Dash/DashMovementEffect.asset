@@ -14,5 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   soundOnUse: {fileID: 0}
   moveSpeed: 20
-  moveAcceleration: -2
+  moveAcceleration: 0
+  delayedAcceleration: -2
   accelerationDelay: 0.2

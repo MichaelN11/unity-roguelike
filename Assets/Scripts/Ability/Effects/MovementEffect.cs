@@ -17,36 +17,25 @@ public class MovementEffect : AbilityEffect
     public float MoveAcceleration => moveAcceleration;
 
     [SerializeField]
+    private float delayedAcceleration = 0;
+    public float DelayedAcceleration => delayedAcceleration;
+
+    [SerializeField]
     private float accelerationDelay = 0;
     public float AccelerationDelay => accelerationDelay;
-
-    private IEnumerator coroutine;
 
     public override void Trigger(EffectData effectData)
     {
         if (effectData.EntityMovement != null)
         {
-            if (accelerationDelay <= 0)
+            effectData.EntityMovement.SetMovement(effectData.Direction,
+                moveSpeed,
+                moveAcceleration);
+            
+            if (accelerationDelay > 0)
             {
-                effectData.EntityMovement.SetMovement(effectData.Direction,
-                    moveSpeed,
-                    moveAcceleration);
-                
-            } else
-            {
-                effectData.EntityMovement.SetMovement(effectData.Direction,
-                    moveSpeed);
-                coroutine = DelayMovement(effectData);
-                effectData.EntityMovement.StartCoroutine(coroutine);
+                effectData.EntityMovement.SetDelayedAcceleration(delayedAcceleration, accelerationDelay);
             }
         }
-    }
-
-    private IEnumerator DelayMovement(EffectData effectData)
-    {
-        yield return new WaitForSeconds(accelerationDelay);
-        effectData.EntityMovement.SetMovement(effectData.Direction,
-                    moveSpeed,
-                    moveAcceleration);
     }
 }

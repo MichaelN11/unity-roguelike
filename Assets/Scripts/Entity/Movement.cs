@@ -22,11 +22,26 @@ public class Movement : MonoBehaviour
     private List<RaycastHit2D> raycastHits = new();
     private List<Collider2D> colliderHits = new();
 
+    private float delayedAcceleration;
+    private float delayedAccelerationTimer;
+
     private void Awake()
     {
         entityState = GetComponent<EntityState>();
         body = GetComponent<Rigidbody2D>();
         movementCollider = GetComponent<Collider2D>();
+    }
+
+    private void Update()
+    {
+        if (delayedAccelerationTimer > 0)
+        {
+            delayedAccelerationTimer -= Time.deltaTime;
+            if (delayedAccelerationTimer <= 0)
+            {
+                Acceleration = delayedAcceleration;
+            }
+        }
     }
 
     private void FixedUpdate()
@@ -51,26 +66,29 @@ public class Movement : MonoBehaviour
     }
 
     /// <summary>
-    /// Sets the movement speed and direction.
-    /// </summary>
-    /// <param name="direction">The Vector2 direction to move in</param>
-    /// <param name="speed">The movement speed</param>
-    public void SetMovement(Vector2 direction, float speed)
-    {
-        SetMovement(direction, speed, 0);
-    }
-
-    /// <summary>
-    /// Sets the movement speed, direction, and acceleration.
+    /// Sets the movement speed, direction, and acceleration. Resets delayed acceleration.
     /// </summary>
     /// <param name="direction">The Vector2 direction to move in</param>
     /// <param name="speed">The movement speed</param>
     /// <param name="acceleration">The movement acceleration</param>
-    public void SetMovement(Vector2 direction, float speed, float acceleration)
+    public void SetMovement(Vector2 direction, float speed, float acceleration = 0)
     {
         Direction = direction;
         Speed = speed;
         Acceleration = acceleration;
+        SetDelayedAcceleration(0, 0);
+    }
+
+    /// <summary>
+    /// Sets a delayed acceleration that will become active after the passed delay.
+    /// Is reset when SetMovement is called.
+    /// </summary>
+    /// <param name="acceleration">acceleration per fixed update</param>
+    /// <param name="delay">delay in seconds</param>
+    public void SetDelayedAcceleration(float acceleration, float delay)
+    {
+        delayedAcceleration = acceleration;
+        delayedAccelerationTimer = delay;
     }
 
     /// <summary>
