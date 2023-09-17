@@ -16,6 +16,7 @@ public class Movement : MonoBehaviour
     public float Acceleration { get; private set; } = 0;
 
     private ContactFilter2D contactFilter2D = new();
+    private ContactFilter2D entityOnlyContactFilter2D = new();
     private EntityState entityState;
     private Rigidbody2D body;
     private Collider2D movementCollider;
@@ -23,7 +24,10 @@ public class Movement : MonoBehaviour
     private List<Collider2D> colliderHits = new();
 
     private float delayedAcceleration;
-    private float delayedAccelerationTimer;
+    private float delayedAccelerationTimer = 0;
+
+    private float passThroughEntitiesTimer = 0;
+    private bool clearLayerMask = false;
 
     private void Awake()
     {
@@ -32,20 +36,41 @@ public class Movement : MonoBehaviour
         movementCollider = GetComponent<Collider2D>();
     }
 
+    private void Start()
+    {
+        entityOnlyContactFilter2D.SetLayerMask(LayerUtil.GetEntityLayerMask());
+    }
+
     private void Update()
     {
-        if (delayedAccelerationTimer > 0)
+        if (entityState == null || !entityState.IsStopped())
         {
-            delayedAccelerationTimer -= Time.deltaTime;
-            if (delayedAccelerationTimer <= 0)
+            if (delayedAccelerationTimer > 0)
             {
-                Acceleration = delayedAcceleration;
+                delayedAccelerationTimer -= Time.deltaTime;
+                if (delayedAccelerationTimer <= 0)
+                {
+                    Acceleration = delayedAcceleration;
+                }
+            }
+            if (passThroughEntitiesTimer > 0)
+            {
+                passThroughEntitiesTimer -= Time.deltaTime;
+                if (passThroughEntitiesTimer <= 0)
+                {
+                    clearLayerMask = true;
+                }
             }
         }
     }
 
     private void FixedUpdate()
     {
+        if (clearLayerMask)
+        {
+            AttemptToClearLayerMask();
+        }
+
         if (entityState == null || !entityState.IsStopped())
         {
             Vector2 movePosition = CalculateMoveOutOfCollisions();
@@ -99,6 +124,12 @@ public class Movement : MonoBehaviour
         SetMovement(Vector2.zero, 0);
     }
 
+    public void PassThroughEntities(float duration)
+    {
+        contactFilter2D.SetLayerMask(LayerUtil.GetUnwalkableLayerMask());
+        passThroughEntitiesTimer = duration;
+    }
+
     /// <summary>
     /// Updates the Speed with the Acceleration. If Speed falls below 0, both the
     /// Speed and Acceleration are set to 0.
@@ -122,7 +153,7 @@ public class Movement : MonoBehaviour
     private Vector2 CalculateMoveOutOfCollisions()
     {
         Vector2 movePosition = body.position;
-        int numOverlaps = movementCollider.OverlapCollider(new(), colliderHits);
+        int numOverlaps = movementCollider.OverlapCollider(contactFilter2D, colliderHits);
         foreach (Collider2D collider in colliderHits)
         {
             Vector2 collisionPoint = collider.ClosestPoint(body.position);
@@ -220,5 +251,19 @@ public class Movement : MonoBehaviour
             movePosition = body.position + direction * distanceToCollision;
         }
         return movePosition;
+    }
+
+    /// <summary>
+    /// Attempts to clear the layer mask from the main contact filter. Will only clear if there is no
+    /// entity overlapping.
+    /// </summary>
+    private void AttemptToClearLayerMask()
+    {
+        int numOverlaps = movementCollider.OverlapCollider(entityOnlyContactFilter2D, colliderHits);
+        if (numOverlaps == 0)
+        {
+            clearLayerMask = false;
+            contactFilter2D.ClearLayerMask();
+        }
     }
 }

@@ -18,5 +18,9 @@ public class InvincibilityEffect : AbilityEffect
     public override void Trigger(EffectData effectData)
     {
         effectData.EntityDamageable.SetInvincibility(duration);
+        if (passThroughEnemies)
+        {
+            effectData.EntityMovement.PassThroughEntities(duration);
+        }
     }
 }

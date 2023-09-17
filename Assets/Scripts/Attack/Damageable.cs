@@ -34,16 +34,17 @@ public class Damageable : MonoBehaviour
 
     private void Update()
     {
-        if (invincibilityTimer > 0)
+        if (entityState == null || !entityState.IsStopped())
         {
-            invincibilityTimer -= Time.deltaTime;
-        }
+            if (invincibilityTimer > 0)
+            {
+                invincibilityTimer -= Time.deltaTime;
+            }
 
-        if ((entityState == null
-                || !entityState.IsStopped())
-            && IsDead())
-        {
-            Die();
+            if (IsDead())
+            {
+                Die();
+            }
         }
     }
 

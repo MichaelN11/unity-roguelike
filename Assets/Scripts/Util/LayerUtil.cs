@@ -17,8 +17,21 @@ public class LayerUtil
     /// objects from passing over it.
     /// </summary>
     private const string BlockedGroundLayerName = "BlockedGround";
+    /// <summary>
+    /// Entities currently use this layer.
+    /// </summary>
+    private const string DefaultLayerName = "Default";
 
     private static readonly string[] unwalkableLayerNames = { WallLayerName, BlockedGroundLayerName };
+
+    /// <summary>
+    /// Gets the layer mask for the entity collision layers.
+    /// </summary>
+    /// <returns> The layer mask for the entity layers as an int</returns>
+    public static int GetEntityLayerMask()
+    {
+        return LayerMask.GetMask(DefaultLayerName);
+    }
 
     /// <summary>
     /// Gets the layer mask for the unwalkable/unpathable collision layers.
