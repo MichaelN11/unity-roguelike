@@ -14,6 +14,8 @@ public class Damageable : MonoBehaviour
     private EntityState entityState;
     private Movement movement;
 
+    private float invincibilityTimer = 0;
+
     private void Awake()
     {
         entityData = GetComponent<EntityData>();
@@ -32,6 +34,11 @@ public class Damageable : MonoBehaviour
 
     private void Update()
     {
+        if (invincibilityTimer > 0)
+        {
+            invincibilityTimer -= Time.deltaTime;
+        }
+
         if ((entityState == null
                 || !entityState.IsStopped())
             && IsDead())
@@ -67,6 +74,11 @@ public class Damageable : MonoBehaviour
     /// <param name="attackData">The attack data</param>
     public void HandleIncomingAttack(AttackData attackData)
     {
+        if (invincibilityTimer > 0)
+        {
+            return;
+        }
+
         TakeDamage(attackData.EffectData.Damage);
         if (entityState != null && entityData != null)
         {
@@ -80,6 +92,11 @@ public class Damageable : MonoBehaviour
             attackResult.KnockbackAcceleration = entityData.Entity.KnockbackAcceleration;
             HandleHitstun(attackResult);
         }
+    }
+
+    public void SetInvincibility(float duration)
+    {
+        invincibilityTimer = duration;
     }
 
     /// <summary>

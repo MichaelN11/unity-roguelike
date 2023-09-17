@@ -22,5 +22,5 @@ MonoBehaviour:
     damage: 1
     attackDistance: 0
     hitStunMultiplier: 1
-    knockbackMultiplier: 1
+    knockbackMultiplier: 0.1
     hitStop: 0.06

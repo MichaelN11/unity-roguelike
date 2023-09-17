@@ -11,6 +11,7 @@ public class EffectData
     public EntityData EntityData { get; set; }
     public EntityState EntityState { get; set; }
     public Movement EntityMovement { get; set; }
+    public Damageable EntityDamageable { get; set; }
 
     public Vector2 Position { get; set; }
     public Vector2 Direction { get; set; } = Vector2.zero;

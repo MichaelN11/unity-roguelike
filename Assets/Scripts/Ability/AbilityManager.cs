@@ -18,6 +18,7 @@ public class AbilityManager : MonoBehaviour
     private EntityData entityData;
     private EntityState entityState;
     private Movement movement;
+    private Damageable damageable;
 
     private IEnumerator coroutine;
 
@@ -31,6 +32,7 @@ public class AbilityManager : MonoBehaviour
         entityData = GetComponentInParent<EntityData>();
         entityState = GetComponentInParent<EntityState>();
         movement = GetComponentInParent<Movement>();
+        damageable = GetComponentInParent<Damageable>();
     }
 
     private void Update()
@@ -164,7 +166,8 @@ public class AbilityManager : MonoBehaviour
             Entity = gameObject,
             EntityData = entityData,
             EntityState = entityState,
-            EntityMovement = movement
+            EntityMovement = movement,
+            EntityDamageable = damageable
         };
 
         if (movement != null)
