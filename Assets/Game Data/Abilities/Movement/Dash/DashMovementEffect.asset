@@ -17,3 +17,6 @@ MonoBehaviour:
   moveAcceleration: 0
   delayedAcceleration: -2
   accelerationDelay: 0.2
+  trailEffect: {fileID: 605442877324402279, guid: bff7fc601d1774fc68b4abf6314e0953, type: 3}
+  trailEffectDuration: 0.5
+  trailEffectDistance: -2
