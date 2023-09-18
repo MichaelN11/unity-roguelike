@@ -7497,6 +7497,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 58639296804071048, guid: 2fa4df48ebe90481e9c5bf2ca471ed7f, type: 3}
+      propertyPath: singleSpawn
+      value: 
+      objectReference: {fileID: 11400000, guid: 071a3f59cad07401d953f187acfc62c0, type: 2}
     - target: {fileID: 58639296804071049, guid: 2fa4df48ebe90481e9c5bf2ca471ed7f, type: 3}
       propertyPath: m_Name
       value: TwigSpawner
