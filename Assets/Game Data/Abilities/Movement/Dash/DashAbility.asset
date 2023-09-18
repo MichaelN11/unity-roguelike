@@ -22,5 +22,5 @@ MonoBehaviour:
   cooldown: 0
   aiRange: 0
   aimDuration: 0
-  soundOnUse: {fileID: 11400000, guid: 43899a23761e24b1db7b6785e1233577, type: 2}
+  soundOnUse: {fileID: 11400000, guid: bf2087525a9c540c99e4743b12eb5178, type: 2}
   abilityAnimation: 1
