@@ -18,7 +18,7 @@ MonoBehaviour:
   delayedAcceleration: -2
   accelerationDelay: 0.2
   trailEffectData:
-    prefab: {fileID: 605442877324402279, guid: bff7fc601d1774fc68b4abf6314e0953, type: 3}
+    prefab: {fileID: 3946859357268436369, guid: 825955307b9454bcbacbfbdc8c0626a8, type: 3}
     prefabDuration: 0.5
     rotatePrefab: 1
-  trailEffectDistance: 2
+  trailEffectDistance: 2.4

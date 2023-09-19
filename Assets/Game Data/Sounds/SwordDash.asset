@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40075b0f1472d4c8e8feda58174357ec, type: 3}
   m_Name: SwordDash
   m_EditorClassIdentifier: 
-  audioClip: {fileID: 8300000, guid: 50215cfeaa7c44feb86438d3f584dfd0, type: 3}
+  audioClip: {fileID: 8300000, guid: 060fa1422c1ba47d4bb351edc11fd610, type: 3}
   isMusic: 0
   loop: 0
-  volume: 0.2
-  pitch: 1
+  volume: 0.1
+  pitch: 1.1
