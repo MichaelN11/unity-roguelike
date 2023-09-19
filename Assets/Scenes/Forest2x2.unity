@@ -8670,6 +8670,10 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6982042937802739571, guid: b0e329376af984326b0acfb103634847, type: 3}
+      propertyPath: m_text
+      value: You fought your way through the evil forest. Congratulations!
+      objectReference: {fileID: 0}
     - target: {fileID: 7847272158923247657, guid: b0e329376af984326b0acfb103634847, type: 3}
       propertyPath: m_IsActive
       value: 0

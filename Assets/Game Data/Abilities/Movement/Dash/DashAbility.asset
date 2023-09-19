@@ -20,6 +20,8 @@ MonoBehaviour:
   recoveryTime: 0.4
   activeTime: 0.22
   cooldown: 0
+  canCancelInto: 1
+  cancelableDuration: 0
   aiRange: 0
   aimDuration: 0
   soundOnUse: {fileID: 11400000, guid: bf2087525a9c540c99e4743b12eb5178, type: 2}

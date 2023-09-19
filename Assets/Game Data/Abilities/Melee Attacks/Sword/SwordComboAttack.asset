@@ -14,11 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   comboStages:
   - ability: {fileID: 11400000, guid: 0bb059b3ed09f4b0b99785f4fa8098ae, type: 2}
-    comboableDuration: 0.1
+    comboCancelableDuration: 0.1
     comboContinueWindow: 0.4
   - ability: {fileID: 11400000, guid: 1a942f6dbafba46a98c0cdfe30ce66c2, type: 2}
-    comboableDuration: 0.1
+    comboCancelableDuration: 0.1
     comboContinueWindow: 0.4
   - ability: {fileID: 11400000, guid: 4bb9aba4c8af64d029d3482874d7d813, type: 2}
-    comboableDuration: 0
+    comboCancelableDuration: 0
     comboContinueWindow: 0
