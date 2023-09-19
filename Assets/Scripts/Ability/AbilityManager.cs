@@ -27,6 +27,8 @@ public class AbilityManager : MonoBehaviour
     private float comboTimer = 0;
     private float comboableTime = 0;
 
+    private float cancelableDuration = 0;
+
     private void Awake()
     {
         entityData = GetComponentInParent<EntityData>();
@@ -123,7 +125,7 @@ public class AbilityManager : MonoBehaviour
 
     private bool UseOnUseAbility(OnUseAbility onUseAbility, Vector2 direction, Vector2 positionOffset)
     {
-        if (entityState.CanAct())
+        if (entityState.CanAct() || CanCancelInto(onUseAbility))
         {
             EffectData abilityUse = StartCastingAbility(onUseAbility, direction, positionOffset);
             coroutine = DelayOnUseAbility(onUseAbility, abilityUse);
@@ -133,6 +135,13 @@ public class AbilityManager : MonoBehaviour
         {
             return false;
         }
+    }
+
+    private bool CanCancelInto(OnUseAbility onUseAbility)
+    {
+        return entityState.ActionState == ActionState.Ability
+            && onUseAbility.CanCancelInto
+            && entityState.StunTimer <= cancelableDuration;
     }
 
     private bool UseComboAbility(ComboAbility comboAbility, Vector2 direction, Vector2 positionOffset)
@@ -186,6 +195,7 @@ public class AbilityManager : MonoBehaviour
             RecoveryTime = onUseAbility.RecoveryTime,
             AimDuration = onUseAbility.AimDuration
         });
+        cancelableDuration = onUseAbility.CancelableDuration;
 
         return abilityUse;
     }
@@ -217,7 +227,7 @@ public class AbilityManager : MonoBehaviour
         if (nextComboNumber + 1 < comboAbility.ComboStages.Count)
         {
             comboTimer = nextComboStage.ComboContinueWindow;
-            comboableTime = nextComboStage.ComboableDuration;
+            comboableTime = nextComboStage.ComboCancelableDuration;
             ++nextComboNumber;
         }
         else

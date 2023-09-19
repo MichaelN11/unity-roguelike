@@ -28,6 +28,14 @@ public class OnUseAbility : Ability
     private float cooldown;
     public float Cooldown => cooldown;
 
+    [SerializeField]
+    private bool canCancelInto = false;
+    public bool CanCancelInto => canCancelInto;
+
+    [SerializeField]
+    private float cancelableDuration = 0;
+    public float CancelableDuration => cancelableDuration;
+
     /// <summary>
     /// TODO Need a better way for AI to determine effects.
     /// </summary>
@@ -35,6 +43,9 @@ public class OnUseAbility : Ability
     private float aiRange;
     public float AIRange => aiRange;
 
+    /// <summary>
+    /// Time after using the ability to continue facing in the direction the entity is aiming in.
+    /// </summary>
     [SerializeField]
     private float aimDuration = 0;
     public float AimDuration => aimDuration;
