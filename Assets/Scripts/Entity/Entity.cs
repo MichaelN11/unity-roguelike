@@ -58,4 +58,12 @@ public class Entity : ScriptableObject
     [SerializeField]
     private Weapon weapon;
     public Weapon Weapon => weapon;
+
+    [SerializeField]
+    private float dropChance = 0;
+    public float DropChance => dropChance;
+
+    [SerializeField]
+    private GameObject droppable;
+    public GameObject Droppable => droppable;
 }

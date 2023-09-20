@@ -27,3 +27,5 @@ MonoBehaviour:
   entityAI:
     aggroDistance: 7
   weapon: {fileID: 0}
+  dropChance: 0.2
+  droppable: {fileID: 3527373394736214066, guid: 2c72a572ca7f44a7aaf3b7f22b94ea8d, type: 3}

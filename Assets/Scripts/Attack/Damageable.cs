@@ -16,6 +16,8 @@ public class Damageable : MonoBehaviour
 
     private float invincibilityTimer = 0;
 
+    private bool isDead = false;
+
     private void Awake()
     {
         entityData = GetComponent<EntityData>();
@@ -41,7 +43,7 @@ public class Damageable : MonoBehaviour
                 invincibilityTimer -= Time.deltaTime;
             }
 
-            if (IsDead())
+            if (IsDying() && !isDead)
             {
                 Die();
             }
@@ -100,6 +102,11 @@ public class Damageable : MonoBehaviour
         invincibilityTimer = duration;
     }
 
+    public void Heal(float amount)
+    {
+        CurrentHealth += amount;
+    }
+
     /// <summary>
     /// Handles the hitstun and knockback after being hit by an attack.
     /// </summary>
@@ -122,10 +129,21 @@ public class Damageable : MonoBehaviour
     /// </summary>
     private void Die()
     {
+        isDead = true;
+
         Collider2D[] colliders = GetComponentsInChildren<Collider2D>();
         foreach (Collider2D collider in colliders)
         {
             collider.enabled = false;
+        }
+
+        if (entityData.Entity.DropChance > 0)
+        {
+            if (Random.value <= entityData.Entity.DropChance)
+            {
+                Debug.Log("Dropping heart on death!");
+                Instantiate(entityData.Entity.Droppable, this.transform.position, Quaternion.identity);
+            }
         }
 
         Transform shadow = transform.Find("Shadow");
@@ -159,10 +177,10 @@ public class Damageable : MonoBehaviour
     }
 
     /// <summary>
-    /// Determines if the object is dead.
+    /// Determines if the object is dying.
     /// </summary>
-    /// <returns>true if the object is dead</returns>
-    private bool IsDead()
+    /// <returns>true if the object is dying</returns>
+    private bool IsDying()
     {
         return CurrentHealth <= 0;
     }
