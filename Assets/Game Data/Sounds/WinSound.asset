@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: WinSound
   m_EditorClassIdentifier: 
   audioClip: {fileID: 8300000, guid: 1d97db30c5d3146eda0757d09c0d9fae, type: 3}
-  isMusic: 0
+  isMusic: 1
   loop: 0
-  volume: 0.5
+  volume: 0.2
   pitch: 1

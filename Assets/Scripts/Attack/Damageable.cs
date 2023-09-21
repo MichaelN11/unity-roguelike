@@ -5,6 +5,8 @@ using UnityEngine;
 /// </summary>
 public class Damageable : MonoBehaviour
 {
+    private const float PlayerInvincibilityTimeOnHit = 1;
+
     public float MaxHealth { get; private set; }
     public float CurrentHealth { get; private set; }
 
@@ -94,6 +96,11 @@ public class Damageable : MonoBehaviour
             attackResult.KnockbackDirection = attackData.Direction;
             attackResult.KnockbackAcceleration = entityData.Entity.KnockbackAcceleration;
             HandleHitstun(attackResult);
+        }
+
+        if (CompareTag("Player"))
+        {
+            SetInvincibility(PlayerInvincibilityTimeOnHit);
         }
     }
 
