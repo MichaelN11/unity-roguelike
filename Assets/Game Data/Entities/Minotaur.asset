@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2421c10c0751840c281645757ffbf300, type: 3}
+  m_Name: Minotaur
+  m_EditorClassIdentifier: 
+  baseObject: {fileID: 7658967440879357034, guid: e526707a1909f4203baf0f5664d8c17f, type: 3}
+  abilities:
+  - {fileID: 11400000, guid: 319a3d6fe4f7e4701bf46aa6a429a751, type: 2}
+  soundOnHit: {fileID: 0}
+  walkSpeed: 3.75
+  interactionDistance: 2.5
+  maxHealth: 10
+  hitStunDuration: 0.3
+  knockbackSpeed: 7
+  knockbackAcceleration: -0.4
+  flashOnHitTime: 0.15
+  deathTimer: 1
+  entityAI:
+    aggroDistance: 8
+  weapon: {fileID: 0}
+  dropChance: 0.2
+  droppable: {fileID: 3527373394736214066, guid: 2c72a572ca7f44a7aaf3b7f22b94ea8d, type: 3}
