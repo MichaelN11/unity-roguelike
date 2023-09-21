@@ -144,7 +144,7 @@ public class Damageable : MonoBehaviour
             collider.enabled = false;
         }
 
-        if (entityData.Entity.DropChance > 0)
+        if (!CompareTag("Player") && entityData.Entity.DropChance > 0)
         {
             if (Random.value <= entityData.Entity.DropChance)
             {
