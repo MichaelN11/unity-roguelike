@@ -16,10 +16,10 @@ MonoBehaviour:
   abilities:
   - {fileID: 11400000, guid: 7df3cba7f52534f61b08567cb518948c, type: 2}
   soundOnHit: {fileID: 0}
-  walkSpeed: 5.5
+  walkSpeed: 4.5
   interactionDistance: 1.5
   maxHealth: 10
-  hitStunDuration: 0.3
+  hitStunDuration: 0
   knockbackSpeed: 7
   knockbackAcceleration: -0.4
   flashOnHitTime: 0.15
@@ -27,5 +27,5 @@ MonoBehaviour:
   entityAI:
     aggroDistance: 8
   weapon: {fileID: 0}
-  dropChance: 0.2
+  dropChance: 1
   droppable: {fileID: 3527373394736214066, guid: 2c72a572ca7f44a7aaf3b7f22b94ea8d, type: 3}
