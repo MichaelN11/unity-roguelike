@@ -31,6 +31,12 @@ public class AttackEffectUtil
         DamageObject damageObject = instance.GetComponent<DamageObject>();
         damageObject.AttackData = attackData;
 
+        Animator animator = instance.GetComponent<Animator>();
+        if (animator != null)
+        {
+            animator.SetFloat("attackSpeed", AnimationUtil.GetAnimationSpeedFromTime(prefabEffectData.PrefabDuration));
+        }
+
         return instance;
     }
 

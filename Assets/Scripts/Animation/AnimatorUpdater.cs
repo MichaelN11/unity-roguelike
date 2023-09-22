@@ -104,18 +104,8 @@ public class AnimatorUpdater : MonoBehaviour
         animator.SetBool("isAttacking", true);
         animator.SetInteger("attackStage", GetAttackStage(eventInfo.AbilityAnimation));
 
-        float castSpeed = -1;
-        float abilitySpeed = -1;
-        if (eventInfo.CastTime > 0)
-        {
-            castSpeed = 1 / eventInfo.CastTime;
-        }
-        if (eventInfo.ActiveTime > 0)
-        {
-            abilitySpeed = 1 / eventInfo.ActiveTime;
-        }
-        animator.SetFloat("castSpeed", castSpeed);
-        animator.SetFloat("abilitySpeed", abilitySpeed);
+        animator.SetFloat("castSpeed", AnimationUtil.GetAnimationSpeedFromTime(eventInfo.CastTime));
+        animator.SetFloat("abilitySpeed", AnimationUtil.GetAnimationSpeedFromTime(eventInfo.ActiveTime));
 
         if (eventInfo.AimDuration > 0)
         {
