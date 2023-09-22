@@ -22,8 +22,16 @@ public class AttackEffectUtil
     {
         Vector2 distance = effectData.Direction.normalized * attackEffectData.AttackDistance;
         Vector3 position = effectData.Position + distance;
-        Quaternion rotation = (prefabEffectData.RotatePrefab) ? UnityUtil.RotateTowardsVector(effectData.Direction) : Quaternion.identity;
+        bool mirrorXDirection = prefabEffectData.MirrorPrefabX && effectData.Direction.x < 0;
+        Vector2 rotationDirection = (mirrorXDirection) ?
+            new Vector2(effectData.Direction.x * -1, effectData.Direction.y * -1) : effectData.Direction;
+        Quaternion rotation = (prefabEffectData.RotatePrefab) ? UnityUtil.RotateTowardsVector(rotationDirection) : Quaternion.identity;
         GameObject instance = Object.Instantiate(prefabEffectData.Prefab, position, rotation);
+
+        if (mirrorXDirection)
+        {
+            instance.transform.localScale = new Vector2(instance.transform.localScale.x * -1, instance.transform.localScale.y);
+        }
 
         DestroyTimer destroyTimer = instance.GetComponent<DestroyTimer>();
         destroyTimer.Duration = prefabEffectData.PrefabDuration;

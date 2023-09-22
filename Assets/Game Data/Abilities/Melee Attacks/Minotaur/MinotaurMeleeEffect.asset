@@ -17,6 +17,7 @@ MonoBehaviour:
     prefab: {fileID: 605442877324402279, guid: 7547078066ee749c089f3ec79d3ce3a6, type: 3}
     prefabDuration: 0.3
     rotatePrefab: 1
+    mirrorPrefabX: 1
   attackEffectData:
     soundOnHit: {fileID: 0}
     damage: 1

@@ -20,4 +20,11 @@ public class PrefabEffectData
     [SerializeField]
     private bool rotatePrefab = true;
     public bool RotatePrefab => rotatePrefab;
+
+    /// <summary>
+    /// If the prefab should be mirrored in the x direction instead of rotated 180.
+    /// </summary>
+    [SerializeField]
+    private bool mirrorPrefabX = false;
+    public bool MirrorPrefabX => mirrorPrefabX;
 }
