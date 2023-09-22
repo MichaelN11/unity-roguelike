@@ -148,7 +148,6 @@ public class Damageable : MonoBehaviour
         {
             if (Random.value <= entityData.Entity.DropChance)
             {
-                Debug.Log("Dropping heart on death!");
                 Instantiate(entityData.Entity.Droppable, this.transform.position, Quaternion.identity);
             }
         }

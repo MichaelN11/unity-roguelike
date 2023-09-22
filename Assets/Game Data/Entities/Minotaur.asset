@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   baseObject: {fileID: 7658967440879357034, guid: e526707a1909f4203baf0f5664d8c17f, type: 3}
   abilities:
-  - {fileID: 11400000, guid: 319a3d6fe4f7e4701bf46aa6a429a751, type: 2}
+  - {fileID: 11400000, guid: 7df3cba7f52534f61b08567cb518948c, type: 2}
   soundOnHit: {fileID: 0}
   walkSpeed: 3.75
-  interactionDistance: 2.5
+  interactionDistance: 1
   maxHealth: 10
   hitStunDuration: 0.3
   knockbackSpeed: 7
