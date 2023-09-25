@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc8c03d57d8f740f4bc2f163f1186102, type: 3}
+  m_Name: MinotaurStabAttack
+  m_EditorClassIdentifier: 
+  effects:
+  - {fileID: 11400000, guid: ae1b9501400c542a29cebcbc5fc058e9, type: 2}
+  - {fileID: 11400000, guid: ae55791ac8ea5497f984a2b69c71dee6, type: 2}
+  castTime: 0.6
+  recoveryTime: 0.5
+  activeTime: 0.3
+  cooldown: 0
+  canCancelInto: 0
+  cancelableDuration: 0
+  aiRange: 2
+  aimDuration: 0
+  soundOnUse: {fileID: 11400000, guid: 2be215f89722944d1803004ad4b3cbc5, type: 2}
+  abilityAnimation: 0

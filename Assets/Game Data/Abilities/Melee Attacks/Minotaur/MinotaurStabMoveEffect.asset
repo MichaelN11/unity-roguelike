@@ -9,9 +9,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 600a38365fc124e31b8314fc226c8732, type: 3}
-  m_Name: DashInvincibility
+  m_Script: {fileID: 11500000, guid: 2a953cc86aec84c10bfe74842dd2b504, type: 3}
+  m_Name: MinotaurStabMoveEffect
   m_EditorClassIdentifier: 
   soundOnUse: {fileID: 0}
-  duration: 0.25
-  passThroughEnemies: 1
+  moveSpeed: 6
+  moveAcceleration: -0.2
+  delayedAcceleration: 0
+  accelerationDelay: 0
+  trailEffectData:
+    prefab: {fileID: 0}
+    prefabDuration: 1
+    rotatePrefab: 1
+  trailEffectDistance: 0

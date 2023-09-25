@@ -107,10 +107,7 @@ public class AnimatorUpdater : MonoBehaviour
         animator.SetFloat("castSpeed", AnimationUtil.GetAnimationSpeedFromTime(eventInfo.CastTime));
         animator.SetFloat("abilitySpeed", AnimationUtil.GetAnimationSpeedFromTime(eventInfo.ActiveTime));
 
-        if (eventInfo.AimDuration > 0)
-        {
-            StartAiming(eventInfo.AimDuration);
-        }
+        StartAiming(Math.Max(eventInfo.AimDuration, eventInfo.GetFullDuration()));
     }
 
     /// <summary>

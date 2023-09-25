@@ -14,11 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   baseObject: {fileID: 7658967440879357034, guid: e526707a1909f4203baf0f5664d8c17f, type: 3}
   abilities:
-  - {fileID: 11400000, guid: 7df3cba7f52534f61b08567cb518948c, type: 2}
+  - {fileID: 11400000, guid: ebe488e98a52d4f32ab3c6ac001b44b4, type: 2}
   soundOnHit: {fileID: 0}
   walkSpeed: 4.5
   interactionDistance: 1.5
-  maxHealth: 10
+  maxHealth: 100
   hitStunDuration: 0
   knockbackSpeed: 7
   knockbackAcceleration: -0.4
@@ -26,6 +26,6 @@ MonoBehaviour:
   deathTimer: 1
   entityAI:
     aggroDistance: 8
-  weapon: {fileID: 0}
+  weapon: {fileID: 11400000, guid: e978c1629a017493cb1ed17195979337, type: 2}
   dropChance: 1
   droppable: {fileID: 3527373394736214066, guid: 2c72a572ca7f44a7aaf3b7f22b94ea8d, type: 3}

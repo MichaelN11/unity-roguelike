@@ -18,6 +18,7 @@ public class WeaponController : MonoBehaviour
     private EntityState entityState;
     private float distance = 0;
     private float yOffset = 0;
+    private Vector2 pivot;
 
     private void Awake()
     {
@@ -30,16 +31,29 @@ public class WeaponController : MonoBehaviour
 
     private void Start()
     {
+        Transform pivotTransform = transform.parent.Find("WeaponPivot");
+        if (pivotTransform != null)
+        {
+            pivot = pivotTransform.localPosition - abilityManager.transform.localPosition;
+            Debug.Log("pivot = " + pivot);
+        }
+
         distance = transform.localPosition.x;
         yOffset = transform.localPosition.y;
+        if (pivot != null)
+        {
+            distance -= pivot.x;
+            yOffset -= pivot.y;
+        }
+
         abilityManager.OnAbilityUse += Attack;
     }
 
     private void Update()
     {
-        Vector2 direction = entityState.LookDirection.normalized;
         if (animatorUpdater.IsAiming && entityState.ActionState != ActionState.Dead)
         {
+            Vector2 direction = DetermineDirection();
             spriteRenderer.enabled = true;
             transform.localPosition = DetermineLocalPosition(direction);
             transform.rotation = UnityUtil.RotateTowardsVector(direction);
@@ -62,6 +76,22 @@ public class WeaponController : MonoBehaviour
         return weaponController;
     }
 
+    private Vector2 DetermineDirection()
+    {
+        Vector2 lookDirection = entityState.LookDirection.normalized;
+        if (pivot == null)
+        {
+            return lookDirection;
+        }
+        Vector2 position = abilityManager.transform.position;
+        Debug.Log("position: " + position + " look dir: " + lookDirection + " range: " + abilityManager.GetRange()
+            + " look dir * range: " + (lookDirection * abilityManager.GetRange()));
+        Vector2 attackPosition = position + (lookDirection * abilityManager.GetRange());
+        Vector2 direction = attackPosition - (pivot + position);
+        Debug.Log("position: " + position + " attack pos: " + attackPosition + " direction: " + direction);
+        return direction;
+    }
+
     /// <summary>
     /// Determines the local position of the object around the parent, using the distance and y offset.
     /// </summary>
@@ -69,7 +99,7 @@ public class WeaponController : MonoBehaviour
     /// <returns>The local position as a Vector2</returns>
     private Vector2 DetermineLocalPosition(Vector2 direction)
     {
-        Vector2 newLocalPosition = direction * distance;
+        Vector2 newLocalPosition = (direction * distance) + pivot;
         newLocalPosition.y += yOffset;
         return UnityUtil.PixelPerfectClamp(newLocalPosition, pixelsPerUnit);
     }

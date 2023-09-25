@@ -10,18 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 35eb63b12acca447c8a9d898e371dcc6, type: 3}
-  m_Name: MinotaurMeleeEffect
+  m_Name: MinotaurStabEffect
   m_EditorClassIdentifier: 
   soundOnUse: {fileID: 0}
   prefabEffectData:
-    prefab: {fileID: 605442877324402279, guid: 7547078066ee749c089f3ec79d3ce3a6, type: 3}
+    prefab: {fileID: 605442877324402279, guid: adcaddf81d8a540d1add179926d5a435, type: 3}
     prefabDuration: 0.3
     rotatePrefab: 1
-    mirrorPrefabX: 1
+    mirrorPrefabX: 0
   attackEffectData:
     soundOnHit: {fileID: 0}
     damage: 1
-    attackDistance: -1.5
+    attackDistance: 2
     hitStunMultiplier: 1
     knockbackMultiplier: 1.5
     hitStop: 0.06

@@ -6,7 +6,11 @@
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
 
 \f0\fs24 \cf0 soon:\
+minotaur stab works going to the left\
+minotaur stab startup isn\'92t stuck out as far\
+minotaur animations can handle having multiple attacks\
 minotaur more attacks\
+minotaur charge\
 AI can use combos\
 AI can use movement abilities\
 \
@@ -15,7 +19,13 @@ Death screen\
 Floors increase in difficulty\
 WebGL build\
 Game name + basic logo\
+\
+minotaur needs a distinct recovery sprite for after his slash attack\
 limited dash resource (stamina? cooldown? both?)\
+improve dash visuals a bit (when dashing into wall, or viewed when dashing up)\
+should dash go through enemies or not?\
+recenter minotaur slash effect so that it doesnt need negative range\
+should enemies be able to aim attacks after they start them?\
 \
 Main menu button spacing is off\
 You can walk off the screen in the beginning by going to the left\
@@ -24,6 +34,8 @@ AI still struggles a bit with longer paths\
 AI gets stuck on the upper corners of the house\
 \
 later:\
+hitting an enemy should stop you from moving further in the attack? attacks with movement could have a special collision offset that only applies to entities\
+change entity interaction distance to use a percent instead? so abilities scale better between different size entities\
 minotaur pathfinding (he\'92s too big)\
 flash on hit time shouldn\'92t be in entity scriptable object. death timer prob shouldn\'92t either?\
 log attack position should be handled better, so that log can have normal ability source, and poof sprite could have normal center\
@@ -47,7 +59,6 @@ give simpler entities their own animator updater\
 rework how hitstun / knockback is handled, in regard to entity and ability data\
 consistent color palette?\
 better way to handle attack animations\
-hitting an enemy should stop you from moving further in the attack? attacks with movement could have a special collision offset that only applies to entities\
 A* cheat for closest tile, for target and position\
 AI finds targets instead of using player singleton\
 invincibility frames after being hit, player only\
