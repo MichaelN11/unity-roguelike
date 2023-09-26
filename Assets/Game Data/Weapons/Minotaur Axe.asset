@@ -12,5 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8df4593cb34b341d1a01d6622359a9bb, type: 3}
   m_Name: Minotaur Axe
   m_EditorClassIdentifier: 
-  animatorController: {fileID: 9100000, guid: af6e24e56253442bd87c3fa3251eedf2, type: 2}
-  animationSpeed: 1
+  mirrorXDirection: 1
