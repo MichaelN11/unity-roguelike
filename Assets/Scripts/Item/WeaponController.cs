@@ -121,7 +121,7 @@ public class WeaponController : MonoBehaviour
             return lookDirection;
         }
         Vector2 position = abilityManager.transform.position;
-        Vector2 attackPosition = position + (lookDirection * abilityManager.GetRange());
+        Vector2 attackPosition = position + (lookDirection * currentAbilityRange);
         Vector2 direction = attackPosition - (directionalPivot + position);
         return direction.normalized;
     }

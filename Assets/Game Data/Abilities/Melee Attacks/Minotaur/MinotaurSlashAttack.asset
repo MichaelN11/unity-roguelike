@@ -21,7 +21,7 @@ MonoBehaviour:
   cooldown: 0
   canCancelInto: 0
   cancelableDuration: 0
-  aiRange: 0.5
+  range: 1
   aimDuration: 0
   soundOnUse: {fileID: 11400000, guid: 2be215f89722944d1803004ad4b3cbc5, type: 2}
   abilityAnimation: 0
