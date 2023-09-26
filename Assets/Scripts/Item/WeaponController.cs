@@ -36,7 +36,6 @@ public class WeaponController : MonoBehaviour
         if (pivotTransform != null)
         {
             pivot = pivotTransform.localPosition - abilityManager.transform.localPosition;
-            Debug.Log("pivot = " + pivot);
         }
 
         distance = transform.localPosition.x;

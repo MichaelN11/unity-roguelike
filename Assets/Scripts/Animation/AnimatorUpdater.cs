@@ -120,12 +120,15 @@ public class AnimatorUpdater : MonoBehaviour
         int animationStage = 0;
         switch (abilityAnimation)
         {
-            case AbilityAnimation.Attack1:
+            case AbilityAnimation.Slash1:
                 animationStage = 1;
                 break;
-            case AbilityAnimation.Attack2:
+            case AbilityAnimation.Slash2:
                 animationStage = 2;
-                break;  
+                break;
+            case AbilityAnimation.Stab:
+                animationStage = 3;
+                break;
         }
         return animationStage;
     }
