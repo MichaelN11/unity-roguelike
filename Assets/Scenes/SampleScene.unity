@@ -6083,6 +6083,10 @@ PrefabInstance:
       propertyPath: isPlayer
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3033596613551471897, guid: 6ebb7b88bc69743018a2b2f720069b04, type: 3}
+      propertyPath: singleSpawn
+      value: 
+      objectReference: {fileID: 11400000, guid: e10765064256a4a63974e29515616f8c, type: 2}
     - target: {fileID: 4787061615853604449, guid: 6ebb7b88bc69743018a2b2f720069b04, type: 3}
       propertyPath: m_Name
       value: MinotaurSpawner
