@@ -8,6 +8,7 @@ using UnityEngine;
 /// </summary>
 public class AnimatorUpdater : MonoBehaviour
 {
+    public AbilityAnimation CurrentAnimation { get; private set; } = AbilityAnimation.Default;
     public bool IsAiming { get; private set; } = false;
     private float aimModeTimer = 0f;
 
@@ -99,6 +100,7 @@ public class AnimatorUpdater : MonoBehaviour
     /// <param name="eventInfo">Info about the triggered ability use event</param>
     private void Attack(AbilityUseEventInfo eventInfo)
     {
+        CurrentAnimation = eventInfo.AbilityAnimation;
         UpdateLookDirection();
         animator.SetTrigger("attack");
         animator.SetBool("isAttacking", true);

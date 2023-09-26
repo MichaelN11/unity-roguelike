@@ -13,3 +13,4 @@ MonoBehaviour:
   m_Name: Minotaur Axe
   m_EditorClassIdentifier: 
   mirrorXDirection: 1
+  displayAnimations: 03000000

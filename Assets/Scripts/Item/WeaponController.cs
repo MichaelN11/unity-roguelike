@@ -53,7 +53,9 @@ public class WeaponController : MonoBehaviour
 
     private void Update()
     {
-        if (animatorUpdater.IsAiming && entityState.ActionState != ActionState.Dead)
+        if (animatorUpdater.IsAiming
+            && entityState.ActionState != ActionState.Dead
+            && ShowWeapon())
         {
             Vector2 lookDirection = entityState.LookDirection.normalized;
             bool mirrorInXDirection = weapon.MirrorXDirection && lookDirection.x < 0;
@@ -80,6 +82,12 @@ public class WeaponController : MonoBehaviour
         WeaponController weaponController = gameObject.AddComponent<WeaponController>();
         weaponController.weapon = weapon;
         return weaponController;
+    }
+
+    private bool ShowWeapon()
+    {
+        return weapon.DisplayAnimations.Count == 0
+            || weapon.DisplayAnimations.Contains(animatorUpdater.CurrentAnimation);
     }
 
     /// <summary>

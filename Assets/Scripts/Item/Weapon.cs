@@ -11,4 +11,11 @@ public class Weapon : ScriptableObject
     [SerializeField]
     private bool mirrorXDirection;
     public bool MirrorXDirection => mirrorXDirection;
+
+    /// <summary>
+    /// Which animations to display the weapon during. Empty list defaults to all animations.
+    /// </summary>
+    [SerializeField]
+    private List<AbilityAnimation> displayAnimations;
+    public List<AbilityAnimation> DisplayAnimations => displayAnimations;
 }
