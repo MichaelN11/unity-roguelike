@@ -53,9 +53,11 @@ public class WeaponController : MonoBehaviour
     {
         if (animatorUpdater.IsAiming && entityState.ActionState != ActionState.Dead)
         {
-            Vector2 direction = DetermineDirection();
+            Vector2 lookDirection = entityState.LookDirection.normalized;
+            Vector2 directionalPivot = GetDirectionalPivot(lookDirection);
+            Vector2 direction = DetermineDirection(lookDirection, directionalPivot);
             spriteRenderer.enabled = true;
-            transform.localPosition = DetermineLocalPosition(direction);
+            transform.localPosition = DetermineLocalPosition(direction, directionalPivot);
             transform.rotation = UnityUtil.RotateTowardsVector(direction);
         } else
         {
@@ -76,10 +78,23 @@ public class WeaponController : MonoBehaviour
         return weaponController;
     }
 
-    private Vector2 DetermineDirection()
+    /// <summary>
+    /// Gets the pivot accounting for the direction the entity is facing in.
+    /// </summary>
+    /// <returns>The pivot accounting for the direction</returns>
+    private Vector2 GetDirectionalPivot(Vector2 direction)
     {
-        Vector2 lookDirection = entityState.LookDirection.normalized;
-        if (pivot == null)
+        Vector2 directionalPivot = pivot;
+        if (pivot != null && direction.x < 0)
+        {
+            directionalPivot.x *= -1;
+        }
+        return directionalPivot;
+    }
+
+    private Vector2 DetermineDirection(Vector2 lookDirection, Vector2 directionalPivot)
+    {
+        if (directionalPivot == null)
         {
             return lookDirection;
         }
@@ -87,7 +102,7 @@ public class WeaponController : MonoBehaviour
         Debug.Log("position: " + position + " look dir: " + lookDirection + " range: " + abilityManager.GetRange()
             + " look dir * range: " + (lookDirection * abilityManager.GetRange()));
         Vector2 attackPosition = position + (lookDirection * abilityManager.GetRange());
-        Vector2 direction = attackPosition - (pivot + position);
+        Vector2 direction = attackPosition - (directionalPivot + position);
         Debug.Log("position: " + position + " attack pos: " + attackPosition + " direction: " + direction);
         return direction;
     }
@@ -96,10 +111,11 @@ public class WeaponController : MonoBehaviour
     /// Determines the local position of the object around the parent, using the distance and y offset.
     /// </summary>
     /// <param name="direction">The direction as a Vector2</param>
+    /// <param name="directionalPivot">The pivot for the object</param>
     /// <returns>The local position as a Vector2</returns>
-    private Vector2 DetermineLocalPosition(Vector2 direction)
+    private Vector2 DetermineLocalPosition(Vector2 direction, Vector2 directionalPivot)
     {
-        Vector2 newLocalPosition = (direction * distance) + pivot;
+        Vector2 newLocalPosition = (direction * distance) + directionalPivot;
         newLocalPosition.y += yOffset;
         return UnityUtil.PixelPerfectClamp(newLocalPosition, pixelsPerUnit);
     }
