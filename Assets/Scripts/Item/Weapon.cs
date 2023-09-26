@@ -8,4 +8,7 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Game Data/Weapon")]
 public class Weapon : ScriptableObject
 {
+    [SerializeField]
+    private bool mirrorXDirection;
+    public bool MirrorXDirection => mirrorXDirection;
 }

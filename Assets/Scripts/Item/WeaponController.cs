@@ -19,6 +19,7 @@ public class WeaponController : MonoBehaviour
     private float distance = 0;
     private float yOffset = 0;
     private Vector2 pivot;
+    private Vector2 initialLocalScale;
 
     private void Awake()
     {
@@ -46,6 +47,8 @@ public class WeaponController : MonoBehaviour
             yOffset -= pivot.y;
         }
 
+        initialLocalScale = transform.localScale;
+
         abilityManager.OnAbilityUse += Attack;
     }
 
@@ -54,10 +57,12 @@ public class WeaponController : MonoBehaviour
         if (animatorUpdater.IsAiming && entityState.ActionState != ActionState.Dead)
         {
             Vector2 lookDirection = entityState.LookDirection.normalized;
-            Vector2 directionalPivot = GetDirectionalPivot(lookDirection);
+            bool mirrorInXDirection = weapon.MirrorXDirection && lookDirection.x < 0;
+            Vector2 directionalPivot = GetDirectionalPivot(mirrorInXDirection);
             Vector2 direction = DetermineDirection(lookDirection, directionalPivot);
+            direction = HandleMirroredDirection(direction, mirrorInXDirection);
             spriteRenderer.enabled = true;
-            transform.localPosition = DetermineLocalPosition(direction, directionalPivot);
+            transform.localPosition = DetermineLocalPosition(direction, directionalPivot, mirrorInXDirection);
             transform.rotation = UnityUtil.RotateTowardsVector(direction);
         } else
         {
@@ -81,11 +86,12 @@ public class WeaponController : MonoBehaviour
     /// <summary>
     /// Gets the pivot accounting for the direction the entity is facing in.
     /// </summary>
+    /// <param name="mirrorInXDirection">If the pivot should be mirrored in the X direction</param>
     /// <returns>The pivot accounting for the direction</returns>
-    private Vector2 GetDirectionalPivot(Vector2 direction)
+    private Vector2 GetDirectionalPivot(bool mirrorInXDirection)
     {
         Vector2 directionalPivot = pivot;
-        if (pivot != null && direction.x < 0)
+        if (mirrorInXDirection)
         {
             directionalPivot.x *= -1;
         }
@@ -99,11 +105,28 @@ public class WeaponController : MonoBehaviour
             return lookDirection;
         }
         Vector2 position = abilityManager.transform.position;
-        Debug.Log("position: " + position + " look dir: " + lookDirection + " range: " + abilityManager.GetRange()
-            + " look dir * range: " + (lookDirection * abilityManager.GetRange()));
         Vector2 attackPosition = position + (lookDirection * abilityManager.GetRange());
         Vector2 direction = attackPosition - (directionalPivot + position);
-        Debug.Log("position: " + position + " attack pos: " + attackPosition + " direction: " + direction);
+        return direction;
+    }
+
+    /// <summary>
+    /// Handles for weapons that need to be mirrored in a direction.
+    /// </summary>
+    /// <param name="direction">The direction the weapon is going to face</param>
+    /// <param name="mirrorInXDirection">If the x direction should be mirrored</param>
+    /// <returns></returns>
+    private Vector2 HandleMirroredDirection(Vector2 direction, bool mirrorInXDirection)
+    {
+        if (mirrorInXDirection)
+        {
+            direction.x *= -1;
+            direction.y *= -1;
+            transform.localScale = new Vector2(initialLocalScale.x * -1, initialLocalScale.y);
+        } else
+        {
+            transform.localScale = initialLocalScale;
+        }
         return direction;
     }
 
@@ -112,10 +135,16 @@ public class WeaponController : MonoBehaviour
     /// </summary>
     /// <param name="direction">The direction as a Vector2</param>
     /// <param name="directionalPivot">The pivot for the object</param>
+    /// <param name="mirrorInXDirection">If the X direction should be mirrored</param>
     /// <returns>The local position as a Vector2</returns>
-    private Vector2 DetermineLocalPosition(Vector2 direction, Vector2 directionalPivot)
+    private Vector2 DetermineLocalPosition(Vector2 direction, Vector2 directionalPivot, bool mirrorInXDirection)
     {
-        Vector2 newLocalPosition = (direction * distance) + directionalPivot;
+        float distanceFromPosition = distance;
+        if (mirrorInXDirection)
+        {
+            distanceFromPosition *= -1;
+        }
+        Vector2 newLocalPosition = (direction * distanceFromPosition) + directionalPivot;
         newLocalPosition.y += yOffset;
         return UnityUtil.PixelPerfectClamp(newLocalPosition, pixelsPerUnit);
     }
