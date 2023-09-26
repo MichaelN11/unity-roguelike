@@ -2,6 +2,7 @@
 public enum AbilityAnimation
 {
     Default,
-    Attack1,
-    Attack2
+    Slash1,
+    Slash2,
+    Stab
 }
