@@ -37,11 +37,11 @@ public class OnUseAbility : Ability
     public float CancelableDuration => cancelableDuration;
 
     /// <summary>
-    /// TODO Need a better way for AI to determine effects.
+    /// TODO Need a better way to determine this.
     /// </summary>
     [SerializeField]
-    private float aiRange;
-    public float AIRange => aiRange;
+    private float range;
+    public float Range => range;
 
     /// <summary>
     /// Time after using the ability to continue facing in the direction the entity is aiming in.

@@ -18,8 +18,11 @@ public class WeaponController : MonoBehaviour
     private EntityState entityState;
     private float distance = 0;
     private float yOffset = 0;
-    private Vector2 pivot;
+    private Vector2 pivot = Vector2.zero;
     private Vector2 initialLocalScale;
+
+    private AbilityAnimation currentAnimation = AbilityAnimation.Default;
+    private float currentAbilityRange = 0;
 
     private void Awake()
     {
@@ -40,31 +43,25 @@ public class WeaponController : MonoBehaviour
 
         distance = transform.localPosition.x;
         yOffset = transform.localPosition.y;
-        if (pivot != null)
-        {
-            distance -= pivot.x;
-            yOffset -= pivot.y;
-        }
+
+        distance -= pivot.x;
+        yOffset -= pivot.y;
 
         initialLocalScale = transform.localScale;
 
-        abilityManager.OnAbilityUse += Attack;
+        if (abilityManager != null)
+        {
+            abilityManager.OnAbilityUse += Attack;
+        }
     }
 
     private void Update()
     {
         if (animatorUpdater.IsAiming
             && entityState.ActionState != ActionState.Dead
-            && ShowWeapon())
+            && IsWeaponDisplayable())
         {
-            Vector2 lookDirection = entityState.LookDirection.normalized;
-            bool mirrorInXDirection = weapon.MirrorXDirection && lookDirection.x < 0;
-            Vector2 directionalPivot = GetDirectionalPivot(mirrorInXDirection);
-            Vector2 direction = DetermineDirection(lookDirection, directionalPivot);
-            direction = HandleMirroredDirection(direction, mirrorInXDirection);
-            spriteRenderer.enabled = true;
-            transform.localPosition = DetermineLocalPosition(direction, directionalPivot, mirrorInXDirection);
-            transform.rotation = UnityUtil.RotateTowardsVector(direction);
+            ShowWeapon();
         } else
         {
             spriteRenderer.enabled = false;
@@ -84,10 +81,22 @@ public class WeaponController : MonoBehaviour
         return weaponController;
     }
 
-    private bool ShowWeapon()
+    private void ShowWeapon()
+    {
+        Vector2 lookDirection = entityState.LookDirection.normalized;
+        bool mirrorInXDirection = weapon.MirrorXDirection && lookDirection.x < 0;
+        Vector2 directionalPivot = GetDirectionalPivot(mirrorInXDirection);
+        Vector2 direction = DetermineDirection(lookDirection, directionalPivot);
+        direction = HandleMirroredDirection(direction, mirrorInXDirection);
+        spriteRenderer.enabled = true;
+        transform.localPosition = DetermineLocalPosition(direction, directionalPivot, mirrorInXDirection);
+        transform.rotation = UnityUtil.RotateTowardsVector(direction);
+    }
+
+    private bool IsWeaponDisplayable()
     {
         return weapon.DisplayAnimations.Count == 0
-            || weapon.DisplayAnimations.Contains(animatorUpdater.CurrentAnimation);
+            || weapon.DisplayAnimations.Contains(currentAnimation);
     }
 
     /// <summary>
@@ -107,14 +116,14 @@ public class WeaponController : MonoBehaviour
 
     private Vector2 DetermineDirection(Vector2 lookDirection, Vector2 directionalPivot)
     {
-        if (directionalPivot == null)
+        if (directionalPivot == Vector2.zero)
         {
             return lookDirection;
         }
         Vector2 position = abilityManager.transform.position;
-        Vector2 attackPosition = position + (lookDirection * abilityManager.GetRange());
+        Vector2 attackPosition = position + (lookDirection * currentAbilityRange);
         Vector2 direction = attackPosition - (directionalPivot + position);
-        return direction;
+        return direction.normalized;
     }
 
     /// <summary>
@@ -161,6 +170,13 @@ public class WeaponController : MonoBehaviour
     /// </summary>
     /// <param name="eventInfo">The ability use event data</param>
     private void Attack(AbilityUseEventInfo eventInfo)
+    {
+        currentAnimation = eventInfo.AbilityAnimation;
+        currentAbilityRange = eventInfo.Range;
+        UpdateAnimator(eventInfo);
+    }
+
+    private void UpdateAnimator(AbilityUseEventInfo eventInfo)
     {
         animator.SetTrigger("attack");
 

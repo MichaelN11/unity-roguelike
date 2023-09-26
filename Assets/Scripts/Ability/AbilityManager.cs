@@ -108,7 +108,7 @@ public class AbilityManager : MonoBehaviour
         Ability ability = GetAbility(0);
         if (ability is OnUseAbility onUseAbility)
         {
-            return onUseAbility.AIRange;
+            return onUseAbility.Range;
         }
         return 0;
     }
@@ -193,7 +193,8 @@ public class AbilityManager : MonoBehaviour
             CastTime = onUseAbility.CastTime,
             ActiveTime = onUseAbility.ActiveTime,
             RecoveryTime = onUseAbility.RecoveryTime,
-            AimDuration = onUseAbility.AimDuration
+            AimDuration = onUseAbility.AimDuration,
+            Range = onUseAbility.Range
         });
         cancelableDuration = onUseAbility.CancelableDuration;
 

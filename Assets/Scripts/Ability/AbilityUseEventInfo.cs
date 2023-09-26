@@ -11,6 +11,7 @@ public class AbilityUseEventInfo
     public float ActiveTime { get; set; }
     public float RecoveryTime { get; set; }
     public float AimDuration { get; set; }
+    public float Range { get; set; }
 
     public float GetFullDuration()
     {
