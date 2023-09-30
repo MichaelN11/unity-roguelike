@@ -64,27 +64,6 @@ public class EntityController : MonoBehaviour
     }
 
     /// <summary>
-    /// Gets the attack range for the entity, with the interaction distance and radius added.
-    /// TODO This will later return info about the entity's abilities for the AI.
-    /// </summary>
-    /// <returns>The attack range as a float</returns>
-    public float GetAttackRange()
-    {
-        float range = 0;
-        if (abilityManager != null)
-        {
-            range = entityData.Entity.InteractionDistance + abilityManager.GetRange();
-        }
-        return range;
-    }
-
-    /// <returns>The ability source position as a Vector2, the point from which the entity uses its abilities</returns>
-    public Vector2 GetAbilitySourcePosition()
-    {
-        return (abilityManager != null) ? abilityManager.transform.position : transform.position;
-    }
-
-    /// <summary>
     /// Sets the movement direction for the passed direction vector. Sets the direction
     /// on the movement component, and changes the entity's state to match the new direction.
     /// </summary>

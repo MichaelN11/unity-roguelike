@@ -26,6 +26,10 @@ public class AIController : MonoBehaviour
     /// The maximum number of iterations to perform in the A* search.
     /// </summary>
     private const int MaxIterations = 400;
+    /// <summary>
+    /// The time between the entity deciding to use an ability, and redetermining which ability to use.
+    /// </summary>
+    private const float TimeToDetermineAbility = 5;
 
     private EntityAI entityAI;
 
@@ -36,6 +40,8 @@ public class AIController : MonoBehaviour
     private Rigidbody2D body;
     private Rigidbody2D targetBody;
     private EntityController entityController;
+    private AbilityManager abilityManager;
+    private EntityData entityData;
 
     private List<GridAction> movementPath = new();
     private int nextPathStep = 0;
@@ -43,6 +49,9 @@ public class AIController : MonoBehaviour
     private bool active = false;
     private Behavior currentBehavior;
     private Camera mainCamera;
+
+    private UsableAbilityInfo currentAbility = null;
+    private float abilityDeterminationTimer = 0;
 
     private Collider2D movementCollider;
     private List<RaycastHit2D> raycastHits = new();
@@ -53,6 +62,8 @@ public class AIController : MonoBehaviour
         body = GetComponent<Rigidbody2D>();
         entityController = GetComponent<EntityController>();
         movementCollider = GetComponent<Collider2D>();
+        abilityManager = GetComponentInChildren<AbilityManager>();
+        entityData = GetComponent<EntityData>();
         mainCamera = Camera.main;
         contactFilter2D.layerMask = LayerUtil.GetUnwalkableLayerMask();
         contactFilter2D.useLayerMask = true;
@@ -78,14 +89,15 @@ public class AIController : MonoBehaviour
     {
         DetermineIfActive();
         if (active) {
+            DetermineAbility();
             DetermineBehavior();
             switch(currentBehavior)
             {
                 case Behavior.Path:
                     MoveAlongPath();
                     break;
-                case Behavior.Attack:
-                    Attack();
+                case Behavior.Ability:
+                    UseAbility();
                     break;
                 case Behavior.Chase:
                     MoveTowardsPoint(targetBody.position);
@@ -144,6 +156,32 @@ public class AIController : MonoBehaviour
     }
 
     /// <summary>
+    /// Determines which ability the AI wants to use. The AI will decide on the ability, then try
+    /// to put themselves into a situation to use it.
+    /// </summary>
+    private void DetermineAbility()
+    {
+        if (abilityDeterminationTimer > 0)
+        {
+            abilityDeterminationTimer -= Time.deltaTime;
+        }
+        if (abilityDeterminationTimer <= 0 && abilityManager != null)
+        {
+            List<UsableAbilityInfo> usableAbilities = abilityManager.GetUsableAbilities();
+            if (currentAbility != null)
+            {
+                usableAbilities.RemoveAll(usableAbility => usableAbility.AbilityNumber == currentAbility.AbilityNumber);
+            }
+            if (usableAbilities.Count > 0)
+            {
+                int nextIndex = UnityEngine.Random.Range(0, usableAbilities.Count);
+                currentAbility = usableAbilities[nextIndex];
+            }
+            abilityDeterminationTimer = TimeToDetermineAbility;
+        }
+    }
+
+    /// <summary>
     /// Determines the current AI behavior by checking the distance from the target's position.
     /// </summary>
     private void DetermineBehavior()
@@ -156,10 +194,9 @@ public class AIController : MonoBehaviour
                 currentBehavior = Behavior.Idle;
                 SendInput(InputType.Idle);
             }
-            else if (CanAttack(entityController.GetAbilitySourcePosition(), GetAttackTargetPosition(),
-                distanceToTarget, entityController.GetAttackRange()))
+            else if (CanUseCurrentAbility(GetAbilitySourcePosition(), GetAttackTargetPosition(), distanceToTarget))
             {
-                currentBehavior = Behavior.Attack;
+                currentBehavior = Behavior.Ability;
             }
             else
             {
@@ -171,22 +208,28 @@ public class AIController : MonoBehaviour
         }
     }
 
-    /// <returns>true if the entity can attack the target</returns>
-    private bool CanAttack(Vector2 position, Vector2 targetPosition, float distanceToTarget, float attackRange)
+    /// <returns>true if the entity can use the current ability</returns>
+    private bool CanUseCurrentAbility(Vector2 position, Vector2 targetPosition, float distanceToTarget)
     {
-        bool canAttack = false;
-        if (distanceToTarget <= attackRange)
+        if (currentAbility == null || currentAbility.Ability == null)
+        {
+            return false;
+        }
+
+        float range = entityData.Entity.InteractionDistance + currentAbility.Ability.Range;
+        bool canUseAbility = false;
+        if (distanceToTarget <= range)
         {
             if (distanceToTarget <= MeleeRadius)
             {
-                canAttack = true;
+                canUseAbility = true;
             }
             else
             {
-                canAttack = HasLineOfSightOnTarget(position, targetPosition, distanceToTarget);
+                canUseAbility = HasLineOfSightOnTarget(position, targetPosition, distanceToTarget);
             }
         }
-        return canAttack;
+        return canUseAbility;
     }
 
     /// <returns>true if the entity has line of sight (no walls in the way) on the target position</returns>
@@ -214,6 +257,11 @@ public class AIController : MonoBehaviour
     private Vector2 GetAttackTargetPosition()
     {
         return targetBody.position + new Vector2(0, AttackTargetYOffset);
+    }
+
+    private Vector2 GetAbilitySourcePosition()
+    {
+        return (abilityManager != null) ? abilityManager.transform.position : transform.position;
     }
 
     /// <summary>
@@ -295,12 +343,12 @@ public class AIController : MonoBehaviour
     }
 
     /// <summary>
-    /// Attack in the direction of the target.
+    /// Uses ability in the direction of the target.
     /// </summary>
-    private void Attack()
+    private void UseAbility()
     {
         Vector2 targetDirection = GetAttackTargetPosition() - body.position;
-        SendInput(InputType.Ability, targetDirection, 1);
+        SendInput(InputType.Ability, targetDirection, currentAbility.AbilityNumber);
     }
 
     /// <summary>
@@ -330,12 +378,12 @@ public class AIController : MonoBehaviour
     /// <param name="inputType">The InputType</param>
     /// <param name="direction">The Vector2 direction</param>
     /// <param name="abilityNumber">The number of the ability being used</param>
-    private void SendInput(InputType inputType, Vector2 direction, int abilityNumber = 0)
+    private void SendInput(InputType inputType, Vector2 direction, int abilityNumber = -1)
     {
         InputData inputData = new();
         inputData.Type = inputType;
         inputData.Direction = direction;
-        if (abilityNumber > 0)
+        if (abilityNumber >= 0)
         {
             inputData.AbilityNumber = abilityNumber;
         }

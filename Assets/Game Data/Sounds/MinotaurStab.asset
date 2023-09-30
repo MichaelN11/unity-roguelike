@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40075b0f1472d4c8e8feda58174357ec, type: 3}
   m_Name: MinotaurStab
   m_EditorClassIdentifier: 
-  audioClip: {fileID: 0}
+  audioClip: {fileID: 8300000, guid: 0d4a18e3b0554479296b90995f910359, type: 3}
   isMusic: 0
   loop: 0
-  volume: 1
+  volume: 0.4
   pitch: 1

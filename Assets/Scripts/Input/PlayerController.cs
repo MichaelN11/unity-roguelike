@@ -116,22 +116,22 @@ public class PlayerController : MonoBehaviour
 
     public void OnFireStarted(CallbackContext ctx)
     {
-        AbilityStarted(1);
+        AbilityStarted(0);
     }
 
     public void OnFireCancelled(CallbackContext ctx)
     {
-        AbilityCanceled(1);
+        AbilityCanceled(0);
     }
 
     public void OnSecondaryFireStarted(CallbackContext ctx)
     {
-        AbilityStarted(2);
+        AbilityStarted(1);
     }
 
     public void OnSecondaryFireCancelled(CallbackContext ctx)
     {
-        AbilityCanceled(2);
+        AbilityCanceled(1);
     }
 
     private void AbilityStarted(int abilityNumber)

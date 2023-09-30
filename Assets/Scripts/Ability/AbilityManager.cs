@@ -74,7 +74,7 @@ public class AbilityManager : MonoBehaviour
     /// <returns>true if the ability was used successfully</returns>
     public bool UseAbility(int abilityNumber, Vector2 direction, Vector2 positionOffset)
     {
-        Ability ability = GetAbility(abilityNumber - 1);
+        Ability ability = GetAbility(abilityNumber);
         if (ability is OnUseAbility onUseAbility)
         {
             return UseOnUseAbility(onUseAbility, direction, positionOffset);
@@ -99,18 +99,32 @@ public class AbilityManager : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Gets the ability range for the AI. Will need to be updated in the future to return more data.
-    /// </summary>
-    /// <returns>The ability range as a float</returns>
-    public float GetRange()
+    public List<UsableAbilityInfo> GetUsableAbilities()
     {
-        Ability ability = GetAbility(0);
-        if (ability is OnUseAbility onUseAbility)
+        List<UsableAbilityInfo> usableAbilities = new();
+        for(int i = 0; i < abilities.Count; i++)
         {
-            return onUseAbility.Range;
+            Ability ability = abilities[i];
+            if (ability is OnUseAbility onUseAbility)
+            {
+                UsableAbilityInfo usableAbilityInfo = new();
+                usableAbilityInfo.Ability = onUseAbility;
+                usableAbilityInfo.AbilityNumber = i;
+                usableAbilities.Add(usableAbilityInfo);
+            } else if (ability is ComboAbility comboAbility)
+            {
+                int comboStage = 0;
+                if (currentComboAbility == comboAbility)
+                {
+                    comboStage = nextComboNumber;
+                }
+                UsableAbilityInfo usableAbilityInfo = new();
+                usableAbilityInfo.Ability = comboAbility.ComboStages[comboStage].Ability;
+                usableAbilityInfo.AbilityNumber = i;
+                usableAbilities.Add(usableAbilityInfo);
+            }
         }
-        return 0;
+        return usableAbilities;
     }
 
     private Ability GetAbility(int abilityNumber)

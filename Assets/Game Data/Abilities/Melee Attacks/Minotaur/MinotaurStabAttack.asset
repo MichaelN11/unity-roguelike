@@ -16,12 +16,12 @@ MonoBehaviour:
   - {fileID: 11400000, guid: ae1b9501400c542a29cebcbc5fc058e9, type: 2}
   - {fileID: 11400000, guid: ae55791ac8ea5497f984a2b69c71dee6, type: 2}
   castTime: 0.3
-  recoveryTime: 0.6
+  recoveryTime: 1
   activeTime: 0.1
   cooldown: 0
   canCancelInto: 0
   cancelableDuration: 0
   range: 2
   aimDuration: 0
-  soundOnUse: {fileID: 11400000, guid: 2be215f89722944d1803004ad4b3cbc5, type: 2}
+  soundOnUse: {fileID: 11400000, guid: b74dde76e65a8411ca4c2f038e292d8d, type: 2}
   abilityAnimation: 3
