@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   soundOnUse: {fileID: 0}
   prefabEffectData:
-    prefab: {fileID: 605442877324402279, guid: adcaddf81d8a540d1add179926d5a435, type: 3}
+    prefab: {fileID: 605442877324402279, guid: 96807c5387c6c4f60807519644481e83, type: 3}
     prefabDuration: 0.3
     rotatePrefab: 1
     mirrorPrefabX: 0
