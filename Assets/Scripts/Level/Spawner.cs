@@ -18,19 +18,4 @@ public class Spawner : MonoBehaviour
     [SerializeField]
     private bool isPlayer = false;
     public bool IsPlayer => isPlayer;
-
-    private void Awake()
-    {
-        if (singleSpawn != null)
-        {
-            if (isPlayer)
-            {
-                EntityFactory.CreatePlayer(singleSpawn, transform.position);
-            } else
-            {
-                EntityFactory.CreateEnemy(singleSpawn, transform.position);
-            }
-            Destroy(gameObject);
-        }
-    }
 }

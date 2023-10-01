@@ -54,9 +54,11 @@ public class LevelManager : MonoBehaviour
         List<LevelTile> unplacedTiles = GetComponentsInChildren<LevelTile>().ToList();
         if (loadedScene == null)
         {
+            SpawnStaticObjects();
             tileObjectsList = BuildLevel(unplacedTiles);
         } else
         {
+            DestroyStaticSpawners();
             LoadLevel(unplacedTiles, loadedScene);
         }
 
@@ -87,6 +89,29 @@ public class LevelManager : MonoBehaviour
     private void OnDestroy()
     {
         Instance = null;
+    }
+
+    /// <summary>
+    /// Spawns objects that are pre-placed in the level, not part of a tile.
+    /// </summary>
+    private void SpawnStaticObjects()
+    {
+        foreach (Spawner spawner in FindObjectsOfType<Spawner>())
+        {
+            SpawnObject(spawner, level);
+            Destroy(spawner.gameObject);
+        }
+    }
+
+    /// <summary>
+    /// Destroys pre-placed spawn objects.
+    /// </summary>
+    private void DestroyStaticSpawners()
+    {
+        foreach (Spawner spawner in FindObjectsOfType<Spawner>())
+        {
+            Destroy(spawner.gameObject);
+        }
     }
 
     /// <summary>
@@ -132,23 +157,36 @@ public class LevelManager : MonoBehaviour
     /// <param name="level">The level scriptable object</param>
     private void SpawnObject(Spawner spawner, Level level)
     {
-        List<Entity> spawnableObjects = new();
-        foreach (Spawnable spawnable in spawner.Spawnables)
+        if (spawner.SingleSpawn != null)
         {
-            switch (spawnable)
+            if (spawner.IsPlayer)
             {
-                case Spawnable.MeleeEnemy:
-                    spawnableObjects.AddRange(level.MeleeEnemies);
-                    break;
-                case Spawnable.RangedEnemy:
-                    spawnableObjects.AddRange(level.RangedEnemies);
-                    break;
+                EntityFactory.CreatePlayer(spawner.SingleSpawn, spawner.transform.position);
             }
-        }
-        if (spawnableObjects.Count > 0)
+            else
+            {
+                EntityFactory.CreateEnemy(spawner.SingleSpawn, spawner.transform.position);
+            }          
+        } else
         {
-            int randomIndex = Random.Range(0, spawnableObjects.Count);
-            EntityFactory.CreateEnemy(spawnableObjects[randomIndex], spawner.transform.position);
+            List<Entity> spawnableObjects = new();
+            foreach (Spawnable spawnable in spawner.Spawnables)
+            {
+                switch (spawnable)
+                {
+                    case Spawnable.MeleeEnemy:
+                        spawnableObjects.AddRange(level.MeleeEnemies);
+                        break;
+                    case Spawnable.RangedEnemy:
+                        spawnableObjects.AddRange(level.RangedEnemies);
+                        break;
+                }
+            }
+            if (spawnableObjects.Count > 0)
+            {
+                int randomIndex = Random.Range(0, spawnableObjects.Count);
+                EntityFactory.CreateEnemy(spawnableObjects[randomIndex], spawner.transform.position);
+            }
         }
     }
 
