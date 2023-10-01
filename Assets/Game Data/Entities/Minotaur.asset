@@ -15,7 +15,7 @@ MonoBehaviour:
   baseObject: {fileID: 7658967440879357034, guid: e526707a1909f4203baf0f5664d8c17f, type: 3}
   abilities:
   - {fileID: 11400000, guid: ebe488e98a52d4f32ab3c6ac001b44b4, type: 2}
-  - {fileID: 11400000, guid: 7df3cba7f52534f61b08567cb518948c, type: 2}
+  - {fileID: 11400000, guid: 237ff9aa6a8064b6889df505559fdae1, type: 2}
   soundOnHit: {fileID: 0}
   walkSpeed: 4.5
   interactionDistance: 1.5

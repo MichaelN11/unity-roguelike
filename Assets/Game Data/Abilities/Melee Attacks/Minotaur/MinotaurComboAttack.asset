@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: MinotaurComboAttack
   m_EditorClassIdentifier: 
   comboStages:
-  - ability: {fileID: 0}
-    comboCancelableDuration: 0
-    comboContinueWindow: 0
-  - ability: {fileID: 0}
+  - ability: {fileID: 11400000, guid: 7df3cba7f52534f61b08567cb518948c, type: 2}
+    comboCancelableDuration: 0.75
+    comboContinueWindow: 1
+  - ability: {fileID: 11400000, guid: 5725b258d0fec4ffaa9c80750053b5ad, type: 2}
     comboCancelableDuration: 0
     comboContinueWindow: 0
