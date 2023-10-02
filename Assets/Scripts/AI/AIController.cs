@@ -83,14 +83,25 @@ public class AIController : MonoBehaviour
         }
         nextPosition = body.position;
         InvokeRepeating(nameof(FindPath), 0, TimeBetweenAIUpdate);
+        GoIdle();
     }
 
     private void Update()
     {
         DetermineIfActive();
-        if (active) {
-            DetermineAbility();
+        if (targetBody == null)
+        {
+            if (currentBehavior != Behavior.Idle)
+            {
+                GoIdle();
+            }
+        } else if (active)
+        {
             DetermineBehavior();
+            if (currentBehavior != Behavior.Idle)
+            {
+                DetermineAbility();
+            }
             switch(currentBehavior)
             {
                 case Behavior.Path:
@@ -127,10 +138,10 @@ public class AIController : MonoBehaviour
         if (IsOnScreen(body.position))
         {
             active = true;
-        } else
+        } else if (active)
         {
             active = false;
-            SendInput(InputType.Idle);
+            GoIdle();
         }
     }
 
@@ -186,15 +197,16 @@ public class AIController : MonoBehaviour
     /// </summary>
     private void DetermineBehavior()
     {
-        if (targetBody != null)
+        float distanceToTarget = Vector2.Distance(body.position, targetBody.position);
+        if (entityAI.Deaggro
+            && currentBehavior != Behavior.Idle
+            && distanceToTarget > entityAI.AggroDistance)
         {
-            float distanceToTarget = Vector2.Distance(body.position, targetBody.position);
-            if (distanceToTarget > entityAI.AggroDistance)
-            {
-                currentBehavior = Behavior.Idle;
-                SendInput(InputType.Idle);
-            }
-            else if (CanUseCurrentAbility(GetAbilitySourcePosition(), GetAttackTargetPosition(), distanceToTarget))
+            GoIdle();
+        }
+        if (currentBehavior != Behavior.Idle || distanceToTarget <= entityAI.AggroDistance)
+        {
+            if (CanUseCurrentAbility(GetAbilitySourcePosition(), GetAttackTargetPosition(), distanceToTarget))
             {
                 currentBehavior = Behavior.Ability;
             }
@@ -202,9 +214,6 @@ public class AIController : MonoBehaviour
             {
                 DetermineMovementBehavior(distanceToTarget);
             }
-        } else
-        {
-            currentBehavior = Behavior.Idle;
         }
     }
 
@@ -363,13 +372,23 @@ public class AIController : MonoBehaviour
         SendInput(InputType.Look, moveDirection);
     }
 
+    private void GoIdle()
+    {
+        bool success = SendInput(InputType.Idle);
+        if (success)
+        {
+            currentBehavior = Behavior.Idle;
+        }
+    }
+
     /// <summary>
     /// Passes input to the EntityController.
     /// </summary>
     /// <param name="inputType">The InputType</param>
-    private void SendInput(InputType inputType)
+    /// <returns>if the input was successful</returns>
+    private bool SendInput(InputType inputType)
     {
-        SendInput(inputType, Vector2.zero);
+        return SendInput(inputType, Vector2.zero);
     }
 
     /// <summary>
@@ -378,7 +397,8 @@ public class AIController : MonoBehaviour
     /// <param name="inputType">The InputType</param>
     /// <param name="direction">The Vector2 direction</param>
     /// <param name="abilityNumber">The number of the ability being used</param>
-    private void SendInput(InputType inputType, Vector2 direction, int abilityNumber = -1)
+    /// <returns>if the input was successful</returns>
+    private bool SendInput(InputType inputType, Vector2 direction, int abilityNumber = -1)
     {
         InputData inputData = new();
         inputData.Type = inputType;
@@ -387,6 +407,6 @@ public class AIController : MonoBehaviour
         {
             inputData.AbilityNumber = abilityNumber;
         }
-        entityController.UpdateFromInput(inputData);
+        return entityController.UpdateFromInput(inputData);
     }
 }

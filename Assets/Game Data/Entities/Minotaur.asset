@@ -26,7 +26,8 @@ MonoBehaviour:
   flashOnHitTime: 0.15
   deathTimer: 1
   entityAI:
-    aggroDistance: 8
+    aggroDistance: 15
+    deaggro: 0
   weapon: {fileID: 11400000, guid: 58fd7833ba5564769934bd90e828381e, type: 2}
   dropChance: 1
   droppable: {fileID: 3527373394736214066, guid: 2c72a572ca7f44a7aaf3b7f22b94ea8d, type: 3}

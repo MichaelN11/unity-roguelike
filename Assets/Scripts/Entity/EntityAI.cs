@@ -12,4 +12,8 @@ public class EntityAI
     [SerializeField]
     private float aggroDistance = 5;
     public float AggroDistance => aggroDistance;
+
+    [SerializeField]
+    private bool deaggro = true;
+    public bool Deaggro => deaggro;
 }
