@@ -157,15 +157,16 @@ public class LevelManager : MonoBehaviour
     /// <param name="level">The level scriptable object</param>
     private void SpawnObject(Spawner spawner, Level level)
     {
+        GameObject spawnedObject = null;
         if (spawner.SingleSpawn != null)
         {
             if (spawner.IsPlayer)
             {
-                EntityFactory.CreatePlayer(spawner.SingleSpawn, spawner.transform.position);
+                spawnedObject = EntityFactory.CreatePlayer(spawner.SingleSpawn, spawner.transform.position);
             }
             else
             {
-                EntityFactory.CreateEnemy(spawner.SingleSpawn, spawner.transform.position);
+                spawnedObject = EntityFactory.CreateEnemy(spawner.SingleSpawn, spawner.transform.position);
             }          
         } else
         {
@@ -185,8 +186,12 @@ public class LevelManager : MonoBehaviour
             if (spawnableObjects.Count > 0)
             {
                 int randomIndex = Random.Range(0, spawnableObjects.Count);
-                EntityFactory.CreateEnemy(spawnableObjects[randomIndex], spawner.transform.position);
+                spawnedObject = EntityFactory.CreateEnemy(spawnableObjects[randomIndex], spawner.transform.position);
             }
+        }
+        if (spawnedObject != null)
+        {
+            spawner.InvokeSpawn(spawnedObject);
         }
     }
 

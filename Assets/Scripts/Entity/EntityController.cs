@@ -26,7 +26,7 @@ public class EntityController : MonoBehaviour
 
     private void Start()
     {
-        entityState.UnstunnedEvent += Unstunned;
+        entityState.OnUnstunned += Unstunned;
     }
 
     /// <summary>

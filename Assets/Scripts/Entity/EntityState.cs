@@ -8,7 +8,8 @@ using UnityEngine;
 /// </summary>
 public class EntityState : MonoBehaviour
 {
-    public event Action UnstunnedEvent;
+    public event Action OnDeath;
+    public event Action OnUnstunned;
 
     public Vector2 LookDirection { get; set; } = Vector2.zero;
     public ActionState ActionState { get; private set; } = ActionState.Stand;
@@ -121,6 +122,7 @@ public class EntityState : MonoBehaviour
     /// </summary>
     public void DeadState()
     {
+        OnDeath?.Invoke();
         ActionState = ActionState.Dead;
         if (abilityManager != null)
         {
@@ -165,7 +167,7 @@ public class EntityState : MonoBehaviour
             if (StunTimer <= 0)
             {
                 StandState();
-                UnstunnedEvent?.Invoke();
+                OnUnstunned?.Invoke();
             }
         }
     }

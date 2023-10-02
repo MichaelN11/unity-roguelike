@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -18,4 +19,11 @@ public class Spawner : MonoBehaviour
     [SerializeField]
     private bool isPlayer = false;
     public bool IsPlayer => isPlayer;
+
+    public event Action<GameObject> OnSpawn;
+
+    public void InvokeSpawn(GameObject spawnedObject)
+    {
+        OnSpawn?.Invoke(spawnedObject);
+    }
 }
