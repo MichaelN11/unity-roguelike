@@ -101,6 +101,11 @@ public class PlayerController : MonoBehaviour
     /// <param name="ctx">The CallbackContext containing a Vector2 look position</param>
     public void OnLook(CallbackContext ctx)
     {
+        if (gameObject == null)
+        {
+            return;
+        }
+
         Vector2 inputScreenPosition = ctx.ReadValue<Vector2>();
         Vector2 inputWorldPosition = Camera.main.ScreenToWorldPoint(inputScreenPosition);
         Vector2 entityPosition = transform.position;

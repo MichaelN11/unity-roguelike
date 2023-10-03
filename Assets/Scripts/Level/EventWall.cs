@@ -12,8 +12,8 @@ public class EventWall : MonoBehaviour
     public GameObject TriggerArea => triggerArea;
 
     [SerializeField]
-    private Spawner destroyWhenKilled;
-    public Spawner DestroyWhenKilled => destroyWhenKilled;
+    private Entity destroyWhenKilled;
+    public Entity DestroyWhenKilled => destroyWhenKilled;
 
     private GameObject player;
     private Bounds triggerBounds;
@@ -28,7 +28,6 @@ public class EventWall : MonoBehaviour
         spriteRenderer = GetComponent<SpriteRenderer>();
         animator = GetComponent<Animator>();
         colliderComponent = GetComponent<Collider2D>();
-        destroyWhenKilled.OnSpawn += TriggerTargetSpawned;
     }
 
     private void Start()
@@ -43,6 +42,8 @@ public class EventWall : MonoBehaviour
         {
             Debug.Log("Trigger area object not set for EventWall.");
         }
+
+        LevelManager.Instance.OnLevelInitialized += FindTargetEntity;
     }
 
     private void Update()
@@ -59,13 +60,23 @@ public class EventWall : MonoBehaviour
         }
     }
 
-    private void TriggerTargetSpawned(GameObject target)
+    /// <summary>
+    /// Find the first entity in the level matching the target Entity type, and subscribe to the death event.
+    /// </summary>
+    private void FindTargetEntity()
     {
-        target.GetComponent<EntityState>().OnDeath += TriggerTargetDeath;
-        readyToTrigger = true;
+        foreach (EntityData entityData in FindObjectsOfType<EntityData>())
+        {
+            if (!entityData.CompareTag("Player") && entityData.Entity == destroyWhenKilled)
+            {
+                entityData.GetComponent<EntityState>().OnDeath += TargetEntityDeath;
+                readyToTrigger = true;
+                break;
+            }
+        }
     }
 
-    private void TriggerTargetDeath()
+    private void TargetEntityDeath()
     {
         colliderComponent.enabled = false;
         animator.SetTrigger("destroy");

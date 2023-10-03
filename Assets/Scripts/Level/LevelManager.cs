@@ -12,6 +12,8 @@ public class LevelManager : MonoBehaviour
 {
     public static LevelManager Instance { get; private set; }
 
+    public event System.Action OnLevelInitialized;
+
     public PathingGrid PathingGrid { get; set; }
 
     private LevelBounds levelBounds;
@@ -84,6 +86,8 @@ public class LevelManager : MonoBehaviour
         {
             AudioManager.Instance.Play(level.Music);
         }
+
+        OnLevelInitialized?.Invoke();
     }
 
     private void OnDestroy()
@@ -157,16 +161,15 @@ public class LevelManager : MonoBehaviour
     /// <param name="level">The level scriptable object</param>
     private void SpawnObject(Spawner spawner, Level level)
     {
-        GameObject spawnedObject = null;
         if (spawner.SingleSpawn != null)
         {
             if (spawner.IsPlayer)
             {
-                spawnedObject = EntityFactory.CreatePlayer(spawner.SingleSpawn, spawner.transform.position);
+                EntityFactory.CreatePlayer(spawner.SingleSpawn, spawner.transform.position);
             }
             else
             {
-                spawnedObject = EntityFactory.CreateEnemy(spawner.SingleSpawn, spawner.transform.position);
+                EntityFactory.CreateEnemy(spawner.SingleSpawn, spawner.transform.position);
             }          
         } else
         {
@@ -186,12 +189,8 @@ public class LevelManager : MonoBehaviour
             if (spawnableObjects.Count > 0)
             {
                 int randomIndex = Random.Range(0, spawnableObjects.Count);
-                spawnedObject = EntityFactory.CreateEnemy(spawnableObjects[randomIndex], spawner.transform.position);
+                EntityFactory.CreateEnemy(spawnableObjects[randomIndex], spawner.transform.position);
             }
-        }
-        if (spawnedObject != null)
-        {
-            spawner.InvokeSpawn(spawnedObject);
         }
     }
 

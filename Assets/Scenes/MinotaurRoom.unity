@@ -4403,7 +4403,7 @@ PrefabInstance:
     - target: {fileID: 5337416683157143016, guid: a56c8d0c4be354ee1ae8c9e29d80b2e2, type: 3}
       propertyPath: destroyWhenKilled
       value: 
-      objectReference: {fileID: 745170984}
+      objectReference: {fileID: 11400000, guid: e10765064256a4a63974e29515616f8c, type: 2}
     - target: {fileID: 7544247735922708157, guid: a56c8d0c4be354ee1ae8c9e29d80b2e2, type: 3}
       propertyPath: m_Enabled
       value: 0
@@ -4491,17 +4491,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &745170984 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 3033596613551471897, guid: 6ebb7b88bc69743018a2b2f720069b04, type: 3}
-  m_PrefabInstance: {fileID: 1942222035}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6e9f87cfd40a4482e8f7fdf5a87f87c4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1286773323 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3947688980738362270, guid: b0e329376af984326b0acfb103634847, type: 3}
@@ -13077,7 +13066,7 @@ PrefabInstance:
     - target: {fileID: 5337416683157143016, guid: a56c8d0c4be354ee1ae8c9e29d80b2e2, type: 3}
       propertyPath: destroyWhenKilled
       value: 
-      objectReference: {fileID: 745170984}
+      objectReference: {fileID: 11400000, guid: e10765064256a4a63974e29515616f8c, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
