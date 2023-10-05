@@ -10,18 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fc8c03d57d8f740f4bc2f163f1186102, type: 3}
-  m_Name: MinotaurStabAttack
+  m_Name: MinotaurChargeAbility
   m_EditorClassIdentifier: 
   effects:
-  - {fileID: 11400000, guid: ae1b9501400c542a29cebcbc5fc058e9, type: 2}
-  - {fileID: 11400000, guid: ae55791ac8ea5497f984a2b69c71dee6, type: 2}
-  castTime: 0.4
-  recoveryTime: 1
-  activeTime: 0.1
+  - {fileID: 11400000, guid: 3da0e153fdc0146279ac711152d090de, type: 2}
+  - {fileID: 11400000, guid: edf933fe4db764dbebc7748196d2b09a, type: 2}
+  castTime: 1
+  recoveryTime: 2
+  activeTime: 0.8
   cooldown: 0
-  canCancelInto: 0
+  canCancelInto: 1
   cancelableDuration: 0
-  range: 2
+  range: 5
   aimDuration: 0
-  soundOnUse: {fileID: 11400000, guid: b74dde76e65a8411ca4c2f038e292d8d, type: 2}
-  abilityAnimation: 3
+  soundOnUse: {fileID: 11400000, guid: bf2087525a9c540c99e4743b12eb5178, type: 2}
+  abilityAnimation: 4

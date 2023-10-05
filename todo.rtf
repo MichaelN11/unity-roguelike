@@ -6,7 +6,10 @@
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
 
 \f0\fs24 \cf0 soon:\
-minotaur charge\
+minotaur deals damage on collision when charging\
+   DamageObject split into 3 classes: Hitbox, which is attached to entities and attack objects and invokes an on collision with other entity event. AttackHandler, which has methods for handling an attack between two entities. And DamageObject, which just subscribes to the Hitbox collision event and calls the AttackHandler (and holds the AttackData).\
+minotaur turns red when charging\
+minotaur can turn while getting ready to charge\
 sustain effects for when minotaur hits a wall?\
 rethink \'93active time\'94. animation time? new active duration field?\
 state based abilities could be on use abilities, with sustain effects\

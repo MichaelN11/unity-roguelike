@@ -107,6 +107,9 @@ public class AnimatorUpdater : MonoBehaviour
         animator.SetFloat("castSpeed", AnimationUtil.GetAnimationSpeedFromTime(eventInfo.CastTime));
         animator.SetFloat("abilitySpeed", AnimationUtil.GetAnimationSpeedFromTime(eventInfo.ActiveTime));
 
+        animator.SetBool("isActiveAbility", true);
+        Invoke(nameof(AbilityNotActive), eventInfo.ActiveTime + eventInfo.CastTime);
+
         StartAiming(Math.Max(eventInfo.AimDuration, eventInfo.GetFullDuration()));
     }
 
@@ -129,6 +132,9 @@ public class AnimatorUpdater : MonoBehaviour
             case AbilityAnimation.Stab:
                 animationStage = 3;
                 break;
+            case AbilityAnimation.Charge:
+                animationStage = 4;
+                break;
         }
         return animationStage;
     }
@@ -138,6 +144,7 @@ public class AnimatorUpdater : MonoBehaviour
         if (entityState.ActionState != ActionState.Ability)
         {
             animator.SetBool("isAttacking", false);
+            animator.SetBool("isActiveAbility", false);
         }
     }
 
@@ -238,5 +245,10 @@ public class AnimatorUpdater : MonoBehaviour
         {
             animator.speed = 1;
         }
+    }
+
+    private void AbilityNotActive()
+    {
+        animator.SetBool("isActiveAbility", false);
     }
 }
