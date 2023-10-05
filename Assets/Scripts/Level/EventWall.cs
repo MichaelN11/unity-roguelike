@@ -15,6 +15,12 @@ public class EventWall : MonoBehaviour
     private Entity destroyWhenKilled;
     public Entity DestroyWhenKilled => destroyWhenKilled;
 
+    [SerializeField]
+    private Sound triggerSound;
+
+    [SerializeField]
+    private Sound destroySound;
+
     private GameObject player;
     private Bounds triggerBounds;
     private bool readyToTrigger = false;
@@ -53,6 +59,7 @@ public class EventWall : MonoBehaviour
             && readyToTrigger
             && triggerBounds.Contains(player.transform.position))
         {
+            AudioManager.Instance.Play(triggerSound);
             spriteRenderer.enabled = true;
             animator.enabled = true;
             colliderComponent.enabled = true;
@@ -78,6 +85,7 @@ public class EventWall : MonoBehaviour
 
     private void TargetEntityDeath()
     {
+        AudioManager.Instance.Play(destroySound);
         colliderComponent.enabled = false;
         animator.SetTrigger("destroy");
         Destroy(this.gameObject, 5);

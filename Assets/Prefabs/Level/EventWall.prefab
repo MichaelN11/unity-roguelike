@@ -121,7 +121,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   triggerArea: {fileID: 0}
-  destroyWhenKilled: {fileID: 0}
+  destroyWhenKilled: {fileID: 11400000, guid: e10765064256a4a63974e29515616f8c, type: 2}
+  triggerSound: {fileID: 11400000, guid: 14a4ed4128b2e493f8270e11bd8243e0, type: 2}
+  destroySound: {fileID: 11400000, guid: 301762f698d0b40719b272b484fcf8e0, type: 2}
 --- !u!61 &5663447163191032002
 BoxCollider2D:
   m_ObjectHideFlags: 0
