@@ -58,7 +58,7 @@ public class AttackEffectUtil
         AttackEffectData attackEffectData)
     {
         AttackData attackData = new();
-        attackData.EffectData = attackEffectData;
+        attackData.AttackEffectData = attackEffectData;
         attackData.User = UnityUtil.GetParentIfExists(effectData.Entity);
         attackData.Direction = effectData.Direction;
         attackData.SetDirectionOnHit = false;

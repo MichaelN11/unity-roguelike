@@ -11,18 +11,23 @@ public class Hitbox : MonoBehaviour
     private const float timeBetweenHits = 1;
 
     private Rigidbody2D body;
-    private readonly Dictionary<int, float> hitTimeByInstanceID = new();
+    private Dictionary<int, float> hitTimeByInstanceID = new();
+
+    private EntityState entityState;
+    private EntityData entityData;
 
     public event Action<EntityCollisionEvent> OnEntityCollision;
 
     private void Awake()
     {
         body = GetComponentInParent<Rigidbody2D>();
+        entityState = GetComponentInParent<EntityState>();
+        entityData = GetComponentInParent<EntityData>();
     }
 
     private void Update()
     {
-        if (body != null && OnEntityCollision.GetInvocationList().Length > 0)
+        if (body != null && OnEntityCollision != null && OnEntityCollision.GetInvocationList().Length > 0)
         {
             body.sleepMode = RigidbodySleepMode2D.NeverSleep;
         }
@@ -33,10 +38,17 @@ public class Hitbox : MonoBehaviour
         if (collision.gameObject.CompareTag("Hitbox") && IsHitTimerExceeded(collision))
         {
             EntityCollisionEvent entityCollisionEvent = new();
-            entityCollisionEvent.SourceObject = this.gameObject;
-            entityCollisionEvent.TargetCollider = collision;
+            entityCollisionEvent.SourceBody = body;
+            entityCollisionEvent.TargetBody = collision.attachedRigidbody;
+            entityCollisionEvent.SourceEntityData = entityData;
+            entityCollisionEvent.SourceEntityState = entityState;
             OnEntityCollision?.Invoke(entityCollisionEvent);
         }
+    }
+
+    public void ResetHitTimer()
+    {
+        hitTimeByInstanceID = new();
     }
 
     /// <summary>

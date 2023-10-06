@@ -16,7 +16,7 @@ public class AttackData
         set { setDirectionOnHit = value; }
     }
 
-    public AttackEffectData EffectData { get; set; }
+    public AttackEffectData AttackEffectData { get; set; }
     public GameObject User { get; set; }
     public EntityState UserEntityState { get; set; }
     public Vector2 Direction { get; set; } = Vector2.zero;

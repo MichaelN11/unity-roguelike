@@ -33,6 +33,6 @@ public class DamageObject : MonoBehaviour
 
     private void AttackOnCollision(EntityCollisionEvent entityCollisionEvent)
     {
-        AttackHandler.AttackEntity(AttackData, body, entityCollisionEvent.TargetCollider.attachedRigidbody);
+        AttackHandler.AttackEntity(AttackData, body, entityCollisionEvent.TargetBody);
     }
 }

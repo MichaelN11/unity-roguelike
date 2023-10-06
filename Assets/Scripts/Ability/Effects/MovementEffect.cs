@@ -32,15 +32,15 @@ public class MovementEffect : AbilityEffect
 
     public override void Trigger(EffectData effectData)
     {
-        if (effectData.EntityMovement != null)
+        if (effectData.Movement != null)
         {
-            effectData.EntityMovement.SetMovement(effectData.Direction,
+            effectData.Movement.SetMovement(effectData.Direction,
                 moveSpeed,
                 moveAcceleration);
             
             if (accelerationDelay > 0)
             {
-                effectData.EntityMovement.SetDelayedAcceleration(delayedAcceleration, accelerationDelay);
+                effectData.Movement.SetDelayedAcceleration(delayedAcceleration, accelerationDelay);
             }
 
             if (trailEffectData.Prefab != null)

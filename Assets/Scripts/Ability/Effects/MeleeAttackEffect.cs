@@ -36,6 +36,6 @@ public class MeleeAttackEffect : AbilityEffect
     private void AttackSuccessful(AttackData attackData)
     {
         AudioManager.Instance.Play(attackEffectData.SoundOnHit);
-        attackData.UserEntityState.Stop(attackData.EffectData.HitStop);
+        attackData.UserEntityState.Stop(attackData.AttackEffectData.HitStop);
     }
 }

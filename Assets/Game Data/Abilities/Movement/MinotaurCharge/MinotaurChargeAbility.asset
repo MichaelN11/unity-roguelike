@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: MinotaurChargeAbility
   m_EditorClassIdentifier: 
   effects:
-  - {fileID: 11400000, guid: 3da0e153fdc0146279ac711152d090de, type: 2}
+  - {fileID: 11400000, guid: 9fa361803669f46f7a20231ff238a7da, type: 2}
   - {fileID: 11400000, guid: edf933fe4db764dbebc7748196d2b09a, type: 2}
   castTime: 1
   recoveryTime: 2

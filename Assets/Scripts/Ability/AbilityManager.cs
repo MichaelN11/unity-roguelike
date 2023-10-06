@@ -19,6 +19,7 @@ public class AbilityManager : MonoBehaviour
     private EntityState entityState;
     private Movement movement;
     private Damageable damageable;
+    private Hitbox hitbox;
 
     private IEnumerator coroutine;
 
@@ -35,6 +36,7 @@ public class AbilityManager : MonoBehaviour
         entityState = GetComponentInParent<EntityState>();
         movement = GetComponentInParent<Movement>();
         damageable = GetComponentInParent<Damageable>();
+        hitbox = entityData.GetComponentInChildren<Hitbox>();
     }
 
     private void Update()
@@ -189,8 +191,10 @@ public class AbilityManager : MonoBehaviour
             Entity = gameObject,
             EntityData = entityData,
             EntityState = entityState,
-            EntityMovement = movement,
-            EntityDamageable = damageable
+            Movement = movement,
+            Damageable = damageable,
+            Hitbox = hitbox,
+            AbilityManager = this
         };
 
         if (movement != null)

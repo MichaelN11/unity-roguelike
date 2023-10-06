@@ -9,18 +9,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 35eb63b12acca447c8a9d898e371dcc6, type: 3}
-  m_Name: ChargeMeleeAttackEffect
+  m_Script: {fileID: 11500000, guid: 7637857089ea448e0bf173f759660bfb, type: 3}
+  m_Name: ChargeCollisionAttackEffect
   m_EditorClassIdentifier: 
   soundOnUse: {fileID: 0}
-  prefabEffectData:
-    prefab: {fileID: 605442877324402279, guid: adcaddf81d8a540d1add179926d5a435, type: 3}
-    prefabDuration: 0.4
-    rotatePrefab: 1
   attackEffectData:
-    soundOnHit: {fileID: 11400000, guid: db42481b98f464ab291d707fee37fcfd, type: 2}
+    soundOnHit: {fileID: 0}
     damage: 1
     attackDistance: 0
     hitStunMultiplier: 1
-    knockbackMultiplier: 0.1
+    knockbackMultiplier: 1
     hitStop: 0.06
+  duration: 0.8

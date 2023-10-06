@@ -84,15 +84,15 @@ public class Damageable : MonoBehaviour
             return;
         }
 
-        TakeDamage(attackData.EffectData.Damage);
+        TakeDamage(attackData.AttackEffectData.Damage);
         if (entityState != null && entityData != null)
         {
-            entityState.Stop(attackData.EffectData.HitStop);
+            entityState.Stop(attackData.AttackEffectData.HitStop);
             entityState.Flash(entityData.Entity.FlashOnHitTime);
             AudioManager.Instance.Play(entityData.Entity.SoundOnHit);
             AttackResult attackResult = new();
-            attackResult.HitStunDuration = entityData.Entity.HitStunDuration * attackData.EffectData.HitStunMultiplier;
-            attackResult.KnockbackSpeed = entityData.Entity.KnockbackSpeed * attackData.EffectData.KnockbackMultiplier;
+            attackResult.HitStunDuration = entityData.Entity.HitStunDuration * attackData.AttackEffectData.HitStunMultiplier;
+            attackResult.KnockbackSpeed = entityData.Entity.KnockbackSpeed * attackData.AttackEffectData.KnockbackMultiplier;
             attackResult.KnockbackDirection = attackData.Direction;
             attackResult.KnockbackAcceleration = entityData.Entity.KnockbackAcceleration;
             HandleHitstun(attackResult);

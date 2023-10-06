@@ -162,5 +162,10 @@ public class EntityFactory
         {
             WeaponController.AddToObject(weaponTransform.gameObject, entity.Weapon);
         }
+        Transform hitboxTransform = entityObject.transform.Find("Hitbox");
+        if (hitboxTransform != null)
+        {
+            hitboxTransform.gameObject.AddComponent<Hitbox>();
+        }
     }
 }
