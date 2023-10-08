@@ -43,6 +43,10 @@ public class OnUseAbility : Ability
     private float range;
     public float Range => range;
 
+    [SerializeField]
+    private bool aimWhileCasting = false;
+    public bool AimWhileCasting => aimWhileCasting;
+
     /// <summary>
     /// Time after using the ability to continue facing in the direction the entity is aiming in.
     /// </summary>

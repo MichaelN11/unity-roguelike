@@ -42,6 +42,7 @@ public class AIController : MonoBehaviour
     private EntityController entityController;
     private AbilityManager abilityManager;
     private EntityData entityData;
+    private EntityState entityState;
 
     private List<GridAction> movementPath = new();
     private int nextPathStep = 0;
@@ -64,6 +65,7 @@ public class AIController : MonoBehaviour
         movementCollider = GetComponent<Collider2D>();
         abilityManager = GetComponentInChildren<AbilityManager>();
         entityData = GetComponent<EntityData>();
+        entityState = GetComponent<EntityState>();
         mainCamera = Camera.main;
         contactFilter2D.layerMask = LayerUtil.GetUnwalkableLayerMask();
         contactFilter2D.useLayerMask = true;
@@ -97,7 +99,10 @@ public class AIController : MonoBehaviour
             }
         } else if (active)
         {
-            DetermineBehavior();
+            if (entityState.CanAct())
+            {
+                DetermineBehavior();
+            }
             if (currentBehavior != Behavior.Idle)
             {
                 DetermineAbility();
@@ -357,6 +362,7 @@ public class AIController : MonoBehaviour
     private void UseAbility()
     {
         Vector2 targetDirection = GetAttackTargetPosition() - body.position;
+        SendInput(InputType.Look, targetDirection);
         SendInput(InputType.Ability, targetDirection, currentAbility.AbilityNumber);
     }
 

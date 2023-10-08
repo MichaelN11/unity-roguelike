@@ -12,6 +12,7 @@ public class EntityState : MonoBehaviour
     public event Action OnUnstunned;
 
     public Vector2 LookDirection { get; set; } = Vector2.zero;
+    public bool CanLookWhileCasting { get; set; } = false;
     public ActionState ActionState { get; private set; } = ActionState.Stand;
     public float StunTimer { get; private set; } = 0f;
     public float FlashTimer { get; private set; } = 0f;
@@ -97,10 +98,12 @@ public class EntityState : MonoBehaviour
     /// Changes state to the Ability state, using the passed duration.
     /// </summary>
     /// <param name="duration">The time in the ability state as a float</param>
-    public void AbilityState(float duration)
+    /// <param name="aimWhileCasting">If the entity can change the look direction while casting the ability</param>
+    public void AbilityState(float duration, bool aimWhileCasting = false)
     {
         ActionState = ActionState.Ability;
         StunTimer = duration;
+        CanLookWhileCasting = aimWhileCasting;
     }
 
     /// <summary>
@@ -168,6 +171,7 @@ public class EntityState : MonoBehaviour
             {
                 StandState();
                 OnUnstunned?.Invoke();
+                CanLookWhileCasting = false;
             }
         }
     }

@@ -34,7 +34,7 @@ public class MovementEffect : AbilityEffect
     {
         if (effectData.Movement != null)
         {
-            effectData.Movement.SetMovement(effectData.Direction,
+            effectData.Movement.SetMovement(effectData.Direction.normalized,
                 moveSpeed,
                 moveAcceleration);
             
@@ -47,7 +47,7 @@ public class MovementEffect : AbilityEffect
             {
                 Vector2 distance = -1 * TrailEffectDistance * effectData.Direction.normalized;
                 Vector3 position = effectData.Position + distance;
-                Quaternion rotation = (trailEffectData.RotatePrefab) ? UnityUtil.RotateTowardsVector(effectData.Direction) : Quaternion.identity;
+                Quaternion rotation = (trailEffectData.RotatePrefab) ? UnityUtil.RotateTowardsVector(effectData.Direction.normalized) : Quaternion.identity;
                 GameObject instance = Instantiate(trailEffectData.Prefab, position, rotation);
 
                 DestroyTimer destroyTimer = instance.GetComponent<DestroyTimer>();

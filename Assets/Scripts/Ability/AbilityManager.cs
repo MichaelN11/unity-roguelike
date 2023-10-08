@@ -72,18 +72,18 @@ public class AbilityManager : MonoBehaviour
     /// </summary>
     /// <param name="abilityNumber">The number of the used ability in the hotbar/UI</param>
     /// <param name="direction">The direction in which the ability was used</param>
-    /// <param name="positionOffset">The position offset from the entity</param>
+    /// <param name="offsetDistance">The distance offset from the entity</param>
     /// <returns>true if the ability was used successfully</returns>
-    public bool UseAbility(int abilityNumber, Vector2 direction, Vector2 positionOffset)
+    public bool UseAbility(int abilityNumber, Vector2 direction, float offsetDistance)
     {
         Ability ability = GetAbility(abilityNumber);
         if (ability is OnUseAbility onUseAbility)
         {
-            return UseOnUseAbility(onUseAbility, direction, positionOffset);
+            return UseOnUseAbility(onUseAbility, direction, offsetDistance);
         }
         else if (ability is ComboAbility comboAbility)
         {
-            return UseComboAbility(comboAbility, direction, positionOffset);
+            return UseComboAbility(comboAbility, direction, offsetDistance);
         }
   
         return false;
@@ -139,12 +139,12 @@ public class AbilityManager : MonoBehaviour
         return ability;
     }
 
-    private bool UseOnUseAbility(OnUseAbility onUseAbility, Vector2 direction, Vector2 positionOffset)
+    private bool UseOnUseAbility(OnUseAbility onUseAbility, Vector2 direction, float offsetDistance)
     {
         if (entityState.CanAct() || CanCancelInto(onUseAbility))
         {
-            EffectData abilityUse = StartCastingAbility(onUseAbility, direction, positionOffset);
-            coroutine = DelayOnUseAbility(onUseAbility, abilityUse);
+            EffectData abilityUse = StartCastingAbility(onUseAbility, direction);
+            coroutine = DelayOnUseAbility(onUseAbility, abilityUse, offsetDistance);
             StartCoroutine(coroutine);
             return true;
         } else
@@ -160,7 +160,7 @@ public class AbilityManager : MonoBehaviour
             && entityState.StunTimer <= cancelableDuration;
     }
 
-    private bool UseComboAbility(ComboAbility comboAbility, Vector2 direction, Vector2 positionOffset)
+    private bool UseComboAbility(ComboAbility comboAbility, Vector2 direction, float offsetDistance)
     {
         if (currentComboAbility != comboAbility)
         {
@@ -172,8 +172,8 @@ public class AbilityManager : MonoBehaviour
                 && entityState.StunTimer <= comboableTime)) {
             comboTimer = 0;
             ComboStage nextComboStage = comboAbility.ComboStages[nextComboNumber];
-            EffectData abilityUse = StartCastingAbility(nextComboStage.Ability, direction, positionOffset);
-            coroutine = DelayComboAbility(comboAbility, nextComboStage, abilityUse);
+            EffectData abilityUse = StartCastingAbility(nextComboStage.Ability, direction);
+            coroutine = DelayComboAbility(comboAbility, nextComboStage, abilityUse, offsetDistance);
             StartCoroutine(coroutine);
             return true;
         } else
@@ -182,12 +182,11 @@ public class AbilityManager : MonoBehaviour
         }
     }
 
-    private EffectData StartCastingAbility(OnUseAbility onUseAbility, Vector2 direction, Vector2 positionOffset)
+    private EffectData StartCastingAbility(OnUseAbility onUseAbility, Vector2 direction)
     {
         EffectData abilityUse = new()
         {
-            Direction = direction,
-            Position = transform.position + (Vector3)positionOffset,
+            Position = transform.position,
             Entity = gameObject,
             EntityData = entityData,
             EntityState = entityState,
@@ -203,7 +202,7 @@ public class AbilityManager : MonoBehaviour
         }
 
         entityState.LookDirection = direction;
-        entityState.AbilityState(onUseAbility.RecoveryTime + onUseAbility.CastTime + onUseAbility.ActiveTime);
+        entityState.AbilityState(onUseAbility.RecoveryTime + onUseAbility.CastTime + onUseAbility.ActiveTime, onUseAbility.AimWhileCasting);
         OnAbilityUse?.Invoke(new AbilityUseEventInfo()
         {
             AbilityUse = abilityUse,
@@ -231,16 +230,19 @@ public class AbilityManager : MonoBehaviour
     /// </summary>
     /// <param name="onUseAbility"></param>
     /// <param name="abilityUse"></param>
+    /// <param name="offsetDistance"></param>
     /// <returns>IEnumerator used for the coroutine</returns>
-    private IEnumerator DelayOnUseAbility(OnUseAbility onUseAbility, EffectData abilityUse)
+    private IEnumerator DelayOnUseAbility(OnUseAbility onUseAbility, EffectData abilityUse, float offsetDistance)
     {
         yield return new WaitForSeconds(onUseAbility.CastTime);
+        UpdateAbilityState(abilityUse, offsetDistance);
         onUseAbility.Use(abilityUse);
     }
 
-    private IEnumerator DelayComboAbility(ComboAbility comboAbility, ComboStage nextComboStage, EffectData abilityUse)
+    private IEnumerator DelayComboAbility(ComboAbility comboAbility, ComboStage nextComboStage, EffectData abilityUse, float offsetDistance)
     {
         yield return new WaitForSeconds(nextComboStage.Ability.CastTime);
+        UpdateAbilityState(abilityUse, offsetDistance);
         nextComboStage.Ability.Use(abilityUse);
 
         if (nextComboNumber + 1 < comboAbility.ComboStages.Count)
@@ -253,5 +255,12 @@ public class AbilityManager : MonoBehaviour
         {
             ResetCombo();
         }
+    }
+
+    private void UpdateAbilityState(EffectData abilityUse, float offsetDistance)
+    {
+        entityState.CanLookWhileCasting = false;
+        abilityUse.Direction = entityState.LookDirection.normalized;
+        abilityUse.Position += entityState.LookDirection.normalized * offsetDistance;
     }
 }

@@ -105,7 +105,8 @@ public class EntityController : MonoBehaviour
         if (lookDirection != null)
         {
             attemptedLookDirection = lookDirection;
-            if (entityState.CanAct())
+            if (entityState.CanAct()
+                || (entityState.ActionState == ActionState.Ability && entityState.CanLookWhileCasting))
             {
                 entityState.LookDirection = lookDirection;
                 isLookDirectionSet = true;
@@ -119,8 +120,7 @@ public class EntityController : MonoBehaviour
         bool successful = false;
         if (abilityManager != null)
         {
-            Vector2 positionOffset = abilityDirection.normalized * entityData.Entity.InteractionDistance;
-            successful = abilityManager.UseAbility(abilityNumber, abilityDirection, positionOffset);
+            successful = abilityManager.UseAbility(abilityNumber, abilityDirection, entityData.Entity.InteractionDistance);
         }
         return successful;
     }

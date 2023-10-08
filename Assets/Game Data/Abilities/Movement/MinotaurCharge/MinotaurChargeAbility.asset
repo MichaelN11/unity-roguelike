@@ -22,6 +22,7 @@ MonoBehaviour:
   canCancelInto: 1
   cancelableDuration: 0
   range: 5
+  aimWhileCasting: 1
   aimDuration: 0
   soundOnUse: {fileID: 11400000, guid: bf2087525a9c540c99e4743b12eb5178, type: 2}
   abilityAnimation: 4
