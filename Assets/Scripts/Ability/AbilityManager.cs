@@ -20,6 +20,7 @@ public class AbilityManager : MonoBehaviour
     private Movement movement;
     private Damageable damageable;
     private Hitbox hitbox;
+    private SpriteRenderer spriteRenderer;
 
     private IEnumerator coroutine;
 
@@ -37,6 +38,7 @@ public class AbilityManager : MonoBehaviour
         movement = GetComponentInParent<Movement>();
         damageable = GetComponentInParent<Damageable>();
         hitbox = entityData.GetComponentInChildren<Hitbox>();
+        spriteRenderer = GetComponentInParent<SpriteRenderer>();
     }
 
     private void Update()
@@ -193,6 +195,7 @@ public class AbilityManager : MonoBehaviour
             Movement = movement,
             Damageable = damageable,
             Hitbox = hitbox,
+            SpriteRenderer = spriteRenderer,
             AbilityManager = this
         };
 

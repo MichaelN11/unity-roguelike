@@ -14,6 +14,7 @@ public class EffectData
     public Damageable Damageable { get; set; }
     public Hitbox Hitbox { get; set; }
     public AbilityManager AbilityManager { get; set; }
+    public SpriteRenderer SpriteRenderer { get; set; }
 
     public Vector2 Position { get; set; }
     public Vector2 Direction { get; set; } = Vector2.zero;

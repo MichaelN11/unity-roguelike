@@ -12149,6 +12149,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1333058359184511531, guid: 6ebb7b88bc69743018a2b2f720069b04, type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1333058359184511531, guid: 6ebb7b88bc69743018a2b2f720069b04, type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1333058359184511531, guid: 6ebb7b88bc69743018a2b2f720069b04, type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4787061615853604449, guid: 6ebb7b88bc69743018a2b2f720069b04, type: 3}
       propertyPath: m_Name
       value: MinotaurSpawner
