@@ -37,6 +37,7 @@ public class LevelManager : MonoBehaviour
     private TilemapPathing tilemapPathing;
     private List<TileObjects> tileObjectsList;
     private SceneSave loadedScene;
+    private bool initialized = false;
 
     private void Awake()
     {
@@ -86,8 +87,15 @@ public class LevelManager : MonoBehaviour
         {
             AudioManager.Instance.Play(level.Music);
         }
+    }
 
-        OnLevelInitialized?.Invoke();
+    private void Update()
+    {
+        if (!initialized)
+        {
+            OnLevelInitialized?.Invoke();
+            initialized = true;
+        }
     }
 
     private void OnDestroy()
