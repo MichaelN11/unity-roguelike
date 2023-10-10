@@ -31,6 +31,10 @@ public class AbilityManager : MonoBehaviour
 
     private float cancelableDuration = 0;
 
+    private OnUseAbility currentOnUseAbility;
+    private EffectData currentAbilityData;
+    private float currentAbilityDuration;
+
     private void Awake()
     {
         entityData = GetComponentInParent<EntityData>();
@@ -50,6 +54,11 @@ public class AbilityManager : MonoBehaviour
             {
                 ResetCombo();
             }
+        }
+
+        if (currentOnUseAbility != null)
+        {
+            currentAbilityDuration += Time.deltaTime;
         }
     }
 
@@ -97,10 +106,8 @@ public class AbilityManager : MonoBehaviour
     public void Interrupt()
     {
         ResetCombo();
-        if (coroutine != null)
-        {
-            StopCoroutine(coroutine);
-        }
+        StopAllCoroutines();
+        InterruptCurrentAbility();
     }
 
     public List<UsableAbilityInfo> GetUsableAbilities()
@@ -204,6 +211,8 @@ public class AbilityManager : MonoBehaviour
             movement.StopMoving();
         }
 
+        InterruptCurrentAbility();
+
         entityState.LookDirection = direction;
         entityState.AbilityState(onUseAbility.RecoveryTime + onUseAbility.CastTime + onUseAbility.ActiveTime, onUseAbility.AimWhileCasting);
         OnAbilityUse?.Invoke(new AbilityUseEventInfo()
@@ -238,14 +247,14 @@ public class AbilityManager : MonoBehaviour
     private IEnumerator DelayOnUseAbility(OnUseAbility onUseAbility, EffectData abilityUse, float offsetDistance)
     {
         yield return new WaitForSeconds(onUseAbility.CastTime);
-        UpdateAbilityState(abilityUse, offsetDistance);
+        UpdateAbilityState(onUseAbility, abilityUse, offsetDistance);
         onUseAbility.Use(abilityUse);
     }
 
     private IEnumerator DelayComboAbility(ComboAbility comboAbility, ComboStage nextComboStage, EffectData abilityUse, float offsetDistance)
     {
         yield return new WaitForSeconds(nextComboStage.Ability.CastTime);
-        UpdateAbilityState(abilityUse, offsetDistance);
+        UpdateAbilityState(nextComboStage.Ability, abilityUse, offsetDistance);
         nextComboStage.Ability.Use(abilityUse);
 
         if (nextComboNumber + 1 < comboAbility.ComboStages.Count)
@@ -260,10 +269,23 @@ public class AbilityManager : MonoBehaviour
         }
     }
 
-    private void UpdateAbilityState(EffectData abilityUse, float offsetDistance)
+    private void UpdateAbilityState(OnUseAbility onUseAbility, EffectData abilityUse, float offsetDistance)
     {
         entityState.CanLookWhileCasting = false;
         abilityUse.Direction = entityState.LookDirection.normalized;
         abilityUse.Position += entityState.LookDirection.normalized * offsetDistance;
+
+        currentOnUseAbility = onUseAbility;
+        currentAbilityData = abilityUse;
+        currentAbilityDuration = 0;
+    }
+
+    private void InterruptCurrentAbility()
+    {
+        if (currentOnUseAbility != null && currentAbilityData != null)
+        {
+            currentOnUseAbility.Interrupt(currentAbilityData, currentAbilityDuration);
+            currentOnUseAbility = null;
+        }
     }
 }

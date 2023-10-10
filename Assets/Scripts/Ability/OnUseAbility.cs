@@ -13,6 +13,10 @@ public class OnUseAbility : Ability
     public List<AbilityEffect> Effects => effects;
 
     [SerializeField]
+    private float duration;
+    public float Duration => duration;
+
+    [SerializeField]
     private float castTime;
     public float CastTime => castTime;
 
@@ -71,14 +75,35 @@ public class OnUseAbility : Ability
                 AudioManager.Instance.Play(abilityEffect.SoundOnUse);
             }
             abilityEffect.Trigger(abilityUse);
+
+            float effectDuration = GetEffectDuration(abilityEffect);
+            if (effectDuration > 0)
+            {
+                IEnumerator coroutine = EndEffect(abilityEffect, abilityUse, effectDuration);
+                abilityUse.AbilityManager.StartCoroutine(coroutine);
+            }
         }
     }
 
-    public void Interrupt(EffectData abilityUse)
+    public void Interrupt(EffectData abilityUse, float currentDuration)
     {
         foreach (AbilityEffect abilityEffect in effects)
         {
-            abilityEffect.Interrupt(abilityUse);
+            if (GetEffectDuration(abilityEffect) > currentDuration)
+            {
+                abilityEffect.Unapply(abilityUse);
+            }
         }
+    }
+
+    private IEnumerator EndEffect(AbilityEffect effect, EffectData effectData, float effectDuration)
+    {
+        yield return new WaitForSeconds(effectDuration);
+        effect.Unapply(effectData);
+    }
+
+    private float GetEffectDuration(AbilityEffect abilityEffect)
+    {
+        return (abilityEffect.UseAbilityDuration) ? duration : abilityEffect.Duration;
     }
 }

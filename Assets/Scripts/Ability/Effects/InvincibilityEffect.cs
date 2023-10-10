@@ -8,19 +8,24 @@ using UnityEngine;
 public class InvincibilityEffect : AbilityEffect
 {
     [SerializeField]
-    private float duration;
-    public float Duration => duration;
-
-    [SerializeField]
     private bool passThroughEnemies;
     public bool PassThroughEnemies => passThroughEnemies;
 
     public override void Trigger(EffectData effectData)
     {
-        effectData.Damageable.SetInvincibility(duration);
+        effectData.Damageable.SetInvincibility(Duration);
         if (passThroughEnemies)
         {
-            effectData.Movement.PassThroughEntities(duration);
+            effectData.Movement.PassThroughEntities(Duration);
+        }
+    }
+
+    public override void Unapply(EffectData effectData)
+    {
+        effectData.Damageable.SetInvincibility(0);
+        if (passThroughEnemies)
+        {
+            effectData.Movement.PassThroughEntities(0);
         }
     }
 }

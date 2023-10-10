@@ -12,19 +12,15 @@ public class CollisionAttackEffect : AbilityEffect
     private AttackEffectData attackEffectData;
     public AttackEffectData AttackEffectData => attackEffectData;
 
-    [SerializeField]
-    private float duration;
-    public float Duration => duration;
-
-    private IEnumerator coroutine;
-
     public override void Trigger(EffectData effectData)
     {
         effectData.Hitbox.OnEntityCollision += AttackOnCollision;
-        effectData.Hitbox.ResetHitTimer();
+        effectData.Hitbox.ResetHitTimer();;
+    }
 
-        coroutine = UnsubscribeFromHitbox(effectData.Hitbox);
-        effectData.AbilityManager.StartCoroutine(coroutine);
+    public override void Unapply(EffectData effectData)
+    {
+        effectData.Hitbox.OnEntityCollision -= AttackOnCollision;
     }
 
     private void AttackOnCollision(EntityCollisionEvent entityCollisionEvent)
@@ -35,11 +31,5 @@ public class CollisionAttackEffect : AbilityEffect
         attackData.UserEntityData = entityCollisionEvent.SourceEntityData;
         attackData.UserEntityState = entityCollisionEvent.SourceEntityState;
         AttackHandler.AttackEntity(attackData, entityCollisionEvent.SourceBody, entityCollisionEvent.TargetBody);
-    }
-
-    private IEnumerator UnsubscribeFromHitbox(Hitbox hitbox)
-    {
-        yield return new WaitForSeconds(duration);
-        hitbox.OnEntityCollision -= AttackOnCollision;
     }
 }

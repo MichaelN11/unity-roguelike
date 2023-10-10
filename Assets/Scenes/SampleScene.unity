@@ -6154,7 +6154,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3033596613551471897, guid: 6ebb7b88bc69743018a2b2f720069b04, type: 3}
       propertyPath: isPlayer
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3033596613551471897, guid: 6ebb7b88bc69743018a2b2f720069b04, type: 3}
       propertyPath: singleSpawn
@@ -7470,7 +7470,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7592322252978789697, guid: 4a6a27821ee1a4c30afb357bcc5f5aae, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7592322252978789698, guid: 4a6a27821ee1a4c30afb357bcc5f5aae, type: 3}
       propertyPath: isPlayer

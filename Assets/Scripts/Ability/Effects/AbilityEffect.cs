@@ -11,7 +11,15 @@ public abstract class AbilityEffect : ScriptableObject
     private Sound soundOnUse;
     public Sound SoundOnUse => soundOnUse;
 
+    [SerializeField]
+    private float duration;
+    public float Duration => duration;
+
+    [SerializeField]
+    private bool useAbilityDuration;
+    public bool UseAbilityDuration => useAbilityDuration;
+
     public abstract void Trigger(EffectData effectData);
 
-    public virtual void Interrupt(EffectData effectData) { }
+    public virtual void Unapply(EffectData effectData) { }
 }
