@@ -18,4 +18,4 @@ MonoBehaviour:
   stunDuration: 2.5
   knockbackSpeed: 4.5
   knockbackAcceleration: -0.2
-  wallCollisionSound: {fileID: 0}
+  wallCollisionSound: {fileID: 11400000, guid: 9b38d1c5e543c4164b71a066f9421308, type: 2}

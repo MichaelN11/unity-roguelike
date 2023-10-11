@@ -59,6 +59,10 @@ public class OnUseAbility : Ability
     public float AimDuration => aimDuration;
 
     [SerializeField]
+    private Sound soundOnCast;
+    public Sound SoundOnCast => soundOnCast;
+
+    [SerializeField]
     private Sound soundOnUse;
     public Sound SoundOnUse => soundOnUse;
 

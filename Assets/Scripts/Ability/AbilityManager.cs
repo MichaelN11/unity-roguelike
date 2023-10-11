@@ -193,6 +193,11 @@ public class AbilityManager : MonoBehaviour
 
     private EffectData StartCastingAbility(OnUseAbility onUseAbility, Vector2 direction)
     {
+        if (onUseAbility.SoundOnCast != null)
+        {
+            AudioManager.Instance.Play(onUseAbility.SoundOnCast);
+        }
+
         EffectData abilityUse = new()
         {
             Position = transform.position,
