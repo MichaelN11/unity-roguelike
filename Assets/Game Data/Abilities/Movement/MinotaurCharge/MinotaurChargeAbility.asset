@@ -16,9 +16,10 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 9fa361803669f46f7a20231ff238a7da, type: 2}
   - {fileID: 11400000, guid: edf933fe4db764dbebc7748196d2b09a, type: 2}
   - {fileID: 11400000, guid: 7c37cb90e732e4c64b2d725fe961cf22, type: 2}
+  - {fileID: 11400000, guid: 2145ce93f227d4d5e8140fae78b6b454, type: 2}
   duration: 0.8
   castTime: 1
-  recoveryTime: 2
+  recoveryTime: 1.5
   activeTime: 0.8
   cooldown: 0
   canCancelInto: 1

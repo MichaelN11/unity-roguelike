@@ -14,13 +14,19 @@ public class CollisionAttackEffect : AbilityEffect
 
     public override void Trigger(EffectData effectData)
     {
-        effectData.Hitbox.OnEntityCollision += AttackOnCollision;
-        effectData.Hitbox.ResetHitTimer();;
+        if (effectData.Hitbox != null)
+        {
+            effectData.Hitbox.OnEntityCollision += AttackOnCollision;
+            effectData.Hitbox.ResetHitTimer();
+        }
     }
 
     public override void Unapply(EffectData effectData)
     {
-        effectData.Hitbox.OnEntityCollision -= AttackOnCollision;
+        if (effectData.Hitbox != null)
+        {
+            effectData.Hitbox.OnEntityCollision -= AttackOnCollision;
+        }
     }
 
     private void AttackOnCollision(EntityCollisionEvent entityCollisionEvent)

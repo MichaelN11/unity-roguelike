@@ -15,13 +15,15 @@ public class Movement : MonoBehaviour
     public float Speed { get; private set; } = 0;
     public float Acceleration { get; private set; } = 0;
 
+    public event Action<WallCollisionEvent> OnWallCollision;
+
     private ContactFilter2D contactFilter2D = new();
     private ContactFilter2D entityOnlyContactFilter2D = new();
     private EntityState entityState;
     private Rigidbody2D body;
     private Collider2D movementCollider;
-    private List<RaycastHit2D> raycastHits = new();
-    private List<Collider2D> colliderHits = new();
+    private readonly List<RaycastHit2D> raycastHits = new();
+    private readonly List<Collider2D> colliderHits = new();
 
     private float delayedAcceleration;
     private float delayedAccelerationTimer = 0;
@@ -171,7 +173,6 @@ public class Movement : MonoBehaviour
     /// <returns>A Vector2 position for the next move, or body.position if the move was blocked</returns>
     private Vector2 CalculateMove()
     {
-        //Debug.Log("Attempting normal move " + gameObject.name);
         Vector2 normalizedDirection = Direction.normalized;
         Vector2 movePosition = CalculateMoveInDirection(normalizedDirection);
         if (movePosition == body.position)
@@ -192,18 +193,31 @@ public class Movement : MonoBehaviour
     /// <returns>A Vector2 position for the next move, or body.position if the move was blocked</returns>
     private Vector2 CalculateMoveInDirection(Vector2 direction)
     {
-        Vector2 movePosition = body.position;
         float distance = Speed * Time.deltaTime;
         float offsetDistance = DetermineOffsetDistance(direction);
         int collisionCount = movementCollider.Cast(direction,
             contactFilter2D,
             raycastHits,
             distance + offsetDistance);
+
+        Vector2 movePosition;
         if (collisionCount == 0)
         {
             movePosition = body.position + direction * distance;
         } else
         {
+            foreach (RaycastHit2D raycastHit in raycastHits)
+            {
+                if (LayerUtil.IsUnwalkable(raycastHit.collider.gameObject.layer))
+                {
+                    WallCollisionEvent collisionEvent = new();
+                    collisionEvent.Direction = direction;
+                    collisionEvent.Movement = this;
+                    collisionEvent.EntityState = entityState;
+                    OnWallCollision?.Invoke(collisionEvent);
+                    break;
+                }
+            }
             movePosition = CalculateMoveToNearestCollision(direction, distance, offsetDistance);
         }
         return movePosition;
