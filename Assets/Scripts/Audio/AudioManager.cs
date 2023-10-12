@@ -86,6 +86,14 @@ public class AudioManager : MonoBehaviour
         }
     }
 
+    public void StopSound(Sound sound)
+    {
+        if (soundMap.TryGetValue(sound.name, out AudioSource audioSource))
+        {
+            audioSource.Stop();
+        }
+    }
+
     public void SetMasterVolume(float masterVolume)
     {
         this.masterVolume = masterVolume;

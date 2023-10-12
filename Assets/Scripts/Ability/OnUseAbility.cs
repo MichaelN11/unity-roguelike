@@ -67,12 +67,24 @@ public class OnUseAbility : Ability
     public Sound SoundOnUse => soundOnUse;
 
     [SerializeField]
+    private bool stopSoundAfterUse;
+    public bool StopSoundAfterUse => stopSoundAfterUse;
+
+    [SerializeField]
     private AbilityAnimation abilityAnimation;
     public AbilityAnimation AbilityAnimation => abilityAnimation;
 
     public void Use(EffectData abilityUse)
     {
-        AudioManager.Instance.Play(soundOnUse);
+        if (soundOnUse != null)
+        {
+            AudioManager.Instance.Play(soundOnUse);
+            if (stopSoundAfterUse)
+            {
+                IEnumerator soundLoopCoroutine = StopLoopedSound();
+                abilityUse.AbilityManager.StartCoroutine(soundLoopCoroutine);
+            }
+        }
         foreach (AbilityEffect abilityEffect in effects) {
             if (abilityEffect.SoundOnUse != null)
             {
@@ -91,6 +103,10 @@ public class OnUseAbility : Ability
 
     public void Interrupt(EffectData abilityUse, float currentDuration)
     {
+        if (stopSoundAfterUse)
+        {
+            AudioManager.Instance.StopSound(soundOnUse);
+        }
         foreach (AbilityEffect abilityEffect in effects)
         {
             if (GetEffectDuration(abilityEffect) > currentDuration)
@@ -109,5 +125,11 @@ public class OnUseAbility : Ability
     private float GetEffectDuration(AbilityEffect abilityEffect)
     {
         return (abilityEffect.UseAbilityDuration) ? duration : abilityEffect.Duration;
+    }
+
+    private IEnumerator StopLoopedSound()
+    {
+        yield return new WaitForSeconds(activeTime);
+        AudioManager.Instance.StopSound(soundOnUse);
     }
 }
