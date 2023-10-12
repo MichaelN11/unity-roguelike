@@ -14,4 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   soundOnUse: {fileID: 0}
   duration: 0.25
+  useAbilityDuration: 0
   passThroughEnemies: 1

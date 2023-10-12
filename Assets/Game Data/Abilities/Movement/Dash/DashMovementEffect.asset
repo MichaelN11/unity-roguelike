@@ -13,6 +13,8 @@ MonoBehaviour:
   m_Name: DashMovementEffect
   m_EditorClassIdentifier: 
   soundOnUse: {fileID: 0}
+  duration: 0
+  useAbilityDuration: 0
   moveSpeed: 20
   moveAcceleration: 0
   delayedAcceleration: -2
@@ -21,4 +23,5 @@ MonoBehaviour:
     prefab: {fileID: 3946859357268436369, guid: 825955307b9454bcbacbfbdc8c0626a8, type: 3}
     prefabDuration: 0.5
     rotatePrefab: 1
+    mirrorPrefabX: 0
   trailEffectDistance: 2.4

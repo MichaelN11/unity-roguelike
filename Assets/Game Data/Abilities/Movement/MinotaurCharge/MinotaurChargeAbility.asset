@@ -20,7 +20,7 @@ MonoBehaviour:
   duration: 0.8
   castTime: 1
   recoveryTime: 1.5
-  activeTime: 0.8
+  activeAnimationTime: 0.8
   cooldown: 0
   canCancelInto: 1
   cancelableDuration: 0

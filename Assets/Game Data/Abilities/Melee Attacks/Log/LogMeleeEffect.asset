@@ -13,16 +13,17 @@ MonoBehaviour:
   m_Name: LogMeleeEffect
   m_EditorClassIdentifier: 
   soundOnUse: {fileID: 0}
+  duration: 0
+  useAbilityDuration: 0
   prefabEffectData:
     prefab: {fileID: 605442877324402279, guid: f08b13487d7884969b178d3f9a9fa912, type: 3}
     prefabDuration: 0.35
     rotatePrefab: 0
+    mirrorPrefabX: 0
   attackEffectData:
     soundOnHit: {fileID: 0}
     damage: 1
     attackDistance: 0
-    radius: 1
     hitStunMultiplier: 1
     knockbackMultiplier: 1
-    recoveryDuration: 0.7
     hitStop: 0.06

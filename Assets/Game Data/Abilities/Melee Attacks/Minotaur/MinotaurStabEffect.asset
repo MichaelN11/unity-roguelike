@@ -13,6 +13,8 @@ MonoBehaviour:
   m_Name: MinotaurStabEffect
   m_EditorClassIdentifier: 
   soundOnUse: {fileID: 0}
+  duration: 0
+  useAbilityDuration: 0
   prefabEffectData:
     prefab: {fileID: 605442877324402279, guid: 96807c5387c6c4f60807519644481e83, type: 3}
     prefabDuration: 0.3

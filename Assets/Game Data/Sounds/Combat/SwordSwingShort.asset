@@ -13,5 +13,7 @@ MonoBehaviour:
   m_Name: SwordSwingShort
   m_EditorClassIdentifier: 
   audioClip: {fileID: 8300000, guid: ef1a813f6ba304eb881c4a07f14d187f, type: 3}
+  isMusic: 0
+  loop: 0
   volume: 0.1
   pitch: 1.5

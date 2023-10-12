@@ -15,13 +15,17 @@ MonoBehaviour:
   effects:
   - {fileID: 11400000, guid: 7dae17e833bdc4a269b867614049598d, type: 2}
   - {fileID: 11400000, guid: 939aacb2e10cd44acbed39657d18db0d, type: 2}
+  duration: 0
   castTime: 0.6
   recoveryTime: 1.2
-  activeTime: 0.3
+  activeAnimationTime: 0.3
   cooldown: 0
   canCancelInto: 0
   cancelableDuration: 0
   range: 1
+  aimWhileCasting: 0
   aimDuration: 0
+  soundOnCast: {fileID: 0}
   soundOnUse: {fileID: 11400000, guid: 2be215f89722944d1803004ad4b3cbc5, type: 2}
+  stopSoundAfterUse: 0
   abilityAnimation: 0

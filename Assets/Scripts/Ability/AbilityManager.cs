@@ -219,13 +219,13 @@ public class AbilityManager : MonoBehaviour
         InterruptCurrentAbility();
 
         entityState.LookDirection = direction;
-        entityState.AbilityState(onUseAbility.RecoveryTime + onUseAbility.CastTime + onUseAbility.ActiveTime, onUseAbility.AimWhileCasting);
+        entityState.AbilityState(onUseAbility.RecoveryTime + onUseAbility.CastTime + onUseAbility.ActiveAnimationTime, onUseAbility.AimWhileCasting);
         OnAbilityUse?.Invoke(new AbilityUseEventInfo()
         {
             AbilityUse = abilityUse,
             AbilityAnimation = onUseAbility.AbilityAnimation,
             CastTime = onUseAbility.CastTime,
-            ActiveTime = onUseAbility.ActiveTime,
+            ActiveTime = onUseAbility.ActiveAnimationTime,
             RecoveryTime = onUseAbility.RecoveryTime,
             AimDuration = onUseAbility.AimDuration,
             Range = onUseAbility.Range

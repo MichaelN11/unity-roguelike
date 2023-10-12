@@ -13,10 +13,13 @@ MonoBehaviour:
   m_Name: TwigMeleeEffect
   m_EditorClassIdentifier: 
   soundOnUse: {fileID: 0}
+  duration: 0
+  useAbilityDuration: 0
   prefabEffectData:
     prefab: {fileID: 605442877324402279, guid: adcaddf81d8a540d1add179926d5a435, type: 3}
     prefabDuration: 0.3
     rotatePrefab: 1
+    mirrorPrefabX: 0
   attackEffectData:
     soundOnHit: {fileID: 0}
     damage: 1

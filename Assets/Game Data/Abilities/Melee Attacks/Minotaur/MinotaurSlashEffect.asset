@@ -13,6 +13,8 @@ MonoBehaviour:
   m_Name: MinotaurSlashEffect
   m_EditorClassIdentifier: 
   soundOnUse: {fileID: 0}
+  duration: 0
+  useAbilityDuration: 0
   prefabEffectData:
     prefab: {fileID: 605442877324402279, guid: 7547078066ee749c089f3ec79d3ce3a6, type: 3}
     prefabDuration: 0.3

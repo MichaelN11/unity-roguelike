@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 /// <summary>
 /// An ability that causes effects immediately when it is used.
@@ -25,8 +26,8 @@ public class OnUseAbility : Ability
     public float RecoveryTime => recoveryTime;
 
     [SerializeField]
-    private float activeTime;
-    public float ActiveTime => activeTime;
+    private float activeAnimationTime;
+    public float ActiveAnimationTime => activeAnimationTime;
 
     [SerializeField]
     private float cooldown;
@@ -129,7 +130,7 @@ public class OnUseAbility : Ability
 
     private IEnumerator StopLoopedSound()
     {
-        yield return new WaitForSeconds(activeTime);
+        yield return new WaitForSeconds(activeAnimationTime);
         AudioManager.Instance.StopSound(soundOnUse);
     }
 }

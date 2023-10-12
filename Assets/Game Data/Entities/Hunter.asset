@@ -26,4 +26,7 @@ MonoBehaviour:
   deathTimer: 1
   entityAI:
     aggroDistance: 7
+    deaggro: 1
   weapon: {fileID: 11400000, guid: e978c1629a017493cb1ed17195979337, type: 2}
+  dropChance: 0
+  droppable: {fileID: 0}

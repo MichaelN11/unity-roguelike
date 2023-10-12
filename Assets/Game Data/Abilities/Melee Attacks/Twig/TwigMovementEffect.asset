@@ -13,6 +13,15 @@ MonoBehaviour:
   m_Name: TwigMovementEffect
   m_EditorClassIdentifier: 
   soundOnUse: {fileID: 0}
+  duration: 0
+  useAbilityDuration: 0
   moveSpeed: 3
   moveAcceleration: -0.2
+  delayedAcceleration: 0
   accelerationDelay: 0
+  trailEffectData:
+    prefab: {fileID: 0}
+    prefabDuration: 1
+    rotatePrefab: 1
+    mirrorPrefabX: 0
+  trailEffectDistance: 0

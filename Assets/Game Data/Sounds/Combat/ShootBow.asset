@@ -13,5 +13,7 @@ MonoBehaviour:
   m_Name: ShootBow
   m_EditorClassIdentifier: 
   audioClip: {fileID: 8300000, guid: 1e9f5de240cd0469ab038d2366222410, type: 3}
+  isMusic: 0
+  loop: 0
   volume: 0.1
   pitch: 1

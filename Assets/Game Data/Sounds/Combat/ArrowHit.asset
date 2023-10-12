@@ -13,5 +13,7 @@ MonoBehaviour:
   m_Name: ArrowHit
   m_EditorClassIdentifier: 
   audioClip: {fileID: 8300000, guid: 59703bdfe60664708b08e351697c9558, type: 3}
+  isMusic: 0
+  loop: 0
   volume: 0.2
   pitch: 1

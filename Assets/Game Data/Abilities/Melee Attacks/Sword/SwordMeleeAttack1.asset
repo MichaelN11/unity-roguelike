@@ -18,12 +18,14 @@ MonoBehaviour:
   duration: 0
   castTime: 0
   recoveryTime: 0.18
-  activeTime: 0.22
+  activeAnimationTime: 0.22
   cooldown: 0
   canCancelInto: 0
   cancelableDuration: 0.4
   range: 1
   aimWhileCasting: 0
   aimDuration: 0
+  soundOnCast: {fileID: 0}
   soundOnUse: {fileID: 11400000, guid: 24e03b321bd684136a6a6e935d02bca9, type: 2}
+  stopSoundAfterUse: 0
   abilityAnimation: 1

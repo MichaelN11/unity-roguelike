@@ -13,11 +13,14 @@ MonoBehaviour:
   m_Name: BowRangedEffect
   m_EditorClassIdentifier: 
   soundOnUse: {fileID: 0}
+  duration: 0
+  useAbilityDuration: 0
   projectileEffectData:
     prefabEffectData:
       prefab: {fileID: 605442877324402279, guid: 40b8610a8b1cc4b488bec9fe0330737a, type: 3}
       prefabDuration: 10
       rotatePrefab: 1
+      mirrorPrefabX: 0
     range: 6
     speed: 10
     wallStickDuration: 1

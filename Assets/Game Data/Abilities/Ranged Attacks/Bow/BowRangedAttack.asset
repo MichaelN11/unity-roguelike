@@ -14,13 +14,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   effects:
   - {fileID: 11400000, guid: efb7594322c704d269ef96ca8857ceef, type: 2}
+  duration: 0
   castTime: 0.3
   recoveryTime: 0.2
-  activeTime: 0.2
+  activeAnimationTime: 0.2
   cooldown: 0
   canCancelInto: 0
   cancelableDuration: 0
   range: 6
+  aimWhileCasting: 0
   aimDuration: 3
+  soundOnCast: {fileID: 0}
   soundOnUse: {fileID: 11400000, guid: 93f9eef3d6926430c989975dba98a7b6, type: 2}
+  stopSoundAfterUse: 0
   abilityAnimation: 0
