@@ -128,8 +128,17 @@ public class Movement : MonoBehaviour
 
     public void PassThroughEntities(float duration)
     {
-        contactFilter2D.SetLayerMask(LayerUtil.GetUnwalkableLayerMask());
-        passThroughEntitiesTimer = duration;
+        if (duration > 0)
+        {
+            contactFilter2D.SetLayerMask(LayerUtil.GetUnwalkableLayerMask());
+            passThroughEntitiesTimer = duration;
+        }
+    }
+
+    public void StopPassingThroughEntities()
+    {
+        passThroughEntitiesTimer = 0;
+        clearLayerMask = true;
     }
 
     /// <summary>

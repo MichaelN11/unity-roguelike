@@ -25,7 +25,7 @@ public class InvincibilityEffect : AbilityEffect
         effectData.Damageable.SetInvincibility(0);
         if (passThroughEnemies)
         {
-            effectData.Movement.PassThroughEntities(0);
+            effectData.Movement.StopPassingThroughEntities();
         }
     }
 }
