@@ -11,23 +11,27 @@ public class LayerUtil
     /// <summary>
     /// The wall layer blocks everything from passing through it.
     /// </summary>
-    private const string WallLayerName = "Wall";
+    public const string WallLayerName = "Wall";
     /// <summary>
     /// The blocked ground layer blocks entities from walking on it, but doesn't block
     /// objects from passing over it.
     /// </summary>
-    private const string BlockedGroundLayerName = "BlockedGround";
+    public const string BlockedGroundLayerName = "BlockedGround";
+    /// <summary>
+    /// Entities that can pass through other entities use this layer.
+    /// </summary>
+    public const string PassThroughLayerName = "PassThrough";
     /// <summary>
     /// Entities currently use this layer.
     /// </summary>
-    private const string DefaultLayerName = "Default";
+    public const string DefaultLayerName = "Default";
 
     private static readonly string[] unwalkableLayerNames = { WallLayerName, BlockedGroundLayerName };
 
     /// <summary>
     /// Gets the layer mask for the entity collision layers.
     /// </summary>
-    /// <returns> The layer mask for the entity layers as an int</returns>
+    /// <returns>the layer mask for the entity layers as an int</returns>
     public static int GetEntityLayerMask()
     {
         return LayerMask.GetMask(DefaultLayerName);
@@ -36,7 +40,7 @@ public class LayerUtil
     /// <summary>
     /// Gets the layer mask for the unwalkable/unpathable collision layers.
     /// </summary>
-    /// <returns> The layer mask for the unwalkable layers as an int</returns>
+    /// <returns>the layer mask for the unwalkable layers as an int</returns>
     public static int GetUnwalkableLayerMask()
     {
         return LayerMask.GetMask(unwalkableLayerNames);
@@ -45,10 +49,20 @@ public class LayerUtil
     /// <summary>
     /// Gets the layer mask for the wall collision layer.
     /// </summary>
-    /// <returns> The layer mask for the wall layer as an int</returns>
+    /// <returns>the layer mask for the wall layer as an int</returns>
     public static int GetWallLayerMask()
     {
         return LayerMask.GetMask(WallLayerName);
+    }
+
+    /// <summary>
+    /// Gets the layer mask for all layers except for the pass through layer.
+    /// </summary>
+    /// <returns>the layer mask for all layers except for the pass through layer as an int</returns>
+    public static int GetNonPassThroughLayerMask()
+    {
+        int layerMask = ~LayerMask.GetMask(PassThroughLayerName);
+        return layerMask;
     }
 
     /// <summary>

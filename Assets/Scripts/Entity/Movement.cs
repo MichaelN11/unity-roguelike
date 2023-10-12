@@ -40,6 +40,7 @@ public class Movement : MonoBehaviour
 
     private void Start()
     {
+        contactFilter2D.SetLayerMask(LayerUtil.GetNonPassThroughLayerMask());
         entityOnlyContactFilter2D.SetLayerMask(LayerUtil.GetEntityLayerMask());
     }
 
@@ -132,6 +133,7 @@ public class Movement : MonoBehaviour
         {
             contactFilter2D.SetLayerMask(LayerUtil.GetUnwalkableLayerMask());
             passThroughEntitiesTimer = duration;
+            gameObject.layer = LayerMask.NameToLayer(LayerUtil.PassThroughLayerName);
         }
     }
 
@@ -286,7 +288,8 @@ public class Movement : MonoBehaviour
         if (numOverlaps == 0)
         {
             clearLayerMask = false;
-            contactFilter2D.ClearLayerMask();
+            contactFilter2D.SetLayerMask(LayerUtil.GetNonPassThroughLayerMask());
+            gameObject.layer = LayerMask.NameToLayer(LayerUtil.DefaultLayerName);
         }
     }
 }
