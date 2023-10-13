@@ -24,7 +24,7 @@ MonoBehaviour:
   cooldown: 0
   canCancelInto: 1
   cancelableDuration: 0
-  range: 5
+  range: 7
   aimWhileCasting: 1
   aimDuration: 0
   soundOnCast: {fileID: 11400000, guid: 5391b036213ed49b9b2808158af73c22, type: 2}
