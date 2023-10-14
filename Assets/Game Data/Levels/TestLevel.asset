@@ -12,12 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c4fa90dd27724c31b55cf4a70758574, type: 3}
   m_Name: TestLevel
   m_EditorClassIdentifier: 
-  maxEnemiesPerTile: 4
+  maxEnemiesPerTile: 1
   tiles:
   - {fileID: 6607943243475814378, guid: 558e055d47a254170a389cc8d642c322, type: 3}
   meleeEnemies:
   - {fileID: 11400000, guid: 071a3f59cad07401d953f187acfc62c0, type: 2}
-  - {fileID: 11400000, guid: e621e08a2aba145abbd8b41c75f01540, type: 2}
-  rangedEnemies:
-  - {fileID: 11400000, guid: b6933aea34d6a4af1b397c62a09087ad, type: 2}
+  rangedEnemies: []
   music: {fileID: 0}
