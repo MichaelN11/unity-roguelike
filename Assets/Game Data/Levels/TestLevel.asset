@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxEnemiesPerTile: 1
   tiles:
-  - {fileID: 6607943243475814378, guid: 558e055d47a254170a389cc8d642c322, type: 3}
+  - {fileID: 6607943243475814378, guid: 6e282bf8d575447829e1318f011caf07, type: 3}
   meleeEnemies:
   - {fileID: 11400000, guid: 071a3f59cad07401d953f187acfc62c0, type: 2}
   rangedEnemies: []
