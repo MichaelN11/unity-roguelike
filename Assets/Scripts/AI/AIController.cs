@@ -25,7 +25,7 @@ public class AIController : MonoBehaviour
     /// <summary>
     /// The maximum number of iterations to perform in the A* search.
     /// </summary>
-    private const int MaxIterations = 400;
+    private const int MaxIterations = 600;
     /// <summary>
     /// The time between the entity deciding to use an ability, and redetermining which ability to use.
     /// </summary>
