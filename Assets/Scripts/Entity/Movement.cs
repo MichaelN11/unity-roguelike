@@ -10,6 +10,20 @@ using UnityEngine;
 public class Movement : MonoBehaviour
 {
     private const float CollisionOffset = 0.05f;
+    /// <summary>
+    /// The percentage offset of the length of the entity's movement hitbox to determine if the entity is running into a corner.
+    /// </summary>
+    private const float CornerSlideXOffsetPercent = 0.8f;
+    private const float CornerSlideYOffsetPercent = 1f;
+    private const float CornerSlideNormalizedSpeed = 0.7071f;
+    /// <summary>
+    /// The distance away from the entity at which corners are checked for.
+    /// </summary>
+    private const float CornerCheckDistance = 0.0625f;
+    /// <summary>
+    /// The normalized speed cutoff at which a corner check is not performed in a direction.
+    /// </summary>
+    private const float CornerCheckSpeedCutoff = 0.7f;
 
     public Vector2 Direction { get; private set; } = Vector2.zero;
     public float Speed { get; private set; } = 0;
@@ -188,10 +202,10 @@ public class Movement : MonoBehaviour
         Vector2 movePosition = CalculateMoveInDirection(normalizedDirection);
         if (movePosition == body.position)
         {
-            movePosition = CalculateMoveInDirection(new Vector2(normalizedDirection.x, 0));
+            movePosition = CalculateSlide(normalizedDirection, Axis.X);
             if (movePosition == body.position)
             {
-                movePosition = CalculateMoveInDirection(new Vector2(0, normalizedDirection.y));
+                movePosition = CalculateSlide(normalizedDirection, Axis.Y);
             }
         }
         return movePosition;
@@ -204,6 +218,11 @@ public class Movement : MonoBehaviour
     /// <returns>A Vector2 position for the next move, or body.position if the move was blocked</returns>
     private Vector2 CalculateMoveInDirection(Vector2 direction)
     {
+        if (direction == Vector2.zero)
+        {
+            return body.position;
+        }
+
         float distance = Speed * Time.deltaTime;
         float offsetDistance = DetermineOffsetDistance(direction);
         int collisionCount = movementCollider.Cast(direction,
@@ -278,6 +297,152 @@ public class Movement : MonoBehaviour
         return movePosition;
     }
 
+    private Vector2 CalculateSlide(Vector2 direction, Axis axis)
+    {
+        Vector2 movePosition = body.position;
+        float speed = (axis == Axis.X) ? direction.x : direction.y;
+
+        if (Math.Abs(speed) < CornerSlideNormalizedSpeed)
+        {
+            movePosition = CalculateSlideAroundCorner(direction, axis);
+        }
+        if (movePosition == body.position)
+        {
+            Vector2 slideDirection = (axis == Axis.X) ? new(direction.x, 0) : new(0, direction.y);
+            movePosition = CalculateMoveInDirection(slideDirection);
+        }
+        return movePosition;
+    }
+
+    private Vector2 CalculateSlideAroundCorner(Vector2 direction, Axis axis)
+    {
+        Vector2 movePosition = body.position;
+        if (axis == Axis.X)
+        {
+            if (direction.y > 0)
+            {
+                if (direction.x >= CornerCheckSpeedCutoff * -1)
+                {
+                    movePosition = CalculateSlideAroundCornerInXAxis(
+                        new Vector2(movementCollider.bounds.min.x, movementCollider.bounds.max.y), 1, 1);
+                }
+                if (direction.x <= CornerCheckSpeedCutoff && movePosition == body.position)
+                {
+                    movePosition =  CalculateSlideAroundCornerInXAxis(
+                        new Vector2(movementCollider.bounds.max.x, movementCollider.bounds.max.y), -1, 1);
+                }
+            } else if (direction.y < 0)
+            {
+                if (direction.x >= CornerCheckSpeedCutoff * -1)
+                {
+                    movePosition = CalculateSlideAroundCornerInXAxis(
+                        new Vector2(movementCollider.bounds.min.x, movementCollider.bounds.min.y), 1, -1);
+                }
+                if (direction.x <= CornerCheckSpeedCutoff && movePosition == body.position)
+                {
+                    movePosition = CalculateSlideAroundCornerInXAxis(
+                        new Vector2(movementCollider.bounds.max.x, movementCollider.bounds.min.y), -1, -1);
+                }
+            }
+        } else
+        {
+            if (direction.x > 0)
+            {
+                if (direction.y >= CornerCheckSpeedCutoff * -1)
+                {
+                    movePosition = CalculateSlideAroundCornerInYAxis(
+                        new Vector2(movementCollider.bounds.max.x, movementCollider.bounds.min.y), 1, 1);
+                }
+                if (direction.y <= CornerCheckSpeedCutoff && movePosition == body.position)
+                {
+                    movePosition = CalculateSlideAroundCornerInYAxis(
+                        new Vector2(movementCollider.bounds.max.x, movementCollider.bounds.max.y), 1, -1);
+                }
+            } else if (direction.x < 0)
+            {
+                if (direction.y >= CornerCheckSpeedCutoff * -1)
+                {
+                    movePosition = CalculateSlideAroundCornerInYAxis(
+                        new Vector2(movementCollider.bounds.min.x, movementCollider.bounds.min.y), -1, 1);
+                }
+                if (direction.y <= CornerCheckSpeedCutoff && movePosition == body.position)
+                {
+                    movePosition = CalculateSlideAroundCornerInYAxis(
+                        new Vector2(movementCollider.bounds.min.x, movementCollider.bounds.max.y), -1, -1);
+                }
+            }
+        }
+        return movePosition;
+    }
+
+    /// <summary>
+    /// Attempts to slide around a corner to the left or right, when moving up or down.
+    /// A raycast is first performed in front of the entity to determine if there is an
+    /// open corner with no collision.
+    /// Next, the movement collider is overlapped into the corner to determine if the
+    /// entity can fit.
+    /// If there is a corner, the entity slides toward it.
+    /// </summary>
+    /// <param name="colliderCorner"></param>
+    /// <param name="xSign"></param>
+    /// <param name="ySign"></param>
+    /// <returns></returns>
+    private Vector2 CalculateSlideAroundCornerInXAxis(Vector2 colliderCorner, float xSign, float ySign)
+    {
+        Vector2 movePosition = body.position;
+        float cornerOffset = movementCollider.bounds.size.x * CornerSlideXOffsetPercent;
+        float cornerCheck = CornerCheckDistance * ySign;
+        Vector2 raycastStart = new(colliderCorner.x + (cornerOffset * xSign),
+            colliderCorner.y + cornerCheck);
+        RaycastHit2D raycastHit = Physics2D.Raycast(raycastStart,
+            new Vector2(xSign * -1, 0), cornerOffset, LayerUtil.GetUnwalkableLayerMask());
+        float overlapDistance = (raycastHit.collider != null) ? cornerOffset - raycastHit.distance : 0;
+        overlapDistance += CollisionOffset;
+        Vector2 overlapPosition = new(movementCollider.bounds.center.x + (overlapDistance * xSign),
+            movementCollider.bounds.center.y + cornerCheck);
+        Collider2D overlappedCollider = Physics2D.OverlapBox(overlapPosition, movementCollider.bounds.size, 0,
+            LayerUtil.GetUnwalkableLayerMask());
+        if (overlappedCollider == null)
+        {
+            movePosition = CalculateMoveInDirection(new(CornerSlideNormalizedSpeed * xSign, 0));
+        }
+        return movePosition;
+    }
+
+    /// <summary>
+    /// Attempts to slide around a corner up or down, when moving left or right.
+    /// A raycast is first performed in front of the entity to determine if there is an
+    /// open corner with no collision.
+    /// Next, the movement collider is overlapped into the corner to determine if the
+    /// entity can fit.
+    /// If there is a corner, the entity slides toward it.
+    /// </summary>
+    /// <param name="colliderCorner"></param>
+    /// <param name="xSign"></param>
+    /// <param name="ySign"></param>
+    /// <returns></returns>
+    private Vector2 CalculateSlideAroundCornerInYAxis(Vector2 colliderCorner, float xSign, float ySign)
+    {
+        Vector2 movePosition = body.position;
+        float cornerOffset = movementCollider.bounds.size.y * CornerSlideYOffsetPercent;
+        float cornerCheck = CornerCheckDistance * xSign;
+        Vector2 raycastStart = new(colliderCorner.x + cornerCheck,
+            colliderCorner.y + (cornerOffset * ySign));
+        RaycastHit2D raycastHit = Physics2D.Raycast(raycastStart,
+            new Vector2(0, ySign * -1), cornerOffset, LayerUtil.GetUnwalkableLayerMask());
+        float overlapDistance = (raycastHit.collider != null) ? cornerOffset - raycastHit.distance : 0;
+        overlapDistance += CollisionOffset;
+        Vector2 overlapPosition = new(movementCollider.bounds.center.x + cornerCheck,
+            movementCollider.bounds.center.y + (overlapDistance * ySign));
+        Collider2D overlappedCollider = Physics2D.OverlapBox(overlapPosition, movementCollider.bounds.size, 0,
+            LayerUtil.GetUnwalkableLayerMask());
+        if (overlappedCollider == null)
+        {
+            movePosition = CalculateMoveInDirection(new(0, CornerSlideNormalizedSpeed * ySign));
+        }
+        return movePosition;
+    }
+
     /// <summary>
     /// Attempts to clear the layer mask from the main contact filter. Will only clear if there is no
     /// entity overlapping.
@@ -291,5 +456,10 @@ public class Movement : MonoBehaviour
             contactFilter2D.SetLayerMask(LayerUtil.GetNonPassThroughLayerMask());
             gameObject.layer = LayerMask.NameToLayer(LayerUtil.DefaultLayerName);
         }
+    }
+
+    private enum Axis
+    {
+        X, Y
     }
 }
