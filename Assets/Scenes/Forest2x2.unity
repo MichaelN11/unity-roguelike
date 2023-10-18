@@ -7652,7 +7652,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
   m_Color: {r: 0, g: 0, b: 0, a: 0.4117647}
   m_FlipX: 0
@@ -8402,28 +8402,11 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
---- !u!1 &2139026827 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1582619011554488397, guid: 012d46cf6696d4705b78110bc4584faf, type: 3}
-  m_PrefabInstance: {fileID: 307030910650197208}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &2139026828 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5398875946885284589, guid: 012d46cf6696d4705b78110bc4584faf, type: 3}
   m_PrefabInstance: {fileID: 307030910650197208}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &2139026830
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2139026827}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 76b2469615a584104aa1e16fca63ed7f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &307030910650197208
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8483,10 +8466,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 1582619011554488397, guid: 012d46cf6696d4705b78110bc4584faf, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 2139026830}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 012d46cf6696d4705b78110bc4584faf, type: 3}
 --- !u!1001 &5763997373214331136
 PrefabInstance:

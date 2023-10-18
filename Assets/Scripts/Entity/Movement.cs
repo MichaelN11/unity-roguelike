@@ -45,6 +45,8 @@ public class Movement : MonoBehaviour
     private float passThroughEntitiesTimer = 0;
     private bool clearLayerMask = false;
 
+    private Bounds levelBounds;
+
     private void Awake()
     {
         entityState = GetComponent<EntityState>();
@@ -54,6 +56,7 @@ public class Movement : MonoBehaviour
 
     private void Start()
     {
+        levelBounds = LevelManager.Instance.LevelBounds.Bounds;
         contactFilter2D.SetLayerMask(LayerUtil.GetNonPassThroughLayerMask());
         entityOnlyContactFilter2D.SetLayerMask(LayerUtil.GetEntityLayerMask());
     }
@@ -102,7 +105,7 @@ public class Movement : MonoBehaviour
             }
             if (movePosition != body.position)
             {
-                body.MovePosition(movePosition);
+                body.MovePosition(ClampPositionToBounds(movePosition));
             }
         }
     }
@@ -295,6 +298,19 @@ public class Movement : MonoBehaviour
             movePosition = body.position + direction * distanceToCollision;
         }
         return movePosition;
+    }
+
+    private Vector2 ClampPositionToBounds(Vector2 position)
+    {
+        Vector2 newPosition = position;
+        float minX = levelBounds.min.x + movementCollider.bounds.extents.x;
+        float maxX = levelBounds.max.x - movementCollider.bounds.extents.x;
+        float minY = levelBounds.min.y + movementCollider.bounds.extents.y;
+        float maxY = levelBounds.max.y - movementCollider.bounds.extents.y;
+
+        newPosition.x = Math.Max(Math.Min(position.x, maxX), minX);
+        newPosition.y = Math.Max(Math.Min(position.y, maxY), minY);
+        return newPosition;
     }
 
     private Vector2 CalculateSlide(Vector2 direction, Axis axis)
