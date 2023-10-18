@@ -7,6 +7,8 @@ using UnityEngine;
 /// </summary>
 public class Projectile : MonoBehaviour
 {
+    private const float ActiveTimeAfterWallHit = 0.1667f;
+
     public float Speed { get; set; }
     public Vector2 Direction { get; set; }
     public float WallStickDuration { get; set; } = 0;
@@ -55,6 +57,7 @@ public class Projectile : MonoBehaviour
         if (LayerUtil.IsWall(collision.gameObject.layer))
         {
             Stop();
+            Invoke(nameof(DisableCollider), ActiveTimeAfterWallHit);
             Destroy(gameObject, WallStickDuration);
         }
     }
@@ -77,11 +80,15 @@ public class Projectile : MonoBehaviour
         if (destroyTimer != null)
         {
             destroyTimer.enabled = false;
-        }
+        }   
+        Speed = 0;
+    }
+
+    private void DisableCollider()
+    {
         if (colliderComponent != null)
         {
             colliderComponent.enabled = false;
         }
-        Speed = 0;
     }
 }
