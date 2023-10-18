@@ -30,6 +30,10 @@ public class AIController : MonoBehaviour
     /// The time between the entity deciding to use an ability, and redetermining which ability to use.
     /// </summary>
     private const float TimeToDetermineAbility = 5;
+    /// <summary>
+    /// When checking for line of sight for using a ranged ability, the AI will assume the projectile radius is this large.
+    /// </summary>
+    private const float AssumedProjectileRadius = 0.2f;
 
     private EntityAI entityAI;
 
@@ -255,8 +259,8 @@ public class AIController : MonoBehaviour
             useLayerMask = true,
             layerMask = LayerUtil.GetWallLayerMask()
         };
-        int collisionCount = Physics2D.Raycast(position, targetPosition - position,
-            contactFilter, raycastHits, distance);
+        int collisionCount = Physics2D.CircleCast(position, AssumedProjectileRadius,
+            targetPosition - position, contactFilter, raycastHits, distance);
         if (collisionCount == 0)
         {
             lineOfSight = true;

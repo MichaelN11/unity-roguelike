@@ -16,6 +16,6 @@ MonoBehaviour:
   tiles:
   - {fileID: 6607943243475814378, guid: 6e282bf8d575447829e1318f011caf07, type: 3}
   meleeEnemies:
-  - {fileID: 11400000, guid: 071a3f59cad07401d953f187acfc62c0, type: 2}
+  - {fileID: 11400000, guid: b6933aea34d6a4af1b397c62a09087ad, type: 2}
   rangedEnemies: []
   music: {fileID: 0}
