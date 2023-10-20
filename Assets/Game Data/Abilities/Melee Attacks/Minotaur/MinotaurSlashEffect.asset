@@ -27,3 +27,4 @@ MonoBehaviour:
     hitStunMultiplier: 1
     knockbackMultiplier: 1.5
     hitStop: 0.06
+    description: 4

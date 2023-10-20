@@ -17,8 +17,10 @@ public class Damageable : MonoBehaviour
     private Movement movement;
 
     private float invincibilityTimer = 0;
-
     private bool isDead = false;
+
+    private EntityDescription lastHitByEntity;
+    private AttackDescription lastHitByAttack;
 
     private void Awake()
     {
@@ -102,6 +104,12 @@ public class Damageable : MonoBehaviour
         {
             SetInvincibility(PlayerInvincibilityTimeOnHit);
         }
+
+        if (attackData.UserEntityData != null)
+        {
+            lastHitByEntity = attackData.UserEntityData.Entity.Description;
+        }
+        lastHitByAttack = attackData.AttackEffectData.Description;
     }
 
     public void SetInvincibility(float duration)
@@ -165,7 +173,10 @@ public class Damageable : MonoBehaviour
 
         if (entityState != null && entityData != null)
         {
-            entityState.DeadState();
+            DeathContext deathContext = new();
+            deathContext.KillingEntity = lastHitByEntity;
+            deathContext.KillingAttack = lastHitByAttack;
+            entityState.DeadState(deathContext);
             Destroy(gameObject, entityData.Entity.DeathTimer);
         } else
         {

@@ -32,4 +32,8 @@ public class AttackEffectData
     [SerializeField]
     private float hitStop = 0.06f;
     public float HitStop => hitStop;
+
+    [SerializeField]
+    private AttackDescription description;
+    public AttackDescription Description => description;
 }

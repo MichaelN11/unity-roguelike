@@ -83,7 +83,7 @@ public class EventWall : MonoBehaviour
         }
     }
 
-    private void TargetEntityDeath()
+    private void TargetEntityDeath(DeathContext deathContext)
     {
         AudioManager.Instance.Play(destroySound);
         colliderComponent.enabled = false;

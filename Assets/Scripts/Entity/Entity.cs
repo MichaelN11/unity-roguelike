@@ -66,4 +66,8 @@ public class Entity : ScriptableObject
     [SerializeField]
     private GameObject droppable;
     public GameObject Droppable => droppable;
+
+    [SerializeField]
+    private EntityDescription description;
+    public EntityDescription Description => description;
 }

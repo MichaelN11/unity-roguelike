@@ -8,7 +8,7 @@ using UnityEngine;
 /// </summary>
 public class EntityState : MonoBehaviour
 {
-    public event Action OnDeath;
+    public event Action<DeathContext> OnDeath;
     public event Action OnUnstunned;
 
     public Vector2 LookDirection { get; set; } = Vector2.zero;
@@ -123,9 +123,9 @@ public class EntityState : MonoBehaviour
     /// <summary>
     /// Changes state to Dead.
     /// </summary>
-    public void DeadState()
+    public void DeadState(DeathContext deathContext)
     {
-        OnDeath?.Invoke();
+        OnDeath?.Invoke(deathContext);
         ActionState = ActionState.Dead;
         if (abilityManager != null)
         {
