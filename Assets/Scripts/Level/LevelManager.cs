@@ -136,7 +136,8 @@ public class LevelManager : MonoBehaviour
         foreach (TileObjects tileObjects in tileObjectsList)
         {
             int spawnedObjectCount = 0;
-            while (spawnedObjectCount < level.MaxEnemiesPerTile && tileObjects.objectList.Count > 0)
+            int enemiesPerTile = Random.Range(level.MinEnemiesPerTile, level.MaxEnemiesPerTile + 1);
+            while (spawnedObjectCount < enemiesPerTile && tileObjects.objectList.Count > 0)
             {
                 int randomIndex = Random.Range(0, tileObjects.objectList.Count);
                 GameObject tileObject = tileObjects.objectList[randomIndex];

@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c4fa90dd27724c31b55cf4a70758574, type: 3}
+  m_Name: ForestLevelHard
+  m_EditorClassIdentifier: 
+  maxEnemiesPerTile: 4
+  tiles:
+  - {fileID: 1212566642934411307, guid: 4879d5d8a4bb24641af930b3afad9b00, type: 3}
+  - {fileID: 6607943243475814378, guid: 6e282bf8d575447829e1318f011caf07, type: 3}
+  - {fileID: 7465472504445559538, guid: 06519636658b547cba88d06fa5744b2e, type: 3}
+  - {fileID: 881752346381456588, guid: cce45bf859de04393adf43f0cfc42011, type: 3}
+  - {fileID: 6607943243475814378, guid: 588b355fa0a6541819742da7a07d71ec, type: 3}
+  - {fileID: 6607943243475814378, guid: 558e055d47a254170a389cc8d642c322, type: 3}
+  - {fileID: 6607943243475814378, guid: 1dfe5e104b286432daf7f97554047331, type: 3}
+  - {fileID: 6607943243475814378, guid: ab277b4e5f114478ab31723a8910ace8, type: 3}
+  - {fileID: 6607943243475814378, guid: 02e10d4d3b2be47c194727a6e529c6a6, type: 3}
+  meleeEnemies:
+  - {fileID: 11400000, guid: 071a3f59cad07401d953f187acfc62c0, type: 2}
+  - {fileID: 11400000, guid: e621e08a2aba145abbd8b41c75f01540, type: 2}
+  rangedEnemies:
+  - {fileID: 11400000, guid: b6933aea34d6a4af1b397c62a09087ad, type: 2}
+  music: {fileID: 11400000, guid: 2378dba7f2854442ebb892af38bcf775, type: 2}

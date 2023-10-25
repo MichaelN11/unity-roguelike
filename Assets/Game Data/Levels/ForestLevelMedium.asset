@@ -10,8 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3c4fa90dd27724c31b55cf4a70758574, type: 3}
-  m_Name: ForestLevel
+  m_Name: ForestLevelMedium
   m_EditorClassIdentifier: 
+  minEnemiesPerTile: 3
   maxEnemiesPerTile: 4
   tiles:
   - {fileID: 1212566642934411307, guid: 4879d5d8a4bb24641af930b3afad9b00, type: 3}
