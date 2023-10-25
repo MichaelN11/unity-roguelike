@@ -44,6 +44,7 @@ public class DeathScreen : MonoBehaviour
 
     private void Display()
     {
+        GameManager.Instance.EndGame();
         AudioManager.Instance.Play(deathSound);
         deathScreen.SetActive(true);
     }
