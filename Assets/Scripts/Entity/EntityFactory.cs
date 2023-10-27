@@ -18,7 +18,7 @@ public class EntityFactory
     /// <returns></returns>
     public static GameObject CreatePlayer(string entityName, Vector2 position)
     {
-        return CreatePlayer(AddressableService.LoadEntity(entityName), position);
+        return CreatePlayer(GameManager.Instance.AddressableService.RetrieveEntity(entityName), position);
     }
 
     /// <summary>
@@ -29,7 +29,7 @@ public class EntityFactory
     /// <returns></returns>
     public static GameObject CreateEnemy(string entityName, Vector2 position)
     {
-        return CreateEnemy(AddressableService.LoadEntity(entityName), position);
+        return CreateEnemy(GameManager.Instance.AddressableService.RetrieveEntity(entityName), position);
     }
 
     /// <summary>
@@ -78,7 +78,7 @@ public class EntityFactory
     /// <returns></returns>
     public static GameObject LoadPlayer(EntitySave saveData)
     {
-        Entity entity = AddressableService.LoadEntity(saveData.Name);
+        Entity entity = GameManager.Instance.AddressableService.RetrieveEntity(saveData.Name);
         GameObject player = GameObject.Instantiate(entity.BaseObject, saveData.Position, Quaternion.identity);
         player.SetActive(false);
 
@@ -98,7 +98,7 @@ public class EntityFactory
     /// <returns></returns>
     public static GameObject LoadEnemy(EntitySave saveData)
     {
-        Entity entity = AddressableService.LoadEntity(saveData.Name);
+        Entity entity = GameManager.Instance.AddressableService.RetrieveEntity(saveData.Name);
         GameObject enemy = GameObject.Instantiate(entity.BaseObject, saveData.Position, Quaternion.identity);
         enemy.SetActive(false);
 

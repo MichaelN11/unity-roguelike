@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
 
+    public AddressableService AddressableService { get; private set; } = new();
     public SaveObject GameState { get; private set; } = new();
     public bool IsPaused { get; private set; } = false;
     public bool IsGameOver { get; private set; } = false;
@@ -49,6 +50,13 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        IEnumerator coroutine = LoadInitial();
+        StartCoroutine(coroutine);
+    }
+
+    private IEnumerator LoadInitial()
+    {
+        yield return AddressableService.LoadEntities();
         LoadTransition();
         SceneManager.sceneLoaded += SceneLoaded;
         if (LevelManager.Instance != null)

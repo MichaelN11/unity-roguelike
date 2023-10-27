@@ -11,12 +11,21 @@ public class HealthBar : MonoBehaviour
     void Start()
     {
         slider = GetComponent<Slider>();
-        playerDamageable = PlayerController.Instance.GetComponent<Damageable>();
     }
 
     void Update()
     {
-        float healthPercentage = playerDamageable.CurrentHealth / playerDamageable.MaxHealth;
-        slider.value = healthPercentage;
+        if (playerDamageable == null)
+        {
+            if (PlayerController.Instance != null)
+            {
+                playerDamageable = PlayerController.Instance.GetComponent<Damageable>();
+            }
+        }
+        else
+        {
+            float healthPercentage = playerDamageable.CurrentHealth / playerDamageable.MaxHealth;
+            slider.value = healthPercentage;
+        }
     }
 }

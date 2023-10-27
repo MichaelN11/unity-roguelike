@@ -36,14 +36,17 @@ public class CameraController : MonoBehaviour
     private void Start()
     {
         levelBounds = LevelManager.Instance.LevelBounds;
-        if (followTarget == null)
+    }
+
+    private void Update()
+    {
+        if (followTarget == null && PlayerController.Instance != null)
         {
             followTarget = PlayerController.Instance.transform;
+            float initialX = followTarget.position.x;
+            float initialY = followTarget.position.y;
+            transform.position = ClampToBounds(new(initialX, initialY, transform.position.z));
         }
-
-        float initialX = followTarget.position.x;
-        float initialY = followTarget.position.y;
-        transform.position = ClampToBounds(new(initialX, initialY, transform.position.z));
     }
 
     private IEnumerator LateFixedUpdate()

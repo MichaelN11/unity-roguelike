@@ -2,19 +2,30 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
+using UnityEngine.ResourceManagement.AsyncOperations;
 
 /// <summary>
 /// Service class for loading game data using Unity's Addressables.
-///
-/// Uses a synchronous approach since individual game data should not be very large.
 /// </summary>
 public class AddressableService
 {
-    private const string EntityAddress = "Assets/Game Data/Entities/";
-    private const string EntityFileType = ".asset";
+    private const string EntitiesLabel = "default";
 
-    public static Entity LoadEntity(string name)
+    private readonly Dictionary<string, Entity> loadedEntities = new();
+
+    public IEnumerator LoadEntities()
     {
-        return Addressables.LoadAssetAsync<Entity>(EntityAddress + name + EntityFileType).WaitForCompletion();
+        AsyncOperationHandle<IList<Entity>> asyncLoad =
+            Addressables.LoadAssetsAsync<Entity>(EntitiesLabel, null);
+        yield return asyncLoad;
+        foreach (Entity entity in asyncLoad.Result)
+        {
+            loadedEntities.Add(entity.name, entity);
+        }
+    }
+
+    public Entity RetrieveEntity(string name)
+    {
+        return loadedEntities.GetValueOrDefault(name, null);
     }
 }
