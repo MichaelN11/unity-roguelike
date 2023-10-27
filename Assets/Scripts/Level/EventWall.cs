@@ -21,7 +21,7 @@ public class EventWall : MonoBehaviour
     [SerializeField]
     private Sound destroySound;
 
-    private GameObject player;
+    private GameObject player = null;
     private Bounds triggerBounds;
     private bool readyToTrigger = false;
 
@@ -38,7 +38,6 @@ public class EventWall : MonoBehaviour
 
     private void Start()
     {
-        player = PlayerController.Instance.gameObject;
         if (triggerArea != null)
         {
             triggerBounds = new Bounds();
@@ -54,6 +53,11 @@ public class EventWall : MonoBehaviour
 
     private void Update()
     {
+        if (player == null && PlayerController.Instance != null)
+        {
+            player = PlayerController.Instance.gameObject;
+        }
+
         if (player != null
             && triggerBounds != null
             && readyToTrigger
@@ -72,10 +76,12 @@ public class EventWall : MonoBehaviour
     /// </summary>
     private void FindTargetEntity()
     {
+        Debug.Log("finding target entity for event wall");
         foreach (EntityData entityData in FindObjectsOfType<EntityData>())
         {
             if (!entityData.CompareTag("Player") && entityData.Entity == destroyWhenKilled)
             {
+                Debug.Log("target found for event wall");
                 entityData.GetComponent<EntityState>().OnDeath += TargetEntityDeath;
                 readyToTrigger = true;
                 break;
