@@ -43,14 +43,18 @@ public class GameManager : MonoBehaviour
     private void Initialize()
     {
         firstScene = SceneManager.GetActiveScene().name;
-        LoadTransition();
         transform.parent = null;
         DontDestroyOnLoad(gameObject);
     }
 
     private void Start()
     {
+        LoadTransition();
         SceneManager.sceneLoaded += SceneLoaded;
+        if (LevelManager.Instance != null)
+        {
+            LevelManager.Instance.Initialize();
+        }
     }
 
     /// <summary>
@@ -150,6 +154,10 @@ public class GameManager : MonoBehaviour
     /// <param name="test"></param>
     private void SceneLoaded(Scene scene, LoadSceneMode test)
     {
+        if (LevelManager.Instance != null)
+        {
+            LevelManager.Instance.Initialize();
+        }
         if (loadingSave)
         {
             EntityFactory.LoadPlayer(GameState.Player);

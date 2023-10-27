@@ -38,6 +38,42 @@ public class LevelManager : MonoBehaviour
     private List<TileObjects> tileObjectsList;
     private SceneSave loadedScene;
     private bool initialized = false;
+    private List<Tilemap> tilemapList;
+
+    public void Initialize()
+    {
+        string sceneName = SceneManager.GetActiveScene().name;
+        loadedScene = GameManager.Instance.GameState.SavedScenes.GetScene(sceneName);
+        List<LevelTile> unplacedTiles = GetComponentsInChildren<LevelTile>().ToList();
+        if (loadedScene == null)
+        {
+            SpawnStaticObjects();
+            tileObjectsList = BuildLevel(unplacedTiles);
+        }
+        else
+        {
+            DestroyStaticSpawners();
+            LoadLevel(unplacedTiles, loadedScene);
+        }
+
+        // Sync the transforms to account for flipped tiles when building the pathing grid.
+        Physics2D.SyncTransforms();
+
+        PathingGrid = tilemapPathing.Build(tilemapList);
+
+        if (loadedScene == null)
+        {
+            SpawnObjects(tileObjectsList, level);
+        }
+        else
+        {
+            LoadEntities(loadedScene);
+        }
+        if (level != null && level.Music != null)
+        {
+            AudioManager.Instance.Play(level.Music);
+        }
+    }
 
     private void Awake()
     {
@@ -52,41 +88,8 @@ public class LevelManager : MonoBehaviour
             Instance = this;
         }
 
-        string sceneName = SceneManager.GetActiveScene().name;
-        loadedScene = GameManager.Instance.GameState.SavedScenes.GetScene(sceneName);
-        List<LevelTile> unplacedTiles = GetComponentsInChildren<LevelTile>().ToList();
-        if (loadedScene == null)
-        {
-            SpawnStaticObjects();
-            tileObjectsList = BuildLevel(unplacedTiles);
-        } else
-        {
-            DestroyStaticSpawners();
-            LoadLevel(unplacedTiles, loadedScene);
-        }
-
-        // Sync the transforms to account for flipped tiles when building the pathing grid.
-        Physics2D.SyncTransforms();
-
-        List<Tilemap>  tilemapList = GetComponentsInChildren<Tilemap>().ToList();
-        PathingGrid = tilemapPathing.Build(tilemapList);
-
+        tilemapList = GetComponentsInChildren<Tilemap>().ToList();
         levelBounds = GetComponentInChildren<LevelBounds>();
-    }
-
-    private void Start()
-    {
-        if (loadedScene == null)
-        {
-            SpawnObjects(tileObjectsList, level);
-        } else
-        {
-            LoadEntities(loadedScene);
-        }
-        if (level != null && level.Music != null)
-        {
-            AudioManager.Instance.Play(level.Music);
-        }
     }
 
     private void Update()
