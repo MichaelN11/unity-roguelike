@@ -276,6 +276,9 @@ public class LevelManager : MonoBehaviour
         {
             float distance = Vector2.Distance(playerController.transform.position, transform.position);
             isTooClose = distance <= minimumSpawnDistanceFromPlayer;
+        } else
+        {
+            Debug.Log("Player distance check in level generation not working");
         }
         return isTooClose;
     }

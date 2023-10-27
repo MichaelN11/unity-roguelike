@@ -162,10 +162,6 @@ public class GameManager : MonoBehaviour
     /// <param name="test"></param>
     private void SceneLoaded(Scene scene, LoadSceneMode test)
     {
-        if (LevelManager.Instance != null)
-        {
-            LevelManager.Instance.Initialize();
-        }
         if (loadingSave)
         {
             EntityFactory.LoadPlayer(GameState.Player);
@@ -174,6 +170,10 @@ public class GameManager : MonoBehaviour
         else
         {
             LoadTransition();
+        }
+        if (LevelManager.Instance != null)
+        {
+            LevelManager.Instance.Initialize();
         }
     }
 
