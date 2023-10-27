@@ -20,7 +20,8 @@ MonoBehaviour:
   - m_GUID: 179bf53168ecc4a8aa578b4395ff8599
     m_Address: Assets/Game Data/Entities
     m_ReadOnly: 0
-    m_SerializedLabels: []
+    m_SerializedLabels:
+    - default
     FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 5781efb7a3f8442a59b512145339792c, type: 2}
