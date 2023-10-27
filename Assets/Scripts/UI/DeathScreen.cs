@@ -20,15 +20,18 @@ public class DeathScreen : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI deathText;
 
-    private void Start()
+    private bool foundPlayer = false;
+
+    private void Update()
     {
-        if (PlayerController.Instance != null)
+        if (!foundPlayer && PlayerController.Instance != null)
         {
             EntityState playerState = PlayerController.Instance.GetComponent<EntityState>();
             if (playerState != null)
             {
                 playerState.OnDeath += OnPlayerDeath;
             }
+            foundPlayer = true;
         }
     }
 
