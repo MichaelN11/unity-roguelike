@@ -76,9 +76,10 @@ public class EventWall : MonoBehaviour
     /// </summary>
     private void FindTargetEntity()
     {
-        foreach (EntityData entityData in FindObjectsOfType<EntityData>())
+        EntityData[] entityDatas = FindObjectsOfType<EntityData>();
+        foreach (EntityData entityData in entityDatas)
         {
-            if (!entityData.CompareTag("Player") && entityData.Entity == destroyWhenKilled)
+            if (!entityData.CompareTag("Player") && entityData.Entity.name == destroyWhenKilled.name)
             {
                 entityData.GetComponent<EntityState>().OnDeath += TargetEntityDeath;
                 readyToTrigger = true;
