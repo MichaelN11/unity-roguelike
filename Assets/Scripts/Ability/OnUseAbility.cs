@@ -7,7 +7,7 @@ using UnityEngine.Serialization;
 /// An ability that causes effects immediately when it is used.
 /// </summary>
 [CreateAssetMenu(menuName = "Game Data/Ability/On Use")]
-public class OnUseAbility : Ability
+public class OnUseAbility : ActiveAbility
 {
     [SerializeField]
     private List<AbilityEffect> effects;

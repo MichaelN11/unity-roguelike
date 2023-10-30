@@ -10,6 +10,7 @@ public class EntityController : MonoBehaviour
 {
     private Movement movement;
     private AbilityManager abilityManager;
+    private Inventory inventory;
     private EntityState entityState;
     private EntityData entityData;
 
@@ -22,6 +23,7 @@ public class EntityController : MonoBehaviour
         abilityManager = GetComponentInChildren<AbilityManager>();
         entityState = GetComponent<EntityState>();
         entityData = GetComponent<EntityData>();
+        inventory = GetComponent<Inventory>();
     }
 
     private void Start()
@@ -51,7 +53,10 @@ public class EntityController : MonoBehaviour
                 updateSuccessful = SetMovementDirection(inputData.Direction);
                 break;
             case InputType.Ability:
-                updateSuccessful = Ability(inputData.AbilityNumber, inputData.Direction);
+                updateSuccessful = Ability(inputData.Number, inputData.Direction);
+                break;
+            case InputType.Item:
+                updateSuccessful = Item(inputData.Number, inputData.Direction);
                 break;
             case InputType.Idle:
                 updateSuccessful = Idle();
@@ -121,6 +126,16 @@ public class EntityController : MonoBehaviour
         if (abilityManager != null)
         {
             successful = abilityManager.UseAbility(abilityNumber, abilityDirection, entityData.Entity.InteractionDistance);
+        }
+        return successful;
+    }
+
+    private bool Item(int itemNumber, Vector2 direction)
+    {
+        bool successful = false;
+        if (inventory != null)
+        {
+            successful = inventory.UseItem(itemNumber, direction, entityData.Entity.InteractionDistance);
         }
         return successful;
     }

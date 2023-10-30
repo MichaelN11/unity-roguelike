@@ -6,7 +6,7 @@ using UnityEngine;
 /// An ability that has a combo of different abilities that can be used in succession.
 /// </summary>
 [CreateAssetMenu(menuName = "Game Data/Ability/Combo")]
-public class ComboAbility : Ability
+public class ComboAbility : ActiveAbility
 {
     [SerializeField]
     private List<ComboStage> comboStages;

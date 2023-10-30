@@ -13,7 +13,7 @@ public class AbilityManager : MonoBehaviour
     /// </summary>
     public event Action<AbilityUseEventInfo> OnAbilityUse;
 
-    private List<Ability> abilities;
+    private List<ActiveAbility> abilities;
 
     private EntityData entityData;
     private EntityState entityState;
@@ -68,7 +68,7 @@ public class AbilityManager : MonoBehaviour
     /// <param name="gameObject"></param>
     /// <param name="abilities"></param>
     /// <returns></returns>
-    public static AbilityManager AddToObject(GameObject gameObject, List<Ability> abilities)
+    public static AbilityManager AddToObject(GameObject gameObject, List<ActiveAbility> abilities)
     {
         AbilityManager abilityManager = gameObject.AddComponent<AbilityManager>();
         if (abilities.Count > 0)
@@ -87,7 +87,12 @@ public class AbilityManager : MonoBehaviour
     /// <returns>true if the ability was used successfully</returns>
     public bool UseAbility(int abilityNumber, Vector2 direction, float offsetDistance)
     {
-        Ability ability = GetAbility(abilityNumber);
+        ActiveAbility ability = GetAbility(abilityNumber);
+        return UseAbility(ability, direction, offsetDistance);
+    }
+
+    public bool UseAbility(ActiveAbility ability, Vector2 direction, float offsetDistance)
+    {
         if (ability is OnUseAbility onUseAbility)
         {
             return UseOnUseAbility(onUseAbility, direction, offsetDistance);
@@ -96,7 +101,7 @@ public class AbilityManager : MonoBehaviour
         {
             return UseComboAbility(comboAbility, direction, offsetDistance);
         }
-  
+
         return false;
     }
 
@@ -115,7 +120,7 @@ public class AbilityManager : MonoBehaviour
         List<UsableAbilityInfo> usableAbilities = new();
         for(int i = 0; i < abilities.Count; i++)
         {
-            Ability ability = abilities[i];
+            ActiveAbility ability = abilities[i];
             if (ability is OnUseAbility onUseAbility)
             {
                 UsableAbilityInfo usableAbilityInfo = new();
@@ -138,9 +143,9 @@ public class AbilityManager : MonoBehaviour
         return usableAbilities;
     }
 
-    private Ability GetAbility(int abilityNumber)
+    private ActiveAbility GetAbility(int abilityNumber)
     {
-        Ability ability = null;
+        ActiveAbility ability = null;
         if (abilityNumber < abilities.Count)
         {
             ability = abilities[abilityNumber];

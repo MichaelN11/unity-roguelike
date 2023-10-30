@@ -8,5 +8,5 @@ public class InputData
 {
     public InputType Type { get; set; }
     public Vector2 Direction { get; set; }
-    public int AbilityNumber { get; set; }
+    public int Number { get; set; }
 }

@@ -151,6 +151,7 @@ public class EntityFactory
         entityObject.AddComponent<EntityController>();
         entityObject.AddComponent<Movement>();
         entityObject.AddComponent<AnimatorUpdater>();
+        Inventory.AddToObject(entityObject, entity.InitialInventory);
 
         Transform abilityTransform = entityObject.transform.Find("AbilitySource");
         if (abilityTransform != null)

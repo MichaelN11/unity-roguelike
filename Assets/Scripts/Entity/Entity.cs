@@ -12,8 +12,12 @@ public class Entity : ScriptableObject
     public GameObject BaseObject => baseObject;
 
     [SerializeField]
-    private List<Ability> abilities;
-    public List<Ability> Abilities => abilities;
+    private List<ActiveAbility> abilities;
+    public List<ActiveAbility> Abilities => abilities;
+
+    [SerializeField]
+    private List<InventoryItem> initialInventory;
+    public List<InventoryItem> InitialInventory => initialInventory;
 
     [SerializeField]
     private Sound soundOnHit;

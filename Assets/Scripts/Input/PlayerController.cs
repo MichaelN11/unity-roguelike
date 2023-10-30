@@ -23,6 +23,10 @@ public class PlayerController : MonoBehaviour
     /// List of ability numbers currently being held down, in order of when they were pressed.
     /// </summary>
     private readonly List<int> heldAbilities = new();
+    /// <summary>
+    /// List of item numbers currently being held down, in order of when they were pressed.
+    /// </summary>
+    private readonly List<int> heldItems = new();
 
     private void Awake()
     {
@@ -44,6 +48,13 @@ public class PlayerController : MonoBehaviour
         inputActions.Player.SecondaryFire.started += OnSecondaryFireStarted;
         inputActions.Player.SecondaryFire.canceled += OnSecondaryFireCancelled;
 
+        inputActions.Player.Item1.started += OnItem1Started;
+        inputActions.Player.Item1.canceled += OnItem1Cancelled;
+        inputActions.Player.Item2.started += OnItem2Started;
+        inputActions.Player.Item2.canceled += OnItem2Cancelled;
+        inputActions.Player.Item3.started += OnItem3Started;
+        inputActions.Player.Item3.canceled += OnItem3Cancelled;
+
         inputActions.Player.Move.performed += OnMovePerformed;
         inputActions.Player.Move.canceled += OnMoveCancelled;
         inputActions.Player.Look.performed += OnLook;
@@ -54,6 +65,10 @@ public class PlayerController : MonoBehaviour
         if (heldAbilities.Count != 0)
         {
             AbilityHeld();
+        }
+        if (heldItems.Count != 0)
+        {
+            ItemHeld();
         }
         if (bufferedInput != null && bufferTimer > 0)
         {
@@ -126,7 +141,7 @@ public class PlayerController : MonoBehaviour
 
     public void OnFireCancelled(CallbackContext ctx)
     {
-        AbilityCanceled(0);
+        AbilityCancelled(0);
     }
 
     public void OnSecondaryFireStarted(CallbackContext ctx)
@@ -136,17 +151,57 @@ public class PlayerController : MonoBehaviour
 
     public void OnSecondaryFireCancelled(CallbackContext ctx)
     {
-        AbilityCanceled(1);
+        AbilityCancelled(1);
+    }
+
+    public void OnItem1Started(CallbackContext ctx)
+    {
+        ItemStarted(0);
+    }
+
+    public void OnItem1Cancelled(CallbackContext ctx)
+    {
+        ItemCancelled(0);
+    }
+
+    public void OnItem2Started(CallbackContext ctx)
+    {
+        ItemStarted(1);
+    }
+
+    public void OnItem2Cancelled(CallbackContext ctx)
+    {
+        ItemCancelled(1);
+    }
+
+    public void OnItem3Started(CallbackContext ctx)
+    {
+        ItemStarted(2);
+    }
+
+    public void OnItem3Cancelled(CallbackContext ctx)
+    {
+        ItemCancelled(2);
     }
 
     private void AbilityStarted(int abilityNumber)
     {
-        heldAbilities.Add(abilityNumber);
+        ActionStarted(abilityNumber, heldAbilities, InputType.Ability);
+    }
+
+    private void ItemStarted(int itemNumber)
+    {
+        ActionStarted(itemNumber, heldItems, InputType.Item);
+    }
+
+    private void ActionStarted(int actionNumber, List<int> heldActions, InputType type)
+    {
+        heldActions.Add(actionNumber);
 
         InputData inputData = new();
-        inputData.Type = InputType.Ability;
+        inputData.Type = type;
         inputData.Direction = lookDirection;
-        inputData.AbilityNumber = abilityNumber;
+        inputData.Number = actionNumber;
         bool updateSuccessful = entityController.UpdateFromInput(inputData);
         if (!updateSuccessful)
         {
@@ -155,19 +210,34 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void AbilityCanceled(int abilityNumber)
+    private void AbilityCancelled(int abilityNumber)
     {
         heldAbilities.Remove(abilityNumber);
     }
 
+    private void ItemCancelled(int itemNumber)
+    {
+        heldItems.Remove(itemNumber);
+    }
+
     private void AbilityHeld()
     {
-        int currentAbility = heldAbilities[^1];
+        ActionHeld(heldAbilities, InputType.Ability);
+    }
+
+    private void ItemHeld()
+    {
+        ActionHeld(heldItems, InputType.Item);
+    }
+
+    private void ActionHeld(List<int> heldActions, InputType type)
+    {
+        int current = heldActions[^1];
 
         InputData inputData = new();
-        inputData.Type = InputType.Ability;
+        inputData.Type = type;
         inputData.Direction = lookDirection;
-        inputData.AbilityNumber = currentAbility;
+        inputData.Number = current;
         entityController.UpdateFromInput(inputData);
     }
 

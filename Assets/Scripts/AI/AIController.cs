@@ -415,7 +415,7 @@ public class AIController : MonoBehaviour
         inputData.Direction = direction;
         if (abilityNumber >= 0)
         {
-            inputData.AbilityNumber = abilityNumber;
+            inputData.Number = abilityNumber;
         }
         return entityController.UpdateFromInput(inputData);
     }
