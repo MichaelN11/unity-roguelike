@@ -5,6 +5,7 @@ using UnityEngine;
 /// <summary>
 /// Scriptable object representing an item.
 /// </summary>
+[CreateAssetMenu(menuName = "Game Data/Item")]
 public class Item : ScriptableObject
 {
     [SerializeField]

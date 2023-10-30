@@ -9,6 +9,6 @@ using UnityEngine;
 [Serializable]
 public class InventoryItem
 {
-    public Item Item { get; set; }
-    public int Amount { get; set; }
+    public Item Item;
+    public int Amount;
 }

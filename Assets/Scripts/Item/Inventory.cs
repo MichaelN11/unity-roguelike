@@ -19,9 +19,12 @@ public class Inventory : MonoBehaviour
     public static Inventory AddToObject(GameObject gameObject, List<InventoryItem> inventoryItems)
     {
         Inventory inventory = gameObject.AddComponent<Inventory>();
-        if (inventoryItems.Count > 0)
+        foreach (InventoryItem item in inventoryItems)
         {
-            inventory.Items = inventoryItems;
+            InventoryItem newItem = new();
+            newItem.Item = item.Item;
+            newItem.Amount = item.Amount;
+            inventory.Items.Add(newItem);
         }
         return inventory;
     }
@@ -36,6 +39,7 @@ public class Inventory : MonoBehaviour
     /// <returns></returns>
     public bool UseItem(int itemNumber, Vector2 direction, float offsetDistance)
     {
+        bool success = false;
         if (itemNumber >= 0
             && itemNumber < Items.Count
             && abilityManager != null)
@@ -43,10 +47,13 @@ public class Inventory : MonoBehaviour
             InventoryItem inventoryItem = Items[itemNumber];
             if (inventoryItem.Amount > 0)
             {
-                --inventoryItem.Amount;
-                return abilityManager.UseAbility(inventoryItem.Item.ActiveAbility, direction, offsetDistance);
+                success = abilityManager.UseAbility(inventoryItem.Item.ActiveAbility, direction, offsetDistance);
+                if (success)
+                {
+                    --inventoryItem.Amount;
+                }
             }
         }
-        return false;
+        return success;
     }
 }

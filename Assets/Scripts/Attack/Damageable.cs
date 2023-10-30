@@ -120,6 +120,10 @@ public class Damageable : MonoBehaviour
     public void Heal(float amount)
     {
         CurrentHealth += amount;
+        if (CurrentHealth > MaxHealth)
+        {
+            CurrentHealth = MaxHealth;
+        }
     }
 
     /// <summary>
