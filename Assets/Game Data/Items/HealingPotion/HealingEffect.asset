@@ -15,4 +15,4 @@ MonoBehaviour:
   soundOnUse: {fileID: 0}
   duration: 0
   useAbilityDuration: 0
-  healAmount: 1
+  healAmount: 2
