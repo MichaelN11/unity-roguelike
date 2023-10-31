@@ -135,6 +135,9 @@ public class AnimatorUpdater : MonoBehaviour
             case AbilityAnimation.Charge:
                 animationStage = 4;
                 break;
+            case AbilityAnimation.Action:
+                animationStage = 5;
+                break;
         }
         return animationStage;
     }

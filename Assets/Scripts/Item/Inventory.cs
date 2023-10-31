@@ -7,13 +7,29 @@ using UnityEngine;
 /// </summary>
 public class Inventory : MonoBehaviour
 {
+    private const float itemXOffset = 0.2f;
+    private const float itemYOffset = 0.2f;
+
     public List<InventoryItem> Items { get; set; } = new();
 
     private AbilityManager abilityManager;
+    private EntityState entityState;
+
+    private GameObject usedItemObject = null;
 
     private void Awake()
     {
         abilityManager = GetComponentInChildren<AbilityManager>();
+        entityState = GetComponent<EntityState>();
+    }
+
+    private void Update()
+    {
+        if (usedItemObject != null && entityState.ActionState != ActionState.Ability)
+        {
+            Destroy(usedItemObject);
+            usedItemObject = null;
+        }
     }
 
     public static Inventory AddToObject(GameObject gameObject, List<InventoryItem> inventoryItems)
@@ -51,9 +67,26 @@ public class Inventory : MonoBehaviour
                 if (success)
                 {
                     --inventoryItem.Amount;
+                    AnimateItem(inventoryItem.Item, direction);
                 }
             }
         }
         return success;
+    }
+
+    private void AnimateItem(Item item, Vector2 direction)
+    {
+        if (item.Prefab != null && !DirectionUtil.IsFacingUp(direction))
+        {
+            Vector2 itemPosition = new(transform.position.x, transform.position.y + itemYOffset);
+            if (DirectionUtil.IsFacingLeft(direction))
+            {
+                itemPosition.x -= itemXOffset;
+            } else if (DirectionUtil.IsFacingRight(direction))
+            {
+                itemPosition.x += itemXOffset;
+            }
+            usedItemObject = Instantiate(item.Prefab, itemPosition, Quaternion.identity, transform);
+        }
     }
 }

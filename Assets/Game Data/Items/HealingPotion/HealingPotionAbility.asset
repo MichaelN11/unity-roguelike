@@ -27,4 +27,4 @@ MonoBehaviour:
   soundOnCast: {fileID: 0}
   soundOnUse: {fileID: 0}
   stopSoundAfterUse: 0
-  abilityAnimation: 1
+  abilityAnimation: 5

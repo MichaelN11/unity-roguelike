@@ -8,5 +8,6 @@ public enum AbilityAnimation
     Slash1,
     Slash2,
     Stab,
-    Charge
+    Charge,
+    Action
 }

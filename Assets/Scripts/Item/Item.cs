@@ -11,4 +11,8 @@ public class Item : ScriptableObject
     [SerializeField]
     private ActiveAbility activeAbility;
     public ActiveAbility ActiveAbility => activeAbility;
+
+    [SerializeField]
+    private GameObject prefab;
+    public GameObject Prefab => prefab;
 }
