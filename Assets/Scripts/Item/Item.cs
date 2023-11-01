@@ -15,4 +15,8 @@ public class Item : ScriptableObject
     [SerializeField]
     private GameObject prefab;
     public GameObject Prefab => prefab;
+
+    [SerializeField]
+    private Sprite icon;
+    public Sprite Icon => icon;
 }
