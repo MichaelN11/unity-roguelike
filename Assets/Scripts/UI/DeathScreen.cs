@@ -87,6 +87,9 @@ public class DeathScreen : MonoBehaviour
             case AttackDescription.Dash:
                 deathAction = "run through";
                 break;
+            case AttackDescription.ThrowingKnife:
+                deathAction = "hit with a throwing knife";
+                break;
         }
         return deathAction;
     }

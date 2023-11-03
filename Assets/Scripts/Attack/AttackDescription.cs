@@ -5,6 +5,7 @@
 /// </summary>
 public enum AttackDescription
 {
+    Default,
     Sword,
     VineWhip,
     BodySlam,
@@ -12,5 +13,6 @@ public enum AttackDescription
     AxeChop,
     AxePoke,
     Charge,
-    Dash
+    Dash,
+    ThrowingKnife
 }
