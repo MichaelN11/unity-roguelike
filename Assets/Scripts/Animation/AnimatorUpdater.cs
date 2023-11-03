@@ -138,6 +138,9 @@ public class AnimatorUpdater : MonoBehaviour
             case AbilityAnimation.Action:
                 animationStage = 5;
                 break;
+            case AbilityAnimation.Swing1:
+                animationStage = 6;
+                break;
         }
         return animationStage;
     }

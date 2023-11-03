@@ -26,7 +26,7 @@ MonoBehaviour:
     wallStickDuration: 1
     groundStickDuration: 0
   attackEffectData:
-    soundOnHit: {fileID: 11400000, guid: d9a95617b0c6d43789c3f1c8dbd6510c, type: 2}
+    soundOnHit: {fileID: 11400000, guid: db42481b98f464ab291d707fee37fcfd, type: 2}
     damage: 1
     attackDistance: 0
     hitStunMultiplier: 0.3
