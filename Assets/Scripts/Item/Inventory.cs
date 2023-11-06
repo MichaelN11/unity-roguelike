@@ -45,6 +45,21 @@ public class Inventory : MonoBehaviour
         return inventory;
     }
 
+    public void AddItem(Item item, int amount)
+    {
+        InventoryItem inventoryItem = Items.Find(it => it.Item.name == item.name);
+        if (inventoryItem != null)
+        {
+            inventoryItem.Amount += amount;
+        } else
+        {
+            inventoryItem = new();
+            inventoryItem.Item = item;
+            inventoryItem.Amount = amount;
+            Items.Add(inventoryItem);
+        }
+    }
+
     /// <summary>
     /// Uses an item in the inventory based off the item's number and the direction.
     /// The offset distance is the distance the item's effect should be offset from the entity.

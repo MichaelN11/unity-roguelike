@@ -123,6 +123,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   flashMaterial: Flash
+  itemPickupObject: {fileID: 8660262589538942971, guid: 667e8d443bdb7427992cd6482148a67a, type: 3}
 --- !u!1 &6069404172088919450
 GameObject:
   m_ObjectHideFlags: 0

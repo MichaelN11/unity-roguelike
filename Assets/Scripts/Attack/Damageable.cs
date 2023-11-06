@@ -150,25 +150,9 @@ public class Damageable : MonoBehaviour
     {
         isDead = true;
 
-        Collider2D[] colliders = GetComponentsInChildren<Collider2D>();
-        foreach (Collider2D collider in colliders)
-        {
-            collider.enabled = false;
-        }
-
-        if (!CompareTag("Player") && entityData.Entity.DropChance > 0)
-        {
-            if (Random.value <= entityData.Entity.DropChance)
-            {
-                Instantiate(entityData.Entity.Droppable, this.transform.position, Quaternion.identity);
-            }
-        }
-
-        Transform shadow = transform.Find("Shadow");
-        if (shadow != null)
-        {
-            Destroy(shadow.gameObject);
-        }
+        DisableColliders();
+        DropObjects();
+        RemoveShadow();
 
         if (movement != null)
         {
@@ -185,6 +169,60 @@ public class Damageable : MonoBehaviour
         } else
         {
             Destroy(gameObject);
+        }
+    }
+
+    private void DropObjects()
+    {
+        if (CompareTag("Player"))
+        {
+            return;
+        }
+
+        float randomValue = Random.value;
+        if (randomValue <= entityData.Entity.DropChance)
+        {
+            Instantiate(entityData.Entity.Droppable, this.transform.position, Quaternion.identity);
+        } else
+        {
+            float nextDropChance = Mathf.Max(0, entityData.Entity.DropChance);
+            foreach (ItemDrop itemDrop in entityData.Entity.ItemDrops)
+            {
+                nextDropChance += Mathf.Max(0, itemDrop.DropChance);
+                if (nextDropChance > 1)
+                {
+                    Debug.Log("drop table is greater than 1 for " + entityData.Entity.name);
+                }
+                if (randomValue <= nextDropChance)
+                {
+                    DropItem(itemDrop);
+                    break;
+                }
+            }
+        }
+    }
+
+    private void DropItem(ItemDrop itemDrop)
+    {
+        GameObject droppedItem = Instantiate(ResourceManager.Instance.ItemPickupObject, this.transform.position, Quaternion.identity);
+        droppedItem.GetComponent<ItemPickup>().Init(itemDrop.Item, itemDrop.Amount, itemDrop.Duration);
+    }
+
+    private void DisableColliders()
+    {
+        Collider2D[] colliders = GetComponentsInChildren<Collider2D>();
+        foreach (Collider2D collider in colliders)
+        {
+            collider.enabled = false;
+        }
+    }
+
+    private void RemoveShadow()
+    {
+        Transform shadow = transform.Find("Shadow");
+        if (shadow != null)
+        {
+            Destroy(shadow.gameObject);
         }
     }
 

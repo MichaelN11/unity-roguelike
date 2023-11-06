@@ -14,6 +14,10 @@ public class ResourceManager : MonoBehaviour
     [SerializeField]
     private string flashMaterial = "Flash";
 
+    [SerializeField]
+    private GameObject itemPickupObject;
+    public GameObject ItemPickupObject => itemPickupObject;
+
     private void Awake()
     {
         if (Instance != null && Instance != this)

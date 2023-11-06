@@ -15,6 +15,7 @@ MonoBehaviour:
   baseObject: {fileID: 7658967440879357034, guid: 4a3f8e7a4a1114b19bbe5d6c0b1a4d65, type: 3}
   abilities:
   - {fileID: 11400000, guid: 8951ff46b5a614be6b50d7af012c816d, type: 2}
+  initialInventory: []
   soundOnHit: {fileID: 0}
   walkSpeed: 2.25
   interactionDistance: 0
@@ -30,4 +31,9 @@ MonoBehaviour:
   weapon: {fileID: 0}
   dropChance: 0.2
   droppable: {fileID: 3527373394736214066, guid: 2c72a572ca7f44a7aaf3b7f22b94ea8d, type: 3}
+  itemDrops:
+  - item: {fileID: 11400000, guid: 80a125bb684b646719a367b3320fddda, type: 2}
+    dropChance: 0.15
+    amount: 1
+    duration: 0
   description: 1
