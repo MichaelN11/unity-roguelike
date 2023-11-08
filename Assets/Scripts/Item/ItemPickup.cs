@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 /// <summary>
@@ -15,6 +16,8 @@ public class ItemPickup : MonoBehaviour
     private float duration = 0;
     [SerializeField]
     private Sound pickupSound;
+    [SerializeField]
+    private TextMeshProUGUI quantityText;
 
     private bool initialized = false;
     private float timer = 0;
@@ -83,6 +86,10 @@ public class ItemPickup : MonoBehaviour
     {
         spriteRenderer.sprite = newItem.Icon;
         spriteRenderer.enabled = true;
+        if (quantityText != null && amount > 1)
+        {
+            quantityText.text = amount.ToString();
+        }
     }
 
     private void Flash()
