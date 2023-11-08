@@ -205,7 +205,7 @@ public class Damageable : MonoBehaviour
     private void DropItem(ItemDrop itemDrop)
     {
         GameObject droppedItem = Instantiate(ResourceManager.Instance.ItemPickupObject, this.transform.position, Quaternion.identity);
-        droppedItem.GetComponent<ItemPickup>().Init(itemDrop.Item, itemDrop.Amount, itemDrop.Duration);
+        droppedItem.GetComponent<ItemPickup>().Init(itemDrop.Item, itemDrop.Amount);
     }
 
     private void DisableColliders()

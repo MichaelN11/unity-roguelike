@@ -18,8 +18,4 @@ public class ItemDrop
     [SerializeField]
     private int amount = 1;
     public int Amount => amount;
-
-    [SerializeField]
-    private float duration;
-    public float Duration => duration;
 }

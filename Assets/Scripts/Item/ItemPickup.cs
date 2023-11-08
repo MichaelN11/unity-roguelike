@@ -43,7 +43,10 @@ public class ItemPickup : MonoBehaviour
     {
         this.item = item;
         this.amount = amount;
-        this.duration = duration;
+        if (duration != 0)
+        {
+            this.duration = duration;
+        }
 
         UpdateSprite(item);
 
