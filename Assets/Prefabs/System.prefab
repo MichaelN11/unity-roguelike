@@ -122,7 +122,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 60295679b21fe440ca9cdc34e43c39f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  flashMaterial: Flash
+  flashMaterial: {fileID: 2100000, guid: 90f5c2c8ed79f430fa00ac67dc9db345, type: 2}
   itemPickupObject: {fileID: 8660262589538942971, guid: 667e8d443bdb7427992cd6482148a67a, type: 3}
 --- !u!1 &6069404172088919450
 GameObject:
