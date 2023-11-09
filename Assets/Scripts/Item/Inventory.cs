@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,29 +8,18 @@ using UnityEngine;
 /// </summary>
 public class Inventory : MonoBehaviour
 {
-    private const float itemXOffset = 0.2f;
-    private const float itemYOffset = 0.2f;
-
     public List<InventoryItem> Items { get; set; } = new();
 
-    private AbilityManager abilityManager;
-    private EntityState entityState;
+    /// <summary>
+    /// The event that fires when an item is used by the entity.
+    /// </summary>
+    public event Action<ItemUseEventInfo> OnItemUse;
 
-    private GameObject usedItemObject = null;
+    private AbilityManager abilityManager;
 
     private void Awake()
     {
         abilityManager = GetComponentInChildren<AbilityManager>();
-        entityState = GetComponent<EntityState>();
-    }
-
-    private void Update()
-    {
-        if (usedItemObject != null && entityState.ActionState != ActionState.Ability)
-        {
-            Destroy(usedItemObject);
-            usedItemObject = null;
-        }
     }
 
     public static Inventory AddToObject(GameObject gameObject, List<InventoryItem> inventoryItems)
@@ -78,30 +68,16 @@ public class Inventory : MonoBehaviour
             InventoryItem inventoryItem = Items[itemNumber];
             if (inventoryItem.Amount > 0)
             {
-                success = abilityManager.UseAbility(inventoryItem.Item.ActiveAbility, direction, offsetDistance);
+                AbilityUseEventInfo abilityUseEvent = abilityManager.UseAbility
+                    (inventoryItem.Item.ActiveAbility, direction, offsetDistance);
+                success = abilityUseEvent != null;
                 if (success)
                 {
                     --inventoryItem.Amount;
-                    AnimateItem(inventoryItem.Item, direction);
+                    OnItemUse?.Invoke(new ItemUseEventInfo(){ Item = inventoryItem.Item, AbilityUseEventInfo = abilityUseEvent });
                 }
             }
         }
         return success;
-    }
-
-    private void AnimateItem(Item item, Vector2 direction)
-    {
-        if (item.Prefab != null && !DirectionUtil.IsFacingUp(direction))
-        {
-            Vector2 itemPosition = new(transform.position.x, transform.position.y + itemYOffset);
-            if (DirectionUtil.IsFacingLeft(direction))
-            {
-                itemPosition.x -= itemXOffset;
-            } else if (DirectionUtil.IsFacingRight(direction))
-            {
-                itemPosition.x += itemXOffset;
-            }
-            usedItemObject = Instantiate(item.Prefab, itemPosition, Quaternion.identity, transform);
-        }
     }
 }

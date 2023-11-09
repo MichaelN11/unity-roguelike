@@ -8,15 +8,21 @@ using UnityEngine;
 /// </summary>
 public class AnimatorUpdater : MonoBehaviour
 {
+    private const float ItemXOffset = 0.2f;
+    private const float ItemYOffset = 0.2f;
+
     public bool IsAiming { get; private set; } = false;
     private float aimModeTimer = 0f;
+    private Vector2 animationDirection = new(0,-1);
 
     private EntityState entityState;
     private Animator animator;
     private SpriteRenderer spriteRenderer;
     private Movement movement;
     private AbilityManager abilityManager;
+    private Inventory inventory;
     private Material defaultMaterial;
+    private GameObject usedItemObject = null;
 
     private void Awake()
     {
@@ -25,6 +31,7 @@ public class AnimatorUpdater : MonoBehaviour
         entityState = GetComponent<EntityState>();
         movement = GetComponent<Movement>();
         abilityManager = GetComponentInChildren<AbilityManager>();
+        inventory = GetComponent<Inventory>();
     }
 
     private void Start()
@@ -32,12 +39,22 @@ public class AnimatorUpdater : MonoBehaviour
         defaultMaterial = spriteRenderer.material;
         if (abilityManager != null)
         {
-            abilityManager.OnAbilityUse += Attack;
+            abilityManager.OnAbilityUse += OnAttack;
+        }
+        if (inventory != null)
+        {
+            inventory.OnItemUse += OnItemUse;
         }
     }
 
     private void Update()
     {
+        if (usedItemObject != null && entityState.ActionState != ActionState.Ability)
+        {
+            Destroy(usedItemObject);
+            usedItemObject = null;
+        }
+
         if (IsAiming)
         { 
             if (aimModeTimer > 0)
@@ -97,9 +114,13 @@ public class AnimatorUpdater : MonoBehaviour
     /// animation to use.
     /// </summary>
     /// <param name="eventInfo">Info about the triggered ability use event</param>
-    private void Attack(AbilityUseEventInfo eventInfo)
+    private void OnAttack(AbilityUseEventInfo eventInfo)
     {
-        UpdateLookDirection();
+        if (eventInfo.ChangeDirection)
+        {
+            UpdateLookDirection();
+            StartAiming(Math.Max(eventInfo.AimDuration, eventInfo.GetFullDuration()));
+        }
         animator.SetTrigger("attack");
         animator.SetBool("isAttacking", true);
         animator.SetInteger("attackStage", GetAttackStage(eventInfo.AbilityAnimation));
@@ -108,9 +129,35 @@ public class AnimatorUpdater : MonoBehaviour
         animator.SetFloat("abilitySpeed", AnimationUtil.GetAnimationSpeedFromTime(eventInfo.ActiveTime));
 
         animator.SetBool("isActiveAbility", true);
-        Invoke(nameof(AbilityNotActive), eventInfo.ActiveTime + eventInfo.CastTime);
 
-        StartAiming(Math.Max(eventInfo.AimDuration, eventInfo.GetFullDuration()));
+        Invoke(nameof(AbilityNotActive), eventInfo.ActiveTime + eventInfo.CastTime); 
+    }
+
+    private void OnItemUse(ItemUseEventInfo eventInfo)
+    {
+        if (eventInfo.AbilityUseEventInfo.ChangeDirection)
+        {
+            UpdateLookDirection();
+        }
+
+        AnimateItem(eventInfo.Item, animationDirection);
+    }
+
+    private void AnimateItem(Item item, Vector2 direction)
+    {
+        if (item.Prefab != null && !DirectionUtil.IsFacingUp(direction))
+        {
+            Vector2 itemPosition = new(transform.position.x, transform.position.y + ItemYOffset);
+            if (DirectionUtil.IsFacingLeft(direction))
+            {
+                itemPosition.x -= ItemXOffset;
+            }
+            else if (DirectionUtil.IsFacingRight(direction))
+            {
+                itemPosition.x += ItemXOffset;
+            }
+            usedItemObject = Instantiate(item.Prefab, itemPosition, Quaternion.identity, transform);
+        }
     }
 
     /// <summary>
@@ -173,6 +220,7 @@ public class AnimatorUpdater : MonoBehaviour
     /// <param name="direction">The look direction</param>
     private void SetLookDirection(Vector2 direction)
     {
+        animationDirection = direction;
         animator.SetFloat("xDirection", direction.x);
         animator.SetFloat("yDirection", direction.y);
     }

@@ -125,7 +125,9 @@ public class EntityController : MonoBehaviour
         bool successful = false;
         if (abilityManager != null)
         {
-            successful = abilityManager.UseAbility(abilityNumber, abilityDirection, entityData.Entity.InteractionDistance);
+            AbilityUseEventInfo abilityUseEvent =
+                abilityManager.UseAbility(abilityNumber, abilityDirection, entityData.Entity.InteractionDistance);
+            successful = abilityUseEvent != null;
         }
         return successful;
     }

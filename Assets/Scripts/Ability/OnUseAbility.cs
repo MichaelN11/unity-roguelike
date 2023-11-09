@@ -60,6 +60,10 @@ public class OnUseAbility : ActiveAbility
     public float AimDuration => aimDuration;
 
     [SerializeField]
+    private bool changeDirection = true;
+    public bool ChangeDirection => changeDirection;
+
+    [SerializeField]
     private Sound soundOnCast;
     public Sound SoundOnCast => soundOnCast;
 
