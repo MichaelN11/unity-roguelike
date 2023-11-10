@@ -383,5 +383,5 @@ MonoBehaviour:
   item: {fileID: 0}
   amount: 0
   duration: 0
-  pickupSound: {fileID: 0}
+  pickupSound: {fileID: 11400000, guid: 1a108503e68164429b6f0c37ee9ca3e6, type: 2}
   quantityText: {fileID: 5864483707615245983}
