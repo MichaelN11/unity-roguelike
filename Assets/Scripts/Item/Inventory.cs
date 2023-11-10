@@ -25,12 +25,15 @@ public class Inventory : MonoBehaviour
     public static Inventory AddToObject(GameObject gameObject, List<InventoryItem> inventoryItems)
     {
         Inventory inventory = gameObject.AddComponent<Inventory>();
-        foreach (InventoryItem item in inventoryItems)
+        if (inventoryItems != null)
         {
-            InventoryItem newItem = new();
-            newItem.Item = item.Item;
-            newItem.Amount = item.Amount;
-            inventory.Items.Add(newItem);
+            foreach (InventoryItem item in inventoryItems)
+            {
+                InventoryItem newItem = new();
+                newItem.Item = item.Item;
+                newItem.Amount = item.Amount;
+                inventory.Items.Add(newItem);
+            }
         }
         return inventory;
     }

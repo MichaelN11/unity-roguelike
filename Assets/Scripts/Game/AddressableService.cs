@@ -9,11 +9,29 @@ using UnityEngine.ResourceManagement.AsyncOperations;
 /// </summary>
 public class AddressableService
 {
-    private const string EntitiesLabel = "default";
+    private const string EntitiesLabel = "entities";
+    private const string ItemsLabel = "items";
 
     private readonly Dictionary<string, Entity> loadedEntities = new();
+    private readonly Dictionary<string, Item> loadedItems = new();
 
-    public IEnumerator LoadEntities()
+    public Entity RetrieveEntity(string name)
+    {
+        return loadedEntities.GetValueOrDefault(name, null);
+    }
+
+    public Item RetrieveItem(string name)
+    {
+        return loadedItems.GetValueOrDefault(name, null);
+    }
+
+    public IEnumerator Load()
+    {
+        yield return LoadEntities();
+        yield return LoadItems();
+    }
+
+    private IEnumerator LoadEntities()
     {
         AsyncOperationHandle<IList<Entity>> asyncLoad =
             Addressables.LoadAssetsAsync<Entity>(EntitiesLabel, null);
@@ -24,8 +42,14 @@ public class AddressableService
         }
     }
 
-    public Entity RetrieveEntity(string name)
+    private IEnumerator LoadItems()
     {
-        return loadedEntities.GetValueOrDefault(name, null);
+        AsyncOperationHandle<IList<Item>> asyncLoad =
+            Addressables.LoadAssetsAsync<Item>(ItemsLabel, null);
+        yield return asyncLoad;
+        foreach (Item item in asyncLoad.Result)
+        {
+            loadedItems.Add(item.name, item);
+        }
     }
 }

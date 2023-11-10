@@ -97,7 +97,6 @@ public class ItemPickup : MonoBehaviour
 
     private void ReadyToPickUp()
     {
-        Debug.Log("ready to pickup");
         initialized = true;
     }
 

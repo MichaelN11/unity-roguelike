@@ -12,4 +12,5 @@ public class EntitySave
     public string Name { get; set; }
     public Vector2 Position { get; set; }
     public float Health { get; set; }
+    public List<InventoryItemSave> InventoryItems { get; set; } = new();
 }

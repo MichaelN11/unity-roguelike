@@ -56,7 +56,7 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator LoadInitial()
     {
-        yield return AddressableService.LoadEntities();
+        yield return AddressableService.Load();
         LoadTransition();
         SceneManager.sceneLoaded += SceneLoaded;
         if (LevelManager.Instance != null)
@@ -244,16 +244,26 @@ public class GameManager : MonoBehaviour
     private void SavePlayer()
     {
         GameState.Player = new();
-        Damageable playerDamageable = PlayerController.Instance.GetComponent<Damageable>();
-        if (playerDamageable != null)
+        if (PlayerController.Instance.TryGetComponent<Damageable>(out Damageable playerDamageable))
         {
             GameState.Player.Health = playerDamageable.CurrentHealth;
         }
-        EntityData playerEntityData = PlayerController.Instance.GetComponent<EntityData>();
-        if (playerEntityData != null)
+        if (PlayerController.Instance.TryGetComponent<EntityData>(out EntityData playerEntityData))
         {
             GameState.Player.Name = playerEntityData.Entity.name;
             GameState.Player.Position = playerEntityData.transform.position;
+        }
+        if (PlayerController.Instance.TryGetComponent<Inventory>(out Inventory playerInventory))
+        {
+            GameState.Player.InventoryItems = new List<InventoryItemSave>();
+            foreach (InventoryItem inventoryItem in playerInventory.Items)
+            {
+                GameState.Player.InventoryItems.Add(new()
+                {
+                    Name = inventoryItem.Item.name,
+                    Amount = inventoryItem.Amount
+                });
+            }
         }
     }
 

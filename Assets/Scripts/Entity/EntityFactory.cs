@@ -118,6 +118,7 @@ public class EntityFactory
     private static void CreateNewCommonComponents(Entity entity, GameObject entityObject)
     {
         Damageable.AddToObject(entityObject, entity.MaxHealth);
+        Inventory.AddToObject(entityObject, entity.InitialInventory);
         BuildCommonComponents(entity, entityObject);
     }
 
@@ -137,6 +138,18 @@ public class EntityFactory
         {
             Damageable.AddToObject(entityObject, entity.MaxHealth);
         }
+
+        List<InventoryItem> inventoryItems = new();
+        foreach (InventoryItemSave itemSave in saveData.InventoryItems)
+        {
+            inventoryItems.Add(new InventoryItem()
+            {
+                Item = GameManager.Instance.AddressableService.RetrieveItem(itemSave.Name),
+                Amount = itemSave.Amount
+            });
+        }
+        Inventory.AddToObject(entityObject, inventoryItems);
+
         BuildCommonComponents(entity, entityObject);
     }
 
@@ -151,7 +164,6 @@ public class EntityFactory
         entityObject.AddComponent<EntityController>();
         entityObject.AddComponent<Movement>();
         entityObject.AddComponent<AnimatorUpdater>();
-        Inventory.AddToObject(entityObject, entity.InitialInventory);
 
         Transform abilityTransform = entityObject.transform.Find("AbilitySource");
         if (abilityTransform != null)
