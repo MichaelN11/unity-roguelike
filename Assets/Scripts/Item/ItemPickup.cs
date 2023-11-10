@@ -8,6 +8,11 @@ using UnityEngine;
 /// </summary>
 public class ItemPickup : MonoBehaviour
 {
+    /// <summary>
+    /// Time it takes for the item to be able to be picked up after initialization.
+    /// </summary>
+    private const float ReadyTime = 1;
+
     [SerializeField]
     private Item item;
     [SerializeField]
@@ -19,6 +24,7 @@ public class ItemPickup : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI quantityText;
 
+    private bool preset = false;
     private bool initialized = false;
     private float timer = 0;
     private bool flashing = false;
@@ -28,11 +34,15 @@ public class ItemPickup : MonoBehaviour
     private void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
+        if (item != null)
+        {
+            preset = true;
+        }
     }
 
     private void Start()
     {
-        if (!initialized && item != null)
+        if (preset)
         {
             UpdateSprite(item);
             initialized = true;
@@ -50,7 +60,7 @@ public class ItemPickup : MonoBehaviour
 
         UpdateSprite(item);
 
-        initialized = true;
+        Invoke(nameof(ReadyToPickUp), ReadyTime);
     }
 
     private void Update()
@@ -71,7 +81,7 @@ public class ItemPickup : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnTriggerStay2D(Collider2D collision)
     {
         if (initialized && collision.CompareTag("Player"))
         {
@@ -83,6 +93,12 @@ public class ItemPickup : MonoBehaviour
                 Destroy(this.gameObject);
             }
         }
+    }
+
+    private void ReadyToPickUp()
+    {
+        Debug.Log("ready to pickup");
+        initialized = true;
     }
 
     private void UpdateSprite(Item newItem)

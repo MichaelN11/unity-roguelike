@@ -248,6 +248,7 @@ GameObject:
   - component: {fileID: 1808500115280661754}
   - component: {fileID: 8358516024541318861}
   - component: {fileID: 3301313569239220015}
+  - component: {fileID: 1447631339437742962}
   m_Layer: 0
   m_Name: Item
   m_TagString: Untagged
@@ -385,3 +386,30 @@ MonoBehaviour:
   duration: 0
   pickupSound: {fileID: 11400000, guid: 1a108503e68164429b6f0c37ee9ca3e6, type: 2}
   quantityText: {fileID: 5864483707615245983}
+--- !u!50 &1447631339437742962
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8660262589538942971}
+  m_BodyType: 1
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 0
+  m_CollisionDetection: 0
+  m_Constraints: 0
