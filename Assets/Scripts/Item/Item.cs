@@ -19,4 +19,8 @@ public class Item : ScriptableObject
     [SerializeField]
     private Sprite icon;
     public Sprite Icon => icon;
+
+    [SerializeField]
+    private string itemName;
+    public string ItemName => itemName;
 }

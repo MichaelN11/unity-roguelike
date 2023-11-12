@@ -15,3 +15,4 @@ MonoBehaviour:
   activeAbility: {fileID: 11400000, guid: ae5c5c223b4fd4cf18731207b14056b2, type: 2}
   prefab: {fileID: 0}
   icon: {fileID: -728884052, guid: fdd41d459fce54470912a1a49304ca50, type: 3}
+  itemName: Throwing Knife

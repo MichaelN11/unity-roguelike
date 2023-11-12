@@ -15,3 +15,4 @@ MonoBehaviour:
   activeAbility: {fileID: 11400000, guid: 8f87000abba3b4c6f84a3ff839340cd8, type: 2}
   prefab: {fileID: 5241467608802257397, guid: b598ca31fd79a4aa7b86fcfd58138487, type: 3}
   icon: {fileID: 2116723113, guid: fdd41d459fce54470912a1a49304ca50, type: 3}
+  itemName: Healing Potion
