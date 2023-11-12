@@ -13,7 +13,7 @@ public class AnimatorUpdater : MonoBehaviour
 
     public bool IsAiming { get; private set; } = false;
     private float aimModeTimer = 0f;
-    private Vector2 animationDirection = new(0,-1);
+    private Vector2 animationDirection = Vector2.right;
 
     private EntityState entityState;
     private Animator animator;
