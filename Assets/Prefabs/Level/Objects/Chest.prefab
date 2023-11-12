@@ -169,3 +169,4 @@ MonoBehaviour:
     Item: {fileID: 0}
     Amount: 0
   itemFloatingText: {fileID: 8660262589538942971, guid: 27fabbd830ab94b1db2b94dd7a11ce26, type: 3}
+  sound: {fileID: 11400000, guid: 5169613db6d3d483fa057cefa6dea1b9, type: 2}

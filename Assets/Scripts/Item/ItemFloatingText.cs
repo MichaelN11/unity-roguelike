@@ -10,7 +10,7 @@ public class ItemFloatingText : MonoBehaviour
 {
     private const float Acceleration = -0.0002f;
     private const float InitialSpeed = 0.02f;
-    private const float DestroyTime = 4f;
+    private const float DestroyTime = 3f;
 
     [SerializeField]
     private TextMeshProUGUI itemText;

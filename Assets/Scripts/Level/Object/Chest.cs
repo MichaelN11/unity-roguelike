@@ -13,6 +13,8 @@ public class Chest : MonoBehaviour, IInteractable
 
     [SerializeField]
     private GameObject itemFloatingText;
+    [SerializeField]
+    private Sound sound;
 
     private Animator animator;
     private bool opened = false;
@@ -28,6 +30,8 @@ public class Chest : MonoBehaviour, IInteractable
         {
             return false;
         }
+
+        AudioManager.Instance.Play(sound);
 
         if (animator != null)
         {
