@@ -7,9 +7,27 @@ using UnityEngine;
 /// </summary>
 public class Chest : MonoBehaviour, IInteractable
 {
+    public InventoryItem containedItem;
+
+    private Animator animator;
+
+    private void Awake()
+    {
+        animator = GetComponent<Animator>();
+    }
+
     public bool Interact(InteractableUser interactableUser)
     {
-        Debug.Log("Chest opened!");
+        if (animator != null)
+        {
+            animator.SetTrigger("open");
+        }
+
+        if (containedItem.Item != null && containedItem.Amount > 0)
+        {
+            interactableUser.Inventory.AddItem(containedItem);
+        }
+
         return true;
     }
 }

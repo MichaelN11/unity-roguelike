@@ -38,6 +38,11 @@ public class Inventory : MonoBehaviour
         return inventory;
     }
 
+    public void AddItem(InventoryItem inventoryItem)
+    {
+        AddItem(inventoryItem.Item, inventoryItem.Amount);
+    }
+
     public void AddItem(Item item, int amount)
     {
         InventoryItem inventoryItem = Items.Find(it => it.Item.name == item.name);
