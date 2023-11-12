@@ -9,5 +9,6 @@ public enum InputType
     Move,
     Ability,
     Idle,
-    Item
+    Item,
+    Interact
 }

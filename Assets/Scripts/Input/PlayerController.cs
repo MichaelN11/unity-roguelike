@@ -55,9 +55,16 @@ public class PlayerController : MonoBehaviour
         inputActions.Player.Item3.started += OnItem3Started;
         inputActions.Player.Item3.canceled += OnItem3Cancelled;
 
+        inputActions.Player.Interact.started += OnInteractStarted;
+
         inputActions.Player.Move.performed += OnMovePerformed;
         inputActions.Player.Move.canceled += OnMoveCancelled;
         inputActions.Player.Look.performed += OnLook;
+    }
+
+    private void Start()
+    {
+        entityController.CanInteract = true;
     }
 
     private void Update()
@@ -132,6 +139,13 @@ public class PlayerController : MonoBehaviour
         entityController.UpdateFromInput(inputData);
 
         lookDirection = inputPositionRelativeToEntity;
+    }
+
+    public void OnInteractStarted(CallbackContext ctx)
+    {
+        InputData inputData = new();
+        inputData.Type = InputType.Interact;
+        entityController.UpdateFromInput(inputData);
     }
 
     public void OnFireStarted(CallbackContext ctx)

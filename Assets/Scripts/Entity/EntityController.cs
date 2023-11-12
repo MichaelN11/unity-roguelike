@@ -8,6 +8,11 @@ using UnityEngine;
 [RequireComponent(typeof(EntityState), typeof(EntityData))]
 public class EntityController : MonoBehaviour
 {
+    public bool CanInteract { get; set; } = false;
+
+    private GameObject currentInteractable = null;
+    public GameObject CurrentInteractable => currentInteractable;
+
     private Movement movement;
     private AbilityManager abilityManager;
     private Inventory inventory;
@@ -29,6 +34,14 @@ public class EntityController : MonoBehaviour
     private void Start()
     {
         entityState.OnUnstunned += Unstunned;
+    }
+
+    private void Update()
+    {
+        if (CanInteract)
+        {
+            FindInteractable();
+        }
     }
 
     /// <summary>
@@ -61,8 +74,11 @@ public class EntityController : MonoBehaviour
             case InputType.Idle:
                 updateSuccessful = Idle();
                 break;
+            case InputType.Interact:
+                updateSuccessful = Interact();
+                break;
             default:
-                // Unrecognized input
+                Debug.Log(gameObject.name + " encountered unrecognized input type: " + inputData.Type);
                 break;
         }
         return updateSuccessful;
@@ -165,5 +181,46 @@ public class EntityController : MonoBehaviour
     {
         SetMovementDirection(attemptedMoveDirection);
         SetLookDirection(attemptedLookDirection);
+    }
+
+    private bool Interact()
+    {
+        if (currentInteractable == null)
+        {
+            return false;
+        }
+
+        IInteractable interactable = currentInteractable.GetComponent<IInteractable>();
+        if (interactable != null)
+        {
+            return interactable.Interact(new InteractableUser()
+            {
+                Inventory = inventory
+            });
+        } else
+        {
+            Debug.Log(currentInteractable.name + " has interactable tag but no interactable component.");
+            return false;
+        }
+    }
+
+    private void FindInteractable()
+    {
+        currentInteractable = null;
+        Collider2D[] nearbyObjects = Physics2D.OverlapCircleAll(transform.position,
+            entityData.Entity.InteractionDistance, LayerUtil.GetWallLayerMask());
+        float minDistance = float.PositiveInfinity;
+        foreach (Collider2D collider in nearbyObjects)
+        {
+            if (collider.CompareTag("Interactable"))
+            {
+                float distance = Vector2.Distance(collider.transform.position, transform.position);
+                if (distance < minDistance)
+                {
+                    minDistance = distance;
+                    currentInteractable = collider.gameObject;
+                }
+            }
+        }
     }
 }

@@ -21,7 +21,13 @@ MonoBehaviour:
     m_Address: Assets/Game Data/Entities
     m_ReadOnly: 0
     m_SerializedLabels:
-    - default
+    - entities
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 906e3ac8d3be848bbb0532cbd650f226
+    m_Address: Assets/Game Data/Items
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - items
     FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 5781efb7a3f8442a59b512145339792c, type: 2}

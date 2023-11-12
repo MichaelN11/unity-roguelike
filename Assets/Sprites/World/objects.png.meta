@@ -3,7 +3,7 @@ guid: 5ffae6639b98a4844b0922d6e692759a
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -20,11 +20,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 0
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -63,6 +64,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -74,6 +77,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -86,6 +90,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -98,6 +103,20 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
@@ -108,9 +127,9 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 288
-        width: 32
-        height: 32
+        y: 304
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,10 +147,10 @@ TextureImporter:
       name: objects_1
       rect:
         serializedVersion: 2
-        x: 32
-        y: 288
-        width: 32
-        height: 32
+        x: 16
+        y: 304
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -149,8 +168,8 @@ TextureImporter:
       name: objects_2
       rect:
         serializedVersion: 2
-        x: 64
-        y: 288
+        x: 0
+        y: 272
         width: 32
         height: 32
       alignment: 0
@@ -170,8 +189,8 @@ TextureImporter:
       name: objects_3
       rect:
         serializedVersion: 2
-        x: 96
-        y: 288
+        x: 32
+        y: 272
         width: 32
         height: 32
       alignment: 0
@@ -404,7 +423,7 @@ TextureImporter:
         x: 0
         y: 256
         width: 32
-        height: 32
+        height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -425,7 +444,7 @@ TextureImporter:
         x: 32
         y: 256
         width: 32
-        height: 32
+        height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -2046,101 +2065,100 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      objects_84: 1811449104
-      objects_44: -1093824942
-      objects_45: 341383048
-      objects_78: 204676718
-      objects_83: -1084631965
-      objects_41: -1450362629
-      objects_89: -257272016
-      objects_3: -473310832
-      objects_18: 716527780
-      objects_2: 512627203
-      objects_58: 2141028715
-      objects_57: 30946305
-      objects_43: 1385951341
-      objects_81: -2137417256
-      objects_55: -329132840
-      objects_23: -438682151
-      objects_49: -1063637633
-      objects_5: -907227478
-      objects_82: -594612057
-      objects_12: -1408291996
-      objects_65: 1552208864
-      objects_1: 570173944
-      objects_35: -1220888488
-      objects_9: 350978914
-      objects_30: 707276588
-      objects_39: -1936459727
-      objects_25: 1564165054
-      objects_24: -1374219091
-      objects_50: 162620280
-      objects_79: 345135953
-      objects_91: -252645633
-      objects_21: 1970634959
-      objects_73: 1574507443
-      objects_48: -1035083788
-      objects_28: 18391885
-      objects_70: 644685298
-      objects_87: 609868155
-      objects_7: 1378343830
-      objects_80: 1748791918
-      objects_22: 338316054
-      objects_47: 464916538
-      objects_42: 1896352172
-      objects_59: 682316532
-      objects_34: -177163354
-      objects_72: 2112469241
-      objects_26: 1468138891
-      objects_63: -795585310
-      objects_74: -1342080694
-      objects_16: -1678320604
-      objects_52: -555260614
-      objects_66: -1063942973
-      objects_15: -1352556249
-      objects_31: -2068477250
-      objects_90: 1854853141
-      objects_56: 398076609
-      objects_13: 1120012771
-      objects_33: 1037914846
-      objects_19: -1589423665
-      objects_29: 1681585597
-      objects_67: -2008100133
       objects_0: -1929134613
-      objects_46: -2078343068
-      objects_6: 710753532
-      objects_51: 1563347188
+      objects_1: 570173944
+      objects_10: 1915172293
       objects_11: 1542571900
-      objects_38: 1361117809
-      objects_40: 356679521
-      objects_32: 943489198
+      objects_12: -1408291996
+      objects_13: 1120012771
+      objects_14: -476479602
+      objects_15: -1352556249
+      objects_16: -1678320604
+      objects_17: 1511781247
+      objects_18: 716527780
+      objects_19: -1589423665
+      objects_2: 512627203
+      objects_20: -1747310986
+      objects_21: 1970634959
+      objects_22: 338316054
+      objects_23: -438682151
+      objects_24: -1374219091
+      objects_25: 1564165054
+      objects_26: 1468138891
       objects_27: 1162624144
-      objects_69: 761401168
-      objects_53: -370783976
-      objects_76: -1837491989
-      objects_71: 1032480028
+      objects_28: 18391885
+      objects_29: 1681585597
+      objects_3: -473310832
+      objects_30: 707276588
+      objects_31: -2068477250
+      objects_32: 943489198
+      objects_33: 1037914846
+      objects_34: -177163354
+      objects_35: -1220888488
       objects_36: 356636334
       objects_37: -1901177301
-      objects_62: 39046504
-      objects_64: -1151768457
-      objects_8: -367530470
-      objects_10: 1915172293
-      objects_86: 2072034117
-      objects_14: -476479602
-      objects_75: 165769348
-      objects_54: 1286498782
-      objects_77: -754174216
-      objects_85: 164483760
-      objects_60: -1199098740
-      objects_17: 1511781247
-      objects_68: 512289895
-      objects_61: -967785026
-      objects_88: -1592893326
+      objects_38: 1361117809
+      objects_39: -1936459727
       objects_4: -148652202
-      objects_20: -1747310986
-  spritePackingTag: 
+      objects_40: 356679521
+      objects_41: -1450362629
+      objects_42: 1896352172
+      objects_43: 1385951341
+      objects_44: -1093824942
+      objects_45: 341383048
+      objects_46: -2078343068
+      objects_47: 464916538
+      objects_48: -1035083788
+      objects_49: -1063637633
+      objects_5: -907227478
+      objects_50: 162620280
+      objects_51: 1563347188
+      objects_52: -555260614
+      objects_53: -370783976
+      objects_54: 1286498782
+      objects_55: -329132840
+      objects_56: 398076609
+      objects_57: 30946305
+      objects_58: 2141028715
+      objects_59: 682316532
+      objects_6: 710753532
+      objects_60: -1199098740
+      objects_61: -967785026
+      objects_62: 39046504
+      objects_63: -795585310
+      objects_64: -1151768457
+      objects_65: 1552208864
+      objects_66: -1063942973
+      objects_67: -2008100133
+      objects_68: 512289895
+      objects_69: 761401168
+      objects_7: 1378343830
+      objects_70: 644685298
+      objects_71: 1032480028
+      objects_72: 2112469241
+      objects_73: 1574507443
+      objects_74: -1342080694
+      objects_75: 165769348
+      objects_76: -1837491989
+      objects_77: -754174216
+      objects_78: 204676718
+      objects_79: 345135953
+      objects_8: -367530470
+      objects_80: 1748791918
+      objects_81: -2137417256
+      objects_82: -594612057
+      objects_83: -1084631965
+      objects_84: 1811449104
+      objects_85: 164483760
+      objects_86: 2072034117
+      objects_87: 609868155
+      objects_88: -1592893326
+      objects_89: -257272016
+      objects_9: 350978914
+      objects_90: 1854853141
+      objects_91: -252645633
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 
