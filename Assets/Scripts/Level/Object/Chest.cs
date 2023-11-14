@@ -9,7 +9,7 @@ public class Chest : MonoBehaviour, IInteractable
 {
     private const float FloatingTextXOffset = -0.1f;
 
-    public InventoryItem containedItem;
+    public InventoryItem containedItem = new();
 
     [SerializeField]
     private GameObject itemFloatingText;

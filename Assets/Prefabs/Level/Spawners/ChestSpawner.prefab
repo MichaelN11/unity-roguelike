@@ -10,9 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1835556051763111356}
   - component: {fileID: 6674047008332414502}
-  - component: {fileID: 1062859856363426431}
+  - component: {fileID: -1488964742260764930}
   m_Layer: 3
-  m_Name: RangedEnemySpawner
+  m_Name: ChestSpawner
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -74,8 +74,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 1, g: 0.51687396, b: 0, a: 1}
+  m_Sprite: {fileID: -1929134613, guid: 5ffae6639b98a4844b0922d6e692759a, type: 3}
+  m_Color: {r: 0.93145037, g: 0, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -85,7 +85,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &1062859856363426431
+--- !u!114 &-1488964742260764930
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -94,9 +94,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 3130721781005589448}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6e9f87cfd40a4482e8f7fdf5a87f87c4, type: 3}
+  m_Script: {fileID: 11500000, guid: 30cf2879535ce4fdf848bcda30f8f72c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawnables: 01000000
-  singleSpawn: {fileID: 0}
-  isPlayer: 0

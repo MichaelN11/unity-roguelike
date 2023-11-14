@@ -114,7 +114,7 @@ public class LevelManager : MonoBehaviour
     {
         foreach (Spawner spawner in FindObjectsOfType<Spawner>())
         {
-            SpawnObject(spawner, level);
+            SpawnEntity(spawner, level);
             Destroy(spawner.gameObject);
         }
     }
@@ -137,33 +137,50 @@ public class LevelManager : MonoBehaviour
     /// <param name="level">The level scriptable object</param>
     private void SpawnObjects(List<TileObjects> tileObjectsList, Level level)
     {
+        List<List<ChestSpawner>> tilesWithChests = new();
         foreach (TileObjects tileObjects in tileObjectsList)
         {
-            int spawnedObjectCount = 0;
-            int enemiesPerTile = Random.Range(level.MinEnemiesPerTile, level.MaxEnemiesPerTile + 1);
-            while (spawnedObjectCount < enemiesPerTile && tileObjects.objectList.Count > 0)
+            List<Spawner> entitySpawners = new();
+            List<ChestSpawner> chestSpawners = new();
+
+            foreach (GameObject gameObject in tileObjects.objectList)
             {
-                int randomIndex = Random.Range(0, tileObjects.objectList.Count);
-                GameObject tileObject = tileObjects.objectList[randomIndex];
-                Spawner spawner = tileObject.GetComponent<Spawner>();
-                if (spawner != null)
+                if (gameObject.TryGetComponent<Spawner>(out Spawner spawner))
                 {
-                    if (spawnObjects && !IsTooCloseToPlayer(spawner.transform))
-                    {
-                        SpawnObject(spawner, level);
-                        ++spawnedObjectCount;
-                    }
-                    Destroy(tileObject);
-                    tileObjects.objectList.RemoveAt(randomIndex);
+                    entitySpawners.Add(spawner);
+                } else if (gameObject.TryGetComponent<ChestSpawner>(out ChestSpawner chestSpawner))
+                {
+                    chestSpawners.Add(chestSpawner);
                 }
             }
-            foreach (GameObject tileObject in tileObjects.objectList)
+            if (chestSpawners.Count > 0)
             {
-                if (tileObject.GetComponent<Spawner>() != null)
-                {
-                    Destroy(tileObject);
-                }
+                tilesWithChests.Add(chestSpawners);
             }
+            SpawnEntities(entitySpawners, level);
+        }
+        SpawnChests(tilesWithChests, level);
+    }
+
+    private void SpawnEntities(List<Spawner> entitySpawners, Level level)
+    {
+        int spawnedEntityCount = 0;
+        int enemiesPerTile = Random.Range(level.MinEnemiesPerTile, level.MaxEnemiesPerTile + 1);
+        while (spawnedEntityCount < enemiesPerTile && entitySpawners.Count > 0)
+        {
+            int randomIndex = Random.Range(0, entitySpawners.Count);
+            Spawner spawner = entitySpawners[randomIndex];
+            if (spawnObjects && !IsTooCloseToPlayer(spawner.transform))
+            {
+                SpawnEntity(spawner, level);
+                ++spawnedEntityCount;
+            }
+            Destroy(spawner.gameObject);
+            entitySpawners.RemoveAt(randomIndex);
+        }
+        foreach (Spawner spawner in entitySpawners)
+        {
+            Destroy(spawner.gameObject);
         }
     }
 
@@ -172,7 +189,7 @@ public class LevelManager : MonoBehaviour
     /// </summary>
     /// <param name="spawner">The spawner component</param>
     /// <param name="level">The level scriptable object</param>
-    private void SpawnObject(Spawner spawner, Level level)
+    private void SpawnEntity(Spawner spawner, Level level)
     {
         if (spawner.SingleSpawn != null)
         {
@@ -204,6 +221,48 @@ public class LevelManager : MonoBehaviour
                 int randomIndex = Random.Range(0, spawnableObjects.Count);
                 EntityFactory.CreateEnemy(spawnableObjects[randomIndex], spawner.transform.position);
             }
+        }
+    }
+
+    private void SpawnChests(List<List<ChestSpawner>> tilesWithChests, Level level)
+    {
+        int spawnedChestCount = 0;
+        int chestsPerLevel = Random.Range(level.MinChestsPerLevel, level.MaxChestsPerLevel + 1);
+        while (spawnedChestCount < chestsPerLevel && tilesWithChests.Count > 0)
+        {
+            int randomTileIndex = Random.Range(0, tilesWithChests.Count);
+            List<ChestSpawner> chestSpawners = tilesWithChests[randomTileIndex];
+            if (spawnObjects)
+            {
+                SpawnChest(chestSpawners, level);
+                ++spawnedChestCount;
+            }
+            foreach (ChestSpawner chestSpawner in chestSpawners)
+            {
+                Destroy(chestSpawner.gameObject);
+            }
+        }
+        foreach (List<ChestSpawner> remainingTile in tilesWithChests)
+        {
+            foreach (ChestSpawner chestSpawner in remainingTile)
+            {
+                Destroy(chestSpawner.gameObject);
+            }
+        }
+    }
+
+    private void SpawnChest(List<ChestSpawner> chestSpawners, Level level)
+    {
+        int randomChest = Random.Range(0, chestSpawners.Count);
+        ChestSpawner chestSpawner = chestSpawners[randomChest];
+        GameObject newObject = Instantiate(ResourceManager.Instance.ChestObject, chestSpawner.transform.position, Quaternion.identity);
+        if (newObject.TryGetComponent<Chest>(out Chest chest))
+        {
+            chest.containedItem.Item = GameManager.Instance.AddressableService.RetrieveItem("HealingPotion");
+            chest.containedItem.Amount = 2;
+        } else
+        {
+            Debug.Log("ResourceManager chest object has no chest component");
         }
     }
 

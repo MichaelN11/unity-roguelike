@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40075b0f1472d4c8e8feda58174357ec, type: 3}
   m_Name: ChestOpening
   m_EditorClassIdentifier: 
-  audioClip: {fileID: 0}
+  audioClip: {fileID: 8300000, guid: fe6f0e2905bbf4bccb641761ad75502b, type: 3}
   isMusic: 0
   loop: 0
-  volume: 1
+  volume: 0.2
   pitch: 1
