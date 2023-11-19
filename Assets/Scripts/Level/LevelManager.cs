@@ -159,7 +159,10 @@ public class LevelManager : MonoBehaviour
             }
             SpawnEntities(entitySpawners, level);
         }
-        SpawnChests(tilesWithChests, level);
+        if (level != null)
+        {
+            SpawnChests(tilesWithChests, level);
+        }
     }
 
     private void SpawnEntities(List<Spawner> entitySpawners, Level level)

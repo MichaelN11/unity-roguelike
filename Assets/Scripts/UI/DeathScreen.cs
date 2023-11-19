@@ -64,7 +64,7 @@ public class DeathScreen : MonoBehaviour
         switch (attackDescription)
         {
             case AttackDescription.Sword:
-                deathAction = "sliced into ribbons";
+                deathAction = "sliced to ribbons";
                 break;
             case AttackDescription.VineWhip:
                 deathAction = "whipped to death";
