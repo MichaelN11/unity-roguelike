@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Pathfinding;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Tilemaps;
@@ -14,8 +15,6 @@ public class LevelManager : MonoBehaviour
 
     public event System.Action OnLevelInitialized;
 
-    public PathingGrid PathingGrid { get; set; }
-
     private LevelBounds levelBounds;
     public LevelBounds LevelBounds => levelBounds;
 
@@ -26,18 +25,10 @@ public class LevelManager : MonoBehaviour
     private float minimumSpawnDistanceFromPlayer = 8;
 
     [SerializeField]
-    private bool highlightPathingGrid = false;
-
-    [SerializeField]
-    private GameObject highlightObject;
-
-    [SerializeField]
     private bool spawnObjects = true;
 
-    private TilemapPathing tilemapPathing;
     private List<TileObjects> tileObjectsList;
     private SceneSave loadedScene;
-    private List<Tilemap> tilemapList;
     private bool sendInitializedEvent = false;
 
     public void Initialize()
@@ -59,8 +50,6 @@ public class LevelManager : MonoBehaviour
         // Sync the transforms to account for flipped tiles when building the pathing grid.
         Physics2D.SyncTransforms();
 
-        PathingGrid = tilemapPathing.Build(tilemapList);
-
         if (loadedScene == null)
         {
             SpawnObjects(tileObjectsList, level);
@@ -69,6 +58,9 @@ public class LevelManager : MonoBehaviour
         {
             LoadEntities(loadedScene);
         }
+
+        BuildAStarGrid();
+
         if (level != null && level.Music != null)
         {
             AudioManager.Instance.Play(level.Music);
@@ -78,8 +70,6 @@ public class LevelManager : MonoBehaviour
 
     private void Awake()
     {
-        tilemapPathing = (highlightPathingGrid) ? new(highlightObject) : new(null);
-
         if (Instance != null && Instance != this)
         {
             Destroy(this.gameObject);
@@ -89,7 +79,6 @@ public class LevelManager : MonoBehaviour
             Instance = this;
         }
 
-        tilemapList = GetComponentsInChildren<Tilemap>().ToList();
         levelBounds = GetComponentInChildren<LevelBounds>();
     }
 
@@ -105,6 +94,29 @@ public class LevelManager : MonoBehaviour
     private void OnDestroy()
     {
         Instance = null;
+    }
+
+    private void BuildAStarGrid()
+    {
+        AstarData data = AstarPath.active.data;
+
+        GridGraph gg = data.AddGraph(typeof(GridGraph)) as GridGraph;
+
+        gg.is2D = true;
+        gg.collision.use2D = true;
+
+        float nodeSize = 0.25f;
+        int width = (int)(levelBounds.Bounds.size.x * (1/nodeSize));
+        int depth = (int)(levelBounds.Bounds.size.y * (1/nodeSize));
+        gg.center = levelBounds.Bounds.center;
+        gg.SetDimensions(width, depth, nodeSize);
+
+        gg.cutCorners = false;
+
+        gg.collision.diameter = 1.5f;
+        gg.collision.mask = LayerUtil.GetUnwalkableLayerMask();
+
+        AstarPath.active.Scan();
     }
 
     /// <summary>

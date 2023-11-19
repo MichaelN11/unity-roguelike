@@ -1,12 +1,13 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Pathfinding;
 using UnityEngine;
 
 /// <summary>
 /// Component for controlling an entity using AI.
 /// </summary>
-[RequireComponent(typeof(Rigidbody2D), typeof(EntityController))]
+[RequireComponent(typeof(Rigidbody2D), typeof(EntityController), typeof(Seeker))]
 public class AIController : MonoBehaviour
 {
     private const float TimeBetweenAIUpdate = 1f;
@@ -40,15 +41,15 @@ public class AIController : MonoBehaviour
     private GameObject target;
     private LevelManager level;
 
-    private PathingGrid pathingGrid;
     private Rigidbody2D body;
     private Rigidbody2D targetBody;
     private EntityController entityController;
     private AbilityManager abilityManager;
     private EntityData entityData;
     private EntityState entityState;
+    private Seeker seeker;
 
-    private List<GridAction> movementPath = new();
+    private List<Vector3> movementPath = new();
     private int nextPathStep = 0;
     private Vector2 nextPosition = Vector2.zero;
     private bool active = false;
@@ -70,6 +71,7 @@ public class AIController : MonoBehaviour
         abilityManager = GetComponentInChildren<AbilityManager>();
         entityData = GetComponent<EntityData>();
         entityState = GetComponent<EntityState>();
+        seeker = GetComponent<Seeker>();
         mainCamera = Camera.main;
         contactFilter2D.layerMask = LayerUtil.GetUnwalkableLayerMask();
         contactFilter2D.useLayerMask = true;
@@ -82,10 +84,6 @@ public class AIController : MonoBehaviour
         if (target != null)
         {
             targetBody = target.GetComponent<Rigidbody2D>();
-        }
-        if (level != null)
-        {
-            pathingGrid = level.PathingGrid;
         }
         nextPosition = body.position;
         InvokeRepeating(nameof(FindPath), 0, TimeBetweenAIUpdate);
@@ -136,6 +134,14 @@ public class AIController : MonoBehaviour
     {
         AIController aiController = gameObject.AddComponent<AIController>();
         aiController.entityAI = entityAI;
+
+        gameObject.AddComponent<Seeker>();
+
+        SimpleSmoothModifier simpleSmoothModifier = gameObject.AddComponent<SimpleSmoothModifier>();
+        simpleSmoothModifier.maxSegmentLength = 0.25f;
+        simpleSmoothModifier.iterations = 2;
+        simpleSmoothModifier.strength = 0.5f;
+
         return aiController;
     }
 
@@ -319,7 +325,7 @@ public class AIController : MonoBehaviour
         {
             if (nextPathStep < movementPath.Count)
             {
-                nextPosition = pathingGrid.NodeToWorldWithOffset(movementPath[nextPathStep++].Node);
+                nextPosition = movementPath[nextPathStep++];
             } else
             {
                 nextPosition = targetBody.position;
@@ -347,17 +353,16 @@ public class AIController : MonoBehaviour
     {
         if (active
             && currentBehavior == Behavior.Path
-            && targetBody != null
-            && pathingGrid != null
-            && pathingGrid.Grid.Count > 0)
+            && targetBody != null)
         {
-            GridNode thisNode = pathingGrid.WorldToNode(body.position);
-            GridNode targetNode = pathingGrid.WorldToNode(targetBody.position);
-
-            GridSearchProblem search = new(thisNode, targetNode);
-            movementPath = AStarSearch<GridNode, GridAction>.AStar(search, MaxIterations);
-            nextPathStep = 0;
+            seeker.StartPath(body.position, targetBody.position, OnPathComplete);
         }
+    }
+
+    private void OnPathComplete(Path path)
+    {
+        movementPath = path.vectorPath;
+        nextPathStep = 0;
     }
 
     /// <summary>
