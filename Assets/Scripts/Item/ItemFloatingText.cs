@@ -8,8 +8,8 @@ using UnityEngine;
 /// </summary>
 public class ItemFloatingText : MonoBehaviour
 {
-    private const float Acceleration = -0.0002f;
-    private const float InitialSpeed = 0.02f;
+    private const float Acceleration = -0.02f;
+    private const float InitialSpeed = 2.5f;
     private const float DestroyTime = 3f;
 
     [SerializeField]
@@ -29,7 +29,7 @@ public class ItemFloatingText : MonoBehaviour
     {
         if (move)
         {
-            float newYPosition = transform.position.y + currentSpeed;
+            float newYPosition = transform.position.y + (currentSpeed * Time.deltaTime);
             transform.position = new(transform.position.x, newYPosition);
             currentSpeed += Acceleration;
             if (currentSpeed < 0)
