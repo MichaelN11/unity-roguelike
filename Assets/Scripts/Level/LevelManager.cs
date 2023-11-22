@@ -59,7 +59,10 @@ public class LevelManager : MonoBehaviour
             LoadEntities(loadedScene);
         }
 
-        BuildAStarGrid();
+        if (levelBounds != null)
+        {
+            BuildAStarGrid();
+        }
 
         if (level != null && level.Music != null)
         {
