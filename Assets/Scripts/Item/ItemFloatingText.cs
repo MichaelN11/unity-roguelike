@@ -8,7 +8,7 @@ using UnityEngine;
 /// </summary>
 public class ItemFloatingText : MonoBehaviour
 {
-    private const float Acceleration = -0.02f;
+    private const float Acceleration = -2f;
     private const float InitialSpeed = 2.5f;
     private const float DestroyTime = 3f;
 
@@ -29,13 +29,10 @@ public class ItemFloatingText : MonoBehaviour
     {
         if (move)
         {
+            UpdateSpeed(Acceleration * Time.deltaTime * 0.5f);
             float newYPosition = transform.position.y + (currentSpeed * Time.deltaTime);
             transform.position = new(transform.position.x, newYPosition);
-            currentSpeed += Acceleration;
-            if (currentSpeed < 0)
-            {
-                currentSpeed = 0;
-            }
+            UpdateSpeed(Acceleration * Time.deltaTime * 0.5f);
         }
     }
 
@@ -46,5 +43,14 @@ public class ItemFloatingText : MonoBehaviour
         spriteRenderer.enabled = true;
         move = true;
         Destroy(gameObject, DestroyTime);
+    }
+
+    private void UpdateSpeed(float acceleration)
+    {
+        currentSpeed += acceleration;
+        if (currentSpeed < 0)
+        {
+            currentSpeed = 0;
+        }
     }
 }
