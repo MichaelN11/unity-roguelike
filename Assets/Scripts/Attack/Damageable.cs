@@ -185,19 +185,10 @@ public class Damageable : MonoBehaviour
             Instantiate(entityData.Entity.Droppable, this.transform.position, Quaternion.identity);
         } else
         {
-            float nextDropChance = Mathf.Max(0, entityData.Entity.DropChance);
-            foreach (ItemDrop itemDrop in entityData.Entity.ItemDrops)
+            ItemDrop randomItemDrop = ItemDropUtil.GetRandomItemDrop(entityData.Entity.ItemDrops, entityData.Entity.DropChance);
+            if (randomItemDrop != null)
             {
-                nextDropChance += Mathf.Max(0, itemDrop.DropChance);
-                if (nextDropChance > 1)
-                {
-                    Debug.Log("drop table is greater than 1 for " + entityData.Entity.name);
-                }
-                if (randomValue <= nextDropChance)
-                {
-                    DropItem(itemDrop);
-                    break;
-                }
+                DropItem(randomItemDrop);
             }
         }
     }

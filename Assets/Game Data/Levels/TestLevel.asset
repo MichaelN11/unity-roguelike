@@ -12,10 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c4fa90dd27724c31b55cf4a70758574, type: 3}
   m_Name: TestLevel
   m_EditorClassIdentifier: 
+  minChestsPerLevel: 1
+  maxChestsPerLevel: 1
+  minEnemiesPerTile: 4
   maxEnemiesPerTile: 1
   tiles:
   - {fileID: 6607943243475814378, guid: 6e282bf8d575447829e1318f011caf07, type: 3}
   meleeEnemies:
   - {fileID: 11400000, guid: b6933aea34d6a4af1b397c62a09087ad, type: 2}
   rangedEnemies: []
+  chestDropTable: {fileID: 11400000, guid: 746522f417bf44688907d286332b6e92, type: 2}
   music: {fileID: 0}

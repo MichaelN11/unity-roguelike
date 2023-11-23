@@ -12,6 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c4fa90dd27724c31b55cf4a70758574, type: 3}
   m_Name: ForestLevelHard
   m_EditorClassIdentifier: 
+  minChestsPerLevel: 2
+  maxChestsPerLevel: 3
+  minEnemiesPerTile: 4
   maxEnemiesPerTile: 4
   tiles:
   - {fileID: 1212566642934411307, guid: 4879d5d8a4bb24641af930b3afad9b00, type: 3}
@@ -28,4 +31,5 @@ MonoBehaviour:
   - {fileID: 11400000, guid: e621e08a2aba145abbd8b41c75f01540, type: 2}
   rangedEnemies:
   - {fileID: 11400000, guid: b6933aea34d6a4af1b397c62a09087ad, type: 2}
+  chestDropTable: {fileID: 11400000, guid: 746522f417bf44688907d286332b6e92, type: 2}
   music: {fileID: 11400000, guid: 2378dba7f2854442ebb892af38bcf775, type: 2}

@@ -276,8 +276,15 @@ public class LevelManager : MonoBehaviour
         GameObject newObject = Instantiate(ResourceManager.Instance.ChestObject, chestSpawner.transform.position, Quaternion.identity);
         if (newObject.TryGetComponent<Chest>(out Chest chest))
         {
-            chest.containedItem.Item = GameManager.Instance.AddressableService.RetrieveItem("HealingPotion");
-            chest.containedItem.Amount = 2;
+            ItemDrop randomItemDrop = ItemDropUtil.GetRandomItemDrop(level.ChestDropTable);
+            if (randomItemDrop != null)
+            {
+                chest.containedItem.Item = randomItemDrop.Item;
+                chest.containedItem.Amount = randomItemDrop.Amount;
+            } else
+            {
+                Debug.Log("Error: Empty chest drop table.");
+            }
         } else
         {
             Debug.Log("ResourceManager chest object has no chest component");

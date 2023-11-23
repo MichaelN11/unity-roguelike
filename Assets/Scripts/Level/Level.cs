@@ -37,6 +37,10 @@ public class Level : ScriptableObject
     public List<Entity> RangedEnemies => rangedEnemies;
 
     [SerializeField]
+    private DropTable chestDropTable;
+    public DropTable ChestDropTable => chestDropTable;
+
+    [SerializeField]
     private Sound music;
     public Sound Music => music;
 }
