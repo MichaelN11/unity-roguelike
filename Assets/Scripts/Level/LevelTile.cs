@@ -53,13 +53,15 @@ public class LevelTile : MonoBehaviour
     private TileObjects DetachNonTilemaps(Transform parent)
     {
         TileObjects tileObjects = new();
+        tileObjects.TileCenter = new Vector2(transform.position.x + (transform.localScale.x / 2),
+            transform.position.y + (transform.localScale.y / 2));
         // Loop backward to make it safe to detach child in the loop
         for (int i = parent.childCount - 1; i >= 0; i--)
         {
             Transform child = parent.GetChild(i);
             if (!child.GetComponent<Tilemap>())
             {
-                tileObjects.objectList.Add(child.gameObject);
+                tileObjects.ObjectList.Add(child.gameObject);
                 child.parent = null;
                 if (parent.transform.localScale.x == -1)
                 {

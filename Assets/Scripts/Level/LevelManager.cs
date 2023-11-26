@@ -11,6 +11,8 @@ using UnityEngine.Tilemaps;
 /// </summary>
 public class LevelManager : MonoBehaviour
 {
+    private const float TransitionCheckRadius = 11.31f;
+
     public static LevelManager Instance { get; private set; }
 
     public event System.Action OnLevelInitialized;
@@ -158,7 +160,7 @@ public class LevelManager : MonoBehaviour
             List<Spawner> entitySpawners = new();
             List<ChestSpawner> chestSpawners = new();
 
-            foreach (GameObject gameObject in tileObjects.objectList)
+            foreach (GameObject gameObject in tileObjects.ObjectList)
             {
                 if (gameObject.TryGetComponent<Spawner>(out Spawner spawner))
                 {
@@ -170,7 +172,13 @@ public class LevelManager : MonoBehaviour
             }
             if (chestSpawners.Count > 0)
             {
-                tilesWithChests.Add(chestSpawners);
+                if (IsNotTransitionTile(tileObjects))
+                {
+                    tilesWithChests.Add(chestSpawners);
+                } else
+                {
+                    ClearChestSpawners(chestSpawners);
+                }
             }
             SpawnEntities(entitySpawners, level);
         }
@@ -242,6 +250,19 @@ public class LevelManager : MonoBehaviour
         }
     }
 
+    private bool IsNotTransitionTile(TileObjects tileObjects)
+    {
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(tileObjects.TileCenter, TransitionCheckRadius, LayerUtil.GetTriggerLayerMask());
+        foreach (Collider2D collider in colliders)
+        {
+            if (collider.CompareTag("Transition"))
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
     private void SpawnChests(List<List<ChestSpawner>> tilesWithChests, Level level)
     {
         int spawnedChestCount = 0;
@@ -255,17 +276,11 @@ public class LevelManager : MonoBehaviour
                 SpawnChest(chestSpawners, level);
                 ++spawnedChestCount;
             }
-            foreach (ChestSpawner chestSpawner in chestSpawners)
-            {
-                Destroy(chestSpawner.gameObject);
-            }
+            ClearChestSpawners(chestSpawners);
         }
         foreach (List<ChestSpawner> remainingTile in tilesWithChests)
         {
-            foreach (ChestSpawner chestSpawner in remainingTile)
-            {
-                Destroy(chestSpawner.gameObject);
-            }
+            ClearChestSpawners(remainingTile);
         }
     }
 
@@ -288,6 +303,14 @@ public class LevelManager : MonoBehaviour
         } else
         {
             Debug.Log("ResourceManager chest object has no chest component");
+        }
+    }
+
+    private void ClearChestSpawners(List<ChestSpawner> chestSpawners)
+    {
+        foreach (ChestSpawner chestSpawner in chestSpawners)
+        {
+            Destroy(chestSpawner.gameObject);
         }
     }
 
@@ -411,7 +434,7 @@ public class LevelManager : MonoBehaviour
             {
                 tileObjects = levelTile.Place(loadedTile, gameObject);
             }
-            foreach (GameObject gameObject in tileObjects.objectList)
+            foreach (GameObject gameObject in tileObjects.ObjectList)
             {
                 Destroy(gameObject);
             }

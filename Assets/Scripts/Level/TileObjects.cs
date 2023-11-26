@@ -7,5 +7,6 @@ using UnityEngine;
 /// </summary>
 public class TileObjects
 {
-    public List<GameObject> objectList { get; set; } = new();
+    public Vector2 TileCenter { get; set; }
+    public List<GameObject> ObjectList { get; set; } = new();
 }

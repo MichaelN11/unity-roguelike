@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Hitbox
   - Interactable
+  - Transition
   layers:
   - Default
   - TransparentFX
@@ -15,7 +16,7 @@ TagManager:
   - UI
   - BlockedGround
   - PassThrough
-  - 
+  - Trigger
   - 
   - 
   - 

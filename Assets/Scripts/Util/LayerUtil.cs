@@ -25,6 +25,10 @@ public class LayerUtil
     /// Entities currently use this layer.
     /// </summary>
     public const string DefaultLayerName = "Default";
+    /// <summary>
+    /// Layer for triggers, i.e transition objects.
+    /// </summary>
+    public const string TriggerLayerName = "Trigger";
 
     private static readonly string[] unwalkableLayerNames = { WallLayerName, BlockedGroundLayerName };
 
@@ -35,6 +39,11 @@ public class LayerUtil
     public static int GetEntityLayerMask()
     {
         return LayerMask.GetMask(DefaultLayerName);
+    }
+
+    public static int GetTriggerLayerMask()
+    {
+        return LayerMask.GetMask(TriggerLayerName);
     }
 
     /// <summary>

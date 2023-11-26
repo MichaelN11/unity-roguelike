@@ -12,9 +12,9 @@ GameObject:
   - component: {fileID: 9055336699650849601}
   - component: {fileID: 9055336699650849602}
   - component: {fileID: 9055336699650849603}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: LevelTransition
-  m_TagString: Untagged
+  m_TagString: Transition
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
