@@ -11,7 +11,7 @@ public class ItemPickup : MonoBehaviour
     /// <summary>
     /// Time it takes for the item to be able to be picked up after initialization.
     /// </summary>
-    private const float ReadyTime = 1;
+    private const float ReadyTime = 0.45f;
 
     [SerializeField]
     private Item item;
