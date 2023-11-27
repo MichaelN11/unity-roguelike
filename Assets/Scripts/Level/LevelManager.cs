@@ -59,6 +59,7 @@ public class LevelManager : MonoBehaviour
         else
         {
             LoadEntities(loadedScene);
+            LoadObjects(loadedScene);
         }
 
         if (levelBounds != null)
@@ -450,6 +451,14 @@ public class LevelManager : MonoBehaviour
         foreach (EntitySave entitySave in sceneSave.SavedEntities.EntityList)
         {
             EntityFactory.LoadEnemy(entitySave);
+        }
+    }
+
+    private void LoadObjects(SceneSave sceneSave)
+    {
+        foreach (ObjectSave objectSave in sceneSave.SavedObjects.ObjectList)
+        {
+            ObjectFactory.LoadObject(objectSave);
         }
     }
 }

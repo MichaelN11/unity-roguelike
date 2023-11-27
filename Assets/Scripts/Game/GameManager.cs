@@ -11,14 +11,14 @@ using UnityEngine.SceneManagement;
 /// </summary>
 public class GameManager : MonoBehaviour
 {
+    private const string SaveFilePath = "/GameSave.sav";
+
     public static GameManager Instance { get; private set; }
 
     public AddressableService AddressableService { get; private set; } = new();
     public SaveObject GameState { get; private set; } = new();
     public bool IsPaused { get; private set; } = false;
     public bool IsGameOver { get; private set; } = false;
-
-    private static readonly string SaveFilePath = "/GameSave.sav";
 
     [SerializeField]
     private Entity player;
@@ -236,6 +236,7 @@ public class GameManager : MonoBehaviour
         SavePlayer();
         SaveTiles(sceneSave);
         SaveEntities(sceneSave);
+        SaveObjects(sceneSave);
     }
 
     /// <summary>
@@ -258,11 +259,7 @@ public class GameManager : MonoBehaviour
             GameState.Player.InventoryItems = new List<InventoryItemSave>();
             foreach (InventoryItem inventoryItem in playerInventory.Items)
             {
-                GameState.Player.InventoryItems.Add(new()
-                {
-                    Name = inventoryItem.Item.name,
-                    Amount = inventoryItem.Amount
-                });
+                GameState.Player.InventoryItems.Add(SerializeInventoryItem(inventoryItem));
             }
         }
     }
@@ -299,5 +296,29 @@ public class GameManager : MonoBehaviour
                 sceneSave.SavedEntities.EntityList.Add(entitySave);
             }
         }
+    }
+
+    private void SaveObjects(SceneSave sceneSave)
+    {
+        foreach (Chest chest in FindObjectsOfType<Chest>())
+        {
+            ObjectSave chestSave = new();
+            chestSave.Type = ObjectFactory.ChestType;
+            chestSave.Position = chest.transform.position;
+            if (!chest.Opened && chest.containedItem != null)
+            {
+                chestSave.InventoryItem = SerializeInventoryItem(chest.containedItem);
+            }
+            sceneSave.SavedObjects.ObjectList.Add(chestSave);
+        }
+    }
+
+    private InventoryItemSave SerializeInventoryItem(InventoryItem inventoryItem)
+    {
+        return new InventoryItemSave()
+        {
+            Name = inventoryItem.Item.name,
+            Amount = inventoryItem.Amount
+        };
     }
 }

@@ -16,8 +16,10 @@ public class Chest : MonoBehaviour, IInteractable
     [SerializeField]
     private Sound sound;
 
-    private Animator animator;
     private bool opened = false;
+    public bool Opened => opened;
+
+    private Animator animator;
 
     private void Awake()
     {
@@ -49,5 +51,14 @@ public class Chest : MonoBehaviour, IInteractable
         opened = true;
 
         return true;
+    }
+
+    public void SetToOpen()
+    {
+        if (animator != null)
+        {
+            animator.SetTrigger("openImmediate");
+        }
+        opened = true;
     }
 }
