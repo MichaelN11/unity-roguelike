@@ -13,5 +13,6 @@ public enum ActionState
     Ability,
     Hitstun,
     Idle,
-    Dead
+    Dead,
+    Interact
 }

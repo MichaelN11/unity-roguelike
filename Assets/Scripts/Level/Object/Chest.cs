@@ -15,6 +15,8 @@ public class Chest : MonoBehaviour, IInteractable
     private GameObject itemFloatingText;
     [SerializeField]
     private Sound sound;
+    [SerializeField]
+    private float interactionTime = 1f;
 
     private bool opened = false;
     public bool Opened => opened;
@@ -33,6 +35,8 @@ public class Chest : MonoBehaviour, IInteractable
             return false;
         }
 
+        interactableUser.Movement.StopMoving();
+        interactableUser.EntityState.InteractState(interactionTime);
         AudioManager.Instance.Play(sound);
 
         if (animator != null)

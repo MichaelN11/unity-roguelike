@@ -195,7 +195,9 @@ public class EntityController : MonoBehaviour
         {
             return interactable.Interact(new InteractableUser()
             {
-                Inventory = inventory
+                Inventory = inventory,
+                EntityState = entityState,
+                Movement = movement
             });
         } else
         {

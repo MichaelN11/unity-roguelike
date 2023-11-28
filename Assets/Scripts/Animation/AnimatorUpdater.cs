@@ -79,6 +79,7 @@ public class AnimatorUpdater : MonoBehaviour
             UpdateFlash();
             UpdateStop();
             UpdateAttack();
+            UpdateIsInteracting();
         }
     }
 
@@ -270,6 +271,18 @@ public class AnimatorUpdater : MonoBehaviour
         else
         {
             animator.SetBool("isIdle", false);
+        }
+    }
+
+    private void UpdateIsInteracting()
+    {
+        if (entityState.ActionState == ActionState.Interact)
+        {
+            animator.SetBool("isInteracting", true);
+        }
+        else
+        {
+            animator.SetBool("isInteracting", false);
         }
     }
 

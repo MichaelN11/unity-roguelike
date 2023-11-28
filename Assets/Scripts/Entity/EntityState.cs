@@ -81,7 +81,8 @@ public class EntityState : MonoBehaviour
     public bool IsStunned()
     {
         return ActionState == ActionState.Ability
-            || ActionState == ActionState.Hitstun;
+            || ActionState == ActionState.Hitstun
+            || ActionState == ActionState.Interact;
     }
 
     /// <summary>
@@ -104,6 +105,12 @@ public class EntityState : MonoBehaviour
         ActionState = ActionState.Ability;
         StunTimer = duration;
         CanLookWhileCasting = aimWhileCasting;
+    }
+
+    public void InteractState(float duration)
+    {
+        ActionState = ActionState.Interact;
+        StunTimer = duration;
     }
 
     /// <summary>
