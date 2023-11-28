@@ -278,6 +278,7 @@ public class LevelManager : MonoBehaviour
                 ++spawnedChestCount;
             }
             ClearChestSpawners(chestSpawners);
+            tilesWithChests.RemoveAt(randomTileIndex);
         }
         foreach (List<ChestSpawner> remainingTile in tilesWithChests)
         {
