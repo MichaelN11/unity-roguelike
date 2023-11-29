@@ -10,8 +10,9 @@ public class EntityController : MonoBehaviour
 {
     public bool CanInteract { get; set; } = false;
 
-    private GameObject currentInteractable = null;
-    public GameObject CurrentInteractable => currentInteractable;
+    private GameObject currentInteractableObject = null;
+    public GameObject CurrentInteractableObject => currentInteractableObject;
+    private IInteractable currentInteractable = null;
 
     private Movement movement;
     private AbilityManager abilityManager;
@@ -187,28 +188,24 @@ public class EntityController : MonoBehaviour
     {
         if (currentInteractable == null)
         {
+            if (currentInteractableObject != null)
+            {
+                Debug.Log(currentInteractableObject.name + " has interactable tag but no interactable component.");
+            }
             return false;
         }
 
-        IInteractable interactable = currentInteractable.GetComponent<IInteractable>();
-        if (interactable != null)
-        {
-            return interactable.Interact(new InteractableUser()
-            {
-                Inventory = inventory,
-                EntityState = entityState,
-                Movement = movement
-            });
-        } else
-        {
-            Debug.Log(currentInteractable.name + " has interactable tag but no interactable component.");
-            return false;
-        }
+        bool success = currentInteractable.Interact(GetInteractableUser());
+        currentInteractable = null;
+        currentInteractableObject = null;
+
+        return success;
     }
 
     private void FindInteractable()
     {
-        currentInteractable = null;
+        bool foundInteractable = false;
+
         Collider2D[] nearbyObjects = Physics2D.OverlapCircleAll(transform.position,
             entityData.Entity.InteractionDistance, LayerUtil.GetWallLayerMask());
         float minDistance = float.PositiveInfinity;
@@ -220,9 +217,37 @@ public class EntityController : MonoBehaviour
                 if (distance < minDistance)
                 {
                     minDistance = distance;
-                    currentInteractable = collider.gameObject;
+
+                    if (currentInteractableObject != collider.gameObject)
+                    {
+                        IInteractable interactable = collider.gameObject.GetComponent<IInteractable>();
+                        if (interactable.IsAbleToInteract(GetInteractableUser())) {
+                            currentInteractableObject = collider.gameObject;
+                            currentInteractable = interactable;
+                            foundInteractable = true;
+                        }
+                    } else
+                    {
+                        foundInteractable = true;
+                    }
                 }
             }
         }
+
+        if (!foundInteractable)
+        {
+            currentInteractable = null;
+            currentInteractableObject = null;
+        }
+    }
+
+    private InteractableUser GetInteractableUser()
+    {
+        return new InteractableUser()
+        {
+            Inventory = inventory,
+            EntityState = entityState,
+            Movement = movement
+        };
     }
 }

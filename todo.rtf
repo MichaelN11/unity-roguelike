@@ -23,13 +23,11 @@ Hide level while generating it\
 later:\
 minotaur shouldn\'92t do combo followup unless you\'92re in range\
 in pond tile, get stuck girating between small rock and pond corner (collision width checking could be improved?)\
-slide around enemies in either direction (currently it\'92s always the same)\
+slide around enemies in either direction (currently it\'92s unintentional and always the same direction)\
 save seed instead of list of tiles?\
 addressables service should use a generic class for loading stuff\
 break up level scriptable object into multiple objects (tiles, entities, etc.)\
-limited dash/charge resource (stamina? cooldown? both?)\
 improve dash visuals a bit (when dashing into wall, or viewed when dashing up)\
-AI can get stuck in a tile they think is impassable\
 save everything, including states? or only save out of combat?\
 ability manager should listen to state events rather than entity state call ability manager\
 hitting an enemy should stop you from moving further in the attack? attacks with movement could have a special collision offset that only applies to entities\
@@ -40,26 +38,20 @@ log attack position should be handled better, so that log can have normal abilit
 remove entity prefabs and construct animators programmatically\
 need a better way to configure animations per animation rather than per ability\
 update movement animation speed based on movement speed\
-interrupting ability effects\
-replace resource folder with addressables\
 enemies should only aggro when in line of sight\
 facing in diagonal directions should be consistent\
 attack projectiles out of the air\
 remove pixel perfect clamp from weapon script?\
-custom projectile collision detection so arrows don\'92t get stuck in walls so easily\
 enemies have indicators in the direction they are attacking?\
 can shoot projectiles over a cliff\
 height system for projectiles?\
-pathing bug with high aggro distance? A* iteration too much\
-knockback not tied to hitstun\
+A* can\'92t find path sometimes\
 allow using abilities while moving\
 give simpler entities their own animator updater\
-rework how hitstun / knockback is handled, in regard to entity and ability data\
+rework how hitstun / knockback is handled, in regard to entity and ability data (knockback not tied to hitstun)\
 consistent color palette?\
 better way to handle attack animations\
-A* cheat for closest tile, for target and position\
 AI finds targets instead of using player singleton\
-invincibility frames after being hit, player only\
 attacking at 0,0 at the start bug\
 AI move in weighted directions when not pathing\
 enemies should \'93leash\'94 back to their spawn point after running too far\
@@ -67,16 +59,15 @@ damping functions for movement?\
 enemies shake when hit\
 figure out sound effect attributions\
 save file shouldn\'92t bother writing enemy health?\
-better death screen\
 camera track while dashing\
 \
 far future:\
 Game name + basic logo\
-get someone to playtest\
 object pooling\
 AI behavior tree\
 character/armor visual customization\
 \
 look into:\
-webgl\
-CI/CD}
+CI/CD\
+Jira/project tracking software\
+Unit tests}

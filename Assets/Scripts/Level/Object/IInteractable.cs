@@ -8,4 +8,5 @@ using UnityEngine;
 public interface IInteractable
 {
     public bool Interact(InteractableUser interactableUser);
+    public bool IsAbleToInteract(InteractableUser interactableUser);
 }

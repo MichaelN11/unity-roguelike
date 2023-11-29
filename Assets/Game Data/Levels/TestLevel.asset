@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c4fa90dd27724c31b55cf4a70758574, type: 3}
   m_Name: TestLevel
   m_EditorClassIdentifier: 
-  minChestsPerLevel: 1
-  maxChestsPerLevel: 1
+  minChestsPerLevel: 2
+  maxChestsPerLevel: 2
   minEnemiesPerTile: 4
   maxEnemiesPerTile: 1
   tiles:

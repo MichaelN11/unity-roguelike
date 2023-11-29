@@ -30,7 +30,7 @@ public class Chest : MonoBehaviour, IInteractable
 
     public bool Interact(InteractableUser interactableUser)
     {
-        if (opened)
+        if (!IsAbleToInteract(interactableUser))
         {
             return false;
         }
@@ -64,5 +64,10 @@ public class Chest : MonoBehaviour, IInteractable
             animator.SetTrigger("openImmediate");
         }
         opened = true;
+    }
+
+    public bool IsAbleToInteract(InteractableUser interactableUser)
+    {
+        return !opened;
     }
 }
