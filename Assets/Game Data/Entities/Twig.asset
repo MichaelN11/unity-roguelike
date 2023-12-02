@@ -33,6 +33,6 @@ MonoBehaviour:
   droppable: {fileID: 3527373394736214066, guid: 2c72a572ca7f44a7aaf3b7f22b94ea8d, type: 3}
   itemDrops:
   - item: {fileID: 11400000, guid: 80a125bb684b646719a367b3320fddda, type: 2}
-    dropChance: 1
+    dropChance: 0.1
     amount: 1
   description: 2

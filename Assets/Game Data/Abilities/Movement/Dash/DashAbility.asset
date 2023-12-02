@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc8c03d57d8f740f4bc2f163f1186102, type: 3}
   m_Name: DashAbility
   m_EditorClassIdentifier: 
+  cooldown: 3
   effects:
   - {fileID: 11400000, guid: 5eb5e0f08349f498e8aae81c8f37eebc, type: 2}
   - {fileID: 11400000, guid: 836388cd017f74023bd3e41a1c091700, type: 2}
@@ -20,12 +21,12 @@ MonoBehaviour:
   castTime: 0.1
   recoveryTime: 0.4
   activeAnimationTime: 0.22
-  cooldown: 0
   canCancelInto: 1
   cancelableDuration: 0
   range: 0
   aimWhileCasting: 0
   aimDuration: 0
+  changeDirection: 1
   soundOnCast: {fileID: 0}
   soundOnUse: {fileID: 11400000, guid: bf2087525a9c540c99e4743b12eb5178, type: 2}
   stopSoundAfterUse: 0

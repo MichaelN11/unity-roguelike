@@ -76,8 +76,12 @@ public class Inventory : MonoBehaviour
             InventoryItem inventoryItem = Items[itemNumber];
             if (inventoryItem.Amount > 0)
             {
+                ActiveAbilityContext abilityContext = new()
+                {
+                    Ability = inventoryItem.Item.ActiveAbility
+                };
                 AbilityUseEventInfo abilityUseEvent = abilityManager.UseAbility
-                    (inventoryItem.Item.ActiveAbility, direction, offsetDistance);
+                    (abilityContext, direction, offsetDistance);
                 success = abilityUseEvent != null;
                 if (success)
                 {

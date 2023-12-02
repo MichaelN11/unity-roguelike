@@ -30,10 +30,6 @@ public class OnUseAbility : ActiveAbility
     public float ActiveAnimationTime => activeAnimationTime;
 
     [SerializeField]
-    private float cooldown;
-    public float Cooldown => cooldown;
-
-    [SerializeField]
     private bool canCancelInto = false;
     public bool CanCancelInto => canCancelInto;
 

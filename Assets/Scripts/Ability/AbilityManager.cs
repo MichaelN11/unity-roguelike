@@ -13,7 +13,7 @@ public class AbilityManager : MonoBehaviour
     /// </summary>
     public event Action<AbilityUseEventInfo> OnAbilityUse;
 
-    private List<ActiveAbility> abilities;
+    private List<ActiveAbilityContext> abilities;
 
     private EntityData entityData;
     private EntityState entityState;
@@ -60,6 +60,14 @@ public class AbilityManager : MonoBehaviour
         {
             currentAbilityDuration += Time.deltaTime;
         }
+
+        foreach (ActiveAbilityContext ability in abilities)
+        {
+            if (ability.CurrentCooldown > 0)
+            {
+                ability.CurrentCooldown -= Time.deltaTime;
+            }
+        }
     }
 
     /// <summary>
@@ -73,7 +81,15 @@ public class AbilityManager : MonoBehaviour
         AbilityManager abilityManager = gameObject.AddComponent<AbilityManager>();
         if (abilities.Count > 0)
         {
-            abilityManager.abilities = abilities;
+            List<ActiveAbilityContext> abilityContexts = new();
+            foreach (ActiveAbility ability in abilities)
+            {
+                abilityContexts.Add(new()
+                {
+                    Ability = ability
+                });
+            }
+            abilityManager.abilities = abilityContexts;
         }
         return abilityManager;
     }
@@ -87,22 +103,32 @@ public class AbilityManager : MonoBehaviour
     /// <returns>AbilityUseEventInfo, or null if unsuccessful</returns>
     public AbilityUseEventInfo UseAbility(int abilityNumber, Vector2 direction, float offsetDistance)
     {
-        ActiveAbility ability = GetAbility(abilityNumber);
+        ActiveAbilityContext ability = GetAbility(abilityNumber);
         return UseAbility(ability, direction, offsetDistance);
     }
 
-    public AbilityUseEventInfo UseAbility(ActiveAbility ability, Vector2 direction, float offsetDistance)
+    public AbilityUseEventInfo UseAbility(ActiveAbilityContext ability, Vector2 direction, float offsetDistance)
     {
-        if (ability is OnUseAbility onUseAbility)
+        AbilityUseEventInfo abilityUseEventInfo = null;
+
+        if (ability.CurrentCooldown <= 0)
         {
-            return UseOnUseAbility(onUseAbility, direction, offsetDistance);
-        }
-        else if (ability is ComboAbility comboAbility)
-        {
-            return UseComboAbility(comboAbility, direction, offsetDistance);
+            if (ability.Ability is OnUseAbility onUseAbility)
+            {
+                abilityUseEventInfo = UseOnUseAbility(onUseAbility, direction, offsetDistance);
+            }
+            else if (ability.Ability is ComboAbility comboAbility)
+            {
+                abilityUseEventInfo = UseComboAbility(comboAbility, direction, offsetDistance);
+            }
         }
 
-        return null;
+        if (abilityUseEventInfo != null)
+        {
+            ability.CurrentCooldown = ability.Ability.Cooldown;
+        }
+
+        return abilityUseEventInfo;
     }
 
     /// <summary>
@@ -120,7 +146,7 @@ public class AbilityManager : MonoBehaviour
         List<UsableAbilityInfo> usableAbilities = new();
         for(int i = 0; i < abilities.Count; i++)
         {
-            ActiveAbility ability = abilities[i];
+            ActiveAbility ability = abilities[i].Ability;
             if (ability is OnUseAbility onUseAbility)
             {
                 UsableAbilityInfo usableAbilityInfo = new();
@@ -143,9 +169,9 @@ public class AbilityManager : MonoBehaviour
         return usableAbilities;
     }
 
-    private ActiveAbility GetAbility(int abilityNumber)
+    private ActiveAbilityContext GetAbility(int abilityNumber)
     {
-        ActiveAbility ability = null;
+        ActiveAbilityContext ability = null;
         if (abilityNumber < abilities.Count)
         {
             ability = abilities[abilityNumber];
