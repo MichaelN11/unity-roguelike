@@ -14,6 +14,7 @@ public class AbilityManager : MonoBehaviour
     public event Action<AbilityUseEventInfo> OnAbilityUse;
 
     private List<ActiveAbilityContext> abilities;
+    public List<ActiveAbilityContext> Abilities => abilities;
 
     private EntityData entityData;
     private EntityState entityState;
