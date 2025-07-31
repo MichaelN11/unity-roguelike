@@ -18,7 +18,21 @@ public class MainMenu : MonoBehaviour
     private GameObject optionsMenu;
 
     [SerializeField]
+    private GameObject quitButton;
+
+    [SerializeField]
     private Sound music;
+
+    private void Awake()
+    {
+        // WebGL does not need a quit button for playing in a web browser.
+#if UNITY_WEBGL && !UNITY_EDITOR
+        if (quitButton != null)
+        {
+            quitButton.SetActive(false);
+        }
+#endif
+    }
 
     private void Start()
     {
@@ -49,6 +63,6 @@ public class MainMenu : MonoBehaviour
 
     public void Quit()
     {
-        Application.Quit();
+        GameManager.Instance.QuitGame();
     }
 }

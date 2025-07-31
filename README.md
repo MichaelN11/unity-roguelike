@@ -12,6 +12,8 @@ https://opengameart.org/content/fantasy-gui-0
 https://opengameart.org/content/roguelikerpg-items
 xelu
 https://opengameart.org/content/free-keyboard-and-controllers-prompts-pack
+Icons made by Lorc. Available on 
+https://game-icons.net
 
 Libraries:
 https://github.com/BlueRaja/High-Speed-Priority-Queue-for-C-Sharp

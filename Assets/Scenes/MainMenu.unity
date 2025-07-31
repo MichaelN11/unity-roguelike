@@ -356,7 +356,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Game Name Here
+  m_text: Forgotten Woods
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: e73a58f6e2794ae7b1b7e50b7fb811b0, type: 2}
@@ -730,6 +730,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6069404172088919429, guid: a39955bdf5e604d2c8a4f37e3958a219, type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 11400000, guid: ed02114de662f4ecba0305c56aa8ac03, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1073,6 +1077,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8c1dd31ae94a24eeaad8f4cb688ff2a5, type: 3}
+--- !u!1 &1389365164 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6196553873204430824, guid: 8c1dd31ae94a24eeaad8f4cb688ff2a5, type: 3}
+  m_PrefabInstance: {fileID: 1157929519}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &1412019030 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5127279530648307873, guid: f0877e6b8c2964ab9abacfffb8973b93, type: 3}
@@ -1644,6 +1653,7 @@ MonoBehaviour:
   firstScene: Forest2x2
   mainMenu: {fileID: 19485324}
   optionsMenu: {fileID: 627855817}
+  quitButton: {fileID: 1389365164}
   music: {fileID: 11400000, guid: 9d5e08ffef12649cd9c0dd985ec1129f, type: 2}
 --- !u!224 &2088553140 stripped
 RectTransform:

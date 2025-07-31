@@ -12,6 +12,12 @@ public class DeathScreen : MonoBehaviour
     private GameObject deathScreen;
 
     [SerializeField]
+    private GameObject buttonsWithQuit;
+
+    [SerializeField]
+    private GameObject buttonsWithoutQuit;
+
+    [SerializeField]
     private float delay;
 
     [SerializeField]
@@ -21,6 +27,18 @@ public class DeathScreen : MonoBehaviour
     private TextMeshProUGUI deathText;
 
     private bool foundPlayer = false;
+
+    private void Awake()
+    {
+        // WebGL does not need a quit button for playing in a web browser.
+#if UNITY_WEBGL && !UNITY_EDITOR
+        if (buttonsWithQuit != null && buttonsWithoutQuit != null)
+        {
+            buttonsWithQuit.SetActive(false);
+            buttonsWithoutQuit.SetActive(true);
+        }
+#endif
+    }
 
     private void Update()
     {
