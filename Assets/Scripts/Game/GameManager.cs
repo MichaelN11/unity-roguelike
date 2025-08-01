@@ -57,12 +57,12 @@ public class GameManager : MonoBehaviour
     private IEnumerator LoadInitial()
     {
         yield return AddressableService.Load();
-        LoadTransition();
-        SceneManager.sceneLoaded += SceneLoaded;
         if (LevelManager.Instance != null)
         {
             LevelManager.Instance.Initialize();
+            LoadTransition();
         }
+        SceneManager.sceneLoaded += SceneLoaded;
     }
 
     /// <summary>
@@ -172,20 +172,23 @@ public class GameManager : MonoBehaviour
     /// <param name="test"></param>
     private void SceneLoaded(Scene scene, LoadSceneMode test)
     {
-        if (loadingSave)
-        {
-            EntityFactory.LoadPlayer(GameState.Player);
-            loadingSave = false;
-        }
-        else
-        {
-            LoadTransition();
-        }
         if (LevelManager.Instance != null)
         {
             LevelManager.Instance.Initialize();
+
+            if (loadingSave)
+            {
+                EntityFactory.LoadPlayer(GameState.Player);
+                loadingSave = false;
+            }
+            else
+            {
+                LoadTransition();
+            }
         }
     }
+
+
 
     /// <summary>
     /// Spawns the player at the correct transition object.
@@ -194,7 +197,7 @@ public class GameManager : MonoBehaviour
     {
         LevelTransition startTransition = null;
         bool playerSpawned = false;
-        LevelTransition[] levelTransitions = GameObject.FindObjectsOfType<LevelTransition>();
+        List<LevelTransition> levelTransitions = LevelManager.Instance.LevelTransitions;
         foreach (LevelTransition transition in levelTransitions)
         {
             if (!string.IsNullOrWhiteSpace(currentTransition) && transition.TransitionName == currentTransition)

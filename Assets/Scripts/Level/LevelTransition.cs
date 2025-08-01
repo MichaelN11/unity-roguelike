@@ -16,6 +16,10 @@ public class LevelTransition : MonoBehaviour
     public bool IsStart => isStart;
 
     [SerializeField]
+    private bool isEnd = false;
+    public bool IsEnd => isEnd;
+
+    [SerializeField]
     private string newScene;
 
     [SerializeField]
@@ -27,6 +31,10 @@ public class LevelTransition : MonoBehaviour
 
     [SerializeField]
     private Sound endSound;
+
+    [SerializeField]
+    private GameObject replacementObject;
+    public GameObject ReplacementObject => replacementObject;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {

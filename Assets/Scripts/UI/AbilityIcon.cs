@@ -30,7 +30,6 @@ public class AbilityIcon : MonoBehaviour
     private void UpdateCooldownImage()
     {
         ActiveAbilityContext ability = playerAbilityManager.Abilities[abilityNumber];
-        Debug.Log("ability: " + ability.Ability.name);
         if (ability.Ability.Cooldown > 0)
         {
             cooldownImage.fillAmount = ability.CurrentCooldown / ability.Ability.Cooldown;

@@ -20,6 +20,9 @@ public class LevelManager : MonoBehaviour
     private LevelBounds levelBounds;
     public LevelBounds LevelBounds => levelBounds;
 
+    private List<LevelTransition> levelTransitions = new();
+    public List<LevelTransition> LevelTransitions => levelTransitions;
+
     [SerializeField]
     private Level level;
 
@@ -32,9 +35,11 @@ public class LevelManager : MonoBehaviour
     private List<TileObjects> tileObjectsList;
     private SceneSave loadedScene;
     private bool sendInitializedEvent = false;
+    private LevelTransition startTransition;
 
     public void Initialize()
     {
+        RandomizeTransitions();
         string sceneName = SceneManager.GetActiveScene().name;
         loadedScene = GameManager.Instance.GameState.SavedScenes.GetScene(sceneName);
         List<LevelTile> unplacedTiles = GetComponentsInChildren<LevelTile>().ToList();
@@ -381,10 +386,9 @@ public class LevelManager : MonoBehaviour
     private bool IsTooCloseToPlayer(Transform transform)
     {
         bool isTooClose = false;
-        PlayerController playerController = PlayerController.Instance;
-        if (playerController != null)
+        if (startTransition != null)
         {
-            float distance = Vector2.Distance(playerController.transform.position, transform.position);
+            float distance = Vector2.Distance(startTransition.transform.position, transform.position);
             isTooClose = distance <= minimumSpawnDistanceFromPlayer;
         } else
         {
@@ -460,6 +464,68 @@ public class LevelManager : MonoBehaviour
         foreach (ObjectSave objectSave in sceneSave.SavedObjects.ObjectList)
         {
             ObjectFactory.LoadObject(objectSave);
+        }
+    }
+
+    private void RandomizeTransitions()
+    {
+        LevelTransition[] initialTransitions = GameObject.FindObjectsOfType<LevelTransition>();
+        List<LevelTransition> startTransitions = new();
+        List<LevelTransition> endTransitions = new();
+
+        foreach (LevelTransition transition in initialTransitions)
+        {
+            if (transition.IsStart)
+            {
+                startTransitions.Add(transition);
+            } else if (transition.IsEnd)
+            {
+                endTransitions.Add(transition);
+            } else
+            {
+                levelTransitions.Add(transition);
+            }
+        }
+
+        if (startTransitions.Count > 0)
+        {
+            int randomStartTransitionIndex = Random.Range(0, startTransitions.Count);
+            startTransition = startTransitions[randomStartTransitionIndex];
+            InitializeRandomTransition(startTransitions, randomStartTransitionIndex);
+        }
+
+        if (endTransitions.Count > 0)
+        {
+            int randomEndTransitionIndex = Random.Range(0, endTransitions.Count);
+            InitializeRandomTransition(endTransitions, randomEndTransitionIndex);
+        }
+        
+    }
+
+    private void InitializeRandomTransition(List<LevelTransition> levelTransitionList, int randomIndex)
+    {
+        for (int i = 0; i < levelTransitionList.Count; i++)
+        {
+            if (i == randomIndex)
+            {
+                levelTransitions.Add(levelTransitionList[i]);
+            }
+            else
+            {
+                ReplaceTransition(levelTransitionList[i]);
+            }
+        }
+    }
+
+    private void ReplaceTransition(LevelTransition levelTransition)
+    {
+        if (levelTransition.ReplacementObject != null)
+        {
+            Instantiate(levelTransition.ReplacementObject, levelTransition.transform.position, Quaternion.identity);
+            Destroy(levelTransition.gameObject);
+        } else
+        {
+            Debug.Log("Missing ReplacementObject on LevelTransition");
         }
     }
 }

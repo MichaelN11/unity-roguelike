@@ -6,7 +6,9 @@
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
 
 \f0\fs24 \cf0 soon:\
-Level entrance and exit can be more random\
+Level transitions should be centered in grid and more consistent (also add them to 2x3 and 3x3)\
+Load randomized level entrances and exits\
+Refactor GameManager to contain load methods from LevelManager. Loading could just all happen in GameManager first, and pass in a boolean to LevelManager to indicate that the level was loaded. No reference to GameManager in LevelManager.\
 \
 chest on ledge can be opened from bottom\
 face chest when opening it\
@@ -15,6 +17,7 @@ House should be more obvious that you can\'92t go in it. Or remove/replace it.\
 Boss health bar\
 Continue/load button greyed out if no save\
 Hide level while generating it\
+change keys for items to Q and R\
 \
 later:\
 does ability sometimes go on CD without triggering?\
@@ -58,6 +61,16 @@ enemies shake when hit\
 figure out sound effect attributions\
 save file shouldn\'92t bother writing enemy health?\
 camera track while dashing\
+\
+potential ideas:\
+passive abilities\
+\'93armor\'94 increases max health and changes your armor color\
+\'93weapon\'94 increases damage and changes your sword color\
+\'93new areas\'94 same tileset but recolored slightly (autumn or dark colors)\
+destructible objects with small chance for health or basic items (boxes, grass, pots, etc.)\
+possession ability\
+special hard enemies with random abilities\
+1 hit kill flying enemy\
 \
 far future:\
 Game name + basic logo\

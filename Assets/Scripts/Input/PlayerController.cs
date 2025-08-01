@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -123,10 +124,14 @@ public class PlayerController : MonoBehaviour
     /// <param name="ctx">The CallbackContext containing a Vector2 look position</param>
     public void OnLook(CallbackContext ctx)
     {
-        if (gameObject == null)
+        try
         {
-            return;
+            if (gameObject == null)
+            {
+                return;
+            }
         }
+        catch (Exception ignored) { return; }
 
         Vector2 inputScreenPosition = ctx.ReadValue<Vector2>();
         Vector2 inputWorldPosition = Camera.main.ScreenToWorldPoint(inputScreenPosition);
