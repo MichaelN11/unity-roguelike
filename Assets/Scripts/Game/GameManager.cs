@@ -315,14 +315,17 @@ public class GameManager : MonoBehaviour
     {
         foreach (LevelObject levelObject in FindObjectsOfType<LevelObject>())
         {
-            ObjectSave objectSave = new();
-            objectSave.Type = levelObject.type;
-            objectSave.Position = levelObject.transform.position;
-            if (levelObject.containedItem.Item != null && levelObject.containedItem.Amount > 0)
+            if (levelObject.type != null)
             {
-                objectSave.InventoryItem = SerializeInventoryItem(levelObject.containedItem);
+                ObjectSave objectSave = new();
+                objectSave.Type = levelObject.type;
+                objectSave.Position = levelObject.transform.position;
+                if (levelObject.containedItem.Item != null && levelObject.containedItem.Amount > 0)
+                {
+                    objectSave.InventoryItem = SerializeInventoryItem(levelObject.containedItem);
+                }
+                sceneSave.SavedObjects.ObjectList.Add(objectSave);
             }
-            sceneSave.SavedObjects.ObjectList.Add(objectSave);
         }
     }
 

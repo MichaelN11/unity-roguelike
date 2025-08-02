@@ -10,6 +10,11 @@ public class ObjectFactory
     public static GameObject CreateObject(string name, Vector2 position, Item containedItem = null, int itemAmount = 1)
     {
         GameObject objectPrefab = GameManager.Instance.AddressableService.RetrieveObject(name);
+        return CreateObject(objectPrefab, position, containedItem, itemAmount);
+    }
+
+    public static GameObject CreateObject(GameObject objectPrefab, Vector2 position, Item containedItem = null, int itemAmount = 1)
+    {
         GameObject newObject = Object.Instantiate(objectPrefab, position, Quaternion.identity);
 
         if (newObject != null && newObject.TryGetComponent<LevelObject>(out LevelObject levelObject))

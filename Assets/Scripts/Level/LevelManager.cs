@@ -39,12 +39,12 @@ public class LevelManager : MonoBehaviour
 
     public void Initialize()
     {
-        RandomizeTransitions();
         string sceneName = SceneManager.GetActiveScene().name;
         loadedScene = GameManager.Instance.GameState.SavedScenes.GetScene(sceneName);
         List<LevelTile> unplacedTiles = GetComponentsInChildren<LevelTile>().ToList();
         if (loadedScene == null)
         {
+            RandomizeTransitions();
             SpawnStaticObjects();
             tileObjectsList = BuildLevel(unplacedTiles);
         }
@@ -514,7 +514,7 @@ public class LevelManager : MonoBehaviour
     {
         if (levelTransition.ReplacementObject != null)
         {
-            Instantiate(levelTransition.ReplacementObject, levelTransition.transform.position, Quaternion.identity);
+            ObjectFactory.CreateObject(levelTransition.ReplacementObject, levelTransition.transform.position);
             Destroy(levelTransition.gameObject);
         } else
         {
