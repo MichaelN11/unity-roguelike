@@ -32,7 +32,7 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private float gameOverDelay;
 
-    private bool loadingSave = false;
+    private bool loadingSaveState = false;
     private string currentTransition;
     private string firstScene;
     private readonly JsonFileService jsonFileService = new();
@@ -67,11 +67,7 @@ public class GameManager : MonoBehaviour
     private IEnumerator LoadInitial()
     {
         yield return AddressableService.Load();
-        if (LevelManager.Instance != null)
-        {
-            LevelManager.Instance.Initialize();
-            LoadTransition();
-        }
+        SetupScene();
         SceneManager.sceneLoaded += SceneLoaded;
     }
 
@@ -140,7 +136,7 @@ public class GameManager : MonoBehaviour
         SaveObject savedGame = jsonFileService.ReadFromFile(Application.persistentDataPath + SaveFilePath);
         if (savedGame != null)
         {
-            loadingSave = true;
+            loadingSaveState = true;
             IsGameOver = false;
             GameState = savedGame;
             SceneManager.LoadScene(GameState.CurrentSceneName);
@@ -216,28 +212,42 @@ public class GameManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Called whenever a scene is loaded. When loading a save, the player is loaded at the
+    /// When loading a save state, the player is loaded at the
     /// saved position. Otherwise, the player is transitioning between scenes.
     /// </summary>
-    /// <param name="scene"></param>
-    /// <param name="test"></param>
-    private void SceneLoaded(Scene scene, LoadSceneMode test)
+    private void SetupScene()
     {
         foundPlayer = false;
         if (LevelManager.Instance != null)
         {
-            LevelManager.Instance.Initialize();
+            string sceneName = SceneManager.GetActiveScene().name;
+            SceneSave loadedScene = GameState.SavedScenes.GetScene(sceneName);
+            if (loadedScene != null)
+            {
+                LoadFromSave(loadedScene);
+            }
+            LevelManager.Instance.Initialize(loadedScene != null);
 
-            if (loadingSave)
+            if (loadingSaveState)
             {
                 EntityFactory.LoadPlayer(GameState.Player);
-                loadingSave = false;
+                loadingSaveState = false;
             }
             else
             {
                 LoadTransition();
             }
         }
+    }
+
+    /// <summary>
+    /// Called whenever a scene is loaded.
+    /// </summary>
+    /// <param name="scene"></param>
+    /// <param name="test"></param>
+    private void SceneLoaded(Scene scene, LoadSceneMode test)
+    {
+        SetupScene();
     }
 
     /// <summary>
@@ -404,6 +414,122 @@ public class GameManager : MonoBehaviour
             transitionSave.TransitionName = transition.transitionName;
             transitionSave.IsVisible = spriteRenderer.enabled;
             sceneSave.SavedTransitions.TransitionList.Add(transitionSave);
+        }
+    }
+
+    private void LoadFromSave(SceneSave sceneSave)
+    {
+        List<LevelTile> unplacedTiles = LevelManager.Instance.GetComponentsInChildren<LevelTile>().ToList();
+        LoadLevel(unplacedTiles, sceneSave);
+
+        // Sync the transforms to account for flipped tiles when building the pathing grid.
+        Physics2D.SyncTransforms();
+
+        LoadEntities(sceneSave);
+        LoadObjects(sceneSave);
+        LoadTransitions(sceneSave);
+    }
+
+    /// <summary>
+    /// Loads the level tiles from the saved scene.
+    /// </summary>
+    /// <param name="levelTiles"></param>
+    /// <param name="sceneSave"></param>
+    private void LoadLevel(List<LevelTile> levelTiles, SceneSave sceneSave)
+    {
+        foreach (LevelTile levelTile in levelTiles)
+        {
+            TileSave tileSave = sceneSave.SavedTiles.GetTile(levelTile.transform.position);
+            if (tileSave != null)
+            {
+                LoadTile(levelTile, tileSave);
+            }
+        }
+    }
+
+    /// <summary>
+    /// Loads the saved tile.
+    /// </summary>
+    /// <param name="levelTile"></param>
+    /// <param name="tileSave"></param>
+    private void LoadTile(LevelTile levelTile, TileSave tileSave)
+    {
+        GameObject loadedTile = null;
+        foreach (GameObject tile in LevelManager.Instance.Level.Tiles)
+        {
+            Debug.Log("Level tile: " + tile.name + " Saved tile: " + tileSave.Name);
+            if (tile.name == tileSave.Name)
+            {
+                loadedTile = tile;
+                break;
+            }
+        }
+        if (loadedTile != null)
+        {
+            TileObjects tileObjects;
+            if (tileSave.IsFlipped)
+            {
+                tileObjects = levelTile.PlaceMirrored(loadedTile, LevelManager.Instance.gameObject);
+            }
+            else
+            {
+                tileObjects = levelTile.Place(loadedTile, LevelManager.Instance.gameObject);
+            }
+            foreach (GameObject gameObject in tileObjects.ObjectList)
+            {
+                Destroy(gameObject);
+            }
+        }
+    }
+
+    /// <summary>
+    /// Loads the entities from the saved scene.
+    /// </summary>
+    /// <param name="sceneSave"></param>
+    private void LoadEntities(SceneSave sceneSave)
+    {
+        foreach (EntitySave entitySave in sceneSave.SavedEntities.EntityList)
+        {
+            EntityFactory.LoadEnemy(entitySave);
+        }
+    }
+
+    private void LoadObjects(SceneSave sceneSave)
+    {
+        foreach (ObjectSave objectSave in sceneSave.SavedObjects.ObjectList)
+        {
+            ObjectFactory.LoadObject(objectSave);
+        }
+    }
+
+    private void LoadTransitions(SceneSave sceneSave)
+    {
+        // Clear out all of the initial transitions in the scene before loading them.
+        LevelTransition[] initialTransitions = GameObject.FindObjectsOfType<LevelTransition>();
+        foreach (LevelTransition transition in initialTransitions)
+        {
+            Destroy(transition.gameObject);
+        }
+
+        GameObject transitionPrefab = ResourceManager.Instance.TransitionObject;
+        foreach (TransitionSave transitionSave in sceneSave.SavedTransitions.TransitionList)
+        {
+            GameObject transitionObject = Instantiate(transitionPrefab, transitionSave.Position,
+                Quaternion.Euler(0, 0, transitionSave.Rotation));
+            LevelTransition transition = transitionObject.GetComponent<LevelTransition>();
+            SpriteRenderer spriteRenderer = transitionObject.GetComponent<SpriteRenderer>();
+            transition.isStart = transitionSave.IsStart;
+            transition.isEnd = transitionSave.IsEnd;
+            transition.isWinCondition = transitionSave.IsWinCondition;
+            transition.newScene = transitionSave.NewScene;
+            transition.transitionName = transitionSave.TransitionName;
+            spriteRenderer.enabled = transitionSave.IsVisible;
+
+            LevelManager.Instance.LevelTransitions.Add(transition);
+            if (transition.isStart)
+            {
+                LevelManager.Instance.StartTransition = transition;
+            }
         }
     }
 }

@@ -17,6 +17,8 @@ public class LevelManager : MonoBehaviour
 
     public event System.Action OnLevelInitialized;
 
+    public LevelTransition StartTransition { get; set; }
+
     private LevelBounds levelBounds;
     public LevelBounds LevelBounds => levelBounds;
 
@@ -25,6 +27,7 @@ public class LevelManager : MonoBehaviour
 
     [SerializeField]
     private Level level;
+    public Level Level => level;
 
     [SerializeField]
     private float minimumSpawnDistanceFromPlayer = 8;
@@ -33,39 +36,25 @@ public class LevelManager : MonoBehaviour
     private bool spawnObjects = true;
 
     private List<TileObjects> tileObjectsList;
-    private SceneSave loadedScene;
     private bool sendInitializedEvent = false;
-    private LevelTransition startTransition;
 
-    public void Initialize()
+    public void Initialize(bool isLoadedFromSave)
     {
-        string sceneName = SceneManager.GetActiveScene().name;
-        loadedScene = GameManager.Instance.GameState.SavedScenes.GetScene(sceneName);
         List<LevelTile> unplacedTiles = GetComponentsInChildren<LevelTile>().ToList();
-        if (loadedScene == null)
+        if (!isLoadedFromSave)
         {
             RandomizeTransitions();
             SpawnStaticObjects();
             tileObjectsList = BuildLevel(unplacedTiles);
-        }
-        else
-        {
-            DestroyStaticSpawners();
-            LoadLevel(unplacedTiles, loadedScene);
-        }
 
-        // Sync the transforms to account for flipped tiles when building the pathing grid.
-        Physics2D.SyncTransforms();
+            // Sync the transforms to account for flipped tiles when building the pathing grid.
+            Physics2D.SyncTransforms();
 
-        if (loadedScene == null)
-        {
             SpawnObjects(tileObjectsList, level);
         }
         else
         {
-            LoadEntities(loadedScene);
-            LoadObjects(loadedScene);
-            LoadTransitions(loadedScene);
+            DestroyStaticSpawners();
         }
 
         if (levelBounds != null)
@@ -380,116 +369,15 @@ public class LevelManager : MonoBehaviour
     private bool IsTooCloseToPlayer(Transform transform)
     {
         bool isTooClose = false;
-        if (startTransition != null)
+        if (StartTransition != null)
         {
-            float distance = Vector2.Distance(startTransition.transform.position, transform.position);
+            float distance = Vector2.Distance(StartTransition.transform.position, transform.position);
             isTooClose = distance <= minimumSpawnDistanceFromPlayer;
         } else
         {
             Debug.Log("Player distance check in level generation not working");
         }
         return isTooClose;
-    }
-
-    /// <summary>
-    /// Loads the level tiles from the saved scene.
-    /// </summary>
-    /// <param name="levelTiles"></param>
-    /// <param name="sceneSave"></param>
-    private void LoadLevel(List<LevelTile> levelTiles, SceneSave sceneSave)
-    {
-        foreach (LevelTile levelTile in levelTiles)
-        {
-            TileSave tileSave = sceneSave.SavedTiles.GetTile(levelTile.transform.position);
-            if (tileSave != null)
-            {
-                LoadTile(levelTile, tileSave);
-            }
-        }
-    }
-
-    /// <summary>
-    /// Loads the saved tile.
-    /// </summary>
-    /// <param name="levelTile"></param>
-    /// <param name="tileSave"></param>
-    private void LoadTile(LevelTile levelTile, TileSave tileSave)
-    {
-        GameObject loadedTile = null;
-        foreach (GameObject tile in level.Tiles)
-        {
-            if (tile.name == tileSave.Name)
-            {
-                loadedTile = tile;
-            }
-        }
-        if (loadedTile != null)
-        {
-            TileObjects tileObjects;
-            if (tileSave.IsFlipped)
-            {
-                tileObjects = levelTile.PlaceMirrored(loadedTile, gameObject);
-            }
-            else
-            {
-                tileObjects = levelTile.Place(loadedTile, gameObject);
-            }
-            foreach (GameObject gameObject in tileObjects.ObjectList)
-            {
-                Destroy(gameObject);
-            }
-        }
-    }
-
-    /// <summary>
-    /// Loads the entities from the saved scene.
-    /// </summary>
-    /// <param name="sceneSave"></param>
-    private void LoadEntities(SceneSave sceneSave)
-    {
-        foreach (EntitySave entitySave in sceneSave.SavedEntities.EntityList)
-        {
-            EntityFactory.LoadEnemy(entitySave);
-        }
-    }
-
-    private void LoadObjects(SceneSave sceneSave)
-    {
-        foreach (ObjectSave objectSave in sceneSave.SavedObjects.ObjectList)
-        {
-            ObjectFactory.LoadObject(objectSave);
-        }
-    }
-
-    private void LoadTransitions(SceneSave sceneSave)
-    {
-        // Clear out all of the initial transitions in the scene before loading them.
-        LevelTransition[] initialTransitions = GameObject.FindObjectsOfType<LevelTransition>();
-        foreach(LevelTransition transition in initialTransitions)
-        {
-            Destroy(transition.gameObject);
-        }
-
-        GameObject transitionPrefab = ResourceManager.Instance.TransitionObject;
-        foreach(TransitionSave transitionSave in sceneSave.SavedTransitions.TransitionList)
-        {
-            GameObject transitionObject = Object.Instantiate(transitionPrefab, transitionSave.Position,
-                Quaternion.Euler(0, 0, transitionSave.Rotation));
-            LevelTransition transition = transitionObject.GetComponent<LevelTransition>();
-            SpriteRenderer spriteRenderer = transitionObject.GetComponent<SpriteRenderer>();
-            transition.isStart = transitionSave.IsStart;
-            transition.isEnd = transitionSave.IsEnd;
-            transition.isWinCondition = transitionSave.IsWinCondition;
-            transition.newScene = transitionSave.NewScene;
-            transition.transitionName = transitionSave.TransitionName;
-            spriteRenderer.enabled = transitionSave.IsVisible;
-
-            levelTransitions.Add(transition);
-            if (transition.isStart)
-            {
-                startTransition = transition;
-            }
-        }
     }
 
     private void RandomizeTransitions()
@@ -515,7 +403,7 @@ public class LevelManager : MonoBehaviour
         if (startTransitions.Count > 0)
         {
             int randomStartTransitionIndex = Random.Range(0, startTransitions.Count);
-            startTransition = startTransitions[randomStartTransitionIndex];
+            StartTransition = startTransitions[randomStartTransitionIndex];
             InitializeRandomTransition(startTransitions, randomStartTransitionIndex);
         }
 
