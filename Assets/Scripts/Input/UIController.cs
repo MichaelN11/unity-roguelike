@@ -7,7 +7,7 @@ using static UnityEngine.InputSystem.InputAction;
 /// </summary>
 public class UIController : MonoBehaviour
 {
-    private static UIController Instance { get; set; }
+    public static UIController Instance { get; private set; }
 
     [SerializeField]
     private GameObject pauseMenu;
@@ -17,6 +17,12 @@ public class UIController : MonoBehaviour
 
     [SerializeField]
     private string mainMenuSceneName = "MainMenu";
+
+    [SerializeField]
+    private GameObject winText;
+
+    [SerializeField]
+    private DeathScreen deathScreen;
 
     private PlayerInputActions inputActions;
 
@@ -111,6 +117,16 @@ public class UIController : MonoBehaviour
     public void Quit()
     {
         GameManager.Instance.QuitGame();
+    }
+
+    public void DisplayWinScreen()
+    {
+        winText.SetActive(true);
+    }
+
+    public void DisplayDeathScreen(DeathContext deathContext)
+    {
+        deathScreen.Display(deathContext);
     }
 
     /// <summary>

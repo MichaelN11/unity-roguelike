@@ -12573,15 +12573,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9055336699650849601, guid: 7f056915ab1e34c50ba846b6c1d8dd7e, type: 3}
       propertyPath: m_SortingLayer
-      value: 0
+      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 9055336699650849601, guid: 7f056915ab1e34c50ba846b6c1d8dd7e, type: 3}
       propertyPath: m_SortingOrder
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9055336699650849601, guid: 7f056915ab1e34c50ba846b6c1d8dd7e, type: 3}
       propertyPath: m_SortingLayerID
-      value: 0
+      value: -764536867
       objectReference: {fileID: 0}
     - target: {fileID: 9055336699650849603, guid: 7f056915ab1e34c50ba846b6c1d8dd7e, type: 3}
       propertyPath: isEnd
@@ -12595,6 +12595,10 @@ PrefabInstance:
       propertyPath: endSound
       value: 
       objectReference: {fileID: 11400000, guid: db04adf4e3b5e4bd3b3ec2c6e8f1d7e8, type: 2}
+    - target: {fileID: 9055336699650849603, guid: 7f056915ab1e34c50ba846b6c1d8dd7e, type: 3}
+      propertyPath: isWinCondition
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 9055336699650849604, guid: 7f056915ab1e34c50ba846b6c1d8dd7e, type: 3}
       propertyPath: m_Name
       value: LevelTransition
@@ -13689,6 +13693,10 @@ PrefabInstance:
       propertyPath: m_RootOrder
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 2179634377803655498, guid: b0e329376af984326b0acfb103634847, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3094453636813636479, guid: b0e329376af984326b0acfb103634847, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -13745,6 +13753,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: UICanvas
       objectReference: {fileID: 0}
+    - target: {fileID: 7847272159481290158, guid: b0e329376af984326b0acfb103634847, type: 3}
+      propertyPath: winText
+      value: 
+      objectReference: {fileID: 1286773323}
+    - target: {fileID: 7847272159481290158, guid: b0e329376af984326b0acfb103634847, type: 3}
+      propertyPath: deathScreen
+      value: 
+      objectReference: {fileID: 7847272158975647160}
     - target: {fileID: 7847272159481290159, guid: b0e329376af984326b0acfb103634847, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -13867,6 +13883,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b0e329376af984326b0acfb103634847, type: 3}
+--- !u!114 &7847272158975647160 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3418815045527111495, guid: b0e329376af984326b0acfb103634847, type: 3}
+  m_PrefabInstance: {fileID: 7847272158975647159}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2aeab6b5180a419fa0deeea2a909c2d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

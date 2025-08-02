@@ -1433,6 +1433,8 @@ MonoBehaviour:
   pauseMenu: {fileID: 7847272159869373115}
   optionsMenu: {fileID: 8602847281606352814}
   mainMenuSceneName: MainMenu
+  winText: {fileID: 3947688980738362270}
+  deathScreen: {fileID: 3418815045527111495}
 --- !u!114 &3418815045527111495
 MonoBehaviour:
   m_ObjectHideFlags: 0

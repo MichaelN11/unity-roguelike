@@ -311,7 +311,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   flashMaterial: {fileID: 2100000, guid: 90f5c2c8ed79f430fa00ac67dc9db345, type: 2}
   itemPickupObject: {fileID: 8660262589538942971, guid: 667e8d443bdb7427992cd6482148a67a, type: 3}
-  chestObject: {fileID: 6530207953893687806, guid: 072fa735f3bf24b5385ed726786c1e41, type: 3}
 --- !u!1 &6069404172088919450
 GameObject:
   m_ObjectHideFlags: 0
@@ -357,3 +356,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 11400000, guid: ed02114de662f4ecba0305c56aa8ac03, type: 2}
+  winSound: {fileID: 11400000, guid: db04adf4e3b5e4bd3b3ec2c6e8f1d7e8, type: 2}
+  gameOverSound: {fileID: 11400000, guid: cdf8d3373ddf74c6db59d59bf4b4c480, type: 2}
+  gameOverDelay: 1

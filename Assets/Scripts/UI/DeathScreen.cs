@@ -18,15 +18,7 @@ public class DeathScreen : MonoBehaviour
     private GameObject buttonsWithoutQuit;
 
     [SerializeField]
-    private float delay;
-
-    [SerializeField]
-    private Sound deathSound;
-
-    [SerializeField]
     private TextMeshProUGUI deathText;
-
-    private bool foundPlayer = false;
 
     private void Awake()
     {
@@ -40,33 +32,12 @@ public class DeathScreen : MonoBehaviour
 #endif
     }
 
-    private void Update()
+    public void Display(DeathContext deathContext)
     {
-        if (!foundPlayer && PlayerController.Instance != null)
-        {
-            EntityState playerState = PlayerController.Instance.GetComponent<EntityState>();
-            if (playerState != null)
-            {
-                playerState.OnDeath += OnPlayerDeath;
-            }
-            foundPlayer = true;
-        }
-    }
-
-    private void OnPlayerDeath(DeathContext deathContext)
-    {
-        Invoke(nameof(Display), delay);
-
         if (deathContext != null)
         {
             deathText.text = DetermineDeathText(deathContext);
         }
-    }
-
-    private void Display()
-    {
-        GameManager.Instance.EndGame();
-        AudioManager.Instance.Play(deathSound);
         deathScreen.SetActive(true);
     }
 

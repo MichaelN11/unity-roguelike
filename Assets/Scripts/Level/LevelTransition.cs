@@ -20,17 +20,15 @@ public class LevelTransition : MonoBehaviour
     public bool IsEnd => isEnd;
 
     [SerializeField]
+    private bool isWinCondition = false;
+    public bool IsWinCondition => isWinCondition;
+
+    [SerializeField]
     private string newScene;
 
     [SerializeField]
     private string transitionName;
     public string TransitionName => transitionName;
-
-    [SerializeField]
-    private GameObject endText;
-
-    [SerializeField]
-    private Sound endSound;
 
     [SerializeField]
     private GameObject replacementObject;
@@ -44,14 +42,9 @@ public class LevelTransition : MonoBehaviour
             {
                 GameManager.Instance.TransitionScene(newScene, transitionName);
             }
-            if (endText != null)
+            if (isWinCondition)
             {
-                if (endSound != null)
-                {
-                    AudioManager.Instance.Play(endSound);
-                }
-                endText.SetActive(true);
-                GameManager.Instance.EndGame();
+                GameManager.Instance.WinGame();
             }
         }
     }

@@ -23,10 +23,20 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private Entity player;
 
+    [SerializeField]
+    private Sound winSound;
+
+    [SerializeField]
+    private Sound gameOverSound;
+
+    [SerializeField]
+    private float gameOverDelay;
+
     private bool loadingSave = false;
     private string currentTransition;
     private string firstScene;
     private readonly JsonFileService jsonFileService = new();
+    private bool foundPlayer = false;
 
     private void Awake()
     {
@@ -63,6 +73,24 @@ public class GameManager : MonoBehaviour
             LoadTransition();
         }
         SceneManager.sceneLoaded += SceneLoaded;
+    }
+
+    private void Update()
+    {
+        if (!foundPlayer && PlayerController.Instance != null)
+        {
+            EntityState playerState = PlayerController.Instance.GetComponent<EntityState>();
+            if (playerState != null)
+            {
+                playerState.OnDeath += OnPlayerDeath;
+            }
+            foundPlayer = true;
+        }
+    }
+
+    public void OnPlayerDeath(DeathContext deathContext)
+    {
+        StartCoroutine(GameOverDelayedCoroutine(deathContext));
     }
 
     /// <summary>
@@ -140,10 +168,14 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void EndGame()
+    public void WinGame()
     {
-        IsGameOver = true;
-        PauseGame();
+        if (winSound != null)
+        {
+            AudioManager.Instance.Play(winSound);
+        }
+        UIController.Instance.DisplayWinScreen();
+        EndGame();
     }
 
     /// <summary>
@@ -164,6 +196,25 @@ public class GameManager : MonoBehaviour
 #endif
     }
 
+    private void EndGame()
+    {
+        IsGameOver = true;
+        PauseGame();
+    }
+
+    private IEnumerator GameOverDelayedCoroutine(DeathContext deathContext)
+    {
+        yield return new WaitForSeconds(gameOverDelay);
+        GameOver(deathContext);
+    }
+
+    private void GameOver(DeathContext deathContext)
+    {
+        EndGame();
+        AudioManager.Instance.Play(gameOverSound);
+        UIController.Instance.DisplayDeathScreen(deathContext);
+    }
+
     /// <summary>
     /// Called whenever a scene is loaded. When loading a save, the player is loaded at the
     /// saved position. Otherwise, the player is transitioning between scenes.
@@ -172,6 +223,7 @@ public class GameManager : MonoBehaviour
     /// <param name="test"></param>
     private void SceneLoaded(Scene scene, LoadSceneMode test)
     {
+        foundPlayer = false;
         if (LevelManager.Instance != null)
         {
             LevelManager.Instance.Initialize();
@@ -187,8 +239,6 @@ public class GameManager : MonoBehaviour
             }
         }
     }
-
-
 
     /// <summary>
     /// Spawns the player at the correct transition object.
