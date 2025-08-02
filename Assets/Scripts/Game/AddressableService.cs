@@ -11,9 +11,11 @@ public class AddressableService
 {
     private const string EntitiesLabel = "entities";
     private const string ItemsLabel = "items";
+    private const string ObjectLabel = "objects";
 
     private readonly Dictionary<string, Entity> loadedEntities = new();
     private readonly Dictionary<string, Item> loadedItems = new();
+    private readonly Dictionary<string, GameObject> loadedObjects = new();
 
     public Entity RetrieveEntity(string name)
     {
@@ -25,10 +27,16 @@ public class AddressableService
         return loadedItems.GetValueOrDefault(name, null);
     }
 
+    public GameObject RetrieveObject(string name)
+    {
+        return loadedObjects.GetValueOrDefault(name, null);
+    }
+
     public IEnumerator Load()
     {
         yield return LoadEntities();
         yield return LoadItems();
+        yield return LoadObjects();
     }
 
     private IEnumerator LoadEntities()
@@ -50,6 +58,17 @@ public class AddressableService
         foreach (Item item in asyncLoad.Result)
         {
             loadedItems.Add(item.name, item);
+        }
+    }
+
+    private IEnumerator LoadObjects()
+    {
+        AsyncOperationHandle<IList<GameObject>> asyncLoad =
+            Addressables.LoadAssetsAsync<GameObject>(ObjectLabel, null);
+        yield return asyncLoad;
+        foreach (GameObject gameObject in asyncLoad.Result)
+        {
+            loadedObjects.Add(gameObject.name, gameObject);
         }
     }
 }

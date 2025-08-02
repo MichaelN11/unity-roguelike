@@ -295,21 +295,14 @@ public class LevelManager : MonoBehaviour
     {
         int randomChest = Random.Range(0, chestSpawners.Count);
         ChestSpawner chestSpawner = chestSpawners[randomChest];
-        GameObject newObject = Instantiate(ResourceManager.Instance.ChestObject, chestSpawner.transform.position, Quaternion.identity);
-        if (newObject.TryGetComponent<Chest>(out Chest chest))
+        ItemDrop randomItemDrop = ItemDropUtil.GetRandomItemDrop(level.ChestDropTable);
+        if (randomItemDrop != null)
         {
-            ItemDrop randomItemDrop = ItemDropUtil.GetRandomItemDrop(level.ChestDropTable);
-            if (randomItemDrop != null)
-            {
-                chest.containedItem.Item = randomItemDrop.Item;
-                chest.containedItem.Amount = randomItemDrop.Amount;
-            } else
-            {
-                Debug.Log("Error: Empty chest drop table.");
-            }
-        } else
+            ObjectFactory.CreateChest(chestSpawner.transform.position, randomItemDrop);
+        }
+        else
         {
-            Debug.Log("ResourceManager chest object has no chest component");
+            Debug.Log("Error: Empty chest drop table.");
         }
     }
 

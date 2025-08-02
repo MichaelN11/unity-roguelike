@@ -131,7 +131,7 @@ public class PlayerController : MonoBehaviour
                 return;
             }
         }
-        catch (Exception ignored) { return; }
+        catch (Exception) { return; }
 
         Vector2 inputScreenPosition = ctx.ReadValue<Vector2>();
         Vector2 inputWorldPosition = Camera.main.ScreenToWorldPoint(inputScreenPosition);

@@ -17,10 +17,6 @@ public class ResourceManager : MonoBehaviour
     private GameObject itemPickupObject;
     public GameObject ItemPickupObject => itemPickupObject;
 
-    [SerializeField]
-    private GameObject chestObject;
-    public GameObject ChestObject => chestObject;
-
     private void Awake()
     {
         if (Instance != null && Instance != this)
