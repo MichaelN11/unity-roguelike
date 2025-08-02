@@ -9,8 +9,6 @@ public class Chest : MonoBehaviour, IInteractable
 {
     private const float FloatingTextXOffset = -0.1f;
 
-    public InventoryItem containedItem = new();
-
     [SerializeField]
     private GameObject itemFloatingText;
     [SerializeField]
@@ -22,10 +20,20 @@ public class Chest : MonoBehaviour, IInteractable
     public bool Opened => opened;
 
     private Animator animator;
+    private LevelObject levelObject;
 
     private void Awake()
     {
         animator = GetComponent<Animator>();
+        levelObject = GetComponent<LevelObject>();
+    }
+
+    private void Start()
+    {
+        if (levelObject == null || levelObject.containedItem.Item == null || levelObject.containedItem.Amount <= 0)
+        {
+            SetToOpen();
+        }
     }
 
     public bool Interact(InteractableUser interactableUser)
@@ -44,12 +52,14 @@ public class Chest : MonoBehaviour, IInteractable
             animator.SetTrigger("open");
         }
 
-        if (containedItem.Item != null && containedItem.Amount > 0)
+        if (levelObject != null && levelObject.containedItem.Item != null && levelObject.containedItem.Amount > 0)
         {
-            interactableUser.Inventory.AddItem(containedItem);
+            interactableUser.Inventory.AddItem(levelObject.containedItem);
             Vector2 position = new(transform.position.x + FloatingTextXOffset, transform.position.y);
             GameObject floatingText = Instantiate(itemFloatingText, position, Quaternion.identity);
-            floatingText.GetComponent<ItemFloatingText>().Init(containedItem);
+            floatingText.GetComponent<ItemFloatingText>().Init(levelObject.containedItem);
+            levelObject.containedItem.Item = null;
+            levelObject.containedItem.Amount = 0;
         }
 
         opened = true;
@@ -57,17 +67,17 @@ public class Chest : MonoBehaviour, IInteractable
         return true;
     }
 
-    public void SetToOpen()
+    public bool IsAbleToInteract(InteractableUser interactableUser)
+    {
+        return !opened;
+    }
+
+    private void SetToOpen()
     {
         if (animator != null)
         {
             animator.SetTrigger("openImmediate");
         }
         opened = true;
-    }
-
-    public bool IsAbleToInteract(InteractableUser interactableUser)
-    {
-        return !opened;
     }
 }

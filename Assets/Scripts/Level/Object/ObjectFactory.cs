@@ -7,45 +7,37 @@ using UnityEngine;
 /// </summary>
 public class ObjectFactory
 {
-    public const string ChestType = "Chest";
-
-    public static GameObject CreateObject(string name, Vector2 position)
+    public static GameObject CreateObject(string name, Vector2 position, Item containedItem = null, int itemAmount = 1)
     {
         GameObject objectPrefab = GameManager.Instance.AddressableService.RetrieveObject(name);
-        return Object.Instantiate(objectPrefab, position, Quaternion.identity);
-    }
+        GameObject newObject = Object.Instantiate(objectPrefab, position, Quaternion.identity);
 
-    public static Chest CreateChest(Vector2 position, ItemDrop itemDrop)
-    {
-        GameObject newObject = CreateObject("Chest", position);
-        if (newObject != null && newObject.TryGetComponent<Chest>(out Chest chest))
+        if (newObject != null && newObject.TryGetComponent<LevelObject>(out LevelObject levelObject))
         {
-            chest.containedItem.Item = itemDrop.Item;
-            chest.containedItem.Amount = itemDrop.Amount;
-            return chest;
+            levelObject.type = objectPrefab.name;
+            if (containedItem != null && itemAmount > 0)
+            {
+                levelObject.containedItem.Item = containedItem;
+                levelObject.containedItem.Amount = itemAmount;
+            }
         }
         else
         {
-            Debug.Log("Addressable chest object is null or does not have Chest component.");
-            return null;
+            Debug.Log("Addressable level object is null or does not have LevelObject component.");
         }
+        return newObject;
     }
 
     public static void LoadObject(ObjectSave objectSave)
     {
-        GameObject newObject = CreateObject(objectSave.Type, objectSave.Position);
-
-        if (objectSave.Type == ChestType)
+        if (objectSave.InventoryItem != null)
         {
-            Chest chest = newObject.GetComponent<Chest>();
-            if (objectSave.InventoryItem != null)
-            {
-                chest.containedItem.Item = GameManager.Instance.AddressableService.RetrieveItem(objectSave.InventoryItem.Name);
-                chest.containedItem.Amount = objectSave.InventoryItem.Amount;
-            } else
-            {
-                chest.SetToOpen();
-            }
+            Item containedItem = GameManager.Instance.AddressableService.RetrieveItem(objectSave.InventoryItem.Name);
+            int itemAmount = objectSave.InventoryItem.Amount;
+            CreateObject(objectSave.Type, objectSave.Position, containedItem, itemAmount);
+        } else
+        {
+            CreateObject(objectSave.Type, objectSave.Position);
         }
     }
 }

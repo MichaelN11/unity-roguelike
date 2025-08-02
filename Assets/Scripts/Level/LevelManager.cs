@@ -298,7 +298,7 @@ public class LevelManager : MonoBehaviour
         ItemDrop randomItemDrop = ItemDropUtil.GetRandomItemDrop(level.ChestDropTable);
         if (randomItemDrop != null)
         {
-            ObjectFactory.CreateChest(chestSpawner.transform.position, randomItemDrop);
+            ObjectFactory.CreateObject("Chest", chestSpawner.transform.position, randomItemDrop.Item, randomItemDrop.Amount);
         }
         else
         {

@@ -313,16 +313,16 @@ public class GameManager : MonoBehaviour
 
     private void SaveObjects(SceneSave sceneSave)
     {
-        foreach (Chest chest in FindObjectsOfType<Chest>())
+        foreach (LevelObject levelObject in FindObjectsOfType<LevelObject>())
         {
-            ObjectSave chestSave = new();
-            chestSave.Type = ObjectFactory.ChestType;
-            chestSave.Position = chest.transform.position;
-            if (!chest.Opened && chest.containedItem != null)
+            ObjectSave objectSave = new();
+            objectSave.Type = levelObject.type;
+            objectSave.Position = levelObject.transform.position;
+            if (levelObject.containedItem.Item != null && levelObject.containedItem.Amount > 0)
             {
-                chestSave.InventoryItem = SerializeInventoryItem(chest.containedItem);
+                objectSave.InventoryItem = SerializeInventoryItem(levelObject.containedItem);
             }
-            sceneSave.SavedObjects.ObjectList.Add(chestSave);
+            sceneSave.SavedObjects.ObjectList.Add(objectSave);
         }
     }
 

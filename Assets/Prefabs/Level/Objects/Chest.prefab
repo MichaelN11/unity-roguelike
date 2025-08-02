@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 1993332836510394097}
   - component: {fileID: 792371743741067389}
   - component: {fileID: 5603869043717741266}
+  - component: {fileID: -5764383452003572476}
   m_Layer: 3
   m_Name: Chest
   m_TagString: Interactable
@@ -171,3 +172,19 @@ MonoBehaviour:
   itemFloatingText: {fileID: 8660262589538942971, guid: 27fabbd830ab94b1db2b94dd7a11ce26, type: 3}
   sound: {fileID: 11400000, guid: 5169613db6d3d483fa057cefa6dea1b9, type: 2}
   interactionTime: 1
+--- !u!114 &-5764383452003572476
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6530207953893687806}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c199a98eb28df4eb8bf522c57f58b125, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  type: 
+  containedItem:
+    Item: {fileID: 0}
+    Amount: 0
