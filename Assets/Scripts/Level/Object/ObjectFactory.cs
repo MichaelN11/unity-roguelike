@@ -19,7 +19,7 @@ public class ObjectFactory
 
         if (newObject != null && newObject.TryGetComponent<LevelObject>(out LevelObject levelObject))
         {
-            levelObject.type = objectPrefab.name;
+            levelObject.Type = objectPrefab.name;
             if (containedItem != null && itemAmount > 0)
             {
                 levelObject.containedItem.Item = containedItem;

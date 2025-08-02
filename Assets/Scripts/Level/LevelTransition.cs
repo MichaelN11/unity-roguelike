@@ -12,23 +12,19 @@ public class LevelTransition : MonoBehaviour
     public bool TransitionEnabled { get; set; } = true;
 
     [SerializeField]
-    private bool isStart = false;
-    public bool IsStart => isStart;
+    public bool isStart = false;
 
     [SerializeField]
-    private bool isEnd = false;
-    public bool IsEnd => isEnd;
+    public bool isEnd = false;
 
     [SerializeField]
-    private bool isWinCondition = false;
-    public bool IsWinCondition => isWinCondition;
+    public bool isWinCondition = false;
 
     [SerializeField]
-    private string newScene;
+    public string newScene;
 
     [SerializeField]
-    private string transitionName;
-    public string TransitionName => transitionName;
+    public string transitionName;
 
     [SerializeField]
     private GameObject replacementObject;

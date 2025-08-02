@@ -250,13 +250,13 @@ public class GameManager : MonoBehaviour
         List<LevelTransition> levelTransitions = LevelManager.Instance.LevelTransitions;
         foreach (LevelTransition transition in levelTransitions)
         {
-            if (!string.IsNullOrWhiteSpace(currentTransition) && transition.TransitionName == currentTransition)
+            if (!string.IsNullOrWhiteSpace(currentTransition) && transition.transitionName == currentTransition)
             {
                 SpawnPlayer(transition);
                 playerSpawned = true;
                 break;
             }
-            if (transition.IsStart)
+            if (transition.isStart)
             {
                 startTransition = transition;
             }
@@ -300,6 +300,7 @@ public class GameManager : MonoBehaviour
         SaveTiles(sceneSave);
         SaveEntities(sceneSave);
         SaveObjects(sceneSave);
+        SaveTransitions(sceneSave);
     }
 
     /// <summary>
@@ -365,10 +366,10 @@ public class GameManager : MonoBehaviour
     {
         foreach (LevelObject levelObject in FindObjectsOfType<LevelObject>())
         {
-            if (levelObject.type != null)
+            if (levelObject.Type != null)
             {
                 ObjectSave objectSave = new();
-                objectSave.Type = levelObject.type;
+                objectSave.Type = levelObject.Type;
                 objectSave.Position = levelObject.transform.position;
                 if (levelObject.containedItem.Item != null && levelObject.containedItem.Amount > 0)
                 {
@@ -386,5 +387,23 @@ public class GameManager : MonoBehaviour
             Name = inventoryItem.Item.name,
             Amount = inventoryItem.Amount
         };
+    }
+
+    private void SaveTransitions(SceneSave sceneSave)
+    {
+        foreach (LevelTransition transition in FindObjectsOfType<LevelTransition>())
+        {
+            SpriteRenderer spriteRenderer = transition.GetComponent<SpriteRenderer>();
+            TransitionSave transitionSave = new();
+            transitionSave.Position = transition.transform.position;
+            transitionSave.Rotation = transition.transform.rotation.eulerAngles.z;
+            transitionSave.IsStart = transition.isStart;
+            transitionSave.IsEnd = transition.isEnd;
+            transitionSave.IsWinCondition = transition.isWinCondition;
+            transitionSave.NewScene = transition.newScene;
+            transitionSave.TransitionName = transition.transitionName;
+            transitionSave.IsVisible = spriteRenderer.enabled;
+            sceneSave.SavedTransitions.TransitionList.Add(transitionSave);
+        }
     }
 }

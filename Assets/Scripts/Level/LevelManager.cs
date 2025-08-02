@@ -65,6 +65,7 @@ public class LevelManager : MonoBehaviour
         {
             LoadEntities(loadedScene);
             LoadObjects(loadedScene);
+            LoadTransitions(loadedScene);
         }
 
         if (levelBounds != null)
@@ -371,11 +372,11 @@ public class LevelManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Determines if the passed transform object is too close to the player. This is to prevent enemies from
+    /// Determines if the passed transform object is too close to the start transition. This is to prevent enemies from
     /// spawning next to the player.
     /// </summary>
     /// <param name="transform"></param>
-    /// <returns>true if the passed transform is too lose to the player's position</returns>
+    /// <returns>true if the passed transform is too lose to the start transition position</returns>
     private bool IsTooCloseToPlayer(Transform transform)
     {
         bool isTooClose = false;
@@ -460,6 +461,37 @@ public class LevelManager : MonoBehaviour
         }
     }
 
+    private void LoadTransitions(SceneSave sceneSave)
+    {
+        // Clear out all of the initial transitions in the scene before loading them.
+        LevelTransition[] initialTransitions = GameObject.FindObjectsOfType<LevelTransition>();
+        foreach(LevelTransition transition in initialTransitions)
+        {
+            Destroy(transition.gameObject);
+        }
+
+        GameObject transitionPrefab = ResourceManager.Instance.TransitionObject;
+        foreach(TransitionSave transitionSave in sceneSave.SavedTransitions.TransitionList)
+        {
+            GameObject transitionObject = Object.Instantiate(transitionPrefab, transitionSave.Position,
+                Quaternion.Euler(0, 0, transitionSave.Rotation));
+            LevelTransition transition = transitionObject.GetComponent<LevelTransition>();
+            SpriteRenderer spriteRenderer = transitionObject.GetComponent<SpriteRenderer>();
+            transition.isStart = transitionSave.IsStart;
+            transition.isEnd = transitionSave.IsEnd;
+            transition.isWinCondition = transitionSave.IsWinCondition;
+            transition.newScene = transitionSave.NewScene;
+            transition.transitionName = transitionSave.TransitionName;
+            spriteRenderer.enabled = transitionSave.IsVisible;
+
+            levelTransitions.Add(transition);
+            if (transition.isStart)
+            {
+                startTransition = transition;
+            }
+        }
+    }
+
     private void RandomizeTransitions()
     {
         LevelTransition[] initialTransitions = GameObject.FindObjectsOfType<LevelTransition>();
@@ -468,10 +500,10 @@ public class LevelManager : MonoBehaviour
 
         foreach (LevelTransition transition in initialTransitions)
         {
-            if (transition.IsStart)
+            if (transition.isStart)
             {
                 startTransitions.Add(transition);
-            } else if (transition.IsEnd)
+            } else if (transition.isEnd)
             {
                 endTransitions.Add(transition);
             } else

@@ -6,6 +6,6 @@ using System.Collections;
 /// </summary>
 public class LevelObject : MonoBehaviour
 {
-    public string type { get; set; }
+    public string Type { get; set; }
     public InventoryItem containedItem = new();
 }

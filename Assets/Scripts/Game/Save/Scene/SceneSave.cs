@@ -13,4 +13,5 @@ public class SceneSave
     public SavedTiles SavedTiles { get; set; } = new();
     public SavedEntities SavedEntities { get; set; } = new();
     public SavedObjects SavedObjects { get; set; } = new();
+    public SavedTransitions SavedTransitions { get; set; } = new();
 }
