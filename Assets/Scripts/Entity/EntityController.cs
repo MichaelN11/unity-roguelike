@@ -211,23 +211,23 @@ public class EntityController : MonoBehaviour
         float minDistance = float.PositiveInfinity;
         foreach (Collider2D collider in nearbyObjects)
         {
-            if (collider.CompareTag("Interactable"))
+            if (collider.CompareTag("Interactable") && IsColliderInLineOfSight(collider))
             {
                 float distance = Vector2.Distance(collider.transform.position, transform.position);
                 if (distance < minDistance)
                 {
-                    minDistance = distance;
-
                     if (currentInteractableObject != collider.gameObject)
                     {
                         IInteractable interactable = collider.gameObject.GetComponent<IInteractable>();
                         if (interactable.IsAbleToInteract(GetInteractableUser())) {
+                            minDistance = distance;
                             currentInteractableObject = collider.gameObject;
                             currentInteractable = interactable;
                             foundInteractable = true;
                         }
                     } else
                     {
+                        minDistance = distance;
                         foundInteractable = true;
                     }
                 }
@@ -249,5 +249,12 @@ public class EntityController : MonoBehaviour
             EntityState = entityState,
             Movement = movement
         };
+    }
+
+    private bool IsColliderInLineOfSight(Collider2D other)
+    {
+        RaycastHit2D hit = Physics2D.Linecast(transform.position, other.transform.position, LayerUtil.GetWallLayerMask());
+        // If the ray hits nothing or hits the object itself first, it's visible
+        return (!hit || hit.collider == other);
     }
 }
