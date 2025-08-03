@@ -9,13 +9,13 @@ public class AudioManager : MonoBehaviour
 {
     public static AudioManager Instance { get; private set; }
 
-    private float masterVolume = 1;
+    private float masterVolume = 0.5f;
     public float MasterVolume => masterVolume;
 
-    private float musicVolume = 1;
+    private float musicVolume = 0.5f;
     public float MusicVolume => musicVolume;
 
-    private float sfxVolume = 1;
+    private float sfxVolume = 0.5f;
     public float SfxVolume => sfxVolume;
 
     private readonly Dictionary<string, AudioSource> soundMap = new();

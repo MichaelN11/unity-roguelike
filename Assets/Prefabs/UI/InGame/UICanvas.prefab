@@ -1450,8 +1450,6 @@ MonoBehaviour:
   deathScreen: {fileID: 2179634377803655498}
   buttonsWithQuit: {fileID: 3095558563836579470}
   buttonsWithoutQuit: {fileID: 1826973528065130884}
-  delay: 1
-  deathSound: {fileID: 11400000, guid: cdf8d3373ddf74c6db59d59bf4b4c480, type: 2}
   deathText: {fileID: 5934720330216612289}
 --- !u!1 &7847272159869373115
 GameObject:
@@ -1918,6 +1916,10 @@ PrefabInstance:
     - target: {fileID: 5127279530524240109, guid: db566ea802d0341f9aae79020ff0b465, type: 3}
       propertyPath: m_AnchorMin.x
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5127279530648307873, guid: db566ea802d0341f9aae79020ff0b465, type: 3}
+      propertyPath: m_Value
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 5127279530648307873, guid: db566ea802d0341f9aae79020ff0b465, type: 3}
       propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.size
@@ -2559,6 +2561,10 @@ PrefabInstance:
     - target: {fileID: 5127279530524240109, guid: db566ea802d0341f9aae79020ff0b465, type: 3}
       propertyPath: m_AnchorMin.x
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5127279530648307873, guid: db566ea802d0341f9aae79020ff0b465, type: 3}
+      propertyPath: m_Value
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 5127279530648307873, guid: db566ea802d0341f9aae79020ff0b465, type: 3}
       propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.size
@@ -3913,6 +3919,10 @@ PrefabInstance:
     - target: {fileID: 5127279530524240109, guid: db566ea802d0341f9aae79020ff0b465, type: 3}
       propertyPath: m_AnchorMin.x
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5127279530648307873, guid: db566ea802d0341f9aae79020ff0b465, type: 3}
+      propertyPath: m_Value
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 5127279530648307873, guid: db566ea802d0341f9aae79020ff0b465, type: 3}
       propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.size
