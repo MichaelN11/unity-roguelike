@@ -195,6 +195,8 @@ public class EntityController : MonoBehaviour
             return false;
         }
 
+        Vector2 relativeDirectionToInteractable = currentInteractableObject.transform.position - transform.position;
+        SetLookDirection(relativeDirectionToInteractable);
         bool success = currentInteractable.Interact(GetInteractableUser());
         currentInteractable = null;
         currentInteractableObject = null;

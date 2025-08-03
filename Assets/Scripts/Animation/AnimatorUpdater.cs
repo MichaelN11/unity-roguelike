@@ -278,6 +278,7 @@ public class AnimatorUpdater : MonoBehaviour
     {
         if (entityState.ActionState == ActionState.Interact)
         {
+            UpdateLookDirection();
             animator.SetBool("isInteracting", true);
         }
         else
