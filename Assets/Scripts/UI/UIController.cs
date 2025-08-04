@@ -24,6 +24,9 @@ public class UIController : MonoBehaviour
     [SerializeField]
     private DeathScreen deathScreen;
 
+    [SerializeField]
+    private GameObject bossHealthBar;
+
     private PlayerInputActions inputActions;
 
     private void Awake()
@@ -53,6 +56,15 @@ public class UIController : MonoBehaviour
         if (GameManager.Instance.IsPaused)
         {
             pauseMenu.SetActive(true);
+        }
+    }
+
+    private void Update()
+    {
+        if (GameManager.Instance.CurrentBoss != null && bossHealthBar.activeInHierarchy == false)
+        {
+            Debug.Log("Showing boss health bar");
+            bossHealthBar.SetActive(true);
         }
     }
 

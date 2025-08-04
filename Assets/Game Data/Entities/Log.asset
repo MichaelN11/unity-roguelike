@@ -35,5 +35,5 @@ MonoBehaviour:
   - item: {fileID: 11400000, guid: 80a125bb684b646719a367b3320fddda, type: 2}
     dropChance: 0.15
     amount: 1
-    duration: 0
   description: 1
+  isBoss: 0

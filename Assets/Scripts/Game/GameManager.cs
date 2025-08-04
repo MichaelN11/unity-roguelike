@@ -19,6 +19,7 @@ public class GameManager : MonoBehaviour
     public SaveObject GameState { get; private set; } = new();
     public bool IsPaused { get; private set; } = false;
     public bool IsGameOver { get; private set; } = false;
+    public EntityData CurrentBoss { get; set; }
 
     [SerializeField]
     private Entity player;
@@ -247,6 +248,7 @@ public class GameManager : MonoBehaviour
     /// <param name="test"></param>
     private void SceneLoaded(Scene scene, LoadSceneMode test)
     {
+        CurrentBoss = null;
         SetupScene();
     }
 

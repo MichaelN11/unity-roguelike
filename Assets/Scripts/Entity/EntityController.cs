@@ -35,6 +35,10 @@ public class EntityController : MonoBehaviour
     private void Start()
     {
         entityState.OnUnstunned += Unstunned;
+        if (entityData.Entity.IsBoss)
+        {
+            GameManager.Instance.CurrentBoss = entityData;
+        }
     }
 
     private void Update()

@@ -78,4 +78,8 @@ public class Entity : ScriptableObject
     [SerializeField]
     private EntityDescription description;
     public EntityDescription Description => description;
+
+    [SerializeField]
+    private bool isBoss;
+    public bool IsBoss => isBoss;
 }
