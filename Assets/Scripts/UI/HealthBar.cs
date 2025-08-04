@@ -4,6 +4,9 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
+/// <summary>
+/// Component for managing a health bar that displays on the UI. i.e for the player or for a boss.
+/// </summary>
 public class HealthBar : MonoBehaviour
 {
     [SerializeField]

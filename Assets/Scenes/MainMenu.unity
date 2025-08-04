@@ -562,6 +562,14 @@ PrefabInstance:
       value: Continue
       objectReference: {fileID: 0}
     - target: {fileID: 679399654272020847, guid: 8c1dd31ae94a24eeaad8f4cb688ff2a5, type: 3}
+      propertyPath: m_Type
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 679399654272020847, guid: 8c1dd31ae94a24eeaad8f4cb688ff2a5, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 1472197570, guid: c45c2c1a28b194d0bb8b5fed738d8569, type: 3}
+    - target: {fileID: 679399654272020847, guid: 8c1dd31ae94a24eeaad8f4cb688ff2a5, type: 3}
       propertyPath: m_UseSpriteMesh
       value: 0
       objectReference: {fileID: 0}
@@ -658,6 +666,10 @@ PrefabInstance:
       value: ContinueButton
       objectReference: {fileID: 0}
     - target: {fileID: 7831297856756211849, guid: 8c1dd31ae94a24eeaad8f4cb688ff2a5, type: 3}
+      propertyPath: m_SpriteState.m_DisabledSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 64a63bac9e3e74db6ad9f6366a73e194, type: 3}
+    - target: {fileID: 7831297856756211849, guid: 8c1dd31ae94a24eeaad8f4cb688ff2a5, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1977520467}
@@ -674,6 +686,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8c1dd31ae94a24eeaad8f4cb688ff2a5, type: 3}
+--- !u!114 &667219395 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7831297856756211849, guid: 8c1dd31ae94a24eeaad8f4cb688ff2a5, type: 3}
+  m_PrefabInstance: {fileID: 667219394}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &841002957
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -972,6 +995,14 @@ PrefabInstance:
       propertyPath: m_text
       value: Options
       objectReference: {fileID: 0}
+    - target: {fileID: 679399654272020847, guid: 8c1dd31ae94a24eeaad8f4cb688ff2a5, type: 3}
+      propertyPath: m_Type
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 679399654272020847, guid: 8c1dd31ae94a24eeaad8f4cb688ff2a5, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 1472197570, guid: c45c2c1a28b194d0bb8b5fed738d8569, type: 3}
     - target: {fileID: 2813550649671577591, guid: 8c1dd31ae94a24eeaad8f4cb688ff2a5, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -1554,6 +1585,7 @@ GameObject:
   - component: {fileID: 1977520464}
   - component: {fileID: 1977520463}
   - component: {fileID: 1977520467}
+  - component: {fileID: 1977520468}
   m_Layer: 5
   m_Name: MainMenuCanvas
   m_TagString: Untagged
@@ -1663,6 +1695,19 @@ MonoBehaviour:
   optionsMenu: {fileID: 627855817}
   quitButton: {fileID: 1389365164}
   music: {fileID: 11400000, guid: 9d5e08ffef12649cd9c0dd985ec1129f, type: 2}
+--- !u!114 &1977520468
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1977520462}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 903f6c556069d4ac3bd393a985b864da, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  loadButton: {fileID: 667219395}
 --- !u!224 &2088553140 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 2813550649671577591, guid: 8c1dd31ae94a24eeaad8f4cb688ff2a5, type: 3}

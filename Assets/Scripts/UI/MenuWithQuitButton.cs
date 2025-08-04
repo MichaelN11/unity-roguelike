@@ -2,6 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Component for managing a UI menu with a quit button.
+/// The menu is shown without the quit button if it's running in WebGL.
+/// </summary>
 public class MenuWithQuitButton : MonoBehaviour
 {
     [SerializeField]
