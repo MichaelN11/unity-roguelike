@@ -189,6 +189,12 @@ public class Movement : MonoBehaviour
             Vector2 collisionPoint = collider.ClosestPoint(body.position);
             float distance = (Speed / numOverlaps) * Time.deltaTime;
             Vector2 moveDirection = (body.position - collisionPoint).normalized;
+            if (moveDirection.sqrMagnitude < 0.0001f)
+            {
+                // Default fallback direction if stuck exactly inside
+                moveDirection = Vector2.up;
+                Debug.Log("Using default move out of collision direction!");
+            }
             movePosition += moveDirection * distance;
         }
         return movePosition;
