@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc8c03d57d8f740f4bc2f163f1186102, type: 3}
   m_Name: DashAbility
   m_EditorClassIdentifier: 
-  cooldown: 3
+  cooldown: 0
   effects:
   - {fileID: 11400000, guid: 5eb5e0f08349f498e8aae81c8f37eebc, type: 2}
   - {fileID: 11400000, guid: 836388cd017f74023bd3e41a1c091700, type: 2}
