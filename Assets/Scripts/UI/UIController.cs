@@ -27,6 +27,9 @@ public class UIController : MonoBehaviour
     [SerializeField]
     private GameObject bossHealthBar;
 
+    [SerializeField]
+    private GameObject loadingScreen;
+
     private PlayerInputActions inputActions;
 
     private void Awake()
@@ -139,6 +142,16 @@ public class UIController : MonoBehaviour
     public void DisplayDeathScreen(DeathContext deathContext)
     {
         deathScreen.Display(deathContext);
+    }
+
+    public void ShowLoadingScreen()
+    {
+        loadingScreen.SetActive(true);
+    }
+
+    public void HideLoadingScreen()
+    {
+        loadingScreen.SetActive(false);
     }
 
     /// <summary>

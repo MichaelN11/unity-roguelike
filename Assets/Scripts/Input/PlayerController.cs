@@ -46,8 +46,8 @@ public class PlayerController : MonoBehaviour
         inputActions.Enable();
         inputActions.Player.Fire.started += OnFireStarted;
         inputActions.Player.Fire.canceled += OnFireCancelled;
-        inputActions.Player.SecondaryFire.started += OnSecondaryFireStarted;
-        inputActions.Player.SecondaryFire.canceled += OnSecondaryFireCancelled;
+        inputActions.Player.Dash.started += OnDashStarted;
+        inputActions.Player.Dash.canceled += OnDashCancelled;
 
         inputActions.Player.Item1.started += OnItem1Started;
         inputActions.Player.Item1.canceled += OnItem1Cancelled;
@@ -163,12 +163,12 @@ public class PlayerController : MonoBehaviour
         AbilityCancelled(0);
     }
 
-    public void OnSecondaryFireStarted(CallbackContext ctx)
+    public void OnDashStarted(CallbackContext ctx)
     {
         AbilityStarted(1);
     }
 
-    public void OnSecondaryFireCancelled(CallbackContext ctx)
+    public void OnDashCancelled(CallbackContext ctx)
     {
         AbilityCancelled(1);
     }

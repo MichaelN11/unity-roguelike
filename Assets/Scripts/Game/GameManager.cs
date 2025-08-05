@@ -245,6 +245,10 @@ public class GameManager : MonoBehaviour
                 LoadTransition();
             }
         }
+        if (UIController.Instance != null)
+        {
+            UIController.Instance.HideLoadingScreen();
+        }
     }
 
     /// <summary>
