@@ -23,7 +23,7 @@ public class AbilityManager : MonoBehaviour
     private Hitbox hitbox;
     private SpriteRenderer spriteRenderer;
 
-    private IEnumerator coroutine;
+    private IEnumerator delayedAbilityCoroutine;
 
     private ComboAbility currentComboAbility;
     private int nextComboNumber = 0;
@@ -185,8 +185,8 @@ public class AbilityManager : MonoBehaviour
         if (entityState.CanAct() || CanCancelInto(onUseAbility))
         {
             AbilityUseEventInfo abilityUseEvent = StartCastingAbility(onUseAbility, direction);
-            coroutine = DelayOnUseAbility(onUseAbility, abilityUseEvent.AbilityUse, offsetDistance);
-            StartCoroutine(coroutine);
+            delayedAbilityCoroutine = DelayOnUseAbility(onUseAbility, abilityUseEvent.AbilityUse, offsetDistance);
+            StartCoroutine(delayedAbilityCoroutine);
             return abilityUseEvent;
         } else
         {
@@ -214,8 +214,8 @@ public class AbilityManager : MonoBehaviour
             comboTimer = 0;
             ComboStage nextComboStage = comboAbility.ComboStages[nextComboNumber];
             AbilityUseEventInfo abilityUseEvent = StartCastingAbility(nextComboStage.Ability, direction);
-            coroutine = DelayComboAbility(comboAbility, nextComboStage, abilityUseEvent.AbilityUse, offsetDistance);
-            StartCoroutine(coroutine);
+            delayedAbilityCoroutine = DelayComboAbility(comboAbility, nextComboStage, abilityUseEvent.AbilityUse, offsetDistance);
+            StartCoroutine(delayedAbilityCoroutine);
             return abilityUseEvent;
         } else
         {
@@ -322,6 +322,11 @@ public class AbilityManager : MonoBehaviour
 
     private void InterruptCurrentAbility()
     {
+        if (delayedAbilityCoroutine != null)
+        {
+            StopCoroutine(delayedAbilityCoroutine);
+        }
+
         if (currentOnUseAbility != null && currentAbilityData != null)
         {
             currentOnUseAbility.Interrupt(currentAbilityData, currentAbilityDuration);
