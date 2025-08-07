@@ -21,12 +21,12 @@ MonoBehaviour:
   recoveryTime: 0.2
   activeAnimationTime: 0.4
   canCancelInto: 1
-  cancelableDuration: 0
+  cancelableDuration: 1.1
   range: 1
   aimWhileCasting: 1
   aimDuration: 0
   changeDirection: 1
-  soundOnCast: {fileID: 0}
-  soundOnUse: {fileID: 0}
+  soundOnCast: {fileID: 11400000, guid: 09dc6362cee6543e39bf3a27407f812a, type: 2}
+  soundOnUse: {fileID: 11400000, guid: 8948b87782e614c6db82069ae449c9c2, type: 2}
   stopSoundAfterUse: 0
   abilityAnimation: 1
