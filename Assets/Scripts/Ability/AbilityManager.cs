@@ -35,6 +35,7 @@ public class AbilityManager : MonoBehaviour
     private OnUseAbility currentOnUseAbility;
     private AbilityUseData currentAbilityData;
     private float currentAbilityDuration;
+    private bool currentAbilityStarted = false; // Set when the startup/cast time is finished
 
     private void Awake()
     {
@@ -57,7 +58,7 @@ public class AbilityManager : MonoBehaviour
             }
         }
 
-        if (currentOnUseAbility != null)
+        if (currentOnUseAbility != null && currentAbilityStarted)
         {
             currentAbilityDuration += Time.deltaTime;
         }
@@ -198,7 +199,8 @@ public class AbilityManager : MonoBehaviour
     {
         return entityState.ActionState == ActionState.Ability
             && onUseAbility.CanCancelInto
-            && entityState.StunTimer <= cancelableDuration;
+            && entityState.StunTimer <= cancelableDuration
+            && (currentOnUseAbility == null || currentOnUseAbility != onUseAbility);
     }
 
     private AbilityUseEventInfo UseComboAbility(ComboAbility comboAbility, Vector2 direction, float offsetDistance)
@@ -249,6 +251,8 @@ public class AbilityManager : MonoBehaviour
         }
 
         InterruptCurrentAbility();
+        currentOnUseAbility = onUseAbility;
+        currentAbilityData = abilityUse;
 
         entityState.LookDirection = direction;
 
@@ -314,9 +318,7 @@ public class AbilityManager : MonoBehaviour
         entityState.CanLookWhileCasting = false;
         abilityUse.Direction = entityState.LookDirection.normalized;
         abilityUse.Position += entityState.LookDirection.normalized * offsetDistance;
-
-        currentOnUseAbility = onUseAbility;
-        currentAbilityData = abilityUse;
+        currentAbilityStarted = true;
         currentAbilityDuration = 0;
     }
 
@@ -329,7 +331,11 @@ public class AbilityManager : MonoBehaviour
 
         if (currentOnUseAbility != null && currentAbilityData != null)
         {
-            currentOnUseAbility.Interrupt(currentAbilityData, currentAbilityDuration);
+            if (currentAbilityStarted)
+            {
+                currentOnUseAbility.Interrupt(currentAbilityData, currentAbilityDuration);
+                currentAbilityStarted = false;
+            }
             currentOnUseAbility = null;
         }
     }
