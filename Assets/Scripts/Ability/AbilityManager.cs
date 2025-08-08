@@ -33,7 +33,7 @@ public class AbilityManager : MonoBehaviour
     private float cancelableDuration = 0;
 
     private OnUseAbility currentOnUseAbility;
-    private EffectData currentAbilityData;
+    private AbilityUseData currentAbilityData;
     private float currentAbilityDuration;
 
     private void Awake()
@@ -230,7 +230,7 @@ public class AbilityManager : MonoBehaviour
             AudioManager.Instance.Play(onUseAbility.SoundOnCast);
         }
 
-        EffectData abilityUse = new()
+        AbilityUseData abilityUse = new()
         {
             Position = transform.position,
             Entity = gameObject,
@@ -284,14 +284,14 @@ public class AbilityManager : MonoBehaviour
     /// <param name="abilityUse"></param>
     /// <param name="offsetDistance"></param>
     /// <returns>IEnumerator used for the coroutine</returns>
-    private IEnumerator DelayOnUseAbility(OnUseAbility onUseAbility, EffectData abilityUse, float offsetDistance)
+    private IEnumerator DelayOnUseAbility(OnUseAbility onUseAbility, AbilityUseData abilityUse, float offsetDistance)
     {
         yield return new WaitForSeconds(onUseAbility.CastTime);
         UpdateAbilityState(onUseAbility, abilityUse, offsetDistance);
         onUseAbility.Use(abilityUse);
     }
 
-    private IEnumerator DelayComboAbility(ComboAbility comboAbility, ComboStage nextComboStage, EffectData abilityUse, float offsetDistance)
+    private IEnumerator DelayComboAbility(ComboAbility comboAbility, ComboStage nextComboStage, AbilityUseData abilityUse, float offsetDistance)
     {
         yield return new WaitForSeconds(nextComboStage.Ability.CastTime);
         UpdateAbilityState(nextComboStage.Ability, abilityUse, offsetDistance);
@@ -309,7 +309,7 @@ public class AbilityManager : MonoBehaviour
         }
     }
 
-    private void UpdateAbilityState(OnUseAbility onUseAbility, EffectData abilityUse, float offsetDistance)
+    private void UpdateAbilityState(OnUseAbility onUseAbility, AbilityUseData abilityUse, float offsetDistance)
     {
         entityState.CanLookWhileCasting = false;
         abilityUse.Direction = entityState.LookDirection.normalized;

@@ -15,7 +15,7 @@ public class AttackEffectUtil
     /// <param name="prefabEffectData">The effect's prefab data</param>
     /// <param name="userEntityData">The effect user's entity data</param>
     /// <returns>The instantiated damage object</returns>
-    public static GameObject InstantiateDamageObject(EffectData effectData,
+    public static GameObject InstantiateDamageObject(AbilityUseData effectData,
         AttackEffectData attackEffectData,
         PrefabEffectData prefabEffectData,
         AttackData attackData)
@@ -54,7 +54,7 @@ public class AttackEffectUtil
     /// <param name="effectData">The object containing data about how the effect was used</param>
     /// <param name="attackEffectData">The effect's attack data</param>
     /// <returns>The AttackData object</returns>
-    public static AttackData BuildAttackData(EffectData effectData,
+    public static AttackData BuildAttackData(AbilityUseData effectData,
         AttackEffectData attackEffectData)
     {
         AttackData attackData = new();

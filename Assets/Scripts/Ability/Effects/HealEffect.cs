@@ -12,8 +12,8 @@ public class HealEffect : AbilityEffect
     private float healAmount;
     public float HealAmount => healAmount;
 
-    public override void Trigger(EffectData effectData)
+    public override void Trigger(AbilityUseData abilityUseData, EffectUseData effectUseData)
     {
-        effectData.Damageable.Heal(healAmount);
+        abilityUseData.Damageable.Heal(healAmount);
     }
 }

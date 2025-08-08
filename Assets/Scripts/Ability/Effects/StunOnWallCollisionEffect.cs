@@ -24,19 +24,19 @@ public class StunOnWallCollisionEffect : AbilityEffect
     private Sound wallCollisionSound;
     public Sound WallCollisionSound => wallCollisionSound;
 
-    public override void Trigger(EffectData effectData)
+    public override void Trigger(AbilityUseData abilityUseData, EffectUseData effectUseData)
     {
-        if (effectData.Movement != null)
+        if (abilityUseData.Movement != null)
         {
-            effectData.Movement.OnWallCollision += CollideWithWall;
+            abilityUseData.Movement.OnWallCollision += CollideWithWall;
         }
     }
 
-    public override void Unapply(EffectData effectData)
+    public override void Unapply(AbilityUseData abilityUseData, EffectUseData effectUseData)
     {
-        if (effectData.Movement != null)
+        if (abilityUseData.Movement != null)
         {
-            effectData.Movement.OnWallCollision -= CollideWithWall;
+            abilityUseData.Movement.OnWallCollision -= CollideWithWall;
         }
     }
 

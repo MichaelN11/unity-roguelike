@@ -13,13 +13,16 @@ public abstract class AbilityEffect : ScriptableObject
 
     [SerializeField]
     private float duration;
-    public float Duration => duration;
+    public virtual float Duration
+    {
+        get { return duration; }
+    }
 
     [SerializeField]
     private bool useAbilityDuration;
     public bool UseAbilityDuration => useAbilityDuration;
 
-    public abstract void Trigger(EffectData effectData);
+    public abstract void Trigger(AbilityUseData abilityUseData, EffectUseData effectUseData);
 
-    public virtual void Unapply(EffectData effectData) { }
+    public virtual void Unapply(AbilityUseData abilityUseData, EffectUseData effectUseData) { }
 }

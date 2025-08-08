@@ -11,21 +11,21 @@ public class InvincibilityEffect : AbilityEffect
     private bool passThroughEnemies;
     public bool PassThroughEnemies => passThroughEnemies;
 
-    public override void Trigger(EffectData effectData)
+    public override void Trigger(AbilityUseData abilityUseData, EffectUseData effectUseData)
     {
-        effectData.Damageable.SetInvincibility(Duration);
+        abilityUseData.Damageable.SetInvincibility(Duration);
         if (passThroughEnemies)
         {
-            effectData.Movement.PassThroughEntities(Duration);
+            abilityUseData.Movement.PassThroughEntities(Duration);
         }
     }
 
-    public override void Unapply(EffectData effectData)
+    public override void Unapply(AbilityUseData abilityUseData, EffectUseData effectUseData)
     {
-        effectData.Damageable.SetInvincibility(0);
+        abilityUseData.Damageable.SetInvincibility(0);
         if (passThroughEnemies)
         {
-            effectData.Movement.StopPassingThroughEntities();
+            abilityUseData.Movement.StopPassingThroughEntities();
         }
     }
 }

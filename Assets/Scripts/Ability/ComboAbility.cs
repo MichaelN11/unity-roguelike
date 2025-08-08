@@ -12,7 +12,7 @@ public class ComboAbility : ActiveAbility
     private List<ComboStage> comboStages;
     public List<ComboStage> ComboStages => comboStages;
 
-    public void Use(int stage, EffectData abilityUse)
+    public void Use(int stage, AbilityUseData abilityUse)
     {
         if (stage >= 0 && stage < comboStages.Count)
         {

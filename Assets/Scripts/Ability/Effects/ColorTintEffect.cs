@@ -14,13 +14,13 @@ public class ColorTintEffect : AbilityEffect
 
     private static Color OriginalColor = Color.white;
 
-    public override void Trigger(EffectData effectData)
+    public override void Trigger(AbilityUseData abilityUseData, EffectUseData effectUseData)
     {
-        effectData.SpriteRenderer.color = tintColor;
+        abilityUseData.SpriteRenderer.color = tintColor;
     }
 
-    public override void Unapply(EffectData effectData)
+    public override void Unapply(AbilityUseData abilityUseData, EffectUseData effectUseData)
     {
-        effectData.SpriteRenderer.color = OriginalColor;
+        abilityUseData.SpriteRenderer.color = OriginalColor;
     }
 }

@@ -30,30 +30,30 @@ public class MovementEffect : AbilityEffect
     private float trailEffectDistance;
     public float TrailEffectDistance => trailEffectDistance;
 
-    public override void Trigger(EffectData effectData)
+    public override void Trigger(AbilityUseData abilityUseData, EffectUseData effectUseData)
     {
-        if (effectData.Movement != null)
+        if (abilityUseData.Movement != null)
         {
-            effectData.Movement.SetMovement(effectData.Direction.normalized,
+            abilityUseData.Movement.SetMovement(abilityUseData.Direction.normalized,
                 moveSpeed,
                 moveAcceleration);
             
             if (accelerationDelay > 0)
             {
-                effectData.Movement.SetDelayedAcceleration(delayedAcceleration, accelerationDelay);
+                abilityUseData.Movement.SetDelayedAcceleration(delayedAcceleration, accelerationDelay);
             }
 
             if (trailEffectData.Prefab != null)
             {
-                Vector2 distance = -1 * TrailEffectDistance * effectData.Direction.normalized;
-                Vector3 position = effectData.Position + distance;
-                Quaternion rotation = (trailEffectData.RotatePrefab) ? UnityUtil.RotateTowardsVector(effectData.Direction.normalized) : Quaternion.identity;
+                Vector2 distance = -1 * TrailEffectDistance * abilityUseData.Direction.normalized;
+                Vector3 position = abilityUseData.Position + distance;
+                Quaternion rotation = (trailEffectData.RotatePrefab) ? UnityUtil.RotateTowardsVector(abilityUseData.Direction.normalized) : Quaternion.identity;
                 GameObject instance = Instantiate(trailEffectData.Prefab, position, rotation);
 
                 DestroyTimer destroyTimer = instance.GetComponent<DestroyTimer>();
                 destroyTimer.Duration = trailEffectData.PrefabDuration;
 
-                instance.transform.parent = effectData.Entity.transform;
+                instance.transform.parent = abilityUseData.Entity.transform;
             }
         }
     }

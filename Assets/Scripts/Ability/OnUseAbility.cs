@@ -75,7 +75,7 @@ public class OnUseAbility : ActiveAbility
     private AbilityAnimation abilityAnimation;
     public AbilityAnimation AbilityAnimation => abilityAnimation;
 
-    public void Use(EffectData abilityUse)
+    public void Use(AbilityUseData abilityUse)
     {
         if (soundOnUse != null)
         {
@@ -91,36 +91,42 @@ public class OnUseAbility : ActiveAbility
             {
                 AudioManager.Instance.Play(abilityEffect.SoundOnUse);
             }
-            abilityEffect.Trigger(abilityUse);
+            EffectUseData effectUseData = new();
+            // Adding the EffectUseData into the list with the same order as the effects are stored in the ability
+            abilityUse.EffectUseDataList.Add(effectUseData);
+            abilityEffect.Trigger(abilityUse, effectUseData);
 
             float effectDuration = GetEffectDuration(abilityEffect);
             if (effectDuration > 0)
             {
-                IEnumerator coroutine = EndEffect(abilityEffect, abilityUse, effectDuration);
+                IEnumerator coroutine = EndEffect(abilityEffect, abilityUse, effectDuration, effectUseData);
                 abilityUse.AbilityManager.StartCoroutine(coroutine);
             }
         }
     }
 
-    public void Interrupt(EffectData abilityUse, float currentDuration)
+    public void Interrupt(AbilityUseData abilityUse, float currentDuration)
     {
         if (stopSoundAfterUse)
         {
             AudioManager.Instance.StopSound(soundOnUse);
         }
+        int index = 0;
         foreach (AbilityEffect abilityEffect in effects)
         {
             if (GetEffectDuration(abilityEffect) > currentDuration)
             {
-                abilityEffect.Unapply(abilityUse);
+                // Retrieve the EffectUseData using the index of the effect within the ability's effect list
+                abilityEffect.Unapply(abilityUse, abilityUse.EffectUseDataList[index]);
             }
+            index++;
         }
     }
 
-    private IEnumerator EndEffect(AbilityEffect effect, EffectData effectData, float effectDuration)
+    private IEnumerator EndEffect(AbilityEffect effect, AbilityUseData effectData, float effectDuration, EffectUseData effectUseData)
     {
         yield return new WaitForSeconds(effectDuration);
-        effect.Unapply(effectData);
+        effect.Unapply(effectData, effectUseData);
     }
 
     private float GetEffectDuration(AbilityEffect abilityEffect)

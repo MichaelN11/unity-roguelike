@@ -16,17 +16,34 @@ public class MeleeAttackEffect : AbilityEffect
     private AttackEffectData attackEffectData;
     public AttackEffectData AttackEffectData => attackEffectData;
 
-    public override void Trigger(EffectData effectData)
+    public override void Trigger(AbilityUseData abilityUseData, EffectUseData effectUseData)
     {
-        AttackData attackData = AttackEffectUtil.BuildAttackData(effectData, attackEffectData);
+        AttackData attackData = AttackEffectUtil.BuildAttackData(abilityUseData, attackEffectData);
         attackData.AttackEvents.OnAttackSuccessful += AttackSuccessful;
 
-        GameObject instance = AttackEffectUtil.InstantiateDamageObject(effectData,
+        GameObject instance = AttackEffectUtil.InstantiateDamageObject(abilityUseData,
             attackEffectData,
             prefabEffectData,
             attackData);
+        effectUseData.CreatedObjects.Add(instance);
 
-        instance.transform.parent = effectData.Entity.transform;
+        instance.transform.parent = abilityUseData.Entity.transform;
+    }
+
+    public override void Unapply(AbilityUseData abilityUseData, EffectUseData effectUseData)
+    {
+        if (effectUseData.CreatedObjects.Count > 0)
+        {
+            Destroy(effectUseData.CreatedObjects[0]);
+        }
+    }
+
+    /// <summary>
+    /// Use the duration of the created attack object, if it is greater than the effect duration.
+    /// </summary>
+    public override float Duration
+    {
+        get { return (base.Duration >= prefabEffectData.PrefabDuration) ? base.Duration : prefabEffectData.PrefabDuration; }
     }
 
     /// <summary>

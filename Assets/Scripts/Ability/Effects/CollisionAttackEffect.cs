@@ -12,20 +12,20 @@ public class CollisionAttackEffect : AbilityEffect
     private AttackEffectData attackEffectData;
     public AttackEffectData AttackEffectData => attackEffectData;
 
-    public override void Trigger(EffectData effectData)
+    public override void Trigger(AbilityUseData abilityUseData, EffectUseData effectUseData)
     {
-        if (effectData.Hitbox != null)
+        if (abilityUseData.Hitbox != null)
         {
-            effectData.Hitbox.OnEntityCollision += AttackOnCollision;
-            effectData.Hitbox.ResetHitTimer();
+            abilityUseData.Hitbox.OnEntityCollision += AttackOnCollision;
+            abilityUseData.Hitbox.ResetHitTimer();
         }
     }
 
-    public override void Unapply(EffectData effectData)
+    public override void Unapply(AbilityUseData abilityUseData, EffectUseData effectUseData)
     {
-        if (effectData.Hitbox != null)
+        if (abilityUseData.Hitbox != null)
         {
-            effectData.Hitbox.OnEntityCollision -= AttackOnCollision;
+            abilityUseData.Hitbox.OnEntityCollision -= AttackOnCollision;
         }
     }
 
