@@ -4852,7 +4852,7 @@ PrefabInstance:
     - target: {fileID: -5764383452003572476, guid: 072fa735f3bf24b5385ed726786c1e41, type: 3}
       propertyPath: containedItem.Item
       value: 
-      objectReference: {fileID: 11400000, guid: 80a125bb684b646719a367b3320fddda, type: 2}
+      objectReference: {fileID: 11400000, guid: 71280b14bd61a4db5b4f388dacd7b41c, type: 2}
     - target: {fileID: -5764383452003572476, guid: 072fa735f3bf24b5385ed726786c1e41, type: 3}
       propertyPath: containedItem.Amount
       value: 1

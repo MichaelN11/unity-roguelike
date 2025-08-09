@@ -38,7 +38,11 @@ public class ItemFloatingText : MonoBehaviour
 
     public void Init(InventoryItem inventoryItem)
     {
-        itemText.text = inventoryItem.Item.ItemName + " x" + inventoryItem.Amount;
+        itemText.text = inventoryItem.Item.ItemName;
+        if (!inventoryItem.Item.UseOnPickup)
+        {
+            itemText.text += " x" + inventoryItem.Amount;
+        }
         spriteRenderer.sprite = inventoryItem.Item.Icon;
         spriteRenderer.enabled = true;
         move = true;

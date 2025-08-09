@@ -126,6 +126,12 @@ public class Damageable : MonoBehaviour
         }
     }
 
+    public void IncreaseMaxHealth(float amount)
+    {
+        MaxHealth += amount;
+        CurrentHealth += amount;
+    }
+
     /// <summary>
     /// Handles the hitstun and knockback after being hit by an attack.
     /// </summary>
