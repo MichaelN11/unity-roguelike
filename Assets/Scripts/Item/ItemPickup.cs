@@ -18,16 +18,13 @@ public class ItemPickup : MonoBehaviour
     [SerializeField]
     private int amount;
     [SerializeField]
-    private float duration = 0;
-    [SerializeField]
-    private Sound pickupSound;
-    [SerializeField]
     private TextMeshProUGUI quantityText;
 
     private bool preset = false;
     private bool initialized = false;
     private float timer = 0;
     private bool flashing = false;
+    private float duration = 0;
 
     private SpriteRenderer spriteRenderer;
 
@@ -44,6 +41,7 @@ public class ItemPickup : MonoBehaviour
     {
         if (preset)
         {
+            duration = item.DurationOnGround;
             UpdateSprite(item);
             initialized = true;
         }
@@ -53,10 +51,7 @@ public class ItemPickup : MonoBehaviour
     {
         this.item = item;
         this.amount = amount;
-        if (duration != 0)
-        {
-            this.duration = duration;
-        }
+        this.duration = (duration == 0) ? item.DurationOnGround : duration;
 
         UpdateSprite(item);
 
@@ -88,9 +83,12 @@ public class ItemPickup : MonoBehaviour
             Inventory inventory = collision.GetComponent<Inventory>();
             if (inventory != null)
             {
-                inventory.AddItem(item, amount);
-                AudioManager.Instance.Play(pickupSound);
-                Destroy(this.gameObject);
+                bool success = inventory.AcquireItem(item, amount);
+                if (success)
+                {
+                    AudioManager.Instance.Play(item.PickupSound);
+                    Destroy(this.gameObject);
+                }
             }
         }
     }

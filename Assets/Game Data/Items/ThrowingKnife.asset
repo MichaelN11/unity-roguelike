@@ -16,3 +16,7 @@ MonoBehaviour:
   prefab: {fileID: 0}
   icon: {fileID: -728884052, guid: fdd41d459fce54470912a1a49304ca50, type: 3}
   itemName: Throwing Knife
+  useOnPickup: 0
+  animateOnUse: 1
+  durationOnGround: 0
+  pickupSound: {fileID: 11400000, guid: 1a108503e68164429b6f0c37ee9ca3e6, type: 2}

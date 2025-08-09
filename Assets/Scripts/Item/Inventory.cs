@@ -38,24 +38,27 @@ public class Inventory : MonoBehaviour
         return inventory;
     }
 
-    public void AddItem(InventoryItem inventoryItem)
+    public bool AcquireItem(InventoryItem inventoryItem)
     {
-        AddItem(inventoryItem.Item, inventoryItem.Amount);
+        if (inventoryItem.Item.UseOnPickup)
+        {
+            return UseAbility(inventoryItem, Vector2.zero, 0);
+        }
+        else
+        {
+            AddItem(inventoryItem.Item, inventoryItem.Amount);
+            return true;
+        }
     }
 
-    public void AddItem(Item item, int amount)
+    public bool AcquireItem(Item item, int amount)
     {
-        InventoryItem inventoryItem = Items.Find(it => it.Item.name == item.name);
-        if (inventoryItem != null)
+        InventoryItem inventoryItem = new()
         {
-            inventoryItem.Amount += amount;
-        } else
-        {
-            inventoryItem = new();
-            inventoryItem.Item = item;
-            inventoryItem.Amount = amount;
-            Items.Add(inventoryItem);
-        }
+            Item = item,
+            Amount = amount
+        };
+        return AcquireItem(inventoryItem);
     }
 
     /// <summary>
@@ -66,7 +69,7 @@ public class Inventory : MonoBehaviour
     /// <param name="direction"></param>
     /// <param name="offsetDistance"></param>
     /// <returns></returns>
-    public bool UseItem(int itemNumber, Vector2 direction, float offsetDistance)
+    public bool UseItemFromInventory(int itemNumber, Vector2 direction, float offsetDistance)
     {
         bool success = false;
         if (itemNumber >= 0
@@ -76,19 +79,44 @@ public class Inventory : MonoBehaviour
             InventoryItem inventoryItem = Items[itemNumber];
             if (inventoryItem.Amount > 0)
             {
-                ActiveAbilityContext abilityContext = new()
-                {
-                    Ability = inventoryItem.Item.ActiveAbility
-                };
-                AbilityUseEventInfo abilityUseEvent = abilityManager.UseAbility
-                    (abilityContext, direction, offsetDistance);
-                success = abilityUseEvent != null;
+                success = UseAbility(inventoryItem, direction, offsetDistance); ;
                 if (success)
                 {
                     --inventoryItem.Amount;
-                    OnItemUse?.Invoke(new ItemUseEventInfo(){ Item = inventoryItem.Item, AbilityUseEventInfo = abilityUseEvent });
                 }
             }
+        }
+        return success;
+    }
+
+    private void AddItem(Item item, int amount)
+    {
+        InventoryItem inventoryItem = Items.Find(it => it.Item.name == item.name);
+        if (inventoryItem != null)
+        {
+            inventoryItem.Amount += amount;
+        }
+        else
+        {
+            inventoryItem = new();
+            inventoryItem.Item = item;
+            inventoryItem.Amount = amount;
+            Items.Add(inventoryItem);
+        }
+    }
+
+    private bool UseAbility(InventoryItem inventoryItem, Vector2 direction, float offsetDistance)
+    {
+        ActiveAbilityContext abilityContext = new()
+        {
+            Ability = inventoryItem.Item.ActiveAbility
+        };
+        AbilityUseEventInfo abilityUseEvent = abilityManager.UseAbility
+            (abilityContext, direction, offsetDistance);
+        bool success = abilityUseEvent != null;
+        if (success)
+        {
+            OnItemUse?.Invoke(new ItemUseEventInfo() { Item = inventoryItem.Item, AbilityUseEventInfo = abilityUseEvent });
         }
         return success;
     }

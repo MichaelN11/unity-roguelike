@@ -13,6 +13,7 @@ public class AbilityUseEventInfo
     public float AimDuration { get; set; }
     public float Range { get; set; }
     public bool ChangeDirection { get; set; }
+    public bool StatelessCast { get; set; }
 
     public float GetFullDuration()
     {

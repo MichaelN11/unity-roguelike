@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ed5bca86a6344db6b909ee5f849de03, type: 3}
+  m_Name: Heart
+  m_EditorClassIdentifier: 
+  activeAbility: {fileID: 11400000, guid: 37acfb7c7b4574b10ae6fd490bef1475, type: 2}
+  heldPrefab: {fileID: 0}
+  dropPrefab: {fileID: 3527373394736214066, guid: 53b90fff5071f42ab83c820f5374fa1e, type: 3}
+  icon: {fileID: 0}
+  itemName: Heart
+  useOnPickup: 1
+  animateOnUse: 0
+  durationOnGround: 5
+  pickupSound: {fileID: 11400000, guid: cc6b2eca2bffb4e9baf095b3f33badc8, type: 2}

@@ -64,14 +64,6 @@ public class Entity : ScriptableObject
     public Weapon Weapon => weapon;
 
     [SerializeField]
-    private float dropChance = 0;
-    public float DropChance => dropChance;
-
-    [SerializeField]
-    private GameObject droppable;
-    public GameObject Droppable => droppable;
-
-    [SerializeField]
     private List<ItemDrop> itemDrops;
     public List<ItemDrop> ItemDrops => itemDrops;
 

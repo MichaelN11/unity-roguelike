@@ -54,7 +54,7 @@ public class Chest : MonoBehaviour, IInteractable
 
         if (levelObject != null && levelObject.containedItem.Item != null && levelObject.containedItem.Amount > 0)
         {
-            interactableUser.Inventory.AddItem(levelObject.containedItem);
+            interactableUser.Inventory.AcquireItem(levelObject.containedItem);
             Vector2 position = new(transform.position.x + FloatingTextXOffset, transform.position.y);
             GameObject floatingText = Instantiate(itemFloatingText, position, Quaternion.identity);
             floatingText.GetComponent<ItemFloatingText>().Init(levelObject.containedItem);

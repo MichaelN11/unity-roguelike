@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc8c03d57d8f740f4bc2f163f1186102, type: 3}
+  m_Name: HeartAbility
+  m_EditorClassIdentifier: 
+  cooldown: 0
+  abilityConditions:
+    minimumHealthPercent: 0
+    maximumHealthPercent: 99
+  effects:
+  - {fileID: 11400000, guid: c4854e40022c34249a49b25da75b96af, type: 2}
+  duration: 0
+  castTime: 0
+  recoveryTime: 0
+  activeAnimationTime: 0
+  canCancelInto: 0
+  cancelableDuration: 0
+  range: 0
+  aimWhileCasting: 0
+  aimDuration: 0
+  changeDirection: 1
+  soundOnCast: {fileID: 0}
+  soundOnUse: {fileID: 0}
+  stopSoundAfterUse: 0
+  abilityAnimation: 0
+  statelessCast: 1

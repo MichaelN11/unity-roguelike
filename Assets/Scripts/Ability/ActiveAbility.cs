@@ -10,4 +10,12 @@ public abstract class ActiveAbility : ScriptableObject
     [SerializeField]
     private float cooldown;
     public float Cooldown => cooldown;
+
+    [SerializeField]
+    private AbilityConditions abilityConditions = new();
+
+    public bool CanActivate(AbilityUseData abilityUse)
+    {
+        return abilityConditions.ConditionsMet(abilityUse);
+    }
 }

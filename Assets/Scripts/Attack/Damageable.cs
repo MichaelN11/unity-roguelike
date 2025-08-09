@@ -179,23 +179,17 @@ public class Damageable : MonoBehaviour
             return;
         }
 
-        float randomValue = Random.value;
-        if (randomValue <= entityData.Entity.DropChance)
+        ItemDrop randomItemDrop = ItemDropUtil.GetRandomItemDrop(entityData.Entity.ItemDrops);
+        if (randomItemDrop != null)
         {
-            Instantiate(entityData.Entity.Droppable, this.transform.position, Quaternion.identity);
-        } else
-        {
-            ItemDrop randomItemDrop = ItemDropUtil.GetRandomItemDrop(entityData.Entity.ItemDrops, entityData.Entity.DropChance);
-            if (randomItemDrop != null)
-            {
-                DropItem(randomItemDrop);
-            }
+            DropItem(randomItemDrop);
         }
     }
 
     private void DropItem(ItemDrop itemDrop)
     {
-        GameObject droppedItem = Instantiate(ResourceManager.Instance.ItemPickupObject, this.transform.position, Quaternion.identity);
+        GameObject dropPrefab = (itemDrop.Item.DropPrefab) ? itemDrop.Item.DropPrefab : ResourceManager.Instance.ItemPickupObject;
+        GameObject droppedItem = Instantiate(dropPrefab, this.transform.position, Quaternion.identity);
         droppedItem.GetComponent<ItemPickup>().Init(itemDrop.Item, itemDrop.Amount);
     }
 

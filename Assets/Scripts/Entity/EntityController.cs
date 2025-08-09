@@ -158,7 +158,7 @@ public class EntityController : MonoBehaviour
         bool successful = false;
         if (inventory != null)
         {
-            successful = inventory.UseItem(itemNumber, direction, entityData.Entity.InteractionDistance);
+            successful = inventory.UseItemFromInventory(itemNumber, direction, entityData.Entity.InteractionDistance);
         }
         return successful;
     }

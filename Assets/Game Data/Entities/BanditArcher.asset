@@ -29,15 +29,15 @@ MonoBehaviour:
     aggroDistance: 8
     deaggro: 1
   weapon: {fileID: 11400000, guid: e978c1629a017493cb1ed17195979337, type: 2}
-  dropChance: 0.2
-  droppable: {fileID: 3527373394736214066, guid: 2c72a572ca7f44a7aaf3b7f22b94ea8d, type: 3}
   itemDrops:
   - item: {fileID: 11400000, guid: 560d2307b56344ba5a0d88d9958b7158, type: 2}
     dropChance: 0.1
     amount: 1
-    duration: 0
   - item: {fileID: 11400000, guid: 80a125bb684b646719a367b3320fddda, type: 2}
     dropChance: 0.1
     amount: 1
-    duration: 0
+  - item: {fileID: 11400000, guid: 5119bd55b49a64a6abba3af687938fbf, type: 2}
+    dropChance: 0.2
+    amount: 1
   description: 3
+  isBoss: 0

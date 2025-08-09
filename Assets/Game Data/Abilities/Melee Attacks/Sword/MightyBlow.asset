@@ -13,6 +13,9 @@ MonoBehaviour:
   m_Name: MightyBlow
   m_EditorClassIdentifier: 
   cooldown: 0
+  abilityConditions:
+    minimumHealthPercent: 0
+    maximumHealthPercent: 100
   effects:
   - {fileID: 11400000, guid: 7178db1ae1c9a4b73b20f76589468ce3, type: 2}
   - {fileID: 11400000, guid: 10b8c0b6c6ff246e2adfd5992f523182, type: 2}
@@ -30,3 +33,4 @@ MonoBehaviour:
   soundOnUse: {fileID: 11400000, guid: 8948b87782e614c6db82069ae449c9c2, type: 2}
   stopSoundAfterUse: 0
   abilityAnimation: 1
+  statelessCast: 0

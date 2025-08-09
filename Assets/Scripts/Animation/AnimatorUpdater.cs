@@ -117,6 +117,12 @@ public class AnimatorUpdater : MonoBehaviour
     /// <param name="eventInfo">Info about the triggered ability use event</param>
     private void OnAttack(AbilityUseEventInfo eventInfo)
     {
+        if (eventInfo.StatelessCast)
+        {
+            // If the ability is stateless, do not animate it.
+            return;
+        }
+
         if (eventInfo.ChangeDirection)
         {
             UpdateLookDirection();
@@ -136,17 +142,20 @@ public class AnimatorUpdater : MonoBehaviour
 
     private void OnItemUse(ItemUseEventInfo eventInfo)
     {
-        if (eventInfo.AbilityUseEventInfo.ChangeDirection)
+        if (eventInfo.Item.AnimateOnUse)
         {
-            UpdateLookDirection();
-        }
+            if (eventInfo.AbilityUseEventInfo.ChangeDirection)
+            {
+                UpdateLookDirection();
+            }
 
-        AnimateItem(eventInfo.Item, animationDirection);
+            AnimateItem(eventInfo.Item, animationDirection);
+        }
     }
 
     private void AnimateItem(Item item, Vector2 direction)
     {
-        if (item.Prefab != null && !DirectionUtil.IsFacingUp(direction))
+        if (item.HeldPrefab != null && !DirectionUtil.IsFacingUp(direction))
         {
             Vector2 itemPosition = new(transform.position.x, transform.position.y + ItemYOffset);
             if (DirectionUtil.IsFacingLeft(direction))
@@ -157,7 +166,7 @@ public class AnimatorUpdater : MonoBehaviour
             {
                 itemPosition.x += ItemXOffset;
             }
-            usedItemObject = Instantiate(item.Prefab, itemPosition, Quaternion.identity, transform);
+            usedItemObject = Instantiate(item.HeldPrefab, itemPosition, Quaternion.identity, transform);
         }
     }
 

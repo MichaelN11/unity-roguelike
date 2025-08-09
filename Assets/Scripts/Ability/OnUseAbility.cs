@@ -75,6 +75,13 @@ public class OnUseAbility : ActiveAbility
     private AbilityAnimation abilityAnimation;
     public AbilityAnimation AbilityAnimation => abilityAnimation;
 
+    /// <summary>
+    /// Indicates that the ability does not depend on or change the entity's state.
+    /// </summary>
+    [SerializeField]
+    private bool statelessCast = false;
+    public bool StatelessCast => statelessCast;
+
     public void Use(AbilityUseData abilityUse)
     {
         if (soundOnUse != null)

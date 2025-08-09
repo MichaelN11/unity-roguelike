@@ -115,13 +115,18 @@ public class AbilityManager : MonoBehaviour
 
         if (ability.CurrentCooldown <= 0)
         {
-            if (ability.Ability is OnUseAbility onUseAbility)
+            AbilityUseData abilityUse = BuildAbilityUseData();
+            if (!ability.Ability.CanActivate(abilityUse))
             {
-                abilityUseEventInfo = UseOnUseAbility(onUseAbility, direction, offsetDistance);
+                return null;
+            }
+            else if (ability.Ability is OnUseAbility onUseAbility)
+            {
+                abilityUseEventInfo = UseOnUseAbility(onUseAbility, direction, offsetDistance, abilityUse);
             }
             else if (ability.Ability is ComboAbility comboAbility)
             {
-                abilityUseEventInfo = UseComboAbility(comboAbility, direction, offsetDistance);
+                abilityUseEventInfo = UseComboAbility(comboAbility, direction, offsetDistance, abilityUse);
             }
         }
 
@@ -181,11 +186,14 @@ public class AbilityManager : MonoBehaviour
         return ability;
     }
 
-    private AbilityUseEventInfo UseOnUseAbility(OnUseAbility onUseAbility, Vector2 direction, float offsetDistance)
+    private AbilityUseEventInfo UseOnUseAbility(OnUseAbility onUseAbility, Vector2 direction, float offsetDistance, AbilityUseData abilityUse)
     {
-        if (entityState.CanAct() || CanCancelInto(onUseAbility))
+        if (onUseAbility.StatelessCast)
         {
-            AbilityUseEventInfo abilityUseEvent = StartCastingAbility(onUseAbility, direction);
+            return StatelessCast(onUseAbility, direction, offsetDistance, abilityUse);
+        } else if (entityState.CanAct() || CanCancelInto(onUseAbility))
+        {
+            AbilityUseEventInfo abilityUseEvent = StartCastingAbility(onUseAbility, direction, abilityUse);
             delayedAbilityCoroutine = DelayOnUseAbility(onUseAbility, abilityUseEvent.AbilityUse, offsetDistance);
             StartCoroutine(delayedAbilityCoroutine);
             return abilityUseEvent;
@@ -193,6 +201,20 @@ public class AbilityManager : MonoBehaviour
         {
             return null;
         }
+    }
+
+    private AbilityUseEventInfo StatelessCast(OnUseAbility onUseAbility, Vector2 direction, float offsetDistance, AbilityUseData abilityUse)
+    {
+        if (onUseAbility.SoundOnCast != null)
+        {
+            AudioManager.Instance.Play(onUseAbility.SoundOnCast);
+        }
+        AbilityUseEventInfo abilityUseEvent = InvokeAbilityUseEvent(abilityUse, onUseAbility);
+        abilityUse.Direction = direction;
+        abilityUse.Position += direction * offsetDistance;
+        onUseAbility.Use(abilityUse);
+
+        return abilityUseEvent;
     }
 
     private bool CanCancelInto(OnUseAbility onUseAbility)
@@ -203,7 +225,7 @@ public class AbilityManager : MonoBehaviour
             && (currentOnUseAbility == null || currentOnUseAbility != onUseAbility);
     }
 
-    private AbilityUseEventInfo UseComboAbility(ComboAbility comboAbility, Vector2 direction, float offsetDistance)
+    private AbilityUseEventInfo UseComboAbility(ComboAbility comboAbility, Vector2 direction, float offsetDistance, AbilityUseData abilityUse)
     {
         if (currentComboAbility != comboAbility)
         {
@@ -212,10 +234,11 @@ public class AbilityManager : MonoBehaviour
         }
         if (entityState.CanAct()
                 || (entityState.ActionState == ActionState.Ability
-                && entityState.StunTimer <= comboableTime)) {
+                && entityState.StunTimer <= comboableTime))
+        {
             comboTimer = 0;
             ComboStage nextComboStage = comboAbility.ComboStages[nextComboNumber];
-            AbilityUseEventInfo abilityUseEvent = StartCastingAbility(nextComboStage.Ability, direction);
+            AbilityUseEventInfo abilityUseEvent = StartCastingAbility(nextComboStage.Ability, direction, abilityUse);
             delayedAbilityCoroutine = DelayComboAbility(comboAbility, nextComboStage, abilityUseEvent.AbilityUse, offsetDistance);
             StartCoroutine(delayedAbilityCoroutine);
             return abilityUseEvent;
@@ -225,14 +248,23 @@ public class AbilityManager : MonoBehaviour
         }
     }
 
-    private AbilityUseEventInfo StartCastingAbility(OnUseAbility onUseAbility, Vector2 direction)
+    private AbilityUseEventInfo StartCastingAbility(OnUseAbility onUseAbility, Vector2 direction, AbilityUseData abilityUse)
     {
         if (onUseAbility.SoundOnCast != null)
         {
             AudioManager.Instance.Play(onUseAbility.SoundOnCast);
         }
 
-        AbilityUseData abilityUse = new()
+        UpdateEntityState(onUseAbility, abilityUse, direction);
+        AbilityUseEventInfo abilityUseEvent = InvokeAbilityUseEvent(abilityUse, onUseAbility);
+        cancelableDuration = onUseAbility.CancelableDuration;
+
+        return abilityUseEvent;
+    }
+
+    private AbilityUseData BuildAbilityUseData()
+    {
+        return new()
         {
             Position = transform.position,
             Entity = gameObject,
@@ -244,19 +276,23 @@ public class AbilityManager : MonoBehaviour
             SpriteRenderer = spriteRenderer,
             AbilityManager = this
         };
+    }
 
+    private void UpdateEntityState(OnUseAbility onUseAbility, AbilityUseData abilityUse, Vector2 direction)
+    {
         if (movement != null)
         {
             movement.StopMoving();
         }
-
         InterruptCurrentAbility();
         currentOnUseAbility = onUseAbility;
         currentAbilityData = abilityUse;
-
         entityState.LookDirection = direction;
-
         entityState.AbilityState(onUseAbility.RecoveryTime + onUseAbility.CastTime + onUseAbility.ActiveAnimationTime, onUseAbility.AimWhileCasting);
+    }
+
+    private AbilityUseEventInfo InvokeAbilityUseEvent(AbilityUseData abilityUse, OnUseAbility onUseAbility)
+    {
         AbilityUseEventInfo abilityUseEvent = new()
         {
             AbilityUse = abilityUse,
@@ -266,11 +302,10 @@ public class AbilityManager : MonoBehaviour
             RecoveryTime = onUseAbility.RecoveryTime,
             AimDuration = onUseAbility.AimDuration,
             Range = onUseAbility.Range,
-            ChangeDirection = onUseAbility.ChangeDirection
+            ChangeDirection = onUseAbility.ChangeDirection,
+            StatelessCast = onUseAbility.StatelessCast
         };
         OnAbilityUse?.Invoke(abilityUseEvent);
-        cancelableDuration = onUseAbility.CancelableDuration;
-
         return abilityUseEvent;
     }
 
@@ -291,14 +326,14 @@ public class AbilityManager : MonoBehaviour
     private IEnumerator DelayOnUseAbility(OnUseAbility onUseAbility, AbilityUseData abilityUse, float offsetDistance)
     {
         yield return new WaitForSeconds(onUseAbility.CastTime);
-        UpdateAbilityState(onUseAbility, abilityUse, offsetDistance);
+        UpdateAbilityState(abilityUse, offsetDistance);
         onUseAbility.Use(abilityUse);
     }
 
     private IEnumerator DelayComboAbility(ComboAbility comboAbility, ComboStage nextComboStage, AbilityUseData abilityUse, float offsetDistance)
     {
         yield return new WaitForSeconds(nextComboStage.Ability.CastTime);
-        UpdateAbilityState(nextComboStage.Ability, abilityUse, offsetDistance);
+        UpdateAbilityState(abilityUse, offsetDistance);
         nextComboStage.Ability.Use(abilityUse);
 
         if (nextComboNumber + 1 < comboAbility.ComboStages.Count)
@@ -313,7 +348,7 @@ public class AbilityManager : MonoBehaviour
         }
     }
 
-    private void UpdateAbilityState(OnUseAbility onUseAbility, AbilityUseData abilityUse, float offsetDistance)
+    private void UpdateAbilityState(AbilityUseData abilityUse, float offsetDistance)
     {
         entityState.CanLookWhileCasting = false;
         abilityUse.Direction = entityState.LookDirection.normalized;
