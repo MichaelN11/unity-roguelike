@@ -15,6 +15,8 @@ public class Chest : MonoBehaviour, IInteractable
     private Sound sound;
     [SerializeField]
     private float interactionTime = 1f;
+    [SerializeField]
+    private float itemSoundDelay = 0;
 
     private bool opened = false;
     public bool Opened => opened;
@@ -54,6 +56,12 @@ public class Chest : MonoBehaviour, IInteractable
 
         if (levelObject != null && levelObject.containedItem.Item != null && levelObject.containedItem.Amount > 0)
         {
+            if (levelObject.containedItem.Item.PickupSound)
+            {
+                IEnumerator delayedSoundCoroutine = DelayedSoundCoroutine(levelObject.containedItem.Item.PickupSound);
+                StartCoroutine(delayedSoundCoroutine);
+            }
+
             interactableUser.Inventory.AcquireItem(levelObject.containedItem);
             Vector2 position = new(transform.position.x + FloatingTextXOffset, transform.position.y);
             GameObject floatingText = Instantiate(itemFloatingText, position, Quaternion.identity);
@@ -79,5 +87,11 @@ public class Chest : MonoBehaviour, IInteractable
             animator.SetTrigger("openImmediate");
         }
         opened = true;
+    }
+
+    private IEnumerator DelayedSoundCoroutine(Sound sound)
+    {
+        yield return new WaitForSeconds(itemSoundDelay);
+        AudioManager.Instance.Play(sound);
     }
 }
