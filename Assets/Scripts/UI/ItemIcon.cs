@@ -9,6 +9,8 @@ using UnityEngine.UI;
 /// </summary>
 public class ItemIcon : MonoBehaviour
 {
+    private static readonly Color GreyedOutColor = new Color32(118, 118, 118, 160);
+
     [SerializeField]
     private int itemNumber;
     [SerializeField]
@@ -18,6 +20,7 @@ public class ItemIcon : MonoBehaviour
 
     private bool foundPlayer = false;
     private InventoryItem inventoryItem;
+    private bool greyedOut = false;
 
     private void Update()
     {
@@ -29,9 +32,9 @@ public class ItemIcon : MonoBehaviour
                 if (itemNumber <= playerInventory.Items.Count)
                 {
                     inventoryItem = playerInventory.Items[itemNumber - 1];
-                    if (inventoryItem.Item.Icon != null)
+                    if (inventoryItem.Item.IngameSprite != null)
                     {
-                        icon.sprite = inventoryItem.Item.Icon;
+                        icon.sprite = inventoryItem.Item.IngameSprite;
                     }
                 }
             }
@@ -43,6 +46,15 @@ public class ItemIcon : MonoBehaviour
         if (inventoryItem != null)
         {
             quantity.text = inventoryItem.Amount.ToString();
+            if (inventoryItem.Amount <= 0 && !greyedOut)
+            {
+                icon.color = GreyedOutColor;
+                greyedOut = true;
+            } else if (inventoryItem.Amount > 0 && greyedOut)
+            {
+                icon.color = Color.white;
+                greyedOut = false;
+            }
         }
     }
 }

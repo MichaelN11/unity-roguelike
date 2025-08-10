@@ -27,8 +27,8 @@ public class Item : ScriptableObject
     public GameObject DropPrefab => dropPrefab;
 
     [SerializeField]
-    private Sprite icon;
-    public Sprite Icon => icon;
+    private Sprite ingameSprite;
+    public Sprite IngameSprite => ingameSprite;
 
     [SerializeField]
     private string itemName;

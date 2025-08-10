@@ -15,7 +15,8 @@ MonoBehaviour:
   activeAbility: {fileID: 11400000, guid: be41a57c3441844c6a28518eda07a0a5, type: 2}
   heldPrefab: {fileID: 0}
   dropPrefab: {fileID: 0}
-  icon: {fileID: 80710256, guid: fdd41d459fce54470912a1a49304ca50, type: 3}
+  ingameSprite: {fileID: 80710256, guid: fdd41d459fce54470912a1a49304ca50, type: 3}
+  uiIcon: {fileID: 0}
   itemName: Max Health Increase
   useOnPickup: 1
   animateOnUse: 0

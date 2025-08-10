@@ -15,7 +15,8 @@ MonoBehaviour:
   activeAbility: {fileID: 11400000, guid: 8f87000abba3b4c6f84a3ff839340cd8, type: 2}
   heldPrefab: {fileID: 5241467608802257397, guid: b598ca31fd79a4aa7b86fcfd58138487, type: 3}
   dropPrefab: {fileID: 0}
-  icon: {fileID: 2116723113, guid: fdd41d459fce54470912a1a49304ca50, type: 3}
+  ingameSprite: {fileID: 2116723113, guid: fdd41d459fce54470912a1a49304ca50, type: 3}
+  uiIcon: {fileID: 21300000, guid: 7887d8d9c1f524018a5ff37d14611c00, type: 3}
   itemName: Healing Potion
   useOnPickup: 0
   animateOnUse: 1

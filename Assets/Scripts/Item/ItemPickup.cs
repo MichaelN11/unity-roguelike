@@ -100,7 +100,7 @@ public class ItemPickup : MonoBehaviour
 
     private void UpdateSprite(Item newItem)
     {
-        spriteRenderer.sprite = newItem.Icon;
+        spriteRenderer.sprite = newItem.IngameSprite;
         spriteRenderer.enabled = true;
         if (quantityText != null && amount > 1)
         {

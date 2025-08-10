@@ -43,7 +43,7 @@ public class ItemFloatingText : MonoBehaviour
         {
             itemText.text += " x" + inventoryItem.Amount;
         }
-        spriteRenderer.sprite = inventoryItem.Item.Icon;
+        spriteRenderer.sprite = inventoryItem.Item.IngameSprite;
         spriteRenderer.enabled = true;
         move = true;
         Destroy(gameObject, DestroyTime);
