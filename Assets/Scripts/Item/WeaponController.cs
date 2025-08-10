@@ -51,7 +51,7 @@ public class WeaponController : MonoBehaviour
 
         if (abilityManager != null)
         {
-            abilityManager.OnAbilityUse += Attack;
+            abilityManager.OnAbilityStarted += Attack;
         }
     }
 

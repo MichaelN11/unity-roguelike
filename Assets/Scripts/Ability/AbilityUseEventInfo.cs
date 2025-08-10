@@ -14,6 +14,7 @@ public class AbilityUseEventInfo
     public float Range { get; set; }
     public bool ChangeDirection { get; set; }
     public bool StatelessCast { get; set; }
+    public string Origin { get; set; }
 
     public float GetFullDuration()
     {

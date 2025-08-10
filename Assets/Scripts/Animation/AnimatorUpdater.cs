@@ -39,7 +39,7 @@ public class AnimatorUpdater : MonoBehaviour
         defaultMaterial = spriteRenderer.material;
         if (abilityManager != null)
         {
-            abilityManager.OnAbilityUse += OnAttack;
+            abilityManager.OnAbilityStarted += OnAttack;
         }
         if (inventory != null)
         {

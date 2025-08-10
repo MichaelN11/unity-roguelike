@@ -22,6 +22,11 @@ public class Inventory : MonoBehaviour
         abilityManager = GetComponentInChildren<AbilityManager>();
     }
 
+    private void Start()
+    {
+        abilityManager.OnAbilityUse += OnAbilityUse;
+    }
+
     public static Inventory AddToObject(GameObject gameObject, List<InventoryItem> inventoryItems)
     {
         Inventory inventory = gameObject.AddComponent<Inventory>();
@@ -80,10 +85,6 @@ public class Inventory : MonoBehaviour
             if (inventoryItem.Amount > 0)
             {
                 success = UseAbility(inventoryItem, direction, offsetDistance); ;
-                if (success)
-                {
-                    --inventoryItem.Amount;
-                }
             }
         }
         return success;
@@ -112,12 +113,23 @@ public class Inventory : MonoBehaviour
             Ability = inventoryItem.Item.ActiveAbility
         };
         AbilityUseEventInfo abilityUseEvent = abilityManager.UseAbility
-            (abilityContext, direction, offsetDistance);
+            (abilityContext, direction, offsetDistance, inventoryItem.Item.ItemName);
         bool success = abilityUseEvent != null;
         if (success)
         {
             OnItemUse?.Invoke(new ItemUseEventInfo() { Item = inventoryItem.Item, AbilityUseEventInfo = abilityUseEvent });
         }
         return success;
+    }
+
+    private void OnAbilityUse(AbilityUseEventInfo abilityUseEvent)
+    {
+        foreach (InventoryItem inventoryItem in Items)
+        {
+            if (inventoryItem.Item.ItemName == abilityUseEvent.Origin)
+            {
+                --inventoryItem.Amount;
+            }
+        }
     }
 }

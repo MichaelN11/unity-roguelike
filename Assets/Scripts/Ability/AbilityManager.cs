@@ -9,7 +9,11 @@ using UnityEngine;
 public class AbilityManager : MonoBehaviour
 {
     /// <summary>
-    /// The event that fires when an ability is used by the entity.
+    /// The event that fires when an ability cast is started by the entity.
+    /// </summary>
+    public event Action<AbilityUseEventInfo> OnAbilityStarted;
+    /// <summary>
+    /// The event that fires when an ability is done casting and is used by the entity.
     /// </summary>
     public event Action<AbilityUseEventInfo> OnAbilityUse;
 
@@ -36,6 +40,7 @@ public class AbilityManager : MonoBehaviour
     private AbilityUseData currentAbilityData;
     private float currentAbilityDuration;
     private bool currentAbilityStarted = false; // Set when the startup/cast time is finished
+    private string currentAbilityOrigin = null;
 
     private void Awake()
     {
@@ -109,7 +114,7 @@ public class AbilityManager : MonoBehaviour
         return UseAbility(ability, direction, offsetDistance);
     }
 
-    public AbilityUseEventInfo UseAbility(ActiveAbilityContext ability, Vector2 direction, float offsetDistance)
+    public AbilityUseEventInfo UseAbility(ActiveAbilityContext ability, Vector2 direction, float offsetDistance, string origin = null)
     {
         AbilityUseEventInfo abilityUseEventInfo = null;
 
@@ -130,9 +135,11 @@ public class AbilityManager : MonoBehaviour
             }
         }
 
+        // Ability cast was successful
         if (abilityUseEventInfo != null)
         {
             ability.CurrentCooldown = ability.Ability.Cooldown;
+            currentAbilityOrigin = origin;
         }
 
         return abilityUseEventInfo;
@@ -209,7 +216,8 @@ public class AbilityManager : MonoBehaviour
         {
             AudioManager.Instance.Play(onUseAbility.SoundOnCast);
         }
-        AbilityUseEventInfo abilityUseEvent = InvokeAbilityUseEvent(abilityUse, onUseAbility);
+        AbilityUseEventInfo abilityUseEvent = BuildAbilityUseEventInfo(abilityUse, onUseAbility);
+        OnAbilityStarted?.Invoke(abilityUseEvent);
         abilityUse.Direction = direction;
         abilityUse.Position += direction * offsetDistance;
         onUseAbility.Use(abilityUse);
@@ -256,7 +264,8 @@ public class AbilityManager : MonoBehaviour
         }
 
         UpdateEntityState(onUseAbility, abilityUse, direction);
-        AbilityUseEventInfo abilityUseEvent = InvokeAbilityUseEvent(abilityUse, onUseAbility);
+        AbilityUseEventInfo abilityUseEvent = BuildAbilityUseEventInfo(abilityUse, onUseAbility);
+        OnAbilityStarted?.Invoke(abilityUseEvent);
         cancelableDuration = onUseAbility.CancelableDuration;
 
         return abilityUseEvent;
@@ -291,7 +300,7 @@ public class AbilityManager : MonoBehaviour
         entityState.AbilityState(onUseAbility.RecoveryTime + onUseAbility.CastTime + onUseAbility.ActiveAnimationTime, onUseAbility.AimWhileCasting);
     }
 
-    private AbilityUseEventInfo InvokeAbilityUseEvent(AbilityUseData abilityUse, OnUseAbility onUseAbility)
+    private AbilityUseEventInfo BuildAbilityUseEventInfo(AbilityUseData abilityUse, OnUseAbility onUseAbility)
     {
         AbilityUseEventInfo abilityUseEvent = new()
         {
@@ -305,7 +314,6 @@ public class AbilityManager : MonoBehaviour
             ChangeDirection = onUseAbility.ChangeDirection,
             StatelessCast = onUseAbility.StatelessCast
         };
-        OnAbilityUse?.Invoke(abilityUseEvent);
         return abilityUseEvent;
     }
 
@@ -328,6 +336,10 @@ public class AbilityManager : MonoBehaviour
         yield return new WaitForSeconds(onUseAbility.CastTime);
         UpdateAbilityState(abilityUse, offsetDistance);
         onUseAbility.Use(abilityUse);
+
+        AbilityUseEventInfo abilityUseEvent = BuildAbilityUseEventInfo(abilityUse, onUseAbility);
+        abilityUseEvent.Origin = currentAbilityOrigin;
+        OnAbilityUse?.Invoke(abilityUseEvent);
     }
 
     private IEnumerator DelayComboAbility(ComboAbility comboAbility, ComboStage nextComboStage, AbilityUseData abilityUse, float offsetDistance)
@@ -335,6 +347,10 @@ public class AbilityManager : MonoBehaviour
         yield return new WaitForSeconds(nextComboStage.Ability.CastTime);
         UpdateAbilityState(abilityUse, offsetDistance);
         nextComboStage.Ability.Use(abilityUse);
+
+        AbilityUseEventInfo abilityUseEvent = BuildAbilityUseEventInfo(abilityUse, nextComboStage.Ability);
+        abilityUseEvent.Origin = currentAbilityOrigin;
+        OnAbilityUse?.Invoke(abilityUseEvent);
 
         if (nextComboNumber + 1 < comboAbility.ComboStages.Count)
         {
@@ -372,6 +388,7 @@ public class AbilityManager : MonoBehaviour
                 currentAbilityStarted = false;
             }
             currentOnUseAbility = null;
+            currentAbilityOrigin = null;
         }
     }
 }
