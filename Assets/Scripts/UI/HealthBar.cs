@@ -54,6 +54,7 @@ public class HealthBar : MonoBehaviour
             {
                 damageable = PlayerController.Instance.GetComponent<Damageable>();
                 entityData = PlayerController.Instance.GetComponent<EntityData>();
+                rectTransform.sizeDelta = new Vector2(DetermineWidth(), rectTransform.sizeDelta.y);
             } else if (isBoss && GameManager.Instance.CurrentBoss != null)
             {
                 Debug.Log("Found boss: " + GameManager.Instance.CurrentBoss.Entity.Description.ToString());
@@ -74,8 +75,7 @@ public class HealthBar : MonoBehaviour
                 slider.value = healthPercentage;
                 if (isPlayer)
                 {
-                    int maxHealthIncreases = (int)(damageable.MaxHealth - entityData.Entity.MaxHealth);
-                    float desiredWidth = initialWidth + (maxHealthIncreases * widthIncreaseWithHealthIncrease);
+                    float desiredWidth = DetermineWidth();
                     if (rectTransform.sizeDelta.x != desiredWidth)
                     {
                         Debug.Log("updating health bar width sizex: " + rectTransform.sizeDelta.x + " desiredWidth: " + desiredWidth);
@@ -119,5 +119,11 @@ public class HealthBar : MonoBehaviour
         }
         rectTransform.sizeDelta = new Vector2(targetWidth, startSize.y);
         updatingWidth = false;
+    }
+
+    private float DetermineWidth()
+    {
+        int maxHealthIncreases = (int)(damageable.MaxHealth - entityData.Entity.MaxHealth);
+        return initialWidth + (maxHealthIncreases * widthIncreaseWithHealthIncrease);
     }
 }

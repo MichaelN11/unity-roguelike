@@ -333,7 +333,8 @@ public class GameManager : MonoBehaviour
         GameState.Player = new();
         if (PlayerController.Instance.TryGetComponent<Damageable>(out Damageable playerDamageable))
         {
-            GameState.Player.Health = playerDamageable.CurrentHealth;
+            GameState.Player.CurrentHealth = playerDamageable.CurrentHealth;
+            GameState.Player.MaxHealth = playerDamageable.MaxHealth;
         }
         if (PlayerController.Instance.TryGetComponent<EntityData>(out EntityData playerEntityData))
         {

@@ -20,4 +20,4 @@ MonoBehaviour:
   useOnPickup: 1
   animateOnUse: 0
   durationOnGround: 0
-  pickupSound: {fileID: 11400000, guid: 1a108503e68164429b6f0c37ee9ca3e6, type: 2}
+  pickupSound: {fileID: 11400000, guid: cc6b2eca2bffb4e9baf095b3f33badc8, type: 2}

@@ -130,13 +130,14 @@ public class EntityFactory
     /// <param name="saveData"></param>
     private static void LoadCommonComponents(Entity entity, GameObject entityObject, EntitySave saveData)
     {
-        if (saveData.Health > 0)
+        float maxHealth = (saveData.MaxHealth > 0) ? saveData.MaxHealth : entity.MaxHealth;
+        if (saveData.CurrentHealth > 0)
         {
-            Damageable.AddToObject(entityObject, entity.MaxHealth, saveData.Health);
+            Damageable.AddToObject(entityObject, maxHealth, saveData.CurrentHealth);
         }
         else
         {
-            Damageable.AddToObject(entityObject, entity.MaxHealth);
+            Damageable.AddToObject(entityObject, maxHealth);
         }
 
         List<InventoryItem> inventoryItems = new();
