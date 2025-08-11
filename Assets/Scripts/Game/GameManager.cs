@@ -394,9 +394,9 @@ public class GameManager : MonoBehaviour
                 ObjectSave objectSave = new();
                 objectSave.Type = levelObject.Type;
                 objectSave.Position = levelObject.transform.position;
-                if (levelObject.containedItem.Item != null && levelObject.containedItem.Amount > 0)
+                if (levelObject.ContainedItem.Item != null && levelObject.ContainedItem.Amount > 0)
                 {
-                    objectSave.InventoryItem = SerializeInventoryItem(levelObject.containedItem);
+                    objectSave.InventoryItem = SerializeInventoryItem(levelObject.ContainedItem);
                 }
                 sceneSave.SavedObjects.ObjectList.Add(objectSave);
             }

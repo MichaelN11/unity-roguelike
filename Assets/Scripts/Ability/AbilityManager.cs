@@ -101,6 +101,27 @@ public class AbilityManager : MonoBehaviour
         return abilityManager;
     }
 
+    public void LearnNewAbility(ActiveAbility ability)
+    {
+        bool isNewAbility = true;
+        foreach(ActiveAbilityContext abilityContext in abilities)
+        {
+            if (abilityContext.Ability == ability)
+            {
+                isNewAbility = false;
+                break;
+            }
+        }
+
+        if (isNewAbility)
+        {
+            abilities.Add(new()
+            {
+                Ability = ability
+            });
+        }
+    }
+
     /// <summary>
     /// Uses the ability.
     /// </summary>
@@ -111,6 +132,11 @@ public class AbilityManager : MonoBehaviour
     public AbilityUseEventInfo UseAbility(int abilityNumber, Vector2 direction, float offsetDistance)
     {
         ActiveAbilityContext ability = GetAbility(abilityNumber);
+        if (ability == null)
+        {
+            return null;
+        }
+
         return UseAbility(ability, direction, offsetDistance);
     }
 

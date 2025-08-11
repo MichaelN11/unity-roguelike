@@ -253,7 +253,8 @@ public class EntityController : MonoBehaviour
         {
             Inventory = inventory,
             EntityState = entityState,
-            Movement = movement
+            Movement = movement,
+            AbilityManager = abilityManager
         };
     }
 

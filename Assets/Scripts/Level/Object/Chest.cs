@@ -12,11 +12,17 @@ public class Chest : MonoBehaviour, IInteractable
     [SerializeField]
     private GameObject itemFloatingText;
     [SerializeField]
+    private GameObject abilityFloatingText;
+    [SerializeField]
     private Sound sound;
+    [SerializeField]
+    private Sound newAbilitySound;
     [SerializeField]
     private float interactionTime = 1f;
     [SerializeField]
     private float itemSoundDelay = 0;
+    [SerializeField]
+    private float abilitySoundDelay = 0.5f;
 
     private bool opened = false;
     public bool Opened => opened;
@@ -32,7 +38,7 @@ public class Chest : MonoBehaviour, IInteractable
 
     private void Start()
     {
-        if (levelObject == null || levelObject.containedItem.Item == null || levelObject.containedItem.Amount <= 0)
+        if (IsEmpty(levelObject))
         {
             SetToOpen();
         }
@@ -54,20 +60,35 @@ public class Chest : MonoBehaviour, IInteractable
             animator.SetTrigger("open");
         }
 
-        if (levelObject != null && levelObject.containedItem.Item != null && levelObject.containedItem.Amount > 0)
+        if (levelObject != null)
         {
-            if (levelObject.containedItem.Item.PickupSound)
+            if (levelObject.ContainedItem.Item != null && levelObject.ContainedItem.Amount > 0)
             {
-                IEnumerator delayedSoundCoroutine = DelayedSoundCoroutine(levelObject.containedItem.Item.PickupSound);
+                if (levelObject.ContainedItem.Item.PickupSound)
+                {
+                    IEnumerator delayedSoundCoroutine = DelayedSoundCoroutine(levelObject.ContainedItem.Item.PickupSound, itemSoundDelay);
+                    StartCoroutine(delayedSoundCoroutine);
+                }
+                Vector2 position = new(transform.position.x + FloatingTextXOffset, transform.position.y);
+                GameObject floatingText = Instantiate(itemFloatingText, position, Quaternion.identity);
+                floatingText.GetComponent<ItemFloatingText>().Init(levelObject.ContainedItem);
+
+                interactableUser.Inventory.AcquireItem(levelObject.ContainedItem);
+                levelObject.ContainedItem.Item = null;
+                levelObject.ContainedItem.Amount = 0;
+            } else if (levelObject.Ability)
+            {
+                Vector2 position = new(transform.position.x + FloatingTextXOffset, transform.position.y);
+                GameObject floatingText = Instantiate(abilityFloatingText, position, Quaternion.identity);
+                string displayText = "New ability: " + levelObject.Ability.AbilityName;
+                floatingText.GetComponent<ItemFloatingText>().Init(displayText, 0);
+
+                interactableUser.AbilityManager.LearnNewAbility(levelObject.Ability);
+                levelObject.Ability = null;
+
+                IEnumerator delayedSoundCoroutine = DelayedSoundCoroutine(newAbilitySound, abilitySoundDelay);
                 StartCoroutine(delayedSoundCoroutine);
             }
-
-            interactableUser.Inventory.AcquireItem(levelObject.containedItem);
-            Vector2 position = new(transform.position.x + FloatingTextXOffset, transform.position.y);
-            GameObject floatingText = Instantiate(itemFloatingText, position, Quaternion.identity);
-            floatingText.GetComponent<ItemFloatingText>().Init(levelObject.containedItem);
-            levelObject.containedItem.Item = null;
-            levelObject.containedItem.Amount = 0;
         }
 
         opened = true;
@@ -80,6 +101,12 @@ public class Chest : MonoBehaviour, IInteractable
         return !opened;
     }
 
+    private bool IsEmpty(LevelObject levelObject)
+    {
+        return levelObject == null
+            || (levelObject.ContainedItem.Item == null && levelObject.Ability == null);
+    }
+
     private void SetToOpen()
     {
         if (animator != null)
@@ -89,9 +116,9 @@ public class Chest : MonoBehaviour, IInteractable
         opened = true;
     }
 
-    private IEnumerator DelayedSoundCoroutine(Sound sound)
+    private IEnumerator DelayedSoundCoroutine(Sound sound, float delay)
     {
-        yield return new WaitForSeconds(itemSoundDelay);
+        yield return new WaitForSeconds(delay);
         AudioManager.Instance.Play(sound);
     }
 }

@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc8c03d57d8f740f4bc2f163f1186102, type: 3}
   m_Name: MightyBlow
   m_EditorClassIdentifier: 
+  abilityName: Mighty Blow
   cooldown: 0
   abilityConditions:
     minimumHealthPercent: 0

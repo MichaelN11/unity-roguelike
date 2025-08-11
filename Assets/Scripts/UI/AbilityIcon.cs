@@ -15,24 +15,55 @@ public class AbilityIcon : MonoBehaviour
     private int abilityNumber;
 
     private AbilityManager playerAbilityManager;
+    private CanvasGroup canvasGroup;
+
+    private void Awake()
+    {
+        canvasGroup = GetComponent<CanvasGroup>();
+        if (canvasGroup == null)
+        {
+            canvasGroup = gameObject.AddComponent<CanvasGroup>();
+        }
+    }
 
     private void Update()
     {
         if (playerAbilityManager != null)
         {
-            UpdateCooldownImage();
+            UpdateFromAbility();
         } else if (PlayerController.Instance != null)
         {
             playerAbilityManager = PlayerController.Instance.GetComponentInChildren<AbilityManager>();
         }
     }
 
-    private void UpdateCooldownImage()
+    private void UpdateFromAbility()
     {
-        ActiveAbilityContext ability = playerAbilityManager.Abilities[abilityNumber];
-        if (ability.Ability.Cooldown > 0)
+        if (abilityNumber < playerAbilityManager.Abilities.Count)
         {
-            cooldownImage.fillAmount = ability.CurrentCooldown / ability.Ability.Cooldown;
+            ActiveAbilityContext ability = playerAbilityManager.Abilities[abilityNumber];
+            if (ability.Ability.Cooldown > 0)
+            {
+                cooldownImage.fillAmount = ability.CurrentCooldown / ability.Ability.Cooldown;
+            }
+            Show();
+        } else
+        {
+            Hide();
         }
+    }
+
+    private void Hide()
+    {
+        canvasGroup.alpha = 0f;          // fully transparent
+        canvasGroup.interactable = false; // stops clicks
+        canvasGroup.blocksRaycasts = false; // stops blocking other UI clicks
+    }
+
+    private void Show()
+    {
+        canvasGroup.alpha = 1f;          
+        canvasGroup.interactable = true; 
+        canvasGroup.blocksRaycasts = true; 
     }
 }

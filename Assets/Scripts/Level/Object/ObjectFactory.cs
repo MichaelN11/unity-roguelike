@@ -22,8 +22,8 @@ public class ObjectFactory
             levelObject.Type = objectPrefab.name;
             if (containedItem != null && itemAmount > 0)
             {
-                levelObject.containedItem.Item = containedItem;
-                levelObject.containedItem.Amount = itemAmount;
+                levelObject.ContainedItem.Item = containedItem;
+                levelObject.ContainedItem.Amount = itemAmount;
             }
         }
         else

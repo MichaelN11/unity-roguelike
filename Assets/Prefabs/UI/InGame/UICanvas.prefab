@@ -4774,6 +4774,10 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: 65e33e535431b47d4ae4876d349ea1bd, type: 3}
+    - target: {fileID: 5791222727753191829, guid: 708e1b7885eb049bf85131d337530c50, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8376714378049658681, guid: 708e1b7885eb049bf85131d337530c50, type: 3}
       propertyPath: abilityNumber
       value: 2
@@ -4785,6 +4789,10 @@ PrefabInstance:
     - target: {fileID: 8549595559266481450, guid: 708e1b7885eb049bf85131d337530c50, type: 3}
       propertyPath: m_Name
       value: SecondaryFire Ability
+      objectReference: {fileID: 0}
+    - target: {fileID: 8549595559266481450, guid: 708e1b7885eb049bf85131d337530c50, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9156454096458639485, guid: 708e1b7885eb049bf85131d337530c50, type: 3}
       propertyPath: m_Pivot.x

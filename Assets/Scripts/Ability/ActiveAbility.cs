@@ -8,6 +8,10 @@ using UnityEngine;
 public abstract class ActiveAbility : ScriptableObject
 {
     [SerializeField]
+    private string abilityName = "";
+    public string AbilityName => abilityName;
+
+    [SerializeField]
     private float cooldown;
     public float Cooldown => cooldown;
 

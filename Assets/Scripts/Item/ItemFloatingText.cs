@@ -38,12 +38,21 @@ public class ItemFloatingText : MonoBehaviour
 
     public void Init(InventoryItem inventoryItem)
     {
-        itemText.text = inventoryItem.Item.ItemName;
-        if (!inventoryItem.Item.UseOnPickup)
+        int amount = (inventoryItem.Item.UseOnPickup) ? 0 : inventoryItem.Amount;
+        Init(inventoryItem.Item.ItemName, amount, inventoryItem.Item.IngameSprite);
+    }
+
+    public void Init(string itemName, int amount, Sprite sprite = null)
+    {
+        itemText.text = itemName;
+        if (amount > 0)
         {
-            itemText.text += " x" + inventoryItem.Amount;
+            itemText.text += " x" + amount;
         }
-        spriteRenderer.sprite = inventoryItem.Item.IngameSprite;
+        if (sprite)
+        {
+            spriteRenderer.sprite = sprite;
+        }
         spriteRenderer.enabled = true;
         move = true;
         Destroy(gameObject, DestroyTime);

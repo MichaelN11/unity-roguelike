@@ -10,4 +10,5 @@ public class InteractableUser
     public Inventory Inventory { get; set; }
     public EntityState EntityState { get; set; }
     public Movement Movement { get; set; }
+    public AbilityManager AbilityManager { get; set; }
 }

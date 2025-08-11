@@ -16,7 +16,6 @@ MonoBehaviour:
   abilities:
   - {fileID: 11400000, guid: 2e62d31d3b33948a0b8699d897545ebd, type: 2}
   - {fileID: 11400000, guid: 949ee6ea371ab4f508fe33b078d53ca5, type: 2}
-  - {fileID: 11400000, guid: e225a368825c44ed099b7741e3156f29, type: 2}
   initialInventory:
   - Item: {fileID: 11400000, guid: 560d2307b56344ba5a0d88d9958b7158, type: 2}
     Amount: 0
@@ -35,8 +34,6 @@ MonoBehaviour:
     aggroDistance: 7
     deaggro: 1
   weapon: {fileID: 0}
-  dropChance: 0
-  droppable: {fileID: 0}
   itemDrops: []
   description: 0
   isBoss: 0

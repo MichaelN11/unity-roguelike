@@ -167,9 +167,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemFloatingText: {fileID: 8660262589538942971, guid: 27fabbd830ab94b1db2b94dd7a11ce26, type: 3}
+  abilityFloatingText: {fileID: 8660262589538942971, guid: 07efc872d312540519d3ca0531ad7ef8, type: 3}
   sound: {fileID: 11400000, guid: 5169613db6d3d483fa057cefa6dea1b9, type: 2}
+  newAbilitySound: {fileID: 11400000, guid: 2cc4a6a24f06847e793c7ec37a4224f7, type: 2}
   interactionTime: 1
   itemSoundDelay: 0
+  abilitySoundDelay: 0.5
 --- !u!114 &-5764383452003572476
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -182,6 +185,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c199a98eb28df4eb8bf522c57f58b125, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  containedItem:
+  <ContainedItem>k__BackingField:
     Item: {fileID: 0}
     Amount: 0
+  <Ability>k__BackingField: {fileID: 0}
