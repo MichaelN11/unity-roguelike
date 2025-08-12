@@ -394,7 +394,8 @@ public class GameManager : MonoBehaviour
                 ObjectSave objectSave = new();
                 objectSave.Type = levelObject.Type;
                 objectSave.Position = levelObject.transform.position;
-                if (levelObject.ContainedItem.Item != null && levelObject.ContainedItem.Amount > 0)
+                if ((levelObject.ContainedItem.Item != null && levelObject.ContainedItem.Amount > 0)
+                    || levelObject.ContainedItem.LearnableAbility != null)
                 {
                     objectSave.InventoryItem = SerializeInventoryItem(levelObject.ContainedItem);
                 }
@@ -405,10 +406,21 @@ public class GameManager : MonoBehaviour
 
     private InventoryItemSave SerializeInventoryItem(InventoryItem inventoryItem)
     {
+        string itemName = null;
+        string learnableAbilityName = null;
+        if (inventoryItem.LearnableAbility)
+        {
+            learnableAbilityName = inventoryItem.LearnableAbility.name;
+        }
+        if (inventoryItem.Item)
+        {
+            itemName = inventoryItem.Item.name;
+        }
         return new InventoryItemSave()
         {
-            Name = inventoryItem.Item.name,
-            Amount = inventoryItem.Amount
+            Name = itemName,
+            Amount = inventoryItem.Amount,
+            LearnableAbilityName = learnableAbilityName
         };
     }
 

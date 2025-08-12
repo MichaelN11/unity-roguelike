@@ -35,6 +35,12 @@ MonoBehaviour:
     m_SerializedLabels:
     - objects
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5a87acac37cb347d495ea9f3757940fa
+    m_Address: Assets/Game Data/Abilities
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - abilities
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 5781efb7a3f8442a59b512145339792c, type: 2}
   m_SchemaSet:

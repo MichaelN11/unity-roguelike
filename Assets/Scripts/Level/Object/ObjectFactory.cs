@@ -34,15 +34,10 @@ public class ObjectFactory
 
     public static void LoadObject(ObjectSave objectSave)
     {
-        if (objectSave.InventoryItem != null)
+        InventoryItemSave itemSave = objectSave.InventoryItem;
+        if (itemSave != null)
         {
-            Item containedItem = GameManager.Instance.AddressableService.RetrieveItem(objectSave.InventoryItem.Name);
-            int itemAmount = objectSave.InventoryItem.Amount;
-            InventoryItem inventoryItem = new()
-            {
-                Item = containedItem,
-                Amount = itemAmount,
-            };
+            InventoryItem inventoryItem = ItemFactory.LoadItem(itemSave);
             CreateObject(objectSave.Type, objectSave.Position, inventoryItem);
         } else
         {

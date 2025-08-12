@@ -143,11 +143,8 @@ public class EntityFactory
         List<InventoryItem> inventoryItems = new();
         foreach (InventoryItemSave itemSave in saveData.InventoryItems)
         {
-            inventoryItems.Add(new InventoryItem()
-            {
-                Item = GameManager.Instance.AddressableService.RetrieveItem(itemSave.Name),
-                Amount = itemSave.Amount
-            });
+            InventoryItem inventoryItem = ItemFactory.LoadItem(itemSave);
+            inventoryItems.Add(inventoryItem);
         }
         Inventory.AddToObject(entityObject, inventoryItems);
 

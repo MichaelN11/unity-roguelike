@@ -12,10 +12,12 @@ public class AddressableService
     private const string EntitiesLabel = "entities";
     private const string ItemsLabel = "items";
     private const string ObjectLabel = "objects";
+    private const string AbilityLabel = "abilities";
 
     private readonly Dictionary<string, Entity> loadedEntities = new();
     private readonly Dictionary<string, Item> loadedItems = new();
     private readonly Dictionary<string, GameObject> loadedObjects = new();
+    private readonly Dictionary<string, ActiveAbility> loadedAbilities = new();
 
     public Entity RetrieveEntity(string name)
     {
@@ -32,11 +34,17 @@ public class AddressableService
         return loadedObjects.GetValueOrDefault(name, null);
     }
 
+    public ActiveAbility RetrieveAbility(string name)
+    {
+        return loadedAbilities.GetValueOrDefault(name, null);
+    }
+
     public IEnumerator Load()
     {
         yield return LoadEntities();
         yield return LoadItems();
         yield return LoadObjects();
+        yield return LoadAbilities();
     }
 
     private IEnumerator LoadEntities()
@@ -69,6 +77,17 @@ public class AddressableService
         foreach (GameObject gameObject in asyncLoad.Result)
         {
             loadedObjects.Add(gameObject.name, gameObject);
+        }
+    }
+
+    private IEnumerator LoadAbilities()
+    {
+        AsyncOperationHandle<IList<ActiveAbility>> asyncLoad =
+            Addressables.LoadAssetsAsync<ActiveAbility>(AbilityLabel, null);
+        yield return asyncLoad;
+        foreach (ActiveAbility ability in asyncLoad.Result)
+        {
+            loadedAbilities.Add(ability.name, ability);
         }
     }
 }
