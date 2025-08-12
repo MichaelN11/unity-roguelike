@@ -7,23 +7,22 @@ using UnityEngine;
 /// </summary>
 public class ObjectFactory
 {
-    public static GameObject CreateObject(string name, Vector2 position, Item containedItem = null, int itemAmount = 1)
+    public static GameObject CreateObject(string name, Vector2 position, InventoryItem inventoryItem = null)
     {
         GameObject objectPrefab = GameManager.Instance.AddressableService.RetrieveObject(name);
-        return CreateObject(objectPrefab, position, containedItem, itemAmount);
+        return CreateObject(objectPrefab, position, inventoryItem);
     }
 
-    public static GameObject CreateObject(GameObject objectPrefab, Vector2 position, Item containedItem = null, int itemAmount = 1)
+    public static GameObject CreateObject(GameObject objectPrefab, Vector2 position, InventoryItem inventoryItem = null)
     {
         GameObject newObject = Object.Instantiate(objectPrefab, position, Quaternion.identity);
 
         if (newObject != null && newObject.TryGetComponent<LevelObject>(out LevelObject levelObject))
         {
             levelObject.Type = objectPrefab.name;
-            if (containedItem != null && itemAmount > 0)
+            if (inventoryItem != null)
             {
-                levelObject.ContainedItem.Item = containedItem;
-                levelObject.ContainedItem.Amount = itemAmount;
+                levelObject.ContainedItem = inventoryItem;
             }
         }
         else
@@ -39,7 +38,12 @@ public class ObjectFactory
         {
             Item containedItem = GameManager.Instance.AddressableService.RetrieveItem(objectSave.InventoryItem.Name);
             int itemAmount = objectSave.InventoryItem.Amount;
-            CreateObject(objectSave.Type, objectSave.Position, containedItem, itemAmount);
+            InventoryItem inventoryItem = new()
+            {
+                Item = containedItem,
+                Amount = itemAmount,
+            };
+            CreateObject(objectSave.Type, objectSave.Position, inventoryItem);
         } else
         {
             CreateObject(objectSave.Type, objectSave.Position);

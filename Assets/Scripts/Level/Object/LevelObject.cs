@@ -9,6 +9,4 @@ public class LevelObject : MonoBehaviour
     public string Type { get; set; }
     [field: SerializeField]
     public InventoryItem ContainedItem { get; set; } = new();
-    [field: SerializeField]
-    public ActiveAbility Ability { get; set; } = null;
 }

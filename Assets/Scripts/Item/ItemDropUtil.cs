@@ -33,7 +33,7 @@ public class ItemDropUtil : MonoBehaviour
             }
             if (randomValue <= nextDropChance)
             {
-                return itemDrop;
+                return itemDrop.Clone();
             }
         }
 
@@ -55,7 +55,7 @@ public class ItemDropUtil : MonoBehaviour
             nextDropChance += itemDrop.DropChance / totalWeight;
             if (randomValue <= nextDropChance)
             {
-                return itemDrop;
+                return itemDrop.Clone();
             }
         }
 

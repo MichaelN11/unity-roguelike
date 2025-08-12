@@ -76,15 +76,15 @@ public class Chest : MonoBehaviour, IInteractable
                 interactableUser.Inventory.AcquireItem(levelObject.ContainedItem);
                 levelObject.ContainedItem.Item = null;
                 levelObject.ContainedItem.Amount = 0;
-            } else if (levelObject.Ability)
+            } else if (levelObject.ContainedItem.LearnableAbility)
             {
                 Vector2 position = new(transform.position.x + FloatingTextXOffset, transform.position.y);
                 GameObject floatingText = Instantiate(abilityFloatingText, position, Quaternion.identity);
-                string displayText = "New ability: " + levelObject.Ability.AbilityName;
+                string displayText = "New ability: " + levelObject.ContainedItem.LearnableAbility.AbilityName;
                 floatingText.GetComponent<ItemFloatingText>().Init(displayText, 0);
 
-                interactableUser.AbilityManager.LearnNewAbility(levelObject.Ability);
-                levelObject.Ability = null;
+                interactableUser.AbilityManager.LearnNewAbility(levelObject.ContainedItem.LearnableAbility);
+                levelObject.ContainedItem.LearnableAbility = null;
 
                 IEnumerator delayedSoundCoroutine = DelayedSoundCoroutine(newAbilitySound, abilitySoundDelay);
                 StartCoroutine(delayedSoundCoroutine);
@@ -104,7 +104,7 @@ public class Chest : MonoBehaviour, IInteractable
     private bool IsEmpty(LevelObject levelObject)
     {
         return levelObject == null
-            || (levelObject.ContainedItem.Item == null && levelObject.Ability == null);
+            || (levelObject.ContainedItem.Item == null && levelObject.ContainedItem.LearnableAbility == null);
     }
 
     private void SetToOpen()

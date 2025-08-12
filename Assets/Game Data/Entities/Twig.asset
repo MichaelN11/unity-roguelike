@@ -33,8 +33,16 @@ MonoBehaviour:
   - item: {fileID: 11400000, guid: 80a125bb684b646719a367b3320fddda, type: 2}
     dropChance: 0.1
     amount: 1
+    inventoryItem:
+      Item: {fileID: 11400000, guid: 80a125bb684b646719a367b3320fddda, type: 2}
+      Amount: 1
+      LearnableAbility: {fileID: 0}
   - item: {fileID: 11400000, guid: 5119bd55b49a64a6abba3af687938fbf, type: 2}
     dropChance: 0.2
     amount: 1
+    inventoryItem:
+      Item: {fileID: 11400000, guid: 5119bd55b49a64a6abba3af687938fbf, type: 2}
+      Amount: 1
+      LearnableAbility: {fileID: 0}
   description: 2
   isBoss: 0

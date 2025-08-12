@@ -8,14 +8,19 @@ using UnityEngine;
 public class ItemDrop
 {
     [SerializeField]
-    private Item item;
-    public Item Item => item;
-
-    [SerializeField]
     private float dropChance;
     public float DropChance => dropChance;
 
     [SerializeField]
-    private int amount = 1;
-    public int Amount => amount;
+    private InventoryItem inventoryItem = new();
+    public InventoryItem InventoryItem => inventoryItem;
+
+    public ItemDrop Clone()
+    {
+        return new()
+        {
+            dropChance = this.dropChance,
+            inventoryItem = this.inventoryItem.Clone()
+        };
+    }
 }

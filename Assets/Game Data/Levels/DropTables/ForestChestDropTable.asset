@@ -14,21 +14,38 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isWeighted: 1
   itemDrops:
-  - item: {fileID: 11400000, guid: 560d2307b56344ba5a0d88d9958b7158, type: 2}
-    dropChance: 4
-    amount: 1
-  - item: {fileID: 11400000, guid: 560d2307b56344ba5a0d88d9958b7158, type: 2}
-    dropChance: 1
-    amount: 2
-  - item: {fileID: 11400000, guid: 80a125bb684b646719a367b3320fddda, type: 2}
-    dropChance: 3
-    amount: 3
-  - item: {fileID: 11400000, guid: 80a125bb684b646719a367b3320fddda, type: 2}
-    dropChance: 1
-    amount: 4
-  - item: {fileID: 11400000, guid: 80a125bb684b646719a367b3320fddda, type: 2}
-    dropChance: 1
-    amount: 5
-  - item: {fileID: 11400000, guid: 71280b14bd61a4db5b4f388dacd7b41c, type: 2}
-    dropChance: 2
-    amount: 1
+  - dropChance: 4
+    inventoryItem:
+      Item: {fileID: 11400000, guid: 560d2307b56344ba5a0d88d9958b7158, type: 2}
+      Amount: 1
+      LearnableAbility: {fileID: 0}
+  - dropChance: 1
+    inventoryItem:
+      Item: {fileID: 11400000, guid: 560d2307b56344ba5a0d88d9958b7158, type: 2}
+      Amount: 2
+      LearnableAbility: {fileID: 0}
+  - dropChance: 3
+    inventoryItem:
+      Item: {fileID: 11400000, guid: 80a125bb684b646719a367b3320fddda, type: 2}
+      Amount: 3
+      LearnableAbility: {fileID: 0}
+  - dropChance: 1
+    inventoryItem:
+      Item: {fileID: 11400000, guid: 80a125bb684b646719a367b3320fddda, type: 2}
+      Amount: 4
+      LearnableAbility: {fileID: 0}
+  - dropChance: 1
+    inventoryItem:
+      Item: {fileID: 11400000, guid: 80a125bb684b646719a367b3320fddda, type: 2}
+      Amount: 5
+      LearnableAbility: {fileID: 0}
+  - dropChance: 2
+    inventoryItem:
+      Item: {fileID: 11400000, guid: 71280b14bd61a4db5b4f388dacd7b41c, type: 2}
+      Amount: 1
+      LearnableAbility: {fileID: 0}
+  - dropChance: 5
+    inventoryItem:
+      Item: {fileID: 0}
+      Amount: 0
+      LearnableAbility: {fileID: 11400000, guid: e225a368825c44ed099b7741e3156f29, type: 2}

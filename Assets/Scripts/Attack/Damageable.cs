@@ -194,9 +194,12 @@ public class Damageable : MonoBehaviour
 
     private void DropItem(ItemDrop itemDrop)
     {
-        GameObject dropPrefab = (itemDrop.Item.DropPrefab) ? itemDrop.Item.DropPrefab : ResourceManager.Instance.ItemPickupObject;
-        GameObject droppedItem = Instantiate(dropPrefab, this.transform.position, Quaternion.identity);
-        droppedItem.GetComponent<ItemPickup>().Init(itemDrop.Item, itemDrop.Amount);
+        if (itemDrop.InventoryItem.Item)
+        {
+            GameObject dropPrefab = (itemDrop.InventoryItem.Item.DropPrefab) ? itemDrop.InventoryItem.Item.DropPrefab : ResourceManager.Instance.ItemPickupObject;
+            GameObject droppedItem = Instantiate(dropPrefab, this.transform.position, Quaternion.identity);
+            droppedItem.GetComponent<ItemPickup>().Init(itemDrop.InventoryItem.Item, itemDrop.InventoryItem.Amount);
+        }
     }
 
     private void DisableColliders()

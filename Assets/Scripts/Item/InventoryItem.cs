@@ -11,4 +11,14 @@ public class InventoryItem
 {
     public Item Item;
     public int Amount;
+
+    /// <summary>
+    /// If set, indicates that this is an item that teaches the new ability.
+    /// </summary>
+    public ActiveAbility LearnableAbility;
+
+    public InventoryItem Clone()
+    {
+        return (InventoryItem)this.MemberwiseClone();
+    }
 }
