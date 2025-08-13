@@ -336,7 +336,7 @@ public class GameManager : MonoBehaviour
             GameState.Player.CurrentHealth = playerDamageable.CurrentHealth;
             GameState.Player.MaxHealth = playerDamageable.MaxHealth;
         }
-        if (PlayerController.Instance.TryGetComponent<EntityData>(out EntityData playerEntityData))
+        if (PlayerController.Instance.TryGetComponent<EntityData>(out EntityData playerEntityData) )
         {
             GameState.Player.Name = playerEntityData.Entity.name;
             GameState.Player.Position = playerEntityData.transform.position;
@@ -347,6 +347,15 @@ public class GameManager : MonoBehaviour
             foreach (InventoryItem inventoryItem in playerInventory.Items)
             {
                 GameState.Player.InventoryItems.Add(SerializeInventoryItem(inventoryItem));
+            }
+        }
+        AbilityManager playerAbilityManager = PlayerController.Instance.GetComponentInChildren<AbilityManager>();
+        if (playerAbilityManager != null)
+        {
+            GameState.Player.Abilities = new();
+            foreach (ActiveAbilityContext ability in playerAbilityManager.Abilities)
+            {
+                GameState.Player.Abilities.Add(ability.Ability.name);
             }
         }
     }

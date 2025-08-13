@@ -13,11 +13,11 @@ public class ItemFactory
 
         Item containedItem = null;
         ActiveAbility itemLearnableAbility = null;
-        if (itemSave.LearnableAbilityName != null && itemSave.LearnableAbilityName != "")
+        if (itemSave.LearnableAbilityName != null && itemSave.LearnableAbilityName.Trim() != "")
         {
             itemLearnableAbility = GameManager.Instance.AddressableService.RetrieveAbility(itemSave.LearnableAbilityName);
         }
-        if (itemSave.Name != null && itemSave.Name != "")
+        if (itemSave.Name != null && itemSave.Name.Trim() != "")
         {
             containedItem = GameManager.Instance.AddressableService.RetrieveItem(itemSave.Name);
         }

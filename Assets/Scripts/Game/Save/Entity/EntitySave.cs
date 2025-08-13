@@ -14,4 +14,5 @@ public class EntitySave
     public float CurrentHealth { get; set; }
     public float MaxHealth { get; set; }
     public List<InventoryItemSave> InventoryItems { get; set; } = new();
+    public List<string> Abilities { get; set; } = null;
 }

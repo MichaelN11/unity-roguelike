@@ -119,6 +119,13 @@ public class EntityFactory
     {
         Damageable.AddToObject(entityObject, entity.MaxHealth);
         Inventory.AddToObject(entityObject, entity.InitialInventory);
+
+        Transform abilityTransform = entityObject.transform.Find("AbilitySource");
+        if (abilityTransform != null)
+        {
+            AbilityManager.AddToObject(abilityTransform.gameObject, entity.Abilities);
+        }
+
         BuildCommonComponents(entity, entityObject);
     }
 
@@ -148,6 +155,24 @@ public class EntityFactory
         }
         Inventory.AddToObject(entityObject, inventoryItems);
 
+        Transform abilityTransform = entityObject.transform.Find("AbilitySource");
+        if (abilityTransform != null)
+        {
+            List<ActiveAbility> abilities = entity.Abilities;
+            if (saveData.Abilities != null) {
+                abilities = new();
+                foreach (string abilityName in saveData.Abilities)
+                {
+                    if (abilityName != null && abilityName.Trim() != "")
+                    {
+                        ActiveAbility ability = GameManager.Instance.AddressableService.RetrieveAbility(abilityName);
+                        abilities.Add(ability);
+                    }
+                }
+            }
+            AbilityManager.AddToObject(abilityTransform.gameObject, abilities);
+        }
+
         BuildCommonComponents(entity, entityObject);
     }
 
@@ -163,11 +188,6 @@ public class EntityFactory
         entityObject.AddComponent<Movement>();
         entityObject.AddComponent<AnimatorUpdater>();
 
-        Transform abilityTransform = entityObject.transform.Find("AbilitySource");
-        if (abilityTransform != null)
-        {
-            AbilityManager.AddToObject(abilityTransform.gameObject, entity.Abilities);
-        }
         Transform weaponTransform = entityObject.transform.Find("Weapon");
         if (weaponTransform != null && entity.Weapon != null)
         {
