@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: MightyBlow
   m_EditorClassIdentifier: 
   abilityName: Mighty Blow
+  abilityIcon: {fileID: 21300000, guid: 65e33e535431b47d4ae4876d349ea1bd, type: 3}
   cooldown: 0
   abilityConditions:
     minimumHealthPercent: 0

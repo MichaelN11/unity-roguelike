@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using static UnityEngine.InputSystem.InputAction;
@@ -8,6 +9,8 @@ using static UnityEngine.InputSystem.InputAction;
 public class UIController : MonoBehaviour
 {
     public static UIController Instance { get; private set; }
+
+    public AbilityIconAnimator AbilityIconAnimator { get; private set; }
 
     [SerializeField]
     private GameObject pauseMenu;
@@ -52,6 +55,7 @@ public class UIController : MonoBehaviour
         {
             Resume();
         }
+        AbilityIconAnimator = GetComponent<AbilityIconAnimator>();
     }
 
     private void Start()

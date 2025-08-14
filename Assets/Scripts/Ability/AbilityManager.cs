@@ -101,7 +101,7 @@ public class AbilityManager : MonoBehaviour
         return abilityManager;
     }
 
-    public void LearnNewAbility(ActiveAbility ability)
+    public int LearnNewAbility(ActiveAbility ability)
     {
         bool isNewAbility = true;
         foreach(ActiveAbilityContext abilityContext in abilities)
@@ -119,7 +119,10 @@ public class AbilityManager : MonoBehaviour
             {
                 Ability = ability
             });
+            return abilities.Count - 1;
         }
+
+        return -1;
     }
 
     /// <summary>

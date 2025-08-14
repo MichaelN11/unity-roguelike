@@ -83,11 +83,16 @@ public class Chest : MonoBehaviour, IInteractable
                 string displayText = "New ability: " + levelObject.ContainedItem.LearnableAbility.AbilityName;
                 floatingText.GetComponent<ItemFloatingText>().Init(displayText, 0);
 
-                interactableUser.AbilityManager.LearnNewAbility(levelObject.ContainedItem.LearnableAbility);
-                levelObject.ContainedItem.LearnableAbility = null;
+                int abilityNumber = interactableUser.AbilityManager.LearnNewAbility(levelObject.ContainedItem.LearnableAbility);
+                if (abilityNumber >= 0)
+                {
+                    IEnumerator delayedSoundCoroutine = DelayedSoundCoroutine(newAbilitySound, abilitySoundDelay);
+                    StartCoroutine(delayedSoundCoroutine);
 
-                IEnumerator delayedSoundCoroutine = DelayedSoundCoroutine(newAbilitySound, abilitySoundDelay);
-                StartCoroutine(delayedSoundCoroutine);
+                    UIController.Instance.AbilityIconAnimator.StartMovingIconAnimation(transform.position, abilityNumber,
+                        levelObject.ContainedItem.LearnableAbility.AbilityIcon);
+                }
+                levelObject.ContainedItem.LearnableAbility = null;
             }
         }
 

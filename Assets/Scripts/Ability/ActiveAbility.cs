@@ -12,6 +12,10 @@ public abstract class ActiveAbility : ScriptableObject
     public string AbilityName => abilityName;
 
     [SerializeField]
+    private Sprite abilityIcon;
+    public Sprite AbilityIcon => abilityIcon;
+
+    [SerializeField]
     private float cooldown;
     public float Cooldown => cooldown;
 
