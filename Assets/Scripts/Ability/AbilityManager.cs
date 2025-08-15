@@ -103,26 +103,38 @@ public class AbilityManager : MonoBehaviour
 
     public int LearnNewAbility(ActiveAbility ability)
     {
+        int abilityNumber = -1;
+
         bool isNewAbility = true;
-        foreach(ActiveAbilityContext abilityContext in abilities)
+        for (int i = 0; i < abilities.Count; i++) 
         {
+            ActiveAbilityContext abilityContext = abilities[i];
             if (abilityContext.Ability == ability)
             {
                 isNewAbility = false;
                 break;
+            } else if (ability.AbilityUniqueType != AbilityUniqueType.None
+                && abilityContext.Ability.AbilityUniqueType == ability.AbilityUniqueType)
+            {
+                abilities[i] = new()
+                {
+                    Ability = ability
+                };
+                abilityNumber = i;
+                isNewAbility = false;
+                break;
             }
         }
-
         if (isNewAbility)
         {
             abilities.Add(new()
             {
                 Ability = ability
             });
-            return abilities.Count - 1;
+            abilityNumber = abilities.Count - 1;
         }
 
-        return -1;
+        return abilityNumber;
     }
 
     /// <summary>

@@ -36,6 +36,9 @@ public class AbilityIconAnimator : MonoBehaviour
     [SerializeField]
     private Sound endSound;
 
+    [SerializeField]
+    private int canvasSiblingIndex = 5;
+
     private Camera mainCamera;
     private Canvas uiCanvas;
 
@@ -58,7 +61,7 @@ public class AbilityIconAnimator : MonoBehaviour
             Vector2 startPosition = WorldToCanvasPosition(startWorldPosition);
             Vector2 targetPosition = ScreenToCanvasPosition(abilityIcons[abilityNumber].GetComponent<RectTransform>().position);
             GameObject movingIcon = Instantiate(movingIconPrefab, uiCanvas.transform, false);
-            movingIcon.transform.SetAsFirstSibling();
+            movingIcon.transform.SetSiblingIndex(canvasSiblingIndex);
             RectTransform movingIconRect = movingIcon.GetComponent<RectTransform>();
             movingIconRect.anchoredPosition = startPosition;
 

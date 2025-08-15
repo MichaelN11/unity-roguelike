@@ -4884,7 +4884,7 @@ PrefabInstance:
     - target: {fileID: -5764383452003572476, guid: 072fa735f3bf24b5385ed726786c1e41, type: 3}
       propertyPath: <ContainedItem>k__BackingField.LearnableAbility
       value: 
-      objectReference: {fileID: 11400000, guid: e225a368825c44ed099b7741e3156f29, type: 2}
+      objectReference: {fileID: 11400000, guid: 949ee6ea371ab4f508fe33b078d53ca5, type: 2}
     - target: {fileID: 5425163362542395228, guid: 072fa735f3bf24b5385ed726786c1e41, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.37
@@ -4949,11 +4949,6 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 476832673}
   m_SourcePrefab: {fileID: 100100000, guid: 072fa735f3bf24b5385ed726786c1e41, type: 3}
---- !u!20 &280292145 stripped
-Camera:
-  m_CorrespondingSourceObject: {fileID: 5763997372910857929, guid: 10fd963d5c6c842599718bef9c0c1d47, type: 3}
-  m_PrefabInstance: {fileID: 438064119}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &367456684
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5238,11 +5233,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 072fa735f3bf24b5385ed726786c1e41, type: 3}
---- !u!224 &452002739 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 1908481911130851166, guid: b0e329376af984326b0acfb103634847, type: 3}
-  m_PrefabInstance: {fileID: 1805082963}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &476832672 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6530207953893687806, guid: 072fa735f3bf24b5385ed726786c1e41, type: 3}
@@ -5260,66 +5250,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 845fc0035250b4262b31d311be223249, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  uiObject: {fileID: 0}
-  canvas: {fileID: 2135995285}
-  worldCamera: {fileID: 280292145}
-  targetUIPos: {fileID: 452002739}
-  duration: 1
-  startScale: 0.3
-  moveCurve:
-    m_Curve:
-    - time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - time: 1
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  scaleCurve:
-    m_Curve:
-    - time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - time: 0.8
-      value: 1.15
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - time: 1
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  startScreenPos: {x: 0, y: 0, z: 0}
-  endScreenPos: {x: 0, y: 0, z: 0}
-  timer: 0
-  animating: 0
 --- !u!1 &606967478
 GameObject:
   m_ObjectHideFlags: 0
@@ -8641,11 +8571,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 072fa735f3bf24b5385ed726786c1e41, type: 3}
---- !u!223 &2135995285 stripped
-Canvas:
-  m_CorrespondingSourceObject: {fileID: 7847272159481290144, guid: b0e329376af984326b0acfb103634847, type: 3}
-  m_PrefabInstance: {fileID: 1805082963}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &2147102171
 PrefabInstance:
   m_ObjectHideFlags: 0

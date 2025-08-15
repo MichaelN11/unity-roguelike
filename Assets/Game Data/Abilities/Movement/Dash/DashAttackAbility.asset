@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fc8c03d57d8f740f4bc2f163f1186102, type: 3}
-  m_Name: DashAbility
+  m_Name: DashAttackAbility
   m_EditorClassIdentifier: 
-  abilityName: Dash
-  abilityIcon: {fileID: 21300000, guid: b7d51afcf21cf4ee8825ce0a2374fc85, type: 3}
+  abilityName: Dash Attack
+  abilityIcon: {fileID: 21300000, guid: 84395ad72b8cb4d3491805c5dea065ee, type: 3}
   cooldown: 3
   abilityUniqueType: 1
   abilityConditions:
@@ -21,6 +21,7 @@ MonoBehaviour:
     maximumHealthPercent: 100
   effects:
   - {fileID: 11400000, guid: 5eb5e0f08349f498e8aae81c8f37eebc, type: 2}
+  - {fileID: 11400000, guid: 836388cd017f74023bd3e41a1c091700, type: 2}
   - {fileID: 11400000, guid: ff269974ec62741a8800d4326d1ca0e1, type: 2}
   duration: 0
   castTime: 0.1
@@ -35,5 +36,5 @@ MonoBehaviour:
   soundOnCast: {fileID: 0}
   soundOnUse: {fileID: 11400000, guid: bf2087525a9c540c99e4743b12eb5178, type: 2}
   stopSoundAfterUse: 0
-  abilityAnimation: 5
+  abilityAnimation: 1
   statelessCast: 0

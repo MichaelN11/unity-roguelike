@@ -20,6 +20,10 @@ public abstract class ActiveAbility : ScriptableObject
     public float Cooldown => cooldown;
 
     [SerializeField]
+    private AbilityUniqueType abilityUniqueType;
+    public AbilityUniqueType AbilityUniqueType => abilityUniqueType;
+
+    [SerializeField]
     private AbilityConditions abilityConditions = new();
 
     public bool CanActivate(AbilityUseData abilityUse)

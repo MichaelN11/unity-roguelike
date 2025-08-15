@@ -49,3 +49,8 @@ MonoBehaviour:
       Item: {fileID: 0}
       Amount: 0
       LearnableAbility: {fileID: 11400000, guid: e225a368825c44ed099b7741e3156f29, type: 2}
+  - dropChance: 5
+    inventoryItem:
+      Item: {fileID: 0}
+      Amount: 0
+      LearnableAbility: {fileID: 11400000, guid: 949ee6ea371ab4f508fe33b078d53ca5, type: 2}

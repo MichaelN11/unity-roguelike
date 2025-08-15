@@ -36,6 +36,10 @@ public class AbilityIcon : MonoBehaviour
         } else if (PlayerController.Instance != null)
         {
             playerAbilityManager = PlayerController.Instance.GetComponentInChildren<AbilityManager>();
+            if (abilityNumber < playerAbilityManager.Abilities.Count)
+            {
+                Show();
+            }
         }
     }
 
@@ -44,6 +48,16 @@ public class AbilityIcon : MonoBehaviour
         canvasGroup.alpha = 1f;
         canvasGroup.interactable = true;
         canvasGroup.blocksRaycasts = true;
+
+        if (abilityNumber < playerAbilityManager.Abilities.Count)
+        {
+            ActiveAbilityContext ability = playerAbilityManager.Abilities[abilityNumber];
+            if (image.sprite != ability.Ability.AbilityIcon)
+            {
+                image.sprite = ability.Ability.AbilityIcon;
+            }
+
+        }
     }
 
     private void UpdateFromAbility()
@@ -54,10 +68,6 @@ public class AbilityIcon : MonoBehaviour
             if (ability.Ability.Cooldown > 0)
             {
                 cooldownImage.fillAmount = ability.CurrentCooldown / ability.Ability.Cooldown;
-            }
-            if (image.sprite != ability.Ability.AbilityIcon)
-            {
-                image.sprite = ability.Ability.AbilityIcon;
             }
         } else
         {

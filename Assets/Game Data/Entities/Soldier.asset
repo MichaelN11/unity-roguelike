@@ -15,12 +15,14 @@ MonoBehaviour:
   baseObject: {fileID: 116077039412780153, guid: 7bb102ef3e5c54bb0b5c11aefedfd51d, type: 3}
   abilities:
   - {fileID: 11400000, guid: 2e62d31d3b33948a0b8699d897545ebd, type: 2}
-  - {fileID: 11400000, guid: 949ee6ea371ab4f508fe33b078d53ca5, type: 2}
+  - {fileID: 11400000, guid: fcf5d504473184cefb1dc33ff4c0c3f9, type: 2}
   initialInventory:
   - Item: {fileID: 11400000, guid: 560d2307b56344ba5a0d88d9958b7158, type: 2}
     Amount: 0
+    LearnableAbility: {fileID: 0}
   - Item: {fileID: 11400000, guid: 80a125bb684b646719a367b3320fddda, type: 2}
     Amount: 0
+    LearnableAbility: {fileID: 0}
   soundOnHit: {fileID: 11400000, guid: 32c3869f2625e4ddc9e21348f09f8bb1, type: 2}
   walkSpeed: 5.5
   interactionDistance: 1
