@@ -16,9 +16,11 @@ public class AbilityIcon : MonoBehaviour
 
     private AbilityManager playerAbilityManager;
     private CanvasGroup canvasGroup;
+    private Image image;
 
     private void Awake()
     {
+        image = GetComponent<Image>();
         canvasGroup = GetComponent<CanvasGroup>();
         if (canvasGroup == null)
         {
@@ -52,6 +54,10 @@ public class AbilityIcon : MonoBehaviour
             if (ability.Ability.Cooldown > 0)
             {
                 cooldownImage.fillAmount = ability.CurrentCooldown / ability.Ability.Cooldown;
+            }
+            if (image.sprite != ability.Ability.AbilityIcon)
+            {
+                image.sprite = ability.Ability.AbilityIcon;
             }
         } else
         {

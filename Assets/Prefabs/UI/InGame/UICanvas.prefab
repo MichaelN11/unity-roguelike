@@ -4363,6 +4363,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 7847272159481290159}
     m_Modifications:
+    - target: {fileID: 5791222727753191829, guid: 708e1b7885eb049bf85131d337530c50, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 8376714378049658681, guid: 708e1b7885eb049bf85131d337530c50, type: 3}
       propertyPath: abilityNumber
       value: 1
@@ -4863,7 +4867,7 @@ PrefabInstance:
     - target: {fileID: 5791222727753191829, guid: 708e1b7885eb049bf85131d337530c50, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 65e33e535431b47d4ae4876d349ea1bd, type: 3}
+      objectReference: {fileID: 0}
     - target: {fileID: 5791222727753191829, guid: 708e1b7885eb049bf85131d337530c50, type: 3}
       propertyPath: m_Enabled
       value: 1
