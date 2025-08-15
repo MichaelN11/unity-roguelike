@@ -2011,6 +2011,7 @@ GameObject:
   - component: {fileID: 7847272159481290146}
   - component: {fileID: 7847272159481290158}
   - component: {fileID: 3418815045527111495}
+  - component: {fileID: 563971664632039097}
   m_Layer: 5
   m_Name: UICanvas
   m_TagString: Untagged
@@ -2033,13 +2034,13 @@ RectTransform:
   - {fileID: 1908481911130851166}
   - {fileID: 3091670407469005656}
   - {fileID: 7938054367204037461}
+  - {fileID: 2419938044090336762}
+  - {fileID: 6951019977339542961}
+  - {fileID: 5132648619492565753}
   - {fileID: 7847272159869373114}
   - {fileID: 4223071401678884491}
   - {fileID: 2000175585948581140}
   - {fileID: 5049945367058029403}
-  - {fileID: 2419938044090336762}
-  - {fileID: 6951019977339542961}
-  - {fileID: 5132648619492565753}
   - {fileID: 820293210315676838}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2144,6 +2145,82 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   deathScreen: {fileID: 2179634377803655498}
   deathText: {fileID: 5934720330216612289}
+--- !u!114 &563971664632039097
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7847272159481290147}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eb28f6c3a847646f6a2db0e349298d43, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  abilityIcons:
+  - {fileID: 0}
+  - {fileID: 2428991603262491676}
+  - {fileID: 1237954483685584922}
+  moveCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  scaleCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.8
+      value: 1.15
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  duration: 1
+  startScale: 0.3
+  movingIconPrefab: {fileID: 5354669626036091593, guid: 75c2a5cad3762414394436475b249144, type: 3}
 --- !u!1 &7847272159869373115
 GameObject:
   m_ObjectHideFlags: 0
@@ -4384,6 +4461,17 @@ PrefabInstance:
       addedObject: {fileID: 5193090713494365356}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 708e1b7885eb049bf85131d337530c50, type: 3}
+--- !u!114 &2428991603262491676 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8376714378049658681, guid: 708e1b7885eb049bf85131d337530c50, type: 3}
+  m_PrefabInstance: {fileID: 6194019204535980837}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a9af8ab4afe3a4100a345f9577f9f5cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!224 &3091670407469005656 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 9156454096458639485, guid: 708e1b7885eb049bf85131d337530c50, type: 3}
@@ -4882,6 +4970,17 @@ PrefabInstance:
       addedObject: {fileID: 5199885291977906691}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 708e1b7885eb049bf85131d337530c50, type: 3}
+--- !u!114 &1237954483685584922 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8376714378049658681, guid: 708e1b7885eb049bf85131d337530c50, type: 3}
+  m_PrefabInstance: {fileID: 7308788398257401635}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a9af8ab4afe3a4100a345f9577f9f5cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!224 &1908481911130851166 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 9156454096458639485, guid: 708e1b7885eb049bf85131d337530c50, type: 3}

@@ -37,6 +37,13 @@ public class AbilityIcon : MonoBehaviour
         }
     }
 
+    public void Show()
+    {
+        canvasGroup.alpha = 1f;
+        canvasGroup.interactable = true;
+        canvasGroup.blocksRaycasts = true;
+    }
+
     private void UpdateFromAbility()
     {
         if (abilityNumber < playerAbilityManager.Abilities.Count)
@@ -46,7 +53,6 @@ public class AbilityIcon : MonoBehaviour
             {
                 cooldownImage.fillAmount = ability.CurrentCooldown / ability.Ability.Cooldown;
             }
-            Show();
         } else
         {
             Hide();
@@ -58,12 +64,5 @@ public class AbilityIcon : MonoBehaviour
         canvasGroup.alpha = 0f;          // fully transparent
         canvasGroup.interactable = false; // stops clicks
         canvasGroup.blocksRaycasts = false; // stops blocking other UI clicks
-    }
-
-    private void Show()
-    {
-        canvasGroup.alpha = 1f;          
-        canvasGroup.interactable = true; 
-        canvasGroup.blocksRaycasts = true; 
     }
 }

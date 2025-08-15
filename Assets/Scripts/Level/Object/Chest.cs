@@ -22,7 +22,9 @@ public class Chest : MonoBehaviour, IInteractable
     [SerializeField]
     private float itemSoundDelay = 0;
     [SerializeField]
-    private float abilitySoundDelay = 0.5f;
+    private float abilitySoundDelay = 0.7f;
+    [SerializeField]
+    private float abilityIconDelay = 0.7f;
 
     private bool opened = false;
     public bool Opened => opened;
@@ -89,8 +91,9 @@ public class Chest : MonoBehaviour, IInteractable
                     IEnumerator delayedSoundCoroutine = DelayedSoundCoroutine(newAbilitySound, abilitySoundDelay);
                     StartCoroutine(delayedSoundCoroutine);
 
-                    UIController.Instance.AbilityIconAnimator.StartMovingIconAnimation(transform.position, abilityNumber,
-                        levelObject.ContainedItem.LearnableAbility.AbilityIcon);
+                    IEnumerator delayedIconCoroutine = DelayedIconCoroutine(floatingText,
+                        levelObject.ContainedItem.LearnableAbility.AbilityIcon, abilityNumber, abilityIconDelay);
+                    StartCoroutine(delayedIconCoroutine);
                 }
                 levelObject.ContainedItem.LearnableAbility = null;
             }
@@ -125,5 +128,11 @@ public class Chest : MonoBehaviour, IInteractable
     {
         yield return new WaitForSeconds(delay);
         AudioManager.Instance.Play(sound);
+    }
+
+    private IEnumerator DelayedIconCoroutine(GameObject floatingText, Sprite sprite, int abilityNumber, float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        UIController.Instance.AbilityIconAnimator.StartMovingIconAnimation(floatingText.transform.position, abilityNumber, sprite);
     }
 }

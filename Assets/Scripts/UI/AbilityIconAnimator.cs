@@ -4,12 +4,12 @@ using UnityEngine;
 using UnityEngine.UI;
 
 /// <summary>
-/// Class for managing animating multiple ability icons in the UI.
+/// Class for animating ability icons in the UI. Currently only supports animating one at a time.
 /// </summary>
 public class AbilityIconAnimator : MonoBehaviour
 {
     [SerializeField]
-    private List<RectTransform> abilityIcons = new();
+    private List<AbilityIcon> abilityIcons = new();
 
     [Tooltip("Controls movement easing")]
     [SerializeField]
@@ -34,12 +34,6 @@ public class AbilityIconAnimator : MonoBehaviour
     private Camera mainCamera;
     private Canvas uiCanvas;
 
-    private Vector2 startPosition;
-    private Vector2 targetPosition;
-    private bool isAnimating = false;
-    private float timer;
-    private RectTransform movingIconRect;
-
     private void Awake()
     {
         mainCamera = Camera.main;
@@ -50,14 +44,37 @@ public class AbilityIconAnimator : MonoBehaviour
         uiCanvas = UIController.Instance.GetComponent<Canvas>();
     }
 
-    // Update is called once per frame
-    void Update()
+    public void StartMovingIconAnimation(Vector2 startWorldPosition, int abilityNumber, Sprite sprite)
     {
-        if (isAnimating)
+        if (abilityNumber < abilityIcons.Count)
+        {
+            Vector2 startPosition = WorldToCanvasPosition(startWorldPosition);
+            Vector2 targetPosition = ScreenToCanvasPosition(abilityIcons[abilityNumber].GetComponent<RectTransform>().position);
+            GameObject movingIcon = Instantiate(movingIconPrefab, uiCanvas.transform, false);
+            movingIcon.transform.SetAsFirstSibling();
+            RectTransform movingIconRect = movingIcon.GetComponent<RectTransform>();
+            movingIconRect.anchoredPosition = startPosition;
+
+            Image iconImage = movingIcon.GetComponent<Image>();
+            iconImage.sprite = sprite;
+            movingIconRect.localScale = Vector3.one * startScale;
+            iconImage.enabled = true;
+
+            IEnumerator coroutine = AnimationCoroutine(movingIconRect, startPosition, targetPosition, abilityNumber);
+            StartCoroutine(coroutine);
+        }
+    }
+
+    private IEnumerator AnimationCoroutine(RectTransform movingIconRect, Vector2 startPosition, Vector2 targetPosition, int abilityNumber)
+    {
+        float timer = 0;
+        float t = 0;
+
+        while (t < 1)
         {
             timer += Time.deltaTime;
 
-            float t = Mathf.Clamp01(timer / duration);
+            t = Mathf.Clamp01(timer / duration);
 
             // Curved interpolation
             float moveT = moveCurve.Evaluate(t);
@@ -70,29 +87,11 @@ public class AbilityIconAnimator : MonoBehaviour
             float scale = Mathf.LerpUnclamped(startScale, 1f, scaleT);
             movingIconRect.localScale = Vector3.one * scale;
 
-            if (t >= 1f)
-            {
-                Destroy(movingIconRect.gameObject);
-                isAnimating = false;
-            }
+            yield return null;
         }
-    }
 
-    public void StartMovingIconAnimation(Vector2 startWorldPosition, int abilityNumber, Sprite sprite)
-    {
-        if (abilityNumber < abilityIcons.Count)
-        {
-            startPosition = WorldToCanvasPosition(startWorldPosition);
-            targetPosition = ScreenToCanvasPosition(abilityIcons[abilityNumber].position);
-            isAnimating = true;
-            timer = 0;
-            GameObject movingIcon = Instantiate(movingIconPrefab, uiCanvas.transform, false);
-            movingIconRect = movingIcon.GetComponent<RectTransform>();
-            movingIconRect.anchoredPosition = startPosition;
-
-            Image iconImage = movingIcon.GetComponent<Image>();
-            iconImage.sprite = sprite;
-        }
+        Destroy(movingIconRect.gameObject);
+        abilityIcons[abilityNumber].Show();
     }
 
     private Vector2 WorldToCanvasPosition(Vector2 worldPos)
