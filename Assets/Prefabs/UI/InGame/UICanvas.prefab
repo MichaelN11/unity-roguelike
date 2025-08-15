@@ -2221,6 +2221,8 @@ MonoBehaviour:
   duration: 1
   startScale: 0.3
   movingIconPrefab: {fileID: 5354669626036091593, guid: 75c2a5cad3762414394436475b249144, type: 3}
+  startSound: {fileID: 11400000, guid: 000a48e9eba1f4c9d991710e7774d8b7, type: 2}
+  endSound: {fileID: 11400000, guid: 0a8a72baa0e96493fa452fa282344375, type: 2}
 --- !u!1 &7847272159869373115
 GameObject:
   m_ObjectHideFlags: 0

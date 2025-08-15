@@ -31,6 +31,11 @@ public class AbilityIconAnimator : MonoBehaviour
     [SerializeField]
     private GameObject movingIconPrefab;
 
+    [SerializeField]
+    private Sound startSound;
+    [SerializeField]
+    private Sound endSound;
+
     private Camera mainCamera;
     private Canvas uiCanvas;
 
@@ -48,6 +53,8 @@ public class AbilityIconAnimator : MonoBehaviour
     {
         if (abilityNumber < abilityIcons.Count)
         {
+            AudioManager.Instance.Play(startSound);
+
             Vector2 startPosition = WorldToCanvasPosition(startWorldPosition);
             Vector2 targetPosition = ScreenToCanvasPosition(abilityIcons[abilityNumber].GetComponent<RectTransform>().position);
             GameObject movingIcon = Instantiate(movingIconPrefab, uiCanvas.transform, false);
@@ -92,6 +99,7 @@ public class AbilityIconAnimator : MonoBehaviour
 
         Destroy(movingIconRect.gameObject);
         abilityIcons[abilityNumber].Show();
+        AudioManager.Instance.Play(endSound);
     }
 
     private Vector2 WorldToCanvasPosition(Vector2 worldPos)

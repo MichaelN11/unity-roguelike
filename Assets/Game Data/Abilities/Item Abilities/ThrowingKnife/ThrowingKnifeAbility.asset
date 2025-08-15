@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc8c03d57d8f740f4bc2f163f1186102, type: 3}
   m_Name: ThrowingKnifeAbility
   m_EditorClassIdentifier: 
+  abilityName: 
+  abilityIcon: {fileID: 0}
   cooldown: 0
   abilityConditions:
     minimumHealthPercent: 0
@@ -29,7 +31,7 @@ MonoBehaviour:
   aimDuration: 0
   changeDirection: 1
   soundOnCast: {fileID: 0}
-  soundOnUse: {fileID: 11400000, guid: 44c4001ef42d948e8a999093dfe83225, type: 2}
+  soundOnUse: {fileID: 11400000, guid: 8effe6ff37d324851a78412894221c91, type: 2}
   stopSoundAfterUse: 0
   abilityAnimation: 6
   statelessCast: 0

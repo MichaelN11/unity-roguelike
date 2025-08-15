@@ -172,7 +172,7 @@ MonoBehaviour:
   newAbilitySound: {fileID: 11400000, guid: 2cc4a6a24f06847e793c7ec37a4224f7, type: 2}
   interactionTime: 1
   itemSoundDelay: 0
-  abilitySoundDelay: 0.7
+  abilitySoundDelay: 0
   abilityIconDelay: 0.7
 --- !u!114 &-5764383452003572476
 MonoBehaviour:
