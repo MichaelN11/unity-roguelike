@@ -9,11 +9,19 @@ public class ItemDrop
 {
     [SerializeField]
     private float dropChance;
-    public float DropChance => dropChance;
+    public float DropChance
+    {
+        get => dropChance;
+        set => dropChance = value;
+    }
 
     [SerializeField]
     private InventoryItem inventoryItem = new();
-    public InventoryItem InventoryItem => inventoryItem;
+    public InventoryItem InventoryItem
+    {
+        get => inventoryItem;
+        set => inventoryItem = value;
+    }
 
     public ItemDrop Clone()
     {

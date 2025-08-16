@@ -15,7 +15,6 @@ public class DropTable : ScriptableObject
     private bool isWeighted = true;
     public bool IsWeighted => isWeighted;
 
-    [SerializeField]
-    private List<ItemDrop> itemDrops;
-    public List<ItemDrop> ItemDrops => itemDrops;
+    [field: SerializeField]
+    public List<ItemDrop> ItemDrops { get; set; }
 }

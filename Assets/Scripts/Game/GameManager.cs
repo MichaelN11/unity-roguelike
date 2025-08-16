@@ -21,6 +21,7 @@ public class GameManager : MonoBehaviour
     public bool IsPaused { get; private set; } = false;
     public bool IsGameOver { get; private set; } = false;
     public EntityData CurrentBoss { get; set; }
+    public DropTable ShuffledRareDrops { get; private set; }
 
     [SerializeField]
     private Entity player;
@@ -33,6 +34,9 @@ public class GameManager : MonoBehaviour
 
     [SerializeField]
     private float gameOverDelay;
+
+    [SerializeField]
+    private DropTable rareDropTable;
 
     private bool loadingSaveState = false;
     private string currentTransition;
@@ -58,6 +62,7 @@ public class GameManager : MonoBehaviour
         firstScene = SceneManager.GetActiveScene().name;
         transform.parent = null;
         DontDestroyOnLoad(gameObject);
+        ResetDrops();
     }
 
     private void Start()
@@ -96,6 +101,7 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public void NewGame(String firstScene)
     {
+        ResetDrops();
         IsGameOver = false;
         GameState = new();
         SceneManager.LoadScene(firstScene);
@@ -141,6 +147,7 @@ public class GameManager : MonoBehaviour
             loadingSaveState = true;
             IsGameOver = false;
             GameState = savedGame;
+            LoadItemDrops(savedGame.SavedRareDrops);
             SceneManager.LoadScene(GameState.CurrentSceneName);
         }
     }
@@ -307,6 +314,13 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    private void ResetDrops()
+    {
+        ShuffledRareDrops = ScriptableObject.CreateInstance<DropTable>();
+        ShuffledRareDrops.ItemDrops = rareDropTable.ItemDrops.ToList();
+        Debug.Log("Resetting drops");
+    }
+
     /// <summary>
     /// Saves the state of the current scene to the save object.
     /// </summary>
@@ -323,6 +337,7 @@ public class GameManager : MonoBehaviour
         SaveEntities(sceneSave);
         SaveObjects(sceneSave);
         SaveTransitions(sceneSave);
+        SaveItemDrops();
     }
 
     /// <summary>
@@ -413,6 +428,20 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    private void SaveItemDrops()
+    {
+        GameState.SavedRareDrops = new();
+        foreach (ItemDrop itemDrop in ShuffledRareDrops.ItemDrops)
+        {
+            GameState.SavedRareDrops.ItemDropList.Add(new()
+            {
+                DropChance = itemDrop.DropChance,
+                InventoryItemSave = SerializeInventoryItem(itemDrop.InventoryItem)
+            });
+        }
+        Debug.Log("Saved item drops: " + ShuffledRareDrops.ItemDrops.Count());
+    }
+
     private InventoryItemSave SerializeInventoryItem(InventoryItem inventoryItem)
     {
         string itemName = null;
@@ -491,7 +520,7 @@ public class GameManager : MonoBehaviour
         GameObject loadedTile = null;
         foreach (GameObject tile in LevelManager.Instance.Level.Tiles)
         {
-            Debug.Log("Level tile: " + tile.name + " Saved tile: " + tileSave.Name);
+            // Debug.Log("Level tile: " + tile.name + " Saved tile: " + tileSave.Name);
             if (tile.name == tileSave.Name)
             {
                 loadedTile = tile;
@@ -565,5 +594,20 @@ public class GameManager : MonoBehaviour
                 LevelManager.Instance.StartTransition = transition;
             }
         }
+    }
+
+    private void LoadItemDrops(SavedItemDrops savedItemDrops)
+    {
+        ShuffledRareDrops = ScriptableObject.CreateInstance<DropTable>();
+        ShuffledRareDrops.ItemDrops = new();
+        foreach (ItemDropSave itemDropSave in savedItemDrops.ItemDropList)
+        {
+            ShuffledRareDrops.ItemDrops.Add(new()
+            {
+                DropChance = itemDropSave.DropChance,
+                InventoryItem = ItemFactory.LoadItem(itemDropSave.InventoryItemSave)
+            });
+        }
+        Debug.Log("Loading drops from saved drops: " + savedItemDrops.ItemDropList.Count());
     }
 }

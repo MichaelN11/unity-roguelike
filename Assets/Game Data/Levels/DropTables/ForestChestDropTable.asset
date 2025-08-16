@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: ForestChestDropTable
   m_EditorClassIdentifier: 
   isWeighted: 1
-  itemDrops:
+  <ItemDrops>k__BackingField:
   - dropChance: 4
     inventoryItem:
       Item: {fileID: 11400000, guid: 560d2307b56344ba5a0d88d9958b7158, type: 2}
@@ -44,13 +44,3 @@ MonoBehaviour:
       Item: {fileID: 11400000, guid: 71280b14bd61a4db5b4f388dacd7b41c, type: 2}
       Amount: 1
       LearnableAbility: {fileID: 0}
-  - dropChance: 5
-    inventoryItem:
-      Item: {fileID: 0}
-      Amount: 0
-      LearnableAbility: {fileID: 11400000, guid: e225a368825c44ed099b7741e3156f29, type: 2}
-  - dropChance: 5
-    inventoryItem:
-      Item: {fileID: 0}
-      Amount: 0
-      LearnableAbility: {fileID: 11400000, guid: 949ee6ea371ab4f508fe33b078d53ca5, type: 2}

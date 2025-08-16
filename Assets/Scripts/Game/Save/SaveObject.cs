@@ -12,4 +12,5 @@ public class SaveObject
     public string CurrentSceneName { get; set; }
     public EntitySave Player { get; set; }
     public SavedScenes SavedScenes { get; set; } = new();
+    public SavedItemDrops SavedRareDrops { get; set; } = new();
 }

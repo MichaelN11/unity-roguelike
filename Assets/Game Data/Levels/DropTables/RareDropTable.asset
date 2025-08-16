@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb613cd8528ce4db6a22f485585ec648, type: 3}
+  m_Name: RareDropTable
+  m_EditorClassIdentifier: 
+  isWeighted: 1
+  <ItemDrops>k__BackingField:
+  - dropChance: 5
+    inventoryItem:
+      Item: {fileID: 0}
+      Amount: 0
+      LearnableAbility: {fileID: 11400000, guid: 949ee6ea371ab4f508fe33b078d53ca5, type: 2}
+  - dropChance: 5
+    inventoryItem:
+      Item: {fileID: 0}
+      Amount: 0
+      LearnableAbility: {fileID: 11400000, guid: e225a368825c44ed099b7741e3156f29, type: 2}
+  - dropChance: 5
+    inventoryItem:
+      Item: {fileID: 11400000, guid: 71280b14bd61a4db5b4f388dacd7b41c, type: 2}
+      Amount: 1
+      LearnableAbility: {fileID: 0}

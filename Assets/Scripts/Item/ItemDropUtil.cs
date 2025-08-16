@@ -7,23 +7,25 @@ using UnityEngine;
 /// </summary>
 public class ItemDropUtil : MonoBehaviour
 {
-    public static ItemDrop GetRandomItemDrop(DropTable dropTable)
+    public static ItemDrop GetRandomItemDrop(DropTable dropTable, bool removeFromTable = false)
     {
         if (dropTable.IsWeighted)
         {
-            return GetRandomItemDropWeighted(dropTable.ItemDrops);
+            return GetRandomItemDropWeighted(dropTable.ItemDrops, removeFromTable);
         } else
         {
-            return GetRandomItemDrop(dropTable.ItemDrops);
+            return GetRandomItemDrop(dropTable.ItemDrops, 0f, removeFromTable);
         }
     }
 
-    public static ItemDrop GetRandomItemDrop(List<ItemDrop> itemDrops, float dropChanceModifier = 0f)
+    public static ItemDrop GetRandomItemDrop(List<ItemDrop> itemDrops, float dropChanceModifier = 0f, bool removeFromTable = false)
     {
+        ItemDrop randomItemDrop = null;
         float multiplier = 1 - dropChanceModifier;
         float randomValue = Random.value * multiplier;
 
         float nextDropChance = 0;
+        int index = 0;
         foreach (ItemDrop itemDrop in itemDrops)
         {
             nextDropChance += Mathf.Max(0, itemDrop.DropChance);
@@ -33,15 +35,23 @@ public class ItemDropUtil : MonoBehaviour
             }
             if (randomValue <= nextDropChance)
             {
-                return itemDrop.Clone();
+                randomItemDrop = itemDrop.Clone();
+                break;
             }
+            ++index;
         }
 
-        return null;
+        if (removeFromTable && index < itemDrops.Count)
+        {
+            itemDrops.RemoveAt(index);
+        }
+
+        return randomItemDrop;
     }
 
-    public static ItemDrop GetRandomItemDropWeighted(List<ItemDrop> itemDrops)
+    public static ItemDrop GetRandomItemDropWeighted(List<ItemDrop> itemDrops, bool removeFromTable = false)
     {
+        ItemDrop randomItemDrop = null;
         float totalWeight = 0;
         foreach (ItemDrop itemDrop in itemDrops)
         {
@@ -50,15 +60,23 @@ public class ItemDropUtil : MonoBehaviour
 
         float randomValue = Random.value;
         float nextDropChance = 0;
+        int index = 0;
         foreach (ItemDrop itemDrop in itemDrops)
         {
             nextDropChance += itemDrop.DropChance / totalWeight;
             if (randomValue <= nextDropChance)
             {
-                return itemDrop.Clone();
+                randomItemDrop = itemDrop.Clone();
+                break;
             }
+            ++index;
         }
 
-        return null;
+        if (removeFromTable && index < itemDrops.Count)
+        {
+            itemDrops.RemoveAt(index);
+        }
+
+        return randomItemDrop;
     }
 }

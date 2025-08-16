@@ -263,13 +263,24 @@ public class LevelManager : MonoBehaviour
     {
         int spawnedChestCount = 0;
         int chestsPerLevel = Random.Range(level.MinChestsPerLevel, level.MaxChestsPerLevel + 1);
+        bool spawnedRareChest = false;
         while (spawnedChestCount < chestsPerLevel && tilesWithChests.Count > 0)
         {
             int randomTileIndex = Random.Range(0, tilesWithChests.Count);
             List<ChestSpawner> chestSpawners = tilesWithChests[randomTileIndex];
             if (spawnObjects)
             {
-                SpawnChest(chestSpawners, level);
+                if (spawnedRareChest)
+                {
+                    ItemDrop randomItemDrop = ItemDropUtil.GetRandomItemDrop(level.ChestDropTable);
+                    SpawnChest(chestSpawners, randomItemDrop);
+                } else
+                {
+                    ItemDrop randomItemDrop = ItemDropUtil.GetRandomItemDrop(GameManager.Instance.ShuffledRareDrops, true);
+                    SpawnChest(chestSpawners, randomItemDrop);
+                    spawnedRareChest = true;
+                    Debug.Log("Spawned rare chest. Rare drops left: " + GameManager.Instance.ShuffledRareDrops.ItemDrops.Count());
+                }
                 ++spawnedChestCount;
             }
             ClearChestSpawners(chestSpawners);
@@ -281,11 +292,10 @@ public class LevelManager : MonoBehaviour
         }
     }
 
-    private void SpawnChest(List<ChestSpawner> chestSpawners, Level level)
+    private void SpawnChest(List<ChestSpawner> chestSpawners, ItemDrop randomItemDrop)
     {
         int randomChest = Random.Range(0, chestSpawners.Count);
         ChestSpawner chestSpawner = chestSpawners[randomChest];
-        ItemDrop randomItemDrop = ItemDropUtil.GetRandomItemDrop(level.ChestDropTable);
         if (randomItemDrop != null)
         {
             ObjectFactory.CreateObject("Chest", chestSpawner.transform.position, randomItemDrop.InventoryItem);

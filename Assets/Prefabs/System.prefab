@@ -360,3 +360,4 @@ MonoBehaviour:
   winSound: {fileID: 11400000, guid: db04adf4e3b5e4bd3b3ec2c6e8f1d7e8, type: 2}
   gameOverSound: {fileID: 11400000, guid: cdf8d3373ddf74c6db59d59bf4b4c480, type: 2}
   gameOverDelay: 1
+  rareDropTable: {fileID: 11400000, guid: 6b77168f85cba42afb14770c81dd14cb, type: 2}
