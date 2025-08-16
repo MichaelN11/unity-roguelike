@@ -270,7 +270,7 @@ public class LevelManager : MonoBehaviour
             List<ChestSpawner> chestSpawners = tilesWithChests[randomTileIndex];
             if (spawnObjects)
             {
-                if (spawnedRareChest)
+                if (spawnedRareChest || GameManager.Instance.ShuffledRareDrops.ItemDrops.Count == 0)
                 {
                     ItemDrop randomItemDrop = ItemDropUtil.GetRandomItemDrop(level.ChestDropTable);
                     SpawnChest(chestSpawners, randomItemDrop);
