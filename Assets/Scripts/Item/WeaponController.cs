@@ -7,6 +7,8 @@ using UnityEngine;
 /// </summary>
 public class WeaponController : MonoBehaviour
 {
+    private const float SwingRotationDegrees = 110; 
+
     [SerializeField]
     private float pixelsPerUnit = 16;
 
@@ -23,6 +25,11 @@ public class WeaponController : MonoBehaviour
 
     private AbilityAnimation currentAnimation = AbilityAnimation.Default;
     private float currentAbilityRange = 0;
+
+    private Vector2 swingPivot;
+    private float swingTotalTime = 0;
+    private float swingAnimationTimer = 0;
+    private float swingRecoveryTimer = 0;
 
     private void Awake()
     {
@@ -51,8 +58,11 @@ public class WeaponController : MonoBehaviour
 
         if (abilityManager != null)
         {
-            abilityManager.OnAbilityStarted += Attack;
+            abilityManager.OnAbilityStarted += AbilityStarted;
+            abilityManager.OnAbilityUse += AbilityUse;
         }
+
+        swingPivot =  new Vector2(0, spriteRenderer.bounds.extents.y); ;
     }
 
     private void Update()
@@ -62,6 +72,7 @@ public class WeaponController : MonoBehaviour
             && IsWeaponDisplayable())
         {
             ShowWeapon();
+            SwingWeapon();
         } else
         {
             spriteRenderer.enabled = false;
@@ -83,14 +94,39 @@ public class WeaponController : MonoBehaviour
 
     private void ShowWeapon()
     {
+        RotateAndPositionWeapon();
+        spriteRenderer.enabled = true;
+    }
+
+    private void RotateAndPositionWeapon()
+    {
         Vector2 lookDirection = entityState.LookDirection.normalized;
         bool mirrorInXDirection = weapon.MirrorXDirection && lookDirection.x < 0;
         Vector2 directionalPivot = GetDirectionalPivot(mirrorInXDirection);
         Vector2 direction = DetermineDirection(lookDirection, directionalPivot);
         direction = HandleMirroredDirection(direction, mirrorInXDirection);
-        spriteRenderer.enabled = true;
         transform.localPosition = DetermineLocalPosition(direction, directionalPivot, mirrorInXDirection);
         transform.rotation = UnityUtil.RotateTowardsVector(direction);
+    }
+
+    private void SwingWeapon()
+    {
+        if (swingAnimationTimer > 0 || swingRecoveryTimer > 0)
+        {
+            float t = 1 - (swingAnimationTimer / swingTotalTime);
+            float rotation = Mathf.Lerp(0, SwingRotationDegrees, t);
+            Vector3 pivotPoint = transform.TransformPoint(swingPivot);
+            transform.RotateAround(pivotPoint, Vector3.forward, rotation);
+
+            if (swingAnimationTimer > 0)
+            {
+                swingAnimationTimer -= Time.deltaTime;
+            }
+            else if (swingRecoveryTimer > 0)
+            {
+                swingRecoveryTimer -= Time.deltaTime;
+            }
+        }
     }
 
     private bool IsWeaponDisplayable()
@@ -166,14 +202,27 @@ public class WeaponController : MonoBehaviour
     }
 
     /// <summary>
-    /// Sets the attack trigger on the Animator. Triggered by the attack event.
+    /// Sets the attack trigger on the Animator. Triggered by the ability started event.
     /// </summary>
     /// <param name="eventInfo">The ability use event data</param>
-    private void Attack(AbilityUseEventInfo eventInfo)
+    private void AbilityStarted(AbilityUseEventInfo eventInfo)
     {
         currentAnimation = eventInfo.AbilityAnimation;
         currentAbilityRange = eventInfo.Range;
-        UpdateAnimator(eventInfo);
+        if (!weapon.SwingRotateAnimations.Contains(currentAnimation))
+        {
+            UpdateAnimator(eventInfo);
+        }        
+    }
+
+    private void AbilityUse(AbilityUseEventInfo eventInfo)
+    {
+        if (weapon.SwingRotateAnimations.Contains(currentAnimation))
+        {
+            swingAnimationTimer = eventInfo.ActiveTime;
+            swingRecoveryTimer = eventInfo.RecoveryTime;
+            swingTotalTime = swingAnimationTimer;
+        }
     }
 
     private void UpdateAnimator(AbilityUseEventInfo eventInfo)

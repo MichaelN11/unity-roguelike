@@ -18,4 +18,11 @@ public class Weapon : ScriptableObject
     [SerializeField]
     private List<AbilityAnimation> displayAnimations;
     public List<AbilityAnimation> DisplayAnimations => displayAnimations;
+
+    /// <summary>
+    /// Animations that will swing the weapon by rotating it.
+    /// </summary>
+    [SerializeField]
+    private List<AbilityAnimation> swingRotateAnimations;
+    public List<AbilityAnimation> SwingRotateAnimations => swingRotateAnimations;
 }

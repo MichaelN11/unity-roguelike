@@ -13,4 +13,5 @@ MonoBehaviour:
   m_Name: Bow
   m_EditorClassIdentifier: 
   mirrorXDirection: 0
-  displayAnimations: 
+  displayAnimations: 0000000001000000
+  swingRotateAnimations: 01000000

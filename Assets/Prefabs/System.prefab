@@ -356,7 +356,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2520a33951ccb42dfa6ac99803169c52, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 11400000, guid: ed02114de662f4ecba0305c56aa8ac03, type: 2}
+  player: {fileID: 11400000, guid: cd60b481144164135ba88a5211f6fb6b, type: 2}
   winSound: {fileID: 11400000, guid: db04adf4e3b5e4bd3b3ec2c6e8f1d7e8, type: 2}
   gameOverSound: {fileID: 11400000, guid: cdf8d3373ddf74c6db59d59bf4b4c480, type: 2}
   gameOverDelay: 1
