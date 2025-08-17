@@ -14,7 +14,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   baseObject: {fileID: 116077039412780153, guid: 7d52d213c0519434d9241cb312130350, type: 3}
   abilities:
-  - {fileID: 11400000, guid: 8467ce37d295546cc8406a90c96db0b7, type: 2}
+  - {fileID: 11400000, guid: 0f4ce88e1b27b465eaac3301f22df8b2, type: 2}
+  - {fileID: 11400000, guid: fcf5d504473184cefb1dc33ff4c0c3f9, type: 2}
+  initialInventory:
+  - Item: {fileID: 11400000, guid: 560d2307b56344ba5a0d88d9958b7158, type: 2}
+    Amount: 0
+    LearnableAbility: {fileID: 0}
+  - Item: {fileID: 11400000, guid: 80a125bb684b646719a367b3320fddda, type: 2}
+    Amount: 0
+    LearnableAbility: {fileID: 0}
   soundOnHit: {fileID: 11400000, guid: 32c3869f2625e4ddc9e21348f09f8bb1, type: 2}
   walkSpeed: 5.5
   interactionDistance: 1
@@ -28,5 +36,6 @@ MonoBehaviour:
     aggroDistance: 7
     deaggro: 1
   weapon: {fileID: 11400000, guid: e978c1629a017493cb1ed17195979337, type: 2}
-  dropChance: 0
-  droppable: {fileID: 0}
+  itemDrops: []
+  description: 0
+  isBoss: 0
