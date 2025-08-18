@@ -206,9 +206,23 @@ public class AbilityManager : MonoBehaviour
     {
         ActiveAbilityContext ability = GetAbility(abilityNumber);
         if (ability != null
+            && isAbilityCharging
             && ability.Ability is OnUseAbility onUseAbility
             && currentOnUseAbility == onUseAbility)
         {
+            AbilityUseData abilityUse = BuildAbilityUseData();
+            if (chargeTimer > onUseAbility.CastTime)
+            {
+                // TODO if entity state is charging, free it
+                abilityUse.ChargePercent = Math.Min(1, chargeTimer / onUseAbility.ChargeableTime);
+                ActivateOnUseAbility(onUseAbility, abilityUse, offsetDistance);
+            } else
+            {
+                float timeRemainingToCast = onUseAbility.CastTime - chargeTimer;
+                // TODO Set state to charging for timeRemainingToCast seconds
+                delayedAbilityCoroutine = DelayOnUseAbility(onUseAbility, abilityUse, offsetDistance, timeRemainingToCast);
+                StartCoroutine(delayedAbilityCoroutine);
+            }
             isAbilityCharging = false;
             chargeTimer = 0;
             return true;
@@ -272,20 +286,26 @@ public class AbilityManager : MonoBehaviour
             return StatelessCast(onUseAbility, direction, offsetDistance, abilityUse);
         } else if (entityState.CanAct() || CanCancelInto(onUseAbility))
         {
-            AbilityUseEventInfo abilityUseEvent = StartCastingAbility(onUseAbility, direction, abilityUse);
-            delayedAbilityCoroutine = DelayOnUseAbility(onUseAbility, abilityUseEvent.AbilityUse, offsetDistance);
-            StartCoroutine(delayedAbilityCoroutine);
-
             if (onUseAbility.ChargeableTime > 0)
             {
-                isAbilityCharging = true;
+                if (!isAbilityCharging)
+                {
+                    StopCurrentActions(onUseAbility, abilityUse, direction);
+                    // TODO Set entity state to charging indefinitely
+                    isAbilityCharging = true;
+                    AbilityUseEventInfo abilityUseEvent = BuildAbilityUseEventInfo(abilityUse, onUseAbility);
+                    return abilityUseEvent;
+                }
             }
-
-            return abilityUseEvent;
-        } else
-        {
-            return null;
+            else
+            {
+                AbilityUseEventInfo abilityUseEvent = StartCastingAbility(onUseAbility, direction, abilityUse);
+                delayedAbilityCoroutine = DelayOnUseAbility(onUseAbility, abilityUseEvent.AbilityUse, offsetDistance);
+                StartCoroutine(delayedAbilityCoroutine);
+                return abilityUseEvent;
+            }
         }
+        return null;
     }
 
     private AbilityUseEventInfo StatelessCast(OnUseAbility onUseAbility, Vector2 direction, float offsetDistance, AbilityUseData abilityUse)
@@ -341,7 +361,8 @@ public class AbilityManager : MonoBehaviour
             AudioManager.Instance.Play(onUseAbility.SoundOnCast);
         }
 
-        UpdateEntityState(onUseAbility, abilityUse, direction);
+        StopCurrentActions(onUseAbility, abilityUse, direction);
+        entityState.AbilityState(onUseAbility.RecoveryTime + onUseAbility.CastTime + onUseAbility.ActiveAnimationTime, onUseAbility.AimWhileCasting);
         AbilityUseEventInfo abilityUseEvent = BuildAbilityUseEventInfo(abilityUse, onUseAbility);
         OnAbilityStarted?.Invoke(abilityUseEvent);
         cancelableDuration = onUseAbility.CancelableDuration;
@@ -365,7 +386,7 @@ public class AbilityManager : MonoBehaviour
         };
     }
 
-    private void UpdateEntityState(OnUseAbility onUseAbility, AbilityUseData abilityUse, Vector2 direction)
+    private void StopCurrentActions(OnUseAbility onUseAbility, AbilityUseData abilityUse, Vector2 direction)
     {
         if (movement != null)
         {
@@ -375,7 +396,6 @@ public class AbilityManager : MonoBehaviour
         currentOnUseAbility = onUseAbility;
         currentAbilityData = abilityUse;
         entityState.LookDirection = direction;
-        entityState.AbilityState(onUseAbility.RecoveryTime + onUseAbility.CastTime + onUseAbility.ActiveAnimationTime, onUseAbility.AimWhileCasting);
     }
 
     private AbilityUseEventInfo BuildAbilityUseEventInfo(AbilityUseData abilityUse, OnUseAbility onUseAbility)
@@ -409,9 +429,15 @@ public class AbilityManager : MonoBehaviour
     /// <param name="abilityUse"></param>
     /// <param name="offsetDistance"></param>
     /// <returns>IEnumerator used for the coroutine</returns>
-    private IEnumerator DelayOnUseAbility(OnUseAbility onUseAbility, AbilityUseData abilityUse, float offsetDistance)
+    private IEnumerator DelayOnUseAbility(OnUseAbility onUseAbility, AbilityUseData abilityUse, float offsetDistance, float castTimeOverride = -1)
     {
-        yield return new WaitForSeconds(onUseAbility.CastTime);
+        float castTime = (castTimeOverride >= 0) ? castTimeOverride : onUseAbility.CastTime;
+        yield return new WaitForSeconds(castTime);
+        ActivateOnUseAbility(onUseAbility, abilityUse, offsetDistance);
+    }
+
+    private void ActivateOnUseAbility(OnUseAbility onUseAbility, AbilityUseData abilityUse, float offsetDistance)
+    {
         UpdateAbilityState(abilityUse, offsetDistance);
         onUseAbility.Use(abilityUse);
 

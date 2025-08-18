@@ -27,10 +27,12 @@ public class RangedAttackEffect : AbilityEffect
             attackData);
         effectUseData.CreatedObjects.Add(instance);
 
+        float range = projectileEffectData.Range + Mathf.Lerp(0, projectileEffectData.RangeIncreaseFromCharge, abilityUseData.ChargePercent);
+
         Projectile projectile = instance.GetComponent<Projectile>();
         projectile.Speed = projectileEffectData.Speed;
         projectile.Direction = abilityUseData.Direction;
-        projectile.MaxDistance = projectileEffectData.Range;
+        projectile.MaxDistance = range;
         projectile.WallStickDuration = projectileEffectData.WallStickDuration;
         projectile.GroundStickDuration = projectileEffectData.GroundStickDuration;
     }

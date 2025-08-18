@@ -19,4 +19,6 @@ public class AbilityUseData
 
     public Vector2 Position { get; set; }
     public Vector2 Direction { get; set; } = Vector2.zero;
+
+    public float ChargePercent { get; set; } = 0;
 }

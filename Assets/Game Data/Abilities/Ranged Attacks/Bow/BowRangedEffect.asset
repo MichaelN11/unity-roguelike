@@ -25,6 +25,7 @@ MonoBehaviour:
     speed: 10
     wallStickDuration: 1
     groundStickDuration: 0
+    rangeIncreaseFromCharge: 6
   attackEffectData:
     soundOnHit: {fileID: 11400000, guid: d9a95617b0c6d43789c3f1c8dbd6510c, type: 2}
     damage: 1

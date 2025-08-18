@@ -26,4 +26,8 @@ public class ProjectileEffectData
     [SerializeField]
     private float groundStickDuration = 0;
     public float GroundStickDuration => groundStickDuration;
+
+    [SerializeField]
+    private float rangeIncreaseFromCharge = 0;
+    public float RangeIncreaseFromCharge => rangeIncreaseFromCharge;
 }

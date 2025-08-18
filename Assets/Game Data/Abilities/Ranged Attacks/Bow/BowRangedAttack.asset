@@ -36,3 +36,4 @@ MonoBehaviour:
   stopSoundAfterUse: 0
   abilityAnimation: 0
   statelessCast: 0
+  chargeableTime: 2
