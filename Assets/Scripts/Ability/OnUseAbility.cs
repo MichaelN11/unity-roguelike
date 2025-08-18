@@ -82,6 +82,13 @@ public class OnUseAbility : ActiveAbility
     private bool statelessCast = false;
     public bool StatelessCast => statelessCast;
 
+    /// <summary>
+    /// The amount of seconds an ability can be charged to increase its effects. 0 indicates the ability is not chargeable.
+    /// </summary>
+    [SerializeField]
+    private float chargeableTime = 0;
+    public float ChargeableTime => chargeableTime;
+
     public void Use(AbilityUseData abilityUse)
     {
         if (soundOnUse != null)

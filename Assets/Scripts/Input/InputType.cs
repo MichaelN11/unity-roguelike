@@ -10,5 +10,6 @@ public enum InputType
     Ability,
     Idle,
     Item,
-    Interact
+    Interact,
+    AbilityReleased
 }

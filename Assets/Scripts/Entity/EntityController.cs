@@ -82,6 +82,9 @@ public class EntityController : MonoBehaviour
             case InputType.Interact:
                 updateSuccessful = Interact();
                 break;
+            case InputType.AbilityReleased:
+                updateSuccessful = AbilityReleased(inputData.Number, inputData.Direction);
+                break;
             default:
                 Debug.Log(gameObject.name + " encountered unrecognized input type: " + inputData.Type);
                 break;
@@ -149,6 +152,16 @@ public class EntityController : MonoBehaviour
             AbilityUseEventInfo abilityUseEvent =
                 abilityManager.UseAbility(abilityNumber, abilityDirection, entityData.Entity.InteractionDistance);
             successful = abilityUseEvent != null;
+        }
+        return successful;
+    }
+
+    private bool AbilityReleased(int abilityNumber, Vector2 abilityDirection)
+    {
+        bool successful = false;
+        if (abilityManager != null)
+        {
+            successful = abilityManager.ReleaseAbility(abilityNumber, abilityDirection, entityData.Entity.InteractionDistance); ;
         }
         return successful;
     }

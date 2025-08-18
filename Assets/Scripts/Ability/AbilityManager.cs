@@ -42,6 +42,9 @@ public class AbilityManager : MonoBehaviour
     private bool currentAbilityStarted = false; // Set when the startup/cast time is finished
     private string currentAbilityOrigin = null;
 
+    private bool isAbilityCharging = false;
+    private float chargeTimer = 0;
+
     private void Awake()
     {
         entityData = GetComponentInParent<EntityData>();
@@ -74,6 +77,12 @@ public class AbilityManager : MonoBehaviour
             {
                 ability.CurrentCooldown -= Time.deltaTime;
             }
+        }
+
+        if (isAbilityCharging)
+        {
+            chargeTimer += Time.deltaTime;
+            Debug.Log("Charging ability for: " + chargeTimer);
         }
     }
 
@@ -187,6 +196,28 @@ public class AbilityManager : MonoBehaviour
     }
 
     /// <summary>
+    /// A held ability is released. Used for chargeable abilities.
+    /// </summary>
+    /// <param name="abilityNumber">The number of the used ability in the hotbar/UI</param>
+    /// <param name="direction">The direction in which the ability was used</param>
+    /// <param name="offsetDistance">The distance offset from the entity</param>
+    /// <returns>true if the ability was stopped by the release</returns>
+    public bool ReleaseAbility(int abilityNumber, Vector2 direction, float offsetDistance)
+    {
+        ActiveAbilityContext ability = GetAbility(abilityNumber);
+        if (ability != null
+            && ability.Ability is OnUseAbility onUseAbility
+            && currentOnUseAbility == onUseAbility)
+        {
+            isAbilityCharging = false;
+            chargeTimer = 0;
+            return true;
+        }
+
+        return false;
+    }
+
+    /// <summary>
     /// Interrupts the ability.
     /// </summary>
     public void Interrupt()
@@ -244,6 +275,12 @@ public class AbilityManager : MonoBehaviour
             AbilityUseEventInfo abilityUseEvent = StartCastingAbility(onUseAbility, direction, abilityUse);
             delayedAbilityCoroutine = DelayOnUseAbility(onUseAbility, abilityUseEvent.AbilityUse, offsetDistance);
             StartCoroutine(delayedAbilityCoroutine);
+
+            if (onUseAbility.ChargeableTime > 0)
+            {
+                isAbilityCharging = true;
+            }
+
             return abilityUseEvent;
         } else
         {
@@ -430,6 +467,9 @@ public class AbilityManager : MonoBehaviour
             }
             currentOnUseAbility = null;
             currentAbilityOrigin = null;
+
+            isAbilityCharging = false;
+            chargeTimer = 0;
         }
     }
 }

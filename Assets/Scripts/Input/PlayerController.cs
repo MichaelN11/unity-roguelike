@@ -244,6 +244,12 @@ public class PlayerController : MonoBehaviour
     private void AbilityCancelled(int abilityNumber)
     {
         heldAbilities.Remove(abilityNumber);
+
+        InputData inputData = new();
+        inputData.Type = InputType.AbilityReleased;
+        inputData.Direction = lookDirection;
+        inputData.Number = abilityNumber;
+        entityController.UpdateFromInput(inputData);
     }
 
     private void ItemCancelled(int itemNumber)
