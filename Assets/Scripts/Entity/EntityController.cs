@@ -135,7 +135,7 @@ public class EntityController : MonoBehaviour
         {
             attemptedLookDirection = lookDirection;
             if (entityState.CanAct()
-                || (entityState.ActionState == ActionState.Ability && entityState.CanLookWhileCasting))
+                || (entityState.ActionState == ActionState.Hardcasting && entityState.CanLookWhileCasting))
             {
                 entityState.LookDirection = lookDirection;
                 isLookDirectionSet = true;

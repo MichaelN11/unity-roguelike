@@ -49,7 +49,7 @@ public class AnimatorUpdater : MonoBehaviour
 
     private void Update()
     {
-        if (usedItemObject != null && entityState.ActionState != ActionState.Ability)
+        if (usedItemObject != null && entityState.ActionState != ActionState.Hardcasting)
         {
             Destroy(usedItemObject);
             usedItemObject = null;
@@ -204,7 +204,7 @@ public class AnimatorUpdater : MonoBehaviour
 
     private void UpdateAttack()
     {
-        if (entityState.ActionState != ActionState.Ability)
+        if (entityState.ActionState != ActionState.Hardcasting)
         {
             animator.SetBool("isAttacking", false);
             animator.SetBool("isActiveAbility", false);

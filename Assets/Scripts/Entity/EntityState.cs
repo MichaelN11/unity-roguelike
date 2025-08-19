@@ -17,6 +17,12 @@ public class EntityState : MonoBehaviour
     public float StunTimer { get; private set; } = 0f;
     public float FlashTimer { get; private set; } = 0f;
     public float StopTimer { get; private set; } = 0f;
+    public float AbilityTimer { get; private set; } = 0f;
+
+    /// <summary>
+    /// Indicates the entity is using an ability separate from their action state.
+    /// </summary>
+    public bool UsingAbility { get; private set; } = false;
 
     private AbilityManager abilityManager;
 
@@ -35,6 +41,7 @@ public class EntityState : MonoBehaviour
         {
             UpdateStunTimer();
             UpdateFlashTimer();
+            UpdateAbilityTimer();
         }
     }
 
@@ -80,7 +87,7 @@ public class EntityState : MonoBehaviour
     /// <returns>true if the entity is stunned</returns>
     public bool IsStunned()
     {
-        return ActionState == ActionState.Ability
+        return ActionState == ActionState.Hardcasting
             || ActionState == ActionState.Hitstun
             || ActionState == ActionState.Interact;
     }
@@ -96,19 +103,34 @@ public class EntityState : MonoBehaviour
     }
 
     /// <summary>
-    /// Changes state to the Ability state, using the passed duration.
+    /// Changes state to the Hardcasting state, using the passed duration.
     /// </summary>
-    /// <param name="duration">The time in the ability state as a float</param>
+    /// <param name="duration">The time in the Hardcasting state as a float</param>
     /// <param name="aimWhileCasting">If the entity can change the look direction while casting the ability</param>
-    public void AbilityState(float duration, bool aimWhileCasting = false)
+    public void HardcastingState(float duration, bool aimWhileCasting = false)
     {
-        ActionState = ActionState.Ability;
+        ActionState = ActionState.Hardcasting;
         StunTimer = duration;
+        UseAbility();
         CanLookWhileCasting = aimWhileCasting;
+    }
+
+    /// <summary>
+    /// Casting an ability without stunning the entity, i.e can cast while moving.
+    /// </summary>
+    /// <param name="duration">The time spend casting the ability. 0 or less indicates indefinite duration.</param>
+    public void UseAbility(float duration = 0)
+    {
+        UsingAbility = true;
+        if (duration > 0)
+        {
+            AbilityTimer = duration;
+        }
     }
 
     public void InteractState(float duration)
     {
+        StopUsingAbility();
         ActionState = ActionState.Interact;
         StunTimer = duration;
     }
@@ -119,6 +141,7 @@ public class EntityState : MonoBehaviour
     /// <param name="duration">The time in the ability state as a float</param>
     public void HitstunState(float duration)
     {
+        StopUsingAbility();
         ActionState = ActionState.Hitstun;
         StunTimer = duration;
         if (abilityManager != null)
@@ -132,6 +155,7 @@ public class EntityState : MonoBehaviour
     /// </summary>
     public void DeadState(DeathContext deathContext)
     {
+        StopUsingAbility();
         OnDeath?.Invoke(deathContext);
         ActionState = ActionState.Dead;
         if (abilityManager != null)
@@ -164,6 +188,12 @@ public class EntityState : MonoBehaviour
         ActionState = ActionState.Idle;
     }
 
+    private void StopUsingAbility()
+    {
+        UsingAbility = false;
+        AbilityTimer = 0f;
+    }
+
     /// <summary>
     /// If the entity is stunned/attacking, subtract the time in seconds passed from the last
     /// update. If the timer is below 0, tell the entity to change state. Also sets
@@ -176,6 +206,7 @@ public class EntityState : MonoBehaviour
             StunTimer -= Time.deltaTime;
             if (StunTimer <= 0)
             {
+                StopUsingAbility();
                 StandState();
                 OnUnstunned?.Invoke();
                 CanLookWhileCasting = false;
@@ -200,5 +231,20 @@ public class EntityState : MonoBehaviour
     private void UpdateStopTimer()
     {
         StopTimer -= Time.deltaTime;
+    }
+
+    /// <summary>
+    /// Updates the ability timer, which controls how long an entity is using an ability.
+    /// </summary>
+    private void UpdateAbilityTimer()
+    {
+        if (AbilityTimer > 0)
+        {
+            AbilityTimer -= Time.deltaTime;
+            if (AbilityTimer <= 0)
+            {
+                StopUsingAbility();
+            }
+        }
     }
 }
