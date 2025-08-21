@@ -12,11 +12,70 @@ public class ComboAbility : ActiveAbility
     private List<ComboStage> comboStages;
     public List<ComboStage> ComboStages => comboStages;
 
-    public void Use(int stage, AbilityUseData abilityUse)
+    public override AbilityUseEventInfo Use(Vector2 direction, float offsetDistance,
+        AbilityUseData abilityUse, EntityAbilityContext entityAbilityContext)
     {
-        if (stage >= 0 && stage < comboStages.Count)
+        if (entityAbilityContext.CurrentComboAbility != this)
         {
-            comboStages[stage].Ability.Use(abilityUse);
+            ResetCombo(entityAbilityContext);
+            entityAbilityContext.CurrentComboAbility = this;
+        }
+        if (abilityUse.EntityState.CanAct()
+                || (abilityUse.EntityState.ActionState == ActionState.Hardcasting
+                && abilityUse.EntityState.StunTimer <= entityAbilityContext.ComboableTime))
+        {
+            entityAbilityContext.ComboTimer = 0;
+            ComboStage nextComboStage = ComboStages[entityAbilityContext.NextComboNumber];
+            AbilityUseEventInfo abilityUseEvent = nextComboStage.Ability.StartCastingAbility(direction, abilityUse, entityAbilityContext);
+            entityAbilityContext.DelayedAbilityCoroutine = DelayComboAbility(nextComboStage, abilityUseEvent.AbilityUse, offsetDistance, entityAbilityContext);
+            abilityUse.AbilityManager.StartCoroutine(entityAbilityContext.DelayedAbilityCoroutine);
+            return abilityUseEvent;
+        }
+        else
+        {
+            return null;
+        }
+    }
+
+    public static void UpdateComboState(EntityAbilityContext entityAbilityContext)
+    {
+        if (entityAbilityContext.ComboTimer > 0)
+        {
+            entityAbilityContext.ComboTimer -= Time.deltaTime;
+            if (entityAbilityContext.ComboTimer <= 0)
+            {
+                ResetCombo(entityAbilityContext);
+            }
+        }
+    }
+
+    public static void ResetCombo(EntityAbilityContext entityAbilityContext)
+    {
+        entityAbilityContext.NextComboNumber = 0;
+        entityAbilityContext.ComboTimer = 0;
+        entityAbilityContext.ComboableTime = 0;
+    }
+
+    private IEnumerator DelayComboAbility(ComboStage nextComboStage, AbilityUseData abilityUse,
+        float offsetDistance,EntityAbilityContext entityAbilityContext)
+    {
+        yield return new WaitForSeconds(nextComboStage.Ability.CastTime);
+        AbilityUtil.UpdateAbilityState(abilityUse, offsetDistance, entityAbilityContext);
+        nextComboStage.Ability.Activate(abilityUse);
+
+        AbilityUseEventInfo abilityUseEvent = nextComboStage.Ability.BuildAbilityUseEventInfo(abilityUse);
+        abilityUseEvent.Origin = entityAbilityContext.CurrentAbilityOrigin;
+        abilityUse.AbilityManager.InvokeAbilityUseEvent(abilityUseEvent);
+
+        if (entityAbilityContext.NextComboNumber + 1 < ComboStages.Count)
+        {
+            entityAbilityContext.ComboTimer = nextComboStage.ComboContinueWindow;
+            entityAbilityContext.ComboableTime = nextComboStage.ComboCancelableDuration;
+            ++entityAbilityContext.NextComboNumber;
+        }
+        else
+        {
+            ResetCombo(entityAbilityContext);
         }
     }
 }

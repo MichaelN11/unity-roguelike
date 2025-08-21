@@ -146,7 +146,7 @@ public class EntityState : MonoBehaviour
         StunTimer = duration;
         if (abilityManager != null)
         {
-            abilityManager.Interrupt();
+            abilityManager.InterruptAll();
         }
     }
 
@@ -160,7 +160,7 @@ public class EntityState : MonoBehaviour
         ActionState = ActionState.Dead;
         if (abilityManager != null)
         {
-            abilityManager.Interrupt();
+            abilityManager.InterruptAll();
         }
     }
 

@@ -27,23 +27,7 @@ public class AbilityManager : MonoBehaviour
     private Hitbox hitbox;
     private SpriteRenderer spriteRenderer;
 
-    private IEnumerator delayedAbilityCoroutine;
-
-    private ComboAbility currentComboAbility;
-    private int nextComboNumber = 0;
-    private float comboTimer = 0;
-    private float comboableTime = 0;
-
-    private float cancelableDuration = 0;
-
-    private OnUseAbility currentOnUseAbility;
-    private AbilityUseData currentAbilityData;
-    private float currentAbilityDuration;
-    private bool currentAbilityStarted = false; // Set when the startup/cast time is finished
-    private string currentAbilityOrigin = null;
-
-    private bool isAbilityCharging = false;
-    private float chargeTimer = 0;
+    private EntityAbilityContext entityAbilityContext = new();
 
     private void Awake()
     {
@@ -57,18 +41,11 @@ public class AbilityManager : MonoBehaviour
 
     private void Update()
     {
-        if (comboTimer > 0)
-        {
-            comboTimer -= Time.deltaTime;
-            if (comboTimer <= 0)
-            {
-                ResetCombo();
-            }
-        }
+        ComboAbility.UpdateComboState(entityAbilityContext);
 
-        if (currentOnUseAbility != null && currentAbilityStarted)
+        if (entityAbilityContext.CurrentActiveAbility != null && entityAbilityContext.CurrentAbilityStarted)
         {
-            currentAbilityDuration += Time.deltaTime;
+            entityAbilityContext.CurrentAbilityDuration += Time.deltaTime;
         }
 
         foreach (ActiveAbilityContext ability in abilities)
@@ -79,10 +56,10 @@ public class AbilityManager : MonoBehaviour
             }
         }
 
-        if (isAbilityCharging)
+        if (entityAbilityContext.IsAbilityCharging)
         {
-            chargeTimer += Time.deltaTime;
-            Debug.Log("Charging ability for: " + chargeTimer);
+            entityAbilityContext.ChargeTimer += Time.deltaTime;
+            Debug.Log("Charging ability for: " + entityAbilityContext.ChargeTimer);
         }
     }
 
@@ -175,13 +152,9 @@ public class AbilityManager : MonoBehaviour
             {
                 return null;
             }
-            else if (ability.Ability is OnUseAbility onUseAbility)
+            else
             {
-                abilityUseEventInfo = UseOnUseAbility(onUseAbility, direction, offsetDistance, abilityUse);
-            }
-            else if (ability.Ability is ComboAbility comboAbility)
-            {
-                abilityUseEventInfo = UseComboAbility(comboAbility, direction, offsetDistance, abilityUse);
+                abilityUseEventInfo = ability.Ability.Use(direction, offsetDistance, abilityUse, entityAbilityContext);
             }
         }
 
@@ -189,7 +162,7 @@ public class AbilityManager : MonoBehaviour
         if (abilityUseEventInfo != null)
         {
             ability.CurrentCooldown = ability.Ability.Cooldown;
-            currentAbilityOrigin = origin;
+            entityAbilityContext.CurrentAbilityOrigin = origin;
         }
 
         return abilityUseEventInfo;
@@ -205,43 +178,16 @@ public class AbilityManager : MonoBehaviour
     public bool ReleaseAbility(int abilityNumber, Vector2 direction, float offsetDistance)
     {
         ActiveAbilityContext ability = GetAbility(abilityNumber);
-        if (ability != null
-            && isAbilityCharging
-            && ability.Ability is OnUseAbility onUseAbility
-            && currentOnUseAbility == onUseAbility)
-        {
-            if (movement != null)
-            {
-                movement.StopMoving();
-            }
-
-            AbilityUseData abilityUse = BuildAbilityUseData();
-            if (chargeTimer > onUseAbility.CastTime)
-            {
-                entityState.HardcastingState(onUseAbility.RecoveryTime + onUseAbility.ActiveAnimationTime, onUseAbility.AimWhileCasting);
-                abilityUse.ChargePercent = Math.Min(1, chargeTimer / onUseAbility.ChargeableTime);
-                ActivateOnUseAbility(onUseAbility, abilityUse, offsetDistance);
-            } else
-            {
-                float timeRemainingToCast = onUseAbility.CastTime - chargeTimer;
-                entityState.UseAbility(timeRemainingToCast);
-                delayedAbilityCoroutine = DelayChargedOnUseAbility(onUseAbility, abilityUse, offsetDistance, timeRemainingToCast);
-                StartCoroutine(delayedAbilityCoroutine);
-            }
-            isAbilityCharging = false;
-            chargeTimer = 0;
-            return true;
-        }
-
-        return false;
+        AbilityUseData abilityUse = BuildAbilityUseData();
+        return ability.Ability.Release(direction, offsetDistance, abilityUse, entityAbilityContext);
     }
 
     /// <summary>
-    /// Interrupts the ability.
+    /// Interrupts all coroutines and the current ability.
     /// </summary>
-    public void Interrupt()
+    public void InterruptAll()
     {
-        ResetCombo();
+        ComboAbility.ResetCombo(entityAbilityContext);
         StopAllCoroutines();
         InterruptCurrentAbility();
     }
@@ -261,9 +207,9 @@ public class AbilityManager : MonoBehaviour
             } else if (ability is ComboAbility comboAbility)
             {
                 int comboStage = 0;
-                if (currentComboAbility == comboAbility)
+                if (entityAbilityContext.CurrentComboAbility == comboAbility)
                 {
-                    comboStage = nextComboNumber;
+                    comboStage = entityAbilityContext.NextComboNumber;
                 }
                 UsableAbilityInfo usableAbilityInfo = new();
                 usableAbilityInfo.Ability = comboAbility.ComboStages[comboStage].Ability;
@@ -274,6 +220,16 @@ public class AbilityManager : MonoBehaviour
         return usableAbilities;
     }
 
+    public void InvokeAbilityStartedEvent(AbilityUseEventInfo abilityUseEvent)
+    {
+        OnAbilityStarted?.Invoke(abilityUseEvent);
+    }
+
+    public void InvokeAbilityUseEvent(AbilityUseEventInfo abilityUseEvent)
+    {
+        OnAbilityUse?.Invoke(abilityUseEvent);
+    }
+
     private ActiveAbilityContext GetAbility(int abilityNumber)
     {
         ActiveAbilityContext ability = null;
@@ -282,100 +238,6 @@ public class AbilityManager : MonoBehaviour
             ability = abilities[abilityNumber];
         }
         return ability;
-    }
-
-    private AbilityUseEventInfo UseOnUseAbility(OnUseAbility onUseAbility, Vector2 direction, float offsetDistance, AbilityUseData abilityUse)
-    {
-        if (onUseAbility.StatelessCast)
-        {
-            return StatelessCast(onUseAbility, direction, offsetDistance, abilityUse);
-        } else if (entityState.CanAct() || CanCancelInto(onUseAbility))
-        {
-            if (onUseAbility.ChargeableTime > 0)
-            {
-                if (!isAbilityCharging)
-                {
-                    SetCurrentAbility(onUseAbility, abilityUse, direction);
-                    entityState.UseAbility();
-                    isAbilityCharging = true;
-                    AbilityUseEventInfo abilityUseEvent = BuildAbilityUseEventInfo(abilityUse, onUseAbility);
-                    return abilityUseEvent;
-                }
-            }
-            else
-            {
-                AbilityUseEventInfo abilityUseEvent = StartCastingAbility(onUseAbility, direction, abilityUse);
-                delayedAbilityCoroutine = DelayOnUseAbility(onUseAbility, abilityUseEvent.AbilityUse, offsetDistance);
-                StartCoroutine(delayedAbilityCoroutine);
-                return abilityUseEvent;
-            }
-        }
-        return null;
-    }
-
-    private AbilityUseEventInfo StatelessCast(OnUseAbility onUseAbility, Vector2 direction, float offsetDistance, AbilityUseData abilityUse)
-    {
-        if (onUseAbility.SoundOnCast != null)
-        {
-            AudioManager.Instance.Play(onUseAbility.SoundOnCast);
-        }
-        AbilityUseEventInfo abilityUseEvent = BuildAbilityUseEventInfo(abilityUse, onUseAbility);
-        OnAbilityStarted?.Invoke(abilityUseEvent);
-        abilityUse.Direction = direction;
-        abilityUse.Position += direction * offsetDistance;
-        onUseAbility.Use(abilityUse);
-
-        return abilityUseEvent;
-    }
-
-    private bool CanCancelInto(OnUseAbility onUseAbility)
-    {
-        return entityState.ActionState == ActionState.Hardcasting
-            && onUseAbility.CanCancelInto
-            && entityState.StunTimer <= cancelableDuration
-            && (currentOnUseAbility == null || currentOnUseAbility != onUseAbility);
-    }
-
-    private AbilityUseEventInfo UseComboAbility(ComboAbility comboAbility, Vector2 direction, float offsetDistance, AbilityUseData abilityUse)
-    {
-        if (currentComboAbility != comboAbility)
-        {
-            ResetCombo();
-            currentComboAbility = comboAbility;
-        }
-        if (entityState.CanAct()
-                || (entityState.ActionState == ActionState.Hardcasting
-                && entityState.StunTimer <= comboableTime))
-        {
-            comboTimer = 0;
-            ComboStage nextComboStage = comboAbility.ComboStages[nextComboNumber];
-            AbilityUseEventInfo abilityUseEvent = StartCastingAbility(nextComboStage.Ability, direction, abilityUse);
-            delayedAbilityCoroutine = DelayComboAbility(comboAbility, nextComboStage, abilityUseEvent.AbilityUse, offsetDistance);
-            StartCoroutine(delayedAbilityCoroutine);
-            return abilityUseEvent;
-        } else
-        {
-            return null;
-        }
-    }
-
-    private AbilityUseEventInfo StartCastingAbility(OnUseAbility onUseAbility, Vector2 direction, AbilityUseData abilityUse)
-    {
-        if (onUseAbility.SoundOnCast != null)
-        {
-            AudioManager.Instance.Play(onUseAbility.SoundOnCast);
-        }
-        if (movement != null)
-        {
-            movement.StopMoving();
-        }
-        SetCurrentAbility(onUseAbility, abilityUse, direction);
-        entityState.HardcastingState(onUseAbility.RecoveryTime + onUseAbility.CastTime + onUseAbility.ActiveAnimationTime, onUseAbility.AimWhileCasting);
-        AbilityUseEventInfo abilityUseEvent = BuildAbilityUseEventInfo(abilityUse, onUseAbility);
-        OnAbilityStarted?.Invoke(abilityUseEvent);
-        cancelableDuration = onUseAbility.CancelableDuration;
-
-        return abilityUseEvent;
     }
 
     private AbilityUseData BuildAbilityUseData()
@@ -394,126 +256,23 @@ public class AbilityManager : MonoBehaviour
         };
     }
 
-    private void SetCurrentAbility(OnUseAbility onUseAbility, AbilityUseData abilityUse, Vector2 direction)
+    public void InterruptCurrentAbility()
     {
-        InterruptCurrentAbility();
-        currentOnUseAbility = onUseAbility;
-        currentAbilityData = abilityUse;
-        entityState.LookDirection = direction;
-    }
-
-    private AbilityUseEventInfo BuildAbilityUseEventInfo(AbilityUseData abilityUse, OnUseAbility onUseAbility)
-    {
-        AbilityUseEventInfo abilityUseEvent = new()
+        if (entityAbilityContext.DelayedAbilityCoroutine != null)
         {
-            AbilityUse = abilityUse,
-            AbilityAnimation = onUseAbility.AbilityAnimation,
-            CastTime = onUseAbility.CastTime,
-            ActiveTime = onUseAbility.ActiveAnimationTime,
-            RecoveryTime = onUseAbility.RecoveryTime,
-            AimDuration = onUseAbility.AimDuration,
-            Range = onUseAbility.Range,
-            ChangeDirection = onUseAbility.ChangeDirection,
-            StatelessCast = onUseAbility.StatelessCast
-        };
-        return abilityUseEvent;
-    }
-
-    private void ResetCombo()
-    {
-        nextComboNumber = 0;
-        comboTimer = 0;
-        comboableTime = 0;
-    }
-
-    /// <summary>
-    /// Coroutine method that delays the on use ability's start time. Used for cast or startup times.
-    /// </summary>
-    /// <param name="onUseAbility"></param>
-    /// <param name="abilityUse"></param>
-    /// <param name="offsetDistance"></param>
-    /// <returns>IEnumerator used for the coroutine</returns>
-    private IEnumerator DelayOnUseAbility(OnUseAbility onUseAbility, AbilityUseData abilityUse, float offsetDistance, float castTimeOverride = -1)
-    {
-        float castTime = (castTimeOverride >= 0) ? castTimeOverride : onUseAbility.CastTime;
-        yield return new WaitForSeconds(castTime);
-        ActivateOnUseAbility(onUseAbility, abilityUse, offsetDistance);
-    }
-
-    /// <summary>
-    /// Coroutine method that delays the charged on use ability's start time. Sets the state for the active and recovery frames.
-    /// </summary>
-    /// <param name="onUseAbility"></param>
-    /// <param name="abilityUse"></param>
-    /// <param name="offsetDistance"></param>
-    /// <returns>IEnumerator used for the coroutine</returns>
-    private IEnumerator DelayChargedOnUseAbility(OnUseAbility onUseAbility, AbilityUseData abilityUse, float offsetDistance, float castTime)
-    {
-        yield return new WaitForSeconds(castTime);
-        ActivateOnUseAbility(onUseAbility, abilityUse, offsetDistance);
-        entityState.HardcastingState(onUseAbility.RecoveryTime + onUseAbility.ActiveAnimationTime, onUseAbility.AimWhileCasting);
-    }
-
-    private void ActivateOnUseAbility(OnUseAbility onUseAbility, AbilityUseData abilityUse, float offsetDistance)
-    {
-        UpdateAbilityState(abilityUse, offsetDistance);
-        onUseAbility.Use(abilityUse);
-
-        AbilityUseEventInfo abilityUseEvent = BuildAbilityUseEventInfo(abilityUse, onUseAbility);
-        abilityUseEvent.Origin = currentAbilityOrigin;
-        OnAbilityUse?.Invoke(abilityUseEvent);
-    }
-
-    private IEnumerator DelayComboAbility(ComboAbility comboAbility, ComboStage nextComboStage, AbilityUseData abilityUse, float offsetDistance)
-    {
-        yield return new WaitForSeconds(nextComboStage.Ability.CastTime);
-        UpdateAbilityState(abilityUse, offsetDistance);
-        nextComboStage.Ability.Use(abilityUse);
-
-        AbilityUseEventInfo abilityUseEvent = BuildAbilityUseEventInfo(abilityUse, nextComboStage.Ability);
-        abilityUseEvent.Origin = currentAbilityOrigin;
-        OnAbilityUse?.Invoke(abilityUseEvent);
-
-        if (nextComboNumber + 1 < comboAbility.ComboStages.Count)
-        {
-            comboTimer = nextComboStage.ComboContinueWindow;
-            comboableTime = nextComboStage.ComboCancelableDuration;
-            ++nextComboNumber;
-        }
-        else
-        {
-            ResetCombo();
-        }
-    }
-
-    private void UpdateAbilityState(AbilityUseData abilityUse, float offsetDistance)
-    {
-        entityState.CanLookWhileCasting = false;
-        abilityUse.Direction = entityState.LookDirection.normalized;
-        abilityUse.Position += entityState.LookDirection.normalized * offsetDistance;
-        currentAbilityStarted = true;
-        currentAbilityDuration = 0;
-    }
-
-    private void InterruptCurrentAbility()
-    {
-        if (delayedAbilityCoroutine != null)
-        {
-            StopCoroutine(delayedAbilityCoroutine);
+            StopCoroutine(entityAbilityContext.DelayedAbilityCoroutine);
         }
 
-        if (currentOnUseAbility != null && currentAbilityData != null)
+        if (entityAbilityContext.CurrentActiveAbility != null && entityAbilityContext.CurrentAbilityData != null)
         {
-            if (currentAbilityStarted)
+            if (entityAbilityContext.CurrentAbilityStarted)
             {
-                currentOnUseAbility.Interrupt(currentAbilityData, currentAbilityDuration);
-                currentAbilityStarted = false;
+                entityAbilityContext.CurrentActiveAbility.Interrupt(entityAbilityContext.CurrentAbilityData,
+                    entityAbilityContext.CurrentAbilityDuration, entityAbilityContext);
+                entityAbilityContext.CurrentAbilityStarted = false;
             }
-            currentOnUseAbility = null;
-            currentAbilityOrigin = null;
-
-            isAbilityCharging = false;
-            chargeTimer = 0;
+            entityAbilityContext.CurrentActiveAbility = null;
+            entityAbilityContext.CurrentAbilityOrigin = null;
         }
     }
 }

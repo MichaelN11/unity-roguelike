@@ -76,20 +76,44 @@ public class OnUseAbility : ActiveAbility
     public AbilityAnimation AbilityAnimation => abilityAnimation;
 
     /// <summary>
-    /// Indicates that the ability does not depend on or change the entity's state.
-    /// </summary>
-    [SerializeField]
-    private bool statelessCast = false;
-    public bool StatelessCast => statelessCast;
-
-    /// <summary>
     /// The amount of seconds an ability can be charged to increase its effects. 0 indicates the ability is not chargeable.
     /// </summary>
     [SerializeField]
     private float chargeableTime = 0;
     public float ChargeableTime => chargeableTime;
 
-    public void Use(AbilityUseData abilityUse)
+    public override AbilityUseEventInfo Use(Vector2 direction, float offsetDistance, AbilityUseData abilityUse, EntityAbilityContext entityAbilityContext)
+    {
+        if (abilityUse.EntityState.CanAct() || (canCancelInto && AbilityUtil.IsReadyToCancel(abilityUse, entityAbilityContext, this)))
+        {
+            AbilityUseEventInfo abilityUseEvent = StartCastingAbility(direction, abilityUse, entityAbilityContext);
+            entityAbilityContext.DelayedAbilityCoroutine = DelayUse(abilityUseEvent.AbilityUse, offsetDistance, entityAbilityContext);
+            abilityUse.AbilityManager.StartCoroutine(entityAbilityContext.DelayedAbilityCoroutine);
+            return abilityUseEvent;
+        }
+        return null;
+    }
+
+    public AbilityUseEventInfo StartCastingAbility(Vector2 direction, AbilityUseData abilityUse, EntityAbilityContext entityAbilityContext)
+    {
+        if (SoundOnCast != null)
+        {
+            AudioManager.Instance.Play(SoundOnCast);
+        }
+        if (abilityUse.Movement != null)
+        {
+            abilityUse.Movement.StopMoving();
+        }
+        AbilityUtil.SetCurrentAbility(this, abilityUse, direction, entityAbilityContext);
+        abilityUse.EntityState.HardcastingState(RecoveryTime + CastTime + ActiveAnimationTime, AimWhileCasting);
+        AbilityUseEventInfo abilityUseEvent = BuildAbilityUseEventInfo(abilityUse);
+        abilityUse.AbilityManager.InvokeAbilityStartedEvent(abilityUseEvent);
+        entityAbilityContext.PreviousCancelableDuration = CancelableDuration;
+
+        return abilityUseEvent;
+    }
+
+    public void Activate(AbilityUseData abilityUse)
     {
         if (soundOnUse != null)
         {
@@ -100,52 +124,56 @@ public class OnUseAbility : ActiveAbility
                 abilityUse.AbilityManager.StartCoroutine(soundLoopCoroutine);
             }
         }
-        foreach (AbilityEffect abilityEffect in effects) {
-            if (abilityEffect.SoundOnUse != null)
-            {
-                AudioManager.Instance.Play(abilityEffect.SoundOnUse);
-            }
-            EffectUseData effectUseData = new();
-            // Adding the EffectUseData into the list with the same order as the effects are stored in the ability
-            abilityUse.EffectUseDataList.Add(effectUseData);
-            abilityEffect.Trigger(abilityUse, effectUseData);
-
-            float effectDuration = GetEffectDuration(abilityEffect);
-            if (effectDuration > 0)
-            {
-                IEnumerator coroutine = EndEffect(abilityEffect, abilityUse, effectDuration, effectUseData);
-                abilityUse.AbilityManager.StartCoroutine(coroutine);
-            }
-        }
+        AbilityUtil.ActivateEffects(effects, abilityUse, duration);
     }
 
-    public void Interrupt(AbilityUseData abilityUse, float currentDuration)
+    // TODO replace with util method
+    public AbilityUseEventInfo BuildAbilityUseEventInfo(AbilityUseData abilityUse)
+    {
+        AbilityUseEventInfo abilityUseEvent = new()
+        {
+            AbilityUse = abilityUse,
+            AbilityAnimation = AbilityAnimation,
+            CastTime = CastTime,
+            ActiveTime = ActiveAnimationTime,
+            RecoveryTime = RecoveryTime,
+            AimDuration = AimDuration,
+            Range = Range,
+            ChangeDirection = ChangeDirection
+        };
+        return abilityUseEvent;
+    }
+
+    /// <summary>
+    /// Coroutine method that delays the on use ability's start time. Used for cast or startup times.
+    /// </summary>
+    /// <param name="abilityUse"></param>
+    /// <param name="offsetDistance"></param>
+    /// <returns>IEnumerator used for the coroutine</returns>
+    private IEnumerator DelayUse(AbilityUseData abilityUse, float offsetDistance, EntityAbilityContext entityAbilityContext, float castTimeOverride = -1)
+    {
+        float castTime = (castTimeOverride >= 0) ? castTimeOverride : CastTime;
+        yield return new WaitForSeconds(castTime);
+        StartActivatingAbility(abilityUse, offsetDistance, entityAbilityContext);
+    }
+
+    private void StartActivatingAbility(AbilityUseData abilityUse, float offsetDistance, EntityAbilityContext entityAbilityContext)
+    {
+        AbilityUtil.UpdateAbilityState(abilityUse, offsetDistance, entityAbilityContext);
+        Activate(abilityUse);
+
+        AbilityUseEventInfo abilityUseEvent = BuildAbilityUseEventInfo(abilityUse);
+        abilityUseEvent.Origin = entityAbilityContext.CurrentAbilityOrigin;
+        abilityUse.AbilityManager.InvokeAbilityUseEvent(abilityUseEvent);
+    }
+
+    public override void Interrupt(AbilityUseData abilityUse, float currentDuration, EntityAbilityContext entityAbilityContext)
     {
         if (stopSoundAfterUse)
         {
             AudioManager.Instance.StopSound(soundOnUse);
         }
-        int index = 0;
-        foreach (AbilityEffect abilityEffect in effects)
-        {
-            if (GetEffectDuration(abilityEffect) > currentDuration)
-            {
-                // Retrieve the EffectUseData using the index of the effect within the ability's effect list
-                abilityEffect.Unapply(abilityUse, abilityUse.EffectUseDataList[index]);
-            }
-            index++;
-        }
-    }
-
-    private IEnumerator EndEffect(AbilityEffect effect, AbilityUseData effectData, float effectDuration, EffectUseData effectUseData)
-    {
-        yield return new WaitForSeconds(effectDuration);
-        effect.Unapply(effectData, effectUseData);
-    }
-
-    private float GetEffectDuration(AbilityEffect abilityEffect)
-    {
-        return (abilityEffect.UseAbilityDuration) ? duration : abilityEffect.Duration;
+        AbilityUtil.InterruptEffects(effects, abilityUse, duration, currentDuration);
     }
 
     private IEnumerator StopLoopedSound()
