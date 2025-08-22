@@ -6,6 +6,7 @@ using System;
 /// <summary>
 /// An ability that can be charged up.
 /// </summary>
+[CreateAssetMenu(menuName = "Game Data/Ability/Chargeable")]
 public class ChargeableAbility : ActiveAbility
 {
     [SerializeField]
@@ -72,11 +73,14 @@ public class ChargeableAbility : ActiveAbility
 
     public override void Interrupt(AbilityUseData abilityUse, float currentDuration, EntityAbilityContext entityAbilityContext)
     {
-        if (abilityData.StopSoundAfterUse)
+        if (entityAbilityContext.CurrentAbilityStarted)
         {
-            AudioManager.Instance.StopSound(abilityData.SoundOnUse);
+            if (abilityData.StopSoundAfterUse)
+            {
+                AudioManager.Instance.StopSound(abilityData.SoundOnUse);
+            }
+            AbilityUtil.InterruptEffects(abilityData.Effects, abilityUse, abilityData.Duration, currentDuration);
         }
-        AbilityUtil.InterruptEffects(abilityData.Effects, abilityUse, abilityData.Duration, currentDuration);
         entityAbilityContext.IsAbilityCharging = false;
         entityAbilityContext.ChargeTimer = 0;
     }

@@ -59,7 +59,6 @@ public class AbilityManager : MonoBehaviour
         if (entityAbilityContext.IsAbilityCharging)
         {
             entityAbilityContext.ChargeTimer += Time.deltaTime;
-            Debug.Log("Charging ability for: " + entityAbilityContext.ChargeTimer);
         }
     }
 
@@ -265,10 +264,11 @@ public class AbilityManager : MonoBehaviour
 
         if (entityAbilityContext.CurrentActiveAbility != null && entityAbilityContext.CurrentAbilityData != null)
         {
+            entityAbilityContext.CurrentActiveAbility.Interrupt(entityAbilityContext.CurrentAbilityData,
+                entityAbilityContext.CurrentAbilityDuration, entityAbilityContext);
+
             if (entityAbilityContext.CurrentAbilityStarted)
             {
-                entityAbilityContext.CurrentActiveAbility.Interrupt(entityAbilityContext.CurrentAbilityData,
-                    entityAbilityContext.CurrentAbilityDuration, entityAbilityContext);
                 entityAbilityContext.CurrentAbilityStarted = false;
             }
             entityAbilityContext.CurrentActiveAbility = null;

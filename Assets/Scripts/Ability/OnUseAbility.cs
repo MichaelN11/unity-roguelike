@@ -75,13 +75,6 @@ public class OnUseAbility : ActiveAbility
     private AbilityAnimation abilityAnimation;
     public AbilityAnimation AbilityAnimation => abilityAnimation;
 
-    /// <summary>
-    /// The amount of seconds an ability can be charged to increase its effects. 0 indicates the ability is not chargeable.
-    /// </summary>
-    [SerializeField]
-    private float chargeableTime = 0;
-    public float ChargeableTime => chargeableTime;
-
     public override AbilityUseEventInfo Use(Vector2 direction, float offsetDistance, AbilityUseData abilityUse, EntityAbilityContext entityAbilityContext)
     {
         if (abilityUse.EntityState.CanAct() || (canCancelInto && AbilityUtil.IsReadyToCancel(abilityUse, entityAbilityContext, this)))
@@ -104,6 +97,7 @@ public class OnUseAbility : ActiveAbility
         {
             abilityUse.Movement.StopMoving();
         }
+        Debug.Log("casting on use ability: " + AbilityName);
         AbilityUtil.SetCurrentAbility(this, abilityUse, direction, entityAbilityContext);
         abilityUse.EntityState.HardcastingState(RecoveryTime + CastTime + ActiveAnimationTime, AimWhileCasting);
         AbilityUseEventInfo abilityUseEvent = BuildAbilityUseEventInfo(abilityUse);
@@ -169,11 +163,14 @@ public class OnUseAbility : ActiveAbility
 
     public override void Interrupt(AbilityUseData abilityUse, float currentDuration, EntityAbilityContext entityAbilityContext)
     {
-        if (stopSoundAfterUse)
+        if (entityAbilityContext.CurrentAbilityStarted)
         {
-            AudioManager.Instance.StopSound(soundOnUse);
+            if (stopSoundAfterUse)
+            {
+                AudioManager.Instance.StopSound(soundOnUse);
+            }
+            AbilityUtil.InterruptEffects(effects, abilityUse, duration, currentDuration);
         }
-        AbilityUtil.InterruptEffects(effects, abilityUse, duration, currentDuration);
     }
 
     private IEnumerator StopLoopedSound()
