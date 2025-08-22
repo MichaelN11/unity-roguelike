@@ -25,6 +25,8 @@ public class Movement : MonoBehaviour
     /// </summary>
     private const float CornerCheckSpeedCutoff = 0.7f;
 
+    public float CurrentWalkSpeed { get; private set; } = 0;
+
     public Vector2 Direction { get; private set; } = Vector2.zero;
     public float Speed { get; private set; } = 0;
     public float Acceleration { get; private set; } = 0;
@@ -36,6 +38,7 @@ public class Movement : MonoBehaviour
     private EntityState entityState;
     private Rigidbody2D body;
     private Collider2D movementCollider;
+    private EntityData entityData;
     private readonly List<RaycastHit2D> raycastHits = new();
     private readonly List<Collider2D> colliderHits = new();
 
@@ -52,6 +55,7 @@ public class Movement : MonoBehaviour
         entityState = GetComponent<EntityState>();
         body = GetComponent<Rigidbody2D>();
         movementCollider = GetComponent<Collider2D>();
+        entityData = GetComponent<EntityData>();
     }
 
     private void Start()
@@ -59,6 +63,7 @@ public class Movement : MonoBehaviour
         levelBounds = LevelManager.Instance.LevelBounds;
         contactFilter2D.SetLayerMask(LayerUtil.GetNonPassThroughLayerMask());
         entityOnlyContactFilter2D.SetLayerMask(LayerUtil.GetEntityLayerMask());
+        CurrentWalkSpeed = entityData.Entity.WalkSpeed;
     }
 
     private void Update()
@@ -124,6 +129,11 @@ public class Movement : MonoBehaviour
         SetDelayedAcceleration(0, 0);
     }
 
+    public void WalkInDirection(Vector2 direction)
+    {
+        SetMovement(direction, CurrentWalkSpeed);
+    }
+
     /// <summary>
     /// Sets a delayed acceleration that will become active after the passed delay.
     /// Is reset when SetMovement is called.
@@ -158,6 +168,16 @@ public class Movement : MonoBehaviour
     {
         passThroughEntitiesTimer = 0;
         clearLayerMask = true;
+    }
+
+    public void AddToWalkSpeed(float speedChange)
+    {
+        bool updateSpeed = entityState.ActionState == ActionState.Move && Speed == CurrentWalkSpeed;
+        CurrentWalkSpeed += speedChange;
+        if (updateSpeed)
+        {
+            Speed = CurrentWalkSpeed;
+        }
     }
 
     /// <summary>

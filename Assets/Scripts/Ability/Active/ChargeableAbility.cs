@@ -26,6 +26,10 @@ public class ChargeableAbility : ActiveAbility
     private float chargeableTime = 0;
     public float ChargeableTime => chargeableTime;
 
+    [SerializeField]
+    private float chargeMoveSpeedMultiplier = 1;
+    public float ChargeMoveSpeedMultiplier => chargeMoveSpeedMultiplier;
+
     public override AbilityUseEventInfo Use(Vector2 direction, float offsetDistance, AbilityUseData abilityUse, EntityAbilityContext entityAbilityContext)
     {
         if (abilityUse.EntityState.CanAct() || (abilityData.CanCancelInto && AbilityUtil.IsReadyToCancel(abilityUse, entityAbilityContext, this)))
@@ -36,6 +40,9 @@ public class ChargeableAbility : ActiveAbility
                 abilityUse.EntityState.UseAbility();
                 entityAbilityContext.IsAbilityCharging = true;
                 AbilityUseEventInfo abilityUseEvent = AbilityUtil.BuildAbilityUseEventInfo(abilityUse, abilityData);
+
+                abilityUse.Movement.AddToWalkSpeed(abilityUse.EntityData.Entity.WalkSpeed * chargeMoveSpeedMultiplier);
+
                 return abilityUseEvent;
             }
         }
@@ -84,8 +91,10 @@ public class ChargeableAbility : ActiveAbility
             }
             AbilityUtil.InterruptEffects(abilityData.Effects, abilityUse, abilityData.Duration, currentDuration);
         }
-        entityAbilityContext.IsAbilityCharging = false;
-        entityAbilityContext.ChargeTimer = 0;
+        if (entityAbilityContext.IsAbilityCharging)
+        {
+            StopCharging(abilityUse, entityAbilityContext);
+        }
     }
 
     public override UsableAbilityInfo GetUsableAbilityInfo(EntityAbilityContext entityAbilityContext)
@@ -113,8 +122,10 @@ public class ChargeableAbility : ActiveAbility
         abilityUse.ChargePercent = Math.Min(1, chargedTime / ChargeableTime);
         abilityUse.ChargePercent = (abilityUse.ChargePercent > ChargePercentMinBenefit) ? abilityUse.ChargePercent : 0;
 
-        entityAbilityContext.IsAbilityCharging = false;
-        entityAbilityContext.ChargeTimer = 0;
+        if (entityAbilityContext.IsAbilityCharging)
+        {
+            StopCharging(abilityUse, entityAbilityContext);
+        }
 
         AbilityUtil.UpdateAbilityState(abilityUse, offsetDistance, entityAbilityContext);
         AbilityUtil.PlayActivationSounds(abilityData, abilityUse);
@@ -123,5 +134,13 @@ public class ChargeableAbility : ActiveAbility
         AbilityUseEventInfo abilityUseEvent = AbilityUtil.BuildAbilityUseEventInfo(abilityUse, abilityData);
         abilityUseEvent.Origin = entityAbilityContext.CurrentAbilityOrigin;
         abilityUse.AbilityManager.InvokeAbilityUseEvent(abilityUseEvent);
+    }
+
+    private void StopCharging(AbilityUseData abilityUse, EntityAbilityContext entityAbilityContext)
+    {
+        entityAbilityContext.IsAbilityCharging = false;
+        entityAbilityContext.ChargeTimer = 0;
+
+        abilityUse.Movement.AddToWalkSpeed(-1 * abilityUse.EntityData.Entity.WalkSpeed * chargeMoveSpeedMultiplier);
     }
 }

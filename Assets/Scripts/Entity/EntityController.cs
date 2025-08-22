@@ -106,7 +106,7 @@ public class EntityController : MonoBehaviour
             attemptedMoveDirection = moveDirection;
             if (movement != null && entityState.CanAct())
             {
-                movement.SetMovement(moveDirection, entityData.Entity.WalkSpeed);
+                movement.WalkInDirection(moveDirection);
 
                 if (moveDirection != Vector2.zero)
                 {
@@ -186,7 +186,7 @@ public class EntityController : MonoBehaviour
         if (entityState.CanAct())
         {
             entityState.IdleState();
-            movement.SetMovement(Vector2.zero, entityData.Entity.WalkSpeed);
+            movement.WalkInDirection(Vector2.zero);
             isIdleSet = true;
         }
         return isIdleSet;

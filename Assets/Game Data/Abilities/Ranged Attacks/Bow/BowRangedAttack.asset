@@ -37,3 +37,4 @@ MonoBehaviour:
     soundOnUse: {fileID: 11400000, guid: 93f9eef3d6926430c989975dba98a7b6, type: 2}
     stopSoundAfterUse: 0
   chargeableTime: 2
+  chargeMoveSpeedMultiplier: -0.5
