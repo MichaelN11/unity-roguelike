@@ -4,11 +4,17 @@ using System.Collections.Generic;
 using System;
 
 /// <summary>
-/// An ability that can be charged up.
+/// An ability that can be charged up. The castTime indicates the minimum amount of time the ability must be charged. The chargeableTime
+/// indicates the amount of the ability can be charged past the cast time in order to power up the effects.
 /// </summary>
 [CreateAssetMenu(menuName = "Game Data/Ability/Chargeable")]
 public class ChargeableAbility : ActiveAbility
 {
+    /// <summary>
+    /// The lowest amount of charge percent that can be benefitted from. i.e 0.005 will function the same as 0.
+    /// </summary>
+    private const float ChargePercentMinBenefit = 0.01f;
+
     [SerializeField]
     private CommonAbilityData abilityData = new();
     public CommonAbilityData AbilityData => abilityData;
@@ -53,18 +59,15 @@ public class ChargeableAbility : ActiveAbility
             if (entityAbilityContext.ChargeTimer > abilityData.CastTime)
             {
                 abilityUse.EntityState.HardcastingState(abilityData.RecoveryTime + abilityData.ActiveAnimationTime, abilityData.AimWhileCasting);
-                abilityUse.ChargePercent = Math.Min(1, entityAbilityContext.ChargeTimer / ChargeableTime);
                 Activate(abilityUse, offsetDistance, entityAbilityContext);
             }
             else
             {
                 float timeRemainingToCast = abilityData.CastTime - entityAbilityContext.ChargeTimer;
-                abilityUse.EntityState.UseAbility(timeRemainingToCast);
+                abilityUse.EntityState.UseAbility(abilityData.CastTime);
                 entityAbilityContext.DelayedAbilityCoroutine = DelayAbility(abilityUse, offsetDistance, timeRemainingToCast, entityAbilityContext);
                 abilityUse.AbilityManager.StartCoroutine(entityAbilityContext.DelayedAbilityCoroutine);
             }
-            entityAbilityContext.IsAbilityCharging = false;
-            entityAbilityContext.ChargeTimer = 0;
             return true;
         }
 
@@ -106,6 +109,13 @@ public class ChargeableAbility : ActiveAbility
 
     private void Activate(AbilityUseData abilityUse, float offsetDistance, EntityAbilityContext entityAbilityContext)
     {
+        float chargedTime = Math.Max(0, entityAbilityContext.ChargeTimer - abilityData.CastTime);
+        abilityUse.ChargePercent = Math.Min(1, chargedTime / ChargeableTime);
+        abilityUse.ChargePercent = (abilityUse.ChargePercent > ChargePercentMinBenefit) ? abilityUse.ChargePercent : 0;
+
+        entityAbilityContext.IsAbilityCharging = false;
+        entityAbilityContext.ChargeTimer = 0;
+
         AbilityUtil.UpdateAbilityState(abilityUse, offsetDistance, entityAbilityContext);
         AbilityUtil.PlayActivationSounds(abilityData, abilityUse);
         AbilityUtil.ActivateEffects(abilityData.Effects, abilityUse, abilityData.Duration);
