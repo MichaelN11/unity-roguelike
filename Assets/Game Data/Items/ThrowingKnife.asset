@@ -16,7 +16,6 @@ MonoBehaviour:
   heldPrefab: {fileID: 0}
   dropPrefab: {fileID: 0}
   ingameSprite: {fileID: -728884052, guid: fdd41d459fce54470912a1a49304ca50, type: 3}
-  uiIcon: {fileID: 21300000, guid: 98313255ca5904613b2509a49ba7fd56, type: 3}
   itemName: Throwing Knife
   useOnPickup: 0
   animateOnUse: 1
