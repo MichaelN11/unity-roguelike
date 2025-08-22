@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ed5bca86a6344db6b909ee5f849de03, type: 3}
   m_Name: Heart
   m_EditorClassIdentifier: 
-  activeAbility: {fileID: 11400000, guid: 37acfb7c7b4574b10ae6fd490bef1475, type: 2}
+  activeAbility: {fileID: 11400000, guid: 4dfcd89186f2a43d78af62c14e3c7a9f, type: 2}
   heldPrefab: {fileID: 0}
   dropPrefab: {fileID: 3527373394736214066, guid: 53b90fff5071f42ab83c820f5374fa1e, type: 3}
-  icon: {fileID: 0}
+  ingameSprite: {fileID: 0}
   itemName: Heart
   useOnPickup: 1
   animateOnUse: 0

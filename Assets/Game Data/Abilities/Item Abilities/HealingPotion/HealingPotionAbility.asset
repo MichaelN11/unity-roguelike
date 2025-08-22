@@ -12,13 +12,36 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc8c03d57d8f740f4bc2f163f1186102, type: 3}
   m_Name: HealingPotionAbility
   m_EditorClassIdentifier: 
+  abilityName: 
+  abilityIcon: {fileID: 0}
+  cooldown: 0
+  abilityUniqueType: 0
+  abilityConditions:
+    minimumHealthPercent: 0
+    maximumHealthPercent: 100
+  abilityData:
+    effects:
+    - {fileID: 11400000, guid: 9f6456541582f44fe8dd054094961c79, type: 2}
+    abilityAnimation: 5
+    duration: 0
+    castTime: 0
+    recoveryTime: 0.4
+    activeAnimationTime: 0.2
+    canCancelInto: 0
+    cancelableDuration: 0
+    range: 0
+    aimWhileCasting: 0
+    aimDuration: 0
+    changeDirection: 0
+    soundOnCast: {fileID: 0}
+    soundOnUse: {fileID: 11400000, guid: 525f460cfc45443f59f8369d4469ad91, type: 2}
+    stopSoundAfterUse: 0
   effects:
   - {fileID: 11400000, guid: 9f6456541582f44fe8dd054094961c79, type: 2}
   duration: 0
   castTime: 0
   recoveryTime: 0.4
   activeAnimationTime: 0.2
-  cooldown: 0
   canCancelInto: 0
   cancelableDuration: 0
   range: 0

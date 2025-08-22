@@ -66,18 +66,18 @@ public class ComboAbility : ActiveAbility
 
         return new UsableAbilityInfo()
         {
-            Range = ComboStages[comboStage].Ability.Range
+            Range = ComboStages[comboStage].Ability.AbilityData.Range
         };
     }
 
     private IEnumerator DelayComboAbility(ComboStage nextComboStage, AbilityUseData abilityUse,
         float offsetDistance,EntityAbilityContext entityAbilityContext)
     {
-        yield return new WaitForSeconds(nextComboStage.Ability.CastTime);
+        yield return new WaitForSeconds(nextComboStage.Ability.AbilityData.CastTime);
         AbilityUtil.UpdateAbilityState(abilityUse, offsetDistance, entityAbilityContext);
         nextComboStage.Ability.Activate(abilityUse);
 
-        AbilityUseEventInfo abilityUseEvent = nextComboStage.Ability.BuildAbilityUseEventInfo(abilityUse);
+        AbilityUseEventInfo abilityUseEvent = AbilityUtil.BuildAbilityUseEventInfo(abilityUse, nextComboStage.Ability.AbilityData);
         abilityUseEvent.Origin = entityAbilityContext.CurrentAbilityOrigin;
         abilityUse.AbilityManager.InvokeAbilityUseEvent(abilityUseEvent);
 

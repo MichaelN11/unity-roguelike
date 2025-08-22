@@ -12,6 +12,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc8c03d57d8f740f4bc2f163f1186102, type: 3}
   m_Name: SwordMeleeAttack3
   m_EditorClassIdentifier: 
+  abilityName: 
+  abilityIcon: {fileID: 0}
+  cooldown: 0
+  abilityUniqueType: 0
+  abilityConditions:
+    minimumHealthPercent: 0
+    maximumHealthPercent: 100
+  abilityData:
+    effects:
+    - {fileID: 11400000, guid: 4d80518f933e74246a43e32f7550c33c, type: 2}
+    - {fileID: 11400000, guid: befe851b852a54d44ad77eb0f8416d33, type: 2}
+    abilityAnimation: 1
+    duration: 0
+    castTime: 0
+    recoveryTime: 0.38
+    activeAnimationTime: 0.22
+    canCancelInto: 0
+    cancelableDuration: 0.6
+    range: 1
+    aimWhileCasting: 0
+    aimDuration: 0
+    changeDirection: 1
+    soundOnCast: {fileID: 0}
+    soundOnUse: {fileID: 11400000, guid: 43899a23761e24b1db7b6785e1233577, type: 2}
+    stopSoundAfterUse: 0
   effects:
   - {fileID: 11400000, guid: 4d80518f933e74246a43e32f7550c33c, type: 2}
   - {fileID: 11400000, guid: befe851b852a54d44ad77eb0f8416d33, type: 2}
@@ -19,12 +44,12 @@ MonoBehaviour:
   castTime: 0
   recoveryTime: 0.38
   activeAnimationTime: 0.22
-  cooldown: 0
   canCancelInto: 0
   cancelableDuration: 0.6
   range: 1
   aimWhileCasting: 0
   aimDuration: 0
+  changeDirection: 1
   soundOnCast: {fileID: 0}
   soundOnUse: {fileID: 11400000, guid: 43899a23761e24b1db7b6785e1233577, type: 2}
   stopSoundAfterUse: 0

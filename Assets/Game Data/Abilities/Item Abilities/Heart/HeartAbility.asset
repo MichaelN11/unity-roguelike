@@ -9,27 +9,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fc8c03d57d8f740f4bc2f163f1186102, type: 3}
+  m_Script: {fileID: 11500000, guid: 28f1b784fd72b484eb708548afe1f537, type: 3}
   m_Name: HeartAbility
   m_EditorClassIdentifier: 
+  abilityName: 
+  abilityIcon: {fileID: 0}
   cooldown: 0
+  abilityUniqueType: 0
   abilityConditions:
     minimumHealthPercent: 0
-    maximumHealthPercent: 99
+    maximumHealthPercent: 100
   effects:
   - {fileID: 11400000, guid: c4854e40022c34249a49b25da75b96af, type: 2}
-  duration: 0
-  castTime: 0
-  recoveryTime: 0
-  activeAnimationTime: 0
-  canCancelInto: 0
-  cancelableDuration: 0
-  range: 0
-  aimWhileCasting: 0
-  aimDuration: 0
-  changeDirection: 1
-  soundOnCast: {fileID: 0}
   soundOnUse: {fileID: 0}
-  stopSoundAfterUse: 0
+  duration: 0
+  range: 0
   abilityAnimation: 0
-  statelessCast: 1

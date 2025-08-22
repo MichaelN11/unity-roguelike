@@ -12,6 +12,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc8c03d57d8f740f4bc2f163f1186102, type: 3}
   m_Name: TwigMeleeAttack
   m_EditorClassIdentifier: 
+  abilityName: 
+  abilityIcon: {fileID: 0}
+  cooldown: 0
+  abilityUniqueType: 0
+  abilityConditions:
+    minimumHealthPercent: 0
+    maximumHealthPercent: 100
+  abilityData:
+    effects:
+    - {fileID: 11400000, guid: 3fd89366f8506478ab71cea3049c33a7, type: 2}
+    - {fileID: 11400000, guid: 27bd7f0da088c436c88bd93e88d1a5e0, type: 2}
+    abilityAnimation: 0
+    duration: 0
+    castTime: 0.5
+    recoveryTime: 0.1
+    activeAnimationTime: 0.3
+    canCancelInto: 0
+    cancelableDuration: 0
+    range: 0.5
+    aimWhileCasting: 0
+    aimDuration: 0
+    changeDirection: 1
+    soundOnCast: {fileID: 0}
+    soundOnUse: {fileID: 11400000, guid: d83bd844f116846dfa94d38c4fe391b8, type: 2}
+    stopSoundAfterUse: 0
   effects:
   - {fileID: 11400000, guid: 3fd89366f8506478ab71cea3049c33a7, type: 2}
   - {fileID: 11400000, guid: 27bd7f0da088c436c88bd93e88d1a5e0, type: 2}
@@ -19,12 +44,12 @@ MonoBehaviour:
   castTime: 0.5
   recoveryTime: 0.1
   activeAnimationTime: 0.3
-  cooldown: 0
   canCancelInto: 0
   cancelableDuration: 0
   range: 0.5
   aimWhileCasting: 0
   aimDuration: 0
+  changeDirection: 1
   soundOnCast: {fileID: 0}
   soundOnUse: {fileID: 11400000, guid: d83bd844f116846dfa94d38c4fe391b8, type: 2}
   stopSoundAfterUse: 0
