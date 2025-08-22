@@ -161,7 +161,7 @@ public class EntityController : MonoBehaviour
         bool successful = false;
         if (abilityManager != null)
         {
-            successful = abilityManager.ReleaseAbility(abilityNumber, abilityDirection, entityData.Entity.InteractionDistance); ;
+            successful = abilityManager.ReleaseAbility(abilityNumber, abilityDirection, entityData.Entity.InteractionDistance);
         }
         return successful;
     }

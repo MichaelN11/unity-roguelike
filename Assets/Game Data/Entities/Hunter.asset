@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   baseObject: {fileID: 116077039412780153, guid: 7d52d213c0519434d9241cb312130350, type: 3}
   abilities:
-  - {fileID: 11400000, guid: fcf5d504473184cefb1dc33ff4c0c3f9, type: 2}
   - {fileID: 11400000, guid: 99b1bfa5154e1401180de0cc2148d6d2, type: 2}
+  - {fileID: 11400000, guid: fcf5d504473184cefb1dc33ff4c0c3f9, type: 2}
   initialInventory:
   - Item: {fileID: 11400000, guid: 560d2307b56344ba5a0d88d9958b7158, type: 2}
     Amount: 0

@@ -177,8 +177,14 @@ public class AbilityManager : MonoBehaviour
     public bool ReleaseAbility(int abilityNumber, Vector2 direction, float offsetDistance)
     {
         ActiveAbilityContext ability = GetAbility(abilityNumber);
-        AbilityUseData abilityUse = BuildAbilityUseData();
-        return ability.Ability.Release(direction, offsetDistance, abilityUse, entityAbilityContext);
+        if (ability != null)
+        {
+            AbilityUseData abilityUse = BuildAbilityUseData();
+            return ability.Ability.Release(direction, offsetDistance, abilityUse, entityAbilityContext);
+        } else
+        {
+            return false;
+        }
     }
 
     /// <summary>

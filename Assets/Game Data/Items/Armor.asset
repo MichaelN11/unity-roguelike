@@ -12,11 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ed5bca86a6344db6b909ee5f849de03, type: 3}
   m_Name: Armor
   m_EditorClassIdentifier: 
-  activeAbility: {fileID: 11400000, guid: be41a57c3441844c6a28518eda07a0a5, type: 2}
+  activeAbility: {fileID: 11400000, guid: 80edc2605d5da4f4490fc27c24ea3413, type: 2}
   heldPrefab: {fileID: 0}
   dropPrefab: {fileID: 0}
   ingameSprite: {fileID: 80710256, guid: fdd41d459fce54470912a1a49304ca50, type: 3}
-  uiIcon: {fileID: 0}
   itemName: Max Health Increase
   useOnPickup: 1
   animateOnUse: 0
