@@ -58,12 +58,18 @@ public class AttackEffectUtil
         AttackEffectData attackEffectData)
     {
         AttackData attackData = new();
-        attackData.AttackEffectData = attackEffectData;
         attackData.User = UnityUtil.GetParentIfExists(effectData.Entity);
         attackData.Direction = effectData.Direction;
         attackData.SetDirectionOnHit = false;
         attackData.UserEntityData = effectData.EntityData;
         attackData.UserEntityState = effectData.EntityState;
+
+        attackData.Damage = attackEffectData.Damage;
+        attackData.HitStop = attackEffectData.HitStop;
+        attackData.HitStunMultiplier = attackEffectData.HitStunMultiplier;
+        attackData.KnockbackMultiplier = attackEffectData.KnockbackMultiplier;
+        attackData.Description = attackEffectData.Description;
+
         return attackData;
     }
 }

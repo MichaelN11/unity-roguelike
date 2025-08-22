@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// An AbilityEffect that does a ranged attack.
+/// An AbilityEffect that does a ranged attack. Supports charging.
 /// </summary>
 [CreateAssetMenu(menuName = "Game Data/Ability Effect/Ranged Attack")]
 public class RangedAttackEffect : AbilityEffect
@@ -19,6 +19,19 @@ public class RangedAttackEffect : AbilityEffect
     public override void Trigger(AbilityUseData abilityUseData, EffectUseData effectUseData)
     {
         AttackData attackData = AttackEffectUtil.BuildAttackData(abilityUseData, attackEffectData);
+
+        float range = projectileEffectData.Range;
+        float speed = projectileEffectData.Speed;
+
+        if (abilityUseData.ChargePercent > 0)
+        {
+            range += Mathf.Lerp(0, projectileEffectData.RangeIncreaseFromCharge, abilityUseData.ChargePercent);
+            speed += Mathf.Lerp(0, projectileEffectData.SpeedIncreaseFromCharge, abilityUseData.ChargePercent);
+            attackData.Damage += Mathf.Lerp(0, attackEffectData.DamageIncreaseFromCharge, abilityUseData.ChargePercent);
+            attackData.HitStunMultiplier += Mathf.Lerp(0, attackEffectData.HitStunIncreaseFromCharge, abilityUseData.ChargePercent);
+            attackData.KnockbackMultiplier += Mathf.Lerp(0, attackEffectData.KnockbackIncreaseFromCharge, abilityUseData.ChargePercent);
+        }
+
         attackData.AttackEvents.OnAttackSuccessful += AttackSuccessful;
 
         GameObject instance = AttackEffectUtil.InstantiateDamageObject(abilityUseData,
@@ -27,10 +40,8 @@ public class RangedAttackEffect : AbilityEffect
             attackData);
         effectUseData.CreatedObjects.Add(instance);
 
-        float range = projectileEffectData.Range + Mathf.Lerp(0, projectileEffectData.RangeIncreaseFromCharge, abilityUseData.ChargePercent);
-
         Projectile projectile = instance.GetComponent<Projectile>();
-        projectile.Speed = projectileEffectData.Speed;
+        projectile.Speed = speed;
         projectile.Direction = abilityUseData.Direction;
         projectile.MaxDistance = range;
         projectile.WallStickDuration = projectileEffectData.WallStickDuration;

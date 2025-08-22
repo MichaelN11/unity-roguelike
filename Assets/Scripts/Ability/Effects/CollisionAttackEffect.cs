@@ -32,10 +32,16 @@ public class CollisionAttackEffect : AbilityEffect
     private void AttackOnCollision(EntityCollisionEvent entityCollisionEvent)
     {
         AttackData attackData = new();
-        attackData.AttackEffectData = attackEffectData;
         attackData.User = entityCollisionEvent.SourceBody.gameObject;
         attackData.UserEntityData = entityCollisionEvent.SourceEntityData;
         attackData.UserEntityState = entityCollisionEvent.SourceEntityState;
+
+        attackData.Damage = attackEffectData.Damage;
+        attackData.HitStop = attackEffectData.HitStop;
+        attackData.HitStunMultiplier = attackEffectData.HitStunMultiplier;
+        attackData.KnockbackMultiplier = attackEffectData.KnockbackMultiplier;
+        attackData.Description = attackEffectData.Description;
+
         AttackHandler.AttackEntity(attackData, entityCollisionEvent.SourceBody, entityCollisionEvent.TargetBody);
     }
 }

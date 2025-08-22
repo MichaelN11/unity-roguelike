@@ -69,7 +69,7 @@ public class Projectile : MonoBehaviour
     private void AttackSuccessful(AttackData attackData)
     {
         Stop();
-        Destroy(gameObject, attackData.AttackEffectData.HitStop);
+        Destroy(gameObject, attackData.HitStop);
     }
 
     /// <summary>

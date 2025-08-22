@@ -58,13 +58,12 @@ public class ChargeableAbility : ActiveAbility
         if (entityAbilityContext.IsAbilityCharging
             && entityAbilityContext.CurrentActiveAbility == this)
         {
-            if (abilityUse.Movement != null)
-            {
-                abilityUse.Movement.StopMoving();
-            }
-
             if (entityAbilityContext.ChargeTimer > abilityData.CastTime)
             {
+                if (abilityUse.Movement != null)
+                {
+                    abilityUse.Movement.StopMoving();
+                }
                 abilityUse.EntityState.HardcastingState(abilityData.RecoveryTime + abilityData.ActiveAnimationTime, abilityData.AimWhileCasting);
                 Activate(abilityUse, offsetDistance, entityAbilityContext);
             }

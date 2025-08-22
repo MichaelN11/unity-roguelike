@@ -16,10 +16,15 @@ public class AttackData
         set { setDirectionOnHit = value; }
     }
 
-    public AttackEffectData AttackEffectData { get; set; }
     public GameObject User { get; set; }
     public EntityState UserEntityState { get; set; }
     public Vector2 Direction { get; set; } = Vector2.zero;
     public EntityData UserEntityData { get; set; }
     public AttackEvents AttackEvents { get; set; } = new AttackEvents();
+
+    public float Damage { get; set; }
+    public float HitStop { get; set; }
+    public float HitStunMultiplier { get; set; }
+    public float KnockbackMultiplier { get; set; }
+    public AttackDescription Description { get; set; }
 }

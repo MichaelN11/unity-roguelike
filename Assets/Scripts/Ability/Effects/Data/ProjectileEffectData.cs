@@ -30,4 +30,8 @@ public class ProjectileEffectData
     [SerializeField]
     private float rangeIncreaseFromCharge = 0;
     public float RangeIncreaseFromCharge => rangeIncreaseFromCharge;
+
+    [SerializeField]
+    private float speedIncreaseFromCharge = 0;
+    public float SpeedIncreaseFromCharge => speedIncreaseFromCharge;
 }

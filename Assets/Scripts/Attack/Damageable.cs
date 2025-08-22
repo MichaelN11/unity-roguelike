@@ -86,15 +86,15 @@ public class Damageable : MonoBehaviour
             return;
         }
 
-        TakeDamage(attackData.AttackEffectData.Damage);
+        TakeDamage(attackData.Damage);
         if (entityState != null && entityData != null)
         {
-            entityState.Stop(attackData.AttackEffectData.HitStop);
+            entityState.Stop(attackData.HitStop);
             entityState.Flash(entityData.Entity.FlashOnHitTime);
             AudioManager.Instance.Play(entityData.Entity.SoundOnHit);
             AttackResult attackResult = new();
-            attackResult.HitStunDuration = entityData.Entity.HitStunDuration * attackData.AttackEffectData.HitStunMultiplier;
-            attackResult.KnockbackSpeed = entityData.Entity.KnockbackSpeed * attackData.AttackEffectData.KnockbackMultiplier;
+            attackResult.HitStunDuration = entityData.Entity.HitStunDuration * attackData.HitStunMultiplier;
+            attackResult.KnockbackSpeed = entityData.Entity.KnockbackSpeed * attackData.KnockbackMultiplier;
             attackResult.KnockbackDirection = attackData.Direction;
             attackResult.KnockbackAcceleration = entityData.Entity.KnockbackAcceleration;
             HandleHitstun(attackResult);
@@ -109,7 +109,7 @@ public class Damageable : MonoBehaviour
         {
             lastHitByEntity = attackData.UserEntityData.Entity.Description;
         }
-        lastHitByAttack = attackData.AttackEffectData.Description;
+        lastHitByAttack = attackData.Description;
     }
 
     public void SetInvincibility(float duration)

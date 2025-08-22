@@ -36,4 +36,16 @@ public class AttackEffectData
     [SerializeField]
     private AttackDescription description;
     public AttackDescription Description => description;
+
+    [SerializeField]
+    private float damageIncreaseFromCharge = 0;
+    public float DamageIncreaseFromCharge => damageIncreaseFromCharge;
+
+    [SerializeField]
+    private float hitStunIncreaseFromCharge = 0;
+    public float HitStunIncreaseFromCharge => hitStunIncreaseFromCharge;
+
+    [SerializeField]
+    private float knockbackIncreaseFromCharge = 0;
+    public float KnockbackIncreaseFromCharge => knockbackIncreaseFromCharge;
 }
