@@ -85,6 +85,14 @@ public class ChargeableAbility : ActiveAbility
         entityAbilityContext.ChargeTimer = 0;
     }
 
+    public override UsableAbilityInfo GetUsableAbilityInfo(EntityAbilityContext entityAbilityContext)
+    {
+        return new UsableAbilityInfo()
+        {
+            Range = abilityData.Range
+        };
+    }
+
     /// <summary>
     /// Coroutine method that delays the charged on use ability's start time. Sets the state for the active and recovery frames.
     /// </summary>

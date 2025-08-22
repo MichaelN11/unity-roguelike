@@ -56,6 +56,20 @@ public class ComboAbility : ActiveAbility
         entityAbilityContext.ComboableTime = 0;
     }
 
+    public override UsableAbilityInfo GetUsableAbilityInfo(EntityAbilityContext entityAbilityContext)
+    {
+        int comboStage = 0;
+        if (entityAbilityContext.CurrentComboAbility == this)
+        {
+            comboStage = entityAbilityContext.NextComboNumber;
+        }
+
+        return new UsableAbilityInfo()
+        {
+            Range = ComboStages[comboStage].Ability.Range
+        };
+    }
+
     private IEnumerator DelayComboAbility(ComboStage nextComboStage, AbilityUseData abilityUse,
         float offsetDistance,EntityAbilityContext entityAbilityContext)
     {

@@ -39,4 +39,9 @@ public abstract class ActiveAbility : ScriptableObject
     }
 
     public virtual void Interrupt(AbilityUseData abilityUse, float currentDuration, EntityAbilityContext entityAbilityContext) { }
+
+    public virtual UsableAbilityInfo GetUsableAbilityInfo(EntityAbilityContext entityAbilityContext)
+    {
+        return new UsableAbilityInfo();
+    }
 }

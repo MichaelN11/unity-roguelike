@@ -203,24 +203,9 @@ public class AbilityManager : MonoBehaviour
         for(int i = 0; i < abilities.Count; i++)
         {
             ActiveAbility ability = abilities[i].Ability;
-            if (ability is OnUseAbility onUseAbility)
-            {
-                UsableAbilityInfo usableAbilityInfo = new();
-                usableAbilityInfo.Ability = onUseAbility;
-                usableAbilityInfo.AbilityNumber = i;
-                usableAbilities.Add(usableAbilityInfo);
-            } else if (ability is ComboAbility comboAbility)
-            {
-                int comboStage = 0;
-                if (entityAbilityContext.CurrentComboAbility == comboAbility)
-                {
-                    comboStage = entityAbilityContext.NextComboNumber;
-                }
-                UsableAbilityInfo usableAbilityInfo = new();
-                usableAbilityInfo.Ability = comboAbility.ComboStages[comboStage].Ability;
-                usableAbilityInfo.AbilityNumber = i;
-                usableAbilities.Add(usableAbilityInfo);
-            }
+            UsableAbilityInfo usableAbilityInfo = ability.GetUsableAbilityInfo(entityAbilityContext);
+            usableAbilityInfo.AbilityNumber = i;
+            usableAbilities.Add(usableAbilityInfo);
         }
         return usableAbilities;
     }

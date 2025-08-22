@@ -5,6 +5,6 @@
 /// </summary>
 public class UsableAbilityInfo
 {
-    public OnUseAbility Ability { get; set; }
+    public float Range { get; set; }
     public int AbilityNumber { get; set; }
 }

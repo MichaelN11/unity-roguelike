@@ -235,12 +235,12 @@ public class AIController : MonoBehaviour
     /// <returns>true if the entity can use the current ability</returns>
     private bool CanUseCurrentAbility(Vector2 position, Vector2 targetPosition, float distanceToTarget)
     {
-        if (currentAbility == null || currentAbility.Ability == null)
+        if (currentAbility == null)
         {
             return false;
         }
 
-        float range = entityData.Entity.InteractionDistance + currentAbility.Ability.Range;
+        float range = entityData.Entity.InteractionDistance + currentAbility.Range;
         bool canUseAbility = false;
         if (distanceToTarget <= range)
         {

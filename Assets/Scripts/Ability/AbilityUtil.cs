@@ -96,7 +96,6 @@ public class AbilityUtil
         }
     }
 
-    // TODO what and why is this method???
     public static void UpdateAbilityState(AbilityUseData abilityUse, float offsetDistance, EntityAbilityContext entityAbilityContext)
     {
         abilityUse.EntityState.CanLookWhileCasting = false;

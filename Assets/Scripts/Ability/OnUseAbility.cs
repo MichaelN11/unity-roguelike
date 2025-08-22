@@ -97,7 +97,6 @@ public class OnUseAbility : ActiveAbility
         {
             abilityUse.Movement.StopMoving();
         }
-        Debug.Log("casting on use ability: " + AbilityName);
         AbilityUtil.SetCurrentAbility(this, abilityUse, direction, entityAbilityContext);
         abilityUse.EntityState.HardcastingState(RecoveryTime + CastTime + ActiveAnimationTime, AimWhileCasting);
         AbilityUseEventInfo abilityUseEvent = BuildAbilityUseEventInfo(abilityUse);
@@ -136,6 +135,14 @@ public class OnUseAbility : ActiveAbility
             ChangeDirection = ChangeDirection
         };
         return abilityUseEvent;
+    }
+
+    public override UsableAbilityInfo GetUsableAbilityInfo(EntityAbilityContext entityAbilityContext)
+    {
+        return new UsableAbilityInfo()
+        {
+            Range = Range
+        };
     }
 
     /// <summary>

@@ -40,6 +40,14 @@ public class AutomaticAbility : ActiveAbility
         return abilityUseEvent;
     }
 
+    public override UsableAbilityInfo GetUsableAbilityInfo(EntityAbilityContext entityAbilityContext)
+    {
+        return new UsableAbilityInfo()
+        {
+            Range = Range
+        };
+    }
+
     private void Activate(AbilityUseData abilityUse)
     {
         if (soundOnUse != null)
