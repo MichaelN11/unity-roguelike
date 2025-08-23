@@ -34,7 +34,7 @@ public class ChargeableAbility : ActiveAbility
     {
         if (abilityUse.EntityState.CanAct() || (abilityData.CanCancelInto && AbilityUtil.IsReadyToCancel(abilityUse, entityAbilityContext, this)))
         {
-            if (!entityAbilityContext.IsAbilityCharging)
+            if (!entityAbilityContext.IsAbilityCharging && !entityAbilityContext.IsChargingFinished)
             {
                 AbilityUtil.SetCurrentAbility(this, abilityUse, direction, entityAbilityContext);
                 abilityUse.EntityState.UseAbility();
@@ -56,21 +56,18 @@ public class ChargeableAbility : ActiveAbility
     public override bool Release(Vector2 direction, float offsetDistance, AbilityUseData abilityUse, EntityAbilityContext entityAbilityContext)
     {
         if (entityAbilityContext.IsAbilityCharging
-            && entityAbilityContext.CurrentActiveAbility == this)
+            && entityAbilityContext.CurrentActiveAbility == this
+            && !entityAbilityContext.IsChargingFinished)
         {
             if (entityAbilityContext.ChargeTimer > abilityData.CastTime)
             {
-                if (abilityUse.Movement != null)
-                {
-                    abilityUse.Movement.StopMoving();
-                }
                 abilityUse.EntityState.HardcastingState(abilityData.RecoveryTime + abilityData.ActiveAnimationTime, abilityData.AimWhileCasting);
                 Activate(abilityUse, offsetDistance, entityAbilityContext);
             }
             else
             {
+                entityAbilityContext.IsChargingFinished = true;
                 float timeRemainingToCast = abilityData.CastTime - entityAbilityContext.ChargeTimer;
-                abilityUse.EntityState.UseAbility(abilityData.CastTime);
                 entityAbilityContext.DelayedAbilityCoroutine = DelayAbility(abilityUse, offsetDistance, timeRemainingToCast, entityAbilityContext);
                 abilityUse.AbilityManager.StartCoroutine(entityAbilityContext.DelayedAbilityCoroutine);
             }
@@ -111,12 +108,18 @@ public class ChargeableAbility : ActiveAbility
     private IEnumerator DelayAbility(AbilityUseData abilityUse, float offsetDistance, float castTime, EntityAbilityContext entityAbilityContext)
     {
         yield return new WaitForSeconds(castTime);
+        abilityUse.Position = abilityUse.AbilityManager.transform.position;
         Activate(abilityUse, offsetDistance, entityAbilityContext);
         abilityUse.EntityState.HardcastingState(abilityData.RecoveryTime + abilityData.ActiveAnimationTime, abilityData.AimWhileCasting);
     }
 
     private void Activate(AbilityUseData abilityUse, float offsetDistance, EntityAbilityContext entityAbilityContext)
     {
+        if (abilityUse.Movement != null)
+        {
+            abilityUse.Movement.StopMoving();
+        }
+
         float chargedTime = Math.Max(0, entityAbilityContext.ChargeTimer - abilityData.CastTime);
         abilityUse.ChargePercent = Math.Min(1, chargedTime / ChargeableTime);
         abilityUse.ChargePercent = (abilityUse.ChargePercent > ChargePercentMinBenefit) ? abilityUse.ChargePercent : 0;
@@ -137,6 +140,7 @@ public class ChargeableAbility : ActiveAbility
 
     private void StopCharging(AbilityUseData abilityUse, EntityAbilityContext entityAbilityContext)
     {
+        entityAbilityContext.IsChargingFinished = false;
         entityAbilityContext.IsAbilityCharging = false;
         entityAbilityContext.ChargeTimer = 0;
 

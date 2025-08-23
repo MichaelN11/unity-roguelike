@@ -27,7 +27,7 @@ public class ObjectFactory
         }
         else
         {
-            Debug.Log("Addressable level object is null or does not have LevelObject component.");
+            Debug.LogWarning("Addressable level object is null or does not have LevelObject component.");
         }
         return newObject;
     }

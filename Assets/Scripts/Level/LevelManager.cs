@@ -302,7 +302,7 @@ public class LevelManager : MonoBehaviour
         }
         else
         {
-            Debug.Log("Error: Empty chest drop table.");
+            Debug.LogWarning("Error: Empty chest drop table.");
         }
     }
 
@@ -385,7 +385,7 @@ public class LevelManager : MonoBehaviour
             isTooClose = distance <= minimumSpawnDistanceFromPlayer;
         } else
         {
-            Debug.Log("Player distance check in level generation not working");
+            Debug.LogWarning("Player distance check in level generation not working");
         }
         return isTooClose;
     }
@@ -448,7 +448,7 @@ public class LevelManager : MonoBehaviour
             Destroy(levelTransition.gameObject);
         } else
         {
-            Debug.Log("Missing ReplacementObject on LevelTransition");
+            Debug.LogWarning("Missing ReplacementObject on LevelTransition");
         }
     }
 }

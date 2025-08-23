@@ -86,7 +86,7 @@ public class EntityController : MonoBehaviour
                 updateSuccessful = AbilityReleased(inputData.Number, inputData.Direction);
                 break;
             default:
-                Debug.Log(gameObject.name + " encountered unrecognized input type: " + inputData.Type);
+                Debug.LogWarning(gameObject.name + " encountered unrecognized input type: " + inputData.Type);
                 break;
         }
         return updateSuccessful;
@@ -207,7 +207,7 @@ public class EntityController : MonoBehaviour
         {
             if (currentInteractableObject != null)
             {
-                Debug.Log(currentInteractableObject.name + " has interactable tag but no interactable component.");
+                Debug.LogWarning(currentInteractableObject.name + " has interactable tag but no interactable component.");
             }
             return false;
         }

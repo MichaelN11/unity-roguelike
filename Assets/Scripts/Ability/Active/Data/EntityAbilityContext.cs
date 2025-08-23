@@ -23,6 +23,7 @@ public class EntityAbilityContext
 
     public bool IsAbilityCharging { get; set; } = false;
     public float ChargeTimer { get; set; } = 0;
+    public bool IsChargingFinished { get; set; } = false; // Indicates ability is in the process of stopping the charge
 
     public IEnumerator DelayedAbilityCoroutine { get; set; }
 }

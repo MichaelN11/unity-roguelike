@@ -45,7 +45,7 @@ public class EventWall : MonoBehaviour
                 triggerArea.transform.position + new Vector3(triggerArea.transform.localScale.x, triggerArea.transform.localScale.y));
         } else
         {
-            Debug.Log("Trigger area object not set for EventWall.");
+            Debug.LogWarning("Trigger area object not set for EventWall.");
         }
 
         LevelManager.Instance.OnLevelInitialized += FindTargetEntity;

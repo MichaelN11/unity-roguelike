@@ -31,7 +31,7 @@ public class ItemDropUtil : MonoBehaviour
             nextDropChance += Mathf.Max(0, itemDrop.DropChance);
             if (nextDropChance > 1)
             {
-                Debug.Log("Error: Drop table is greater than 1.");
+                Debug.LogWarning("Error: Drop table is greater than 1.");
             }
             if (randomValue <= nextDropChance)
             {

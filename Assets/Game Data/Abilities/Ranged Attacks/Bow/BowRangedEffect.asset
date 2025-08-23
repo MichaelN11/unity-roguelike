@@ -21,16 +21,20 @@ MonoBehaviour:
       prefabDuration: 10
       rotatePrefab: 1
       mirrorPrefabX: 0
-    range: 6
-    speed: 10
+    range: 4
+    speed: 6
     wallStickDuration: 1
     groundStickDuration: 0
     rangeIncreaseFromCharge: 6
+    speedIncreaseFromCharge: 6
   attackEffectData:
     soundOnHit: {fileID: 11400000, guid: d9a95617b0c6d43789c3f1c8dbd6510c, type: 2}
-    damage: 1
+    damage: 0.5
     attackDistance: 0
-    hitStunMultiplier: 0.5
-    knockbackMultiplier: 0.7
+    hitStunMultiplier: 0.3
+    knockbackMultiplier: 0.4
     hitStop: 0.06
     description: 4
+    damageIncreaseFromCharge: 1.5
+    hitStunIncreaseFromCharge: 0.5
+    knockbackIncreaseFromCharge: 0.5

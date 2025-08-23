@@ -11,7 +11,7 @@ using static UnityEngine.InputSystem.InputAction;
 /// </summary>
 public class PlayerController : MonoBehaviour
 {
-    private const float InputBuffer = 0.2f;
+    private const float InputBuffer = 0.3f;
 
     public static PlayerController Instance { get; private set; }
 
@@ -20,6 +20,7 @@ public class PlayerController : MonoBehaviour
     private Vector2 lookDirection = Vector2.down;
     private InputData bufferedInput = null;
     private float bufferTimer = 0f;
+    private bool bufferInputRelease = false; // If the release of the input should be buffered as well.
     /// <summary>
     /// List of ability numbers currently being held down, in order of when they were pressed.
     /// </summary>
@@ -85,8 +86,12 @@ public class PlayerController : MonoBehaviour
             bool updateSuccessful = entityController.UpdateFromInput(bufferedInput);
             if (updateSuccessful)
             {
-                bufferTimer = 0;
-                bufferedInput = null;
+                if (bufferInputRelease)
+                {
+                    bufferedInput.Type = InputType.AbilityReleased;
+                    entityController.UpdateFromInput(bufferedInput);
+                }
+                ClearBufferedInput();
             } else
             {
                 bufferTimer -= Time.deltaTime;
@@ -238,6 +243,7 @@ public class PlayerController : MonoBehaviour
         {
             bufferedInput = inputData;
             bufferTimer = InputBuffer;
+            bufferInputRelease = false;
         }
     }
 
@@ -249,7 +255,15 @@ public class PlayerController : MonoBehaviour
         inputData.Type = InputType.AbilityReleased;
         inputData.Direction = lookDirection;
         inputData.Number = abilityNumber;
-        entityController.UpdateFromInput(inputData);
+        bool success = entityController.UpdateFromInput(inputData);
+
+        if (!success
+            && bufferedInput != null
+            && bufferedInput.Type == InputType.Ability
+            && bufferedInput.Number == abilityNumber)
+        {
+            bufferInputRelease = true;
+        }
     }
 
     private void ItemCancelled(int itemNumber)
@@ -288,5 +302,12 @@ public class PlayerController : MonoBehaviour
         inputData.Type = InputType.Move;
         inputData.Direction = moveDirection;
         entityController.UpdateFromInput(inputData);
+    }
+
+    private void ClearBufferedInput()
+    {
+        bufferTimer = 0;
+        bufferedInput = null;
+        bufferInputRelease = false;
     }
 }
