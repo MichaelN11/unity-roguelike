@@ -40,6 +40,7 @@ public class ChargeableAbility : ActiveAbility
                 abilityUse.EntityState.UseAbility();
                 entityAbilityContext.IsAbilityCharging = true;
                 AbilityUseEventInfo abilityUseEvent = AbilityUtil.BuildAbilityUseEventInfo(abilityUse, abilityData);
+                abilityUse.AbilityManager.InvokeAbilityStartedEvent(abilityUseEvent);
 
                 abilityUse.Movement.AddToWalkSpeed(abilityUse.EntityData.Entity.WalkSpeed * chargeMoveSpeedMultiplier);
 

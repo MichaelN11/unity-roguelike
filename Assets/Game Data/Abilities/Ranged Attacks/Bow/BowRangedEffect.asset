@@ -29,12 +29,12 @@ MonoBehaviour:
     speedIncreaseFromCharge: 6
   attackEffectData:
     soundOnHit: {fileID: 11400000, guid: d9a95617b0c6d43789c3f1c8dbd6510c, type: 2}
-    damage: 0.5
+    damage: 0.75
     attackDistance: 0
     hitStunMultiplier: 0.3
     knockbackMultiplier: 0.4
     hitStop: 0.06
     description: 4
-    damageIncreaseFromCharge: 1.5
+    damageIncreaseFromCharge: 1.25
     hitStunIncreaseFromCharge: 0.5
     knockbackIncreaseFromCharge: 0.5

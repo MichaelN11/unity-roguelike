@@ -211,7 +211,7 @@ public class WeaponController : MonoBehaviour
         currentAbilityRange = eventInfo.Range;
         if (!weapon.SwingRotateAnimations.Contains(currentAnimation))
         {
-            UpdateAnimator(eventInfo);
+            UpdateAnimatorForAttackStart(eventInfo);
         }        
     }
 
@@ -222,25 +222,34 @@ public class WeaponController : MonoBehaviour
             swingAnimationTimer = eventInfo.ActiveTime;
             swingRecoveryTimer = eventInfo.RecoveryTime;
             swingTotalTime = swingAnimationTimer;
+        } else
+        {
+            UpdateAnimatorForAttackUse(eventInfo);
         }
     }
 
-    private void UpdateAnimator(AbilityUseEventInfo eventInfo)
+    private void UpdateAnimatorForAttackStart(AbilityUseEventInfo eventInfo)
     {
-        animator.SetTrigger("attack");
+        animator.SetTrigger("startAttack");
 
         float castSpeed = -1;
-        float abilitySpeed = -1;
         if (eventInfo.CastTime > 0)
         {
             castSpeed = 1 / eventInfo.CastTime;
         }
+        animator.SetFloat("castSpeed", castSpeed);
+    }
+
+    private void UpdateAnimatorForAttackUse(AbilityUseEventInfo eventInfo)
+    {
+        animator.SetTrigger("useAttack");
+
+        float abilitySpeed = -1;
         float totalAbilityTime = eventInfo.ActiveTime + eventInfo.RecoveryTime;
         if (totalAbilityTime > 0)
         {
             abilitySpeed = 1 / totalAbilityTime;
         }
-        animator.SetFloat("castSpeed", castSpeed);
         animator.SetFloat("abilitySpeed", abilitySpeed);
     }
 }

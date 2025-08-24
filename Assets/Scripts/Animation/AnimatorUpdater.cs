@@ -55,7 +55,7 @@ public class AnimatorUpdater : MonoBehaviour
             usedItemObject = null;
         }
 
-        if (IsAiming)
+        if (IsAiming && !entityState.UsingAbility)
         { 
             if (aimModeTimer > 0)
             {
@@ -126,7 +126,7 @@ public class AnimatorUpdater : MonoBehaviour
         if (eventInfo.ChangeDirection)
         {
             UpdateLookDirection();
-            StartAiming(Math.Max(eventInfo.AimDuration, eventInfo.GetFullDuration()));
+            StartAiming(Math.Max(eventInfo.AimDuration, 0));
         }
         animator.SetTrigger("attack");
         animator.SetBool("isAttacking", true);
