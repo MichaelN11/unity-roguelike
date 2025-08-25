@@ -21,8 +21,8 @@ public class ComboAbility : ActiveAbility
             entityAbilityContext.CurrentComboAbility = this;
         }
         if (abilityUse.EntityState.CanAct()
-                || (abilityUse.EntityState.ActionState == ActionState.Hardcasting
-                && abilityUse.EntityState.StunTimer <= entityAbilityContext.ComboableTime))
+                || (abilityUse.EntityState.UsingAbility
+                && abilityUse.EntityState.AbilityTimer <= entityAbilityContext.ComboableTime))
         {
             entityAbilityContext.ComboTimer = 0;
             ComboStage nextComboStage = ComboStages[entityAbilityContext.NextComboNumber];

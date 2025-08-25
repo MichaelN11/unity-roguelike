@@ -62,7 +62,7 @@ public class ChargeableAbility : ActiveAbility
         {
             if (entityAbilityContext.ChargeTimer > abilityData.CastTime)
             {
-                abilityUse.EntityState.HardcastingState(abilityData.RecoveryTime + abilityData.ActiveAnimationTime, abilityData.AimWhileCasting);
+                AbilityUtil.UpdateEntityState(abilityUse, abilityData, abilityData.RecoveryTime + abilityData.ActiveAnimationTime);
                 Activate(abilityUse, offsetDistance, entityAbilityContext);
             }
             else
@@ -111,12 +111,12 @@ public class ChargeableAbility : ActiveAbility
         yield return new WaitForSeconds(castTime);
         abilityUse.Position = abilityUse.AbilityManager.transform.position;
         Activate(abilityUse, offsetDistance, entityAbilityContext);
-        abilityUse.EntityState.HardcastingState(abilityData.RecoveryTime + abilityData.ActiveAnimationTime, abilityData.AimWhileCasting);
+        AbilityUtil.UpdateEntityState(abilityUse, abilityData, abilityData.RecoveryTime + abilityData.ActiveAnimationTime);
     }
 
     private void Activate(AbilityUseData abilityUse, float offsetDistance, EntityAbilityContext entityAbilityContext)
     {
-        if (abilityUse.Movement != null)
+        if (abilityUse.Movement != null && !abilityData.CastWhileMoving)
         {
             abilityUse.Movement.StopMoving();
         }

@@ -27,6 +27,7 @@ MonoBehaviour:
     castTime: 0.3
     recoveryTime: 0.1
     activeAnimationTime: 0.2
+    castWhileMoving: 1
     canCancelInto: 0
     cancelableDuration: 0.7
     range: 6
@@ -37,4 +38,4 @@ MonoBehaviour:
     soundOnUse: {fileID: 11400000, guid: 93f9eef3d6926430c989975dba98a7b6, type: 2}
     stopSoundAfterUse: 0
   chargeableTime: 1
-  chargeMoveSpeedMultiplier: -0.3
+  chargeMoveSpeedMultiplier: -0.4

@@ -22,7 +22,7 @@ MonoBehaviour:
       rotatePrefab: 1
       mirrorPrefabX: 0
     range: 4
-    speed: 6
+    speed: 8
     wallStickDuration: 1
     groundStickDuration: 0
     rangeIncreaseFromCharge: 6

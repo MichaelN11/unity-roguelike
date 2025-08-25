@@ -101,7 +101,7 @@ public class AIController : MonoBehaviour
             }
         } else if (active)
         {
-            if (entityState.CanAct())
+            if (entityState.CanMove())
             {
                 DetermineBehavior();
             }
@@ -221,7 +221,7 @@ public class AIController : MonoBehaviour
         }
         if (currentBehavior != Behavior.Idle || distanceToTarget <= entityAI.AggroDistance)
         {
-            if (CanUseCurrentAbility(GetAbilitySourcePosition(), GetAttackTargetPosition(), distanceToTarget))
+            if (entityState.CanAct() && CanUseCurrentAbility(GetAbilitySourcePosition(), GetAttackTargetPosition(), distanceToTarget))
             {
                 currentBehavior = Behavior.Ability;
             }

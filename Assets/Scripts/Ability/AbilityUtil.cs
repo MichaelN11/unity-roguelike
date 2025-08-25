@@ -78,8 +78,8 @@ public class AbilityUtil
 
     public static bool IsReadyToCancel(AbilityUseData abilityUse, EntityAbilityContext entityAbilityContext, ActiveAbility activeAbility)
     {
-        return abilityUse.EntityState.ActionState == ActionState.Hardcasting
-            && abilityUse.EntityState.StunTimer <= entityAbilityContext.PreviousCancelableDuration
+        return abilityUse.EntityState.UsingAbility
+            && abilityUse.EntityState.AbilityTimer <= entityAbilityContext.PreviousCancelableDuration
             && (entityAbilityContext.CurrentActiveAbility == null || entityAbilityContext.CurrentActiveAbility != activeAbility);
     }
 
@@ -103,6 +103,17 @@ public class AbilityUtil
         abilityUse.Position += abilityUse.EntityState.LookDirection.normalized * offsetDistance;
         entityAbilityContext.CurrentAbilityStarted = true;
         entityAbilityContext.CurrentAbilityDuration = 0;
+    }
+
+    public static void UpdateEntityState(AbilityUseData abilityUse, CommonAbilityData abilityData, float abilityDuration)
+    {
+        if (abilityData.CastWhileMoving)
+        {
+            abilityUse.EntityState.UseAbility(abilityDuration);
+        } else
+        {
+            abilityUse.EntityState.HardcastingState(abilityDuration, abilityData.AimWhileCasting);
+        }
     }
 
     private static IEnumerator EndEffect(AbilityEffect effect, AbilityUseData effectData, float effectDuration, EffectUseData effectUseData)

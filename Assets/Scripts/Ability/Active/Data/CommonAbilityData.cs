@@ -34,6 +34,10 @@ public class CommonAbilityData
     public float ActiveAnimationTime => activeAnimationTime;
 
     [SerializeField]
+    private bool castWhileMoving;
+    public bool CastWhileMoving => castWhileMoving;
+
+    [SerializeField]
     private bool canCancelInto = false;
     public bool CanCancelInto => canCancelInto;
 

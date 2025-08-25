@@ -31,13 +31,13 @@ public class OnUseAbility : ActiveAbility
         {
             AudioManager.Instance.Play(abilityData.SoundOnCast);
         }
-        if (abilityUse.Movement != null)
+        if (abilityUse.Movement != null && !abilityData.CastWhileMoving)
         {
             abilityUse.Movement.StopMoving();
         }
         AbilityUtil.SetCurrentAbility(this, abilityUse, direction, entityAbilityContext);
-        abilityUse.EntityState.HardcastingState(abilityData.RecoveryTime + abilityData.CastTime
-            + abilityData.ActiveAnimationTime, abilityData.AimWhileCasting);
+        AbilityUtil.UpdateEntityState(abilityUse, abilityData, abilityData.RecoveryTime + abilityData.CastTime
+            + abilityData.ActiveAnimationTime);
         AbilityUseEventInfo abilityUseEvent = AbilityUtil.BuildAbilityUseEventInfo(abilityUse, abilityData);
         abilityUse.AbilityManager.InvokeAbilityStartedEvent(abilityUseEvent);
         entityAbilityContext.PreviousCancelableDuration = abilityData.CancelableDuration;

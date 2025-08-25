@@ -93,13 +93,23 @@ public class EntityState : MonoBehaviour
     }
 
     /// <summary>
+    /// Determines if the entity is able to move.
+    /// </summary>
+    /// <returns>true if the entity can move</returns>
+    public bool CanMove()
+    {
+        return !IsStunned()
+            && ActionState != ActionState.Dead;
+    }
+
+    /// <summary>
     /// Determines if the entity is able to act.
     /// </summary>
     /// <returns>true if the entity can act</returns>
     public bool CanAct()
     {
-        return !IsStunned()
-            && ActionState != ActionState.Dead;
+        return CanMove()
+            && !UsingAbility; 
     }
 
     /// <summary>
@@ -111,7 +121,7 @@ public class EntityState : MonoBehaviour
     {
         ActionState = ActionState.Hardcasting;
         StunTimer = duration;
-        UseAbility();
+        UseAbility(duration);
         CanLookWhileCasting = aimWhileCasting;
     }
 

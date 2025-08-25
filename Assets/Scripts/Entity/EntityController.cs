@@ -104,7 +104,7 @@ public class EntityController : MonoBehaviour
         if (moveDirection != null)
         {
             attemptedMoveDirection = moveDirection;
-            if (movement != null && entityState.CanAct())
+            if (movement != null && entityState.CanMove())
             {
                 movement.WalkInDirection(moveDirection);
 
@@ -134,7 +134,7 @@ public class EntityController : MonoBehaviour
         if (lookDirection != null)
         {
             attemptedLookDirection = lookDirection;
-            if (entityState.CanAct()
+            if (entityState.CanMove()
                 || (entityState.ActionState == ActionState.Hardcasting && entityState.CanLookWhileCasting))
             {
                 entityState.LookDirection = lookDirection;
@@ -183,7 +183,7 @@ public class EntityController : MonoBehaviour
     private bool Idle()
     {
         bool isIdleSet = false;
-        if (entityState.CanAct())
+        if (entityState.CanMove())
         {
             entityState.IdleState();
             movement.WalkInDirection(Vector2.zero);
