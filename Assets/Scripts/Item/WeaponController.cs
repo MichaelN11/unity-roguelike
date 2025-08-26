@@ -207,24 +207,31 @@ public class WeaponController : MonoBehaviour
     /// <param name="eventInfo">The ability use event data</param>
     private void AbilityStarted(AbilityUseEventInfo eventInfo)
     {
-        currentAnimation = eventInfo.AbilityAnimation;
-        currentAbilityRange = eventInfo.Range;
-        if (!weapon.SwingRotateAnimations.Contains(currentAnimation))
+        if (!eventInfo.StatelessCast)
         {
-            UpdateAnimatorForAttackStart(eventInfo);
-        }        
+            currentAnimation = eventInfo.AbilityAnimation;
+            currentAbilityRange = eventInfo.Range;
+            if (!weapon.SwingRotateAnimations.Contains(currentAnimation))
+            {
+                UpdateAnimatorForAttackStart(eventInfo);
+            }
+        }
     }
 
     private void AbilityUse(AbilityUseEventInfo eventInfo)
     {
-        if (weapon.SwingRotateAnimations.Contains(currentAnimation))
+        if (!eventInfo.StatelessCast)
         {
-            swingAnimationTimer = eventInfo.ActiveTime;
-            swingRecoveryTimer = eventInfo.RecoveryTime;
-            swingTotalTime = swingAnimationTimer;
-        } else
-        {
-            UpdateAnimatorForAttackUse(eventInfo);
+            if (weapon.SwingRotateAnimations.Contains(currentAnimation))
+            {
+                swingAnimationTimer = eventInfo.ActiveTime;
+                swingRecoveryTimer = eventInfo.RecoveryTime;
+                swingTotalTime = swingAnimationTimer;
+            }
+            else
+            {
+                UpdateAnimatorForAttackUse(eventInfo);
+            }
         }
     }
 
