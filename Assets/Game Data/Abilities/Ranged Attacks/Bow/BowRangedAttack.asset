@@ -32,7 +32,7 @@ MonoBehaviour:
     cancelableDuration: 0.7
     range: 6
     aimWhileCasting: 0
-    aimDuration: 3
+    aimDuration: 2
     changeDirection: 1
     soundOnCast: {fileID: 0}
     soundOnUse: {fileID: 11400000, guid: 93f9eef3d6926430c989975dba98a7b6, type: 2}

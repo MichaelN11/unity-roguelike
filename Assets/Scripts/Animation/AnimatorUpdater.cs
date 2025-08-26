@@ -80,6 +80,8 @@ public class AnimatorUpdater : MonoBehaviour
             UpdateStop();
             UpdateAttack();
             UpdateIsInteracting();
+
+            animator.SetBool("isAiming", IsAiming);
         }
     }
 
@@ -324,6 +326,9 @@ public class AnimatorUpdater : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Active ability refers to the ability's cast + active time, but not the recovery time.
+    /// </summary>
     private void AbilityNotActive()
     {
         animator.SetBool("isActiveAbility", false);
