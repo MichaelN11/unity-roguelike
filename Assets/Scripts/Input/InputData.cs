@@ -8,5 +8,6 @@ public class InputData
 {
     public InputType Type { get; set; }
     public Vector2 Direction { get; set; }
+    public Vector2 TargetPosition { get; set; }
     public int Number { get; set; }
 }

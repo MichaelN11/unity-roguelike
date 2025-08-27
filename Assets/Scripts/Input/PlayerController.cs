@@ -18,6 +18,7 @@ public class PlayerController : MonoBehaviour
     private PlayerInputActions inputActions;
     private EntityController entityController;
     private Vector2 lookDirection = Vector2.down;
+    private Vector2 inputScreenPosition = Vector2.zero;
     private InputData bufferedInput = null;
     private float bufferTimer = 0f;
     private bool bufferInputRelease = false; // If the release of the input should be buffered as well.
@@ -83,6 +84,7 @@ public class PlayerController : MonoBehaviour
         }
         if (bufferedInput != null && bufferTimer > 0)
         {
+            bufferedInput.Direction = GetLookDirection();
             bool updateSuccessful = entityController.UpdateFromInput(bufferedInput);
             if (updateSuccessful)
             {
@@ -112,6 +114,7 @@ public class PlayerController : MonoBehaviour
     public void OnMovePerformed(CallbackContext ctx)
     {
         Vector2 moveDirection = ctx.ReadValue<Vector2>();
+        SendLookInput(inputScreenPosition);
         SendMoveInput(moveDirection);
     }
 
@@ -131,26 +134,7 @@ public class PlayerController : MonoBehaviour
     /// <param name="ctx">The CallbackContext containing a Vector2 look position</param>
     public void OnLook(CallbackContext ctx)
     {
-        try
-        {
-            if (gameObject == null)
-            {
-                return;
-            }
-        }
-        catch (Exception) { return; }
-
-        Vector2 inputScreenPosition = ctx.ReadValue<Vector2>();
-        Vector2 inputWorldPosition = Camera.main.ScreenToWorldPoint(inputScreenPosition);
-        Vector2 entityPosition = transform.position;
-        Vector2 inputPositionRelativeToEntity = inputWorldPosition - entityPosition;
-
-        InputData inputData = new();
-        inputData.Type = InputType.Look;
-        inputData.Direction = inputPositionRelativeToEntity;
-        entityController.UpdateFromInput(inputData);
-
-        lookDirection = inputPositionRelativeToEntity;
+        SendLookInput(ctx.ReadValue<Vector2>());
     }
 
     public void OnInteractStarted(CallbackContext ctx)
@@ -236,7 +220,7 @@ public class PlayerController : MonoBehaviour
 
         InputData inputData = new();
         inputData.Type = type;
-        inputData.Direction = lookDirection;
+        inputData.Direction = GetLookDirection();
         inputData.Number = actionNumber;
         bool updateSuccessful = entityController.UpdateFromInput(inputData);
         if (!updateSuccessful)
@@ -253,7 +237,7 @@ public class PlayerController : MonoBehaviour
 
         InputData inputData = new();
         inputData.Type = InputType.AbilityReleased;
-        inputData.Direction = lookDirection;
+        inputData.Direction = GetLookDirection();
         inputData.Number = abilityNumber;
         bool success = entityController.UpdateFromInput(inputData);
 
@@ -287,7 +271,7 @@ public class PlayerController : MonoBehaviour
 
         InputData inputData = new();
         inputData.Type = type;
-        inputData.Direction = lookDirection;
+        inputData.Direction = GetLookDirection();
         inputData.Number = current;
         entityController.UpdateFromInput(inputData);
     }
@@ -302,6 +286,48 @@ public class PlayerController : MonoBehaviour
         inputData.Type = InputType.Move;
         inputData.Direction = moveDirection;
         entityController.UpdateFromInput(inputData);
+    }
+
+    /// <summary>
+    /// Sends the look input to the EntityController, and sets the lookDirection.
+    /// </summary>
+    /// <param name="position"></param>
+    /// <returns></returns>
+    private void SendLookInput(Vector2 position)
+    {
+        inputScreenPosition = position;
+        InputData inputData = new();
+        inputData.Type = InputType.Look;
+        inputData.Direction = GetLookDirection();
+        inputData.TargetPosition = GetInputWorldPosition();
+        entityController.UpdateFromInput(inputData);
+    }
+
+    private Vector2 GetLookDirection()
+    {
+        CalculateLookDirection();
+        return lookDirection;
+    }
+
+    private void CalculateLookDirection()
+    {
+        try
+        {
+            if (gameObject == null)
+            {
+                return;
+            }
+        }
+        catch (Exception) { return; }
+
+        Vector2 inputWorldPosition = GetInputWorldPosition();
+        Vector2 entityPosition = transform.position;
+        lookDirection = inputWorldPosition - entityPosition;
+    }
+
+    private Vector2 GetInputWorldPosition()
+    {
+        return Camera.main.ScreenToWorldPoint(inputScreenPosition);
     }
 
     private void ClearBufferedInput()

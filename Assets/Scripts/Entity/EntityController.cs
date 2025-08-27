@@ -47,6 +47,10 @@ public class EntityController : MonoBehaviour
         {
             FindInteractable();
         }
+        if (entityState.ActionState == ActionState.Move)
+        {
+            SetLookDirection(entityState.TargetPosition - (Vector2)transform.position);
+        }
     }
 
     /// <summary>
@@ -65,6 +69,7 @@ public class EntityController : MonoBehaviour
         switch (inputData.Type)
         {
             case InputType.Look:
+                entityState.TargetPosition = inputData.TargetPosition;
                 updateSuccessful = SetLookDirection(inputData.Direction);
                 break;
             case InputType.Move:

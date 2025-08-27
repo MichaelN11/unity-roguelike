@@ -12,6 +12,7 @@ public class EntityState : MonoBehaviour
     public event Action OnUnstunned;
 
     public Vector2 LookDirection { get; set; } = Vector2.zero;
+    public Vector2 TargetPosition { get; set; } = Vector2.zero;
     public bool CanLookWhileCasting { get; set; } = false;
     public ActionState ActionState { get; private set; } = ActionState.Stand;
     public float StunTimer { get; private set; } = 0f;
