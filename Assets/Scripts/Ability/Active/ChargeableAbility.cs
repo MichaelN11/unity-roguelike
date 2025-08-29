@@ -102,6 +102,16 @@ public class ChargeableAbility : ActiveAbility
         };
     }
 
+    public override void UpdateAbility(EntityAbilityContext entityAbilityContext)
+    { 
+        if (entityAbilityContext.IsAbilityCharging)
+        {
+            entityAbilityContext.ChargeTimer += Time.deltaTime;
+        }
+
+        entityAbilityContext.FullCharged = entityAbilityContext.ChargeTimer >= (abilityData.CastTime + chargeableTime);
+    }
+
     /// <summary>
     /// Coroutine method that delays the charged on use ability's start time. Sets the state for the active and recovery frames.
     /// </summary>

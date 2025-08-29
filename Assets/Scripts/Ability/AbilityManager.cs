@@ -27,7 +27,8 @@ public class AbilityManager : MonoBehaviour
     private Hitbox hitbox;
     private SpriteRenderer spriteRenderer;
 
-    private EntityAbilityContext entityAbilityContext = new();
+    private readonly EntityAbilityContext entityAbilityContext = new();
+    public EntityAbilityContext EntityAbilityContext => entityAbilityContext;
 
     private void Awake()
     {
@@ -56,9 +57,9 @@ public class AbilityManager : MonoBehaviour
             }
         }
 
-        if (entityAbilityContext.IsAbilityCharging)
+        if (entityAbilityContext.CurrentActiveAbility)
         {
-            entityAbilityContext.ChargeTimer += Time.deltaTime;
+            entityAbilityContext.CurrentActiveAbility.UpdateAbility(entityAbilityContext);
         }
     }
 

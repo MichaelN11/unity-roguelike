@@ -44,4 +44,6 @@ public abstract class ActiveAbility : ScriptableObject
     {
         return new UsableAbilityInfo();
     }
+
+    public virtual void UpdateAbility(EntityAbilityContext entityAbilityContext) { }
 }

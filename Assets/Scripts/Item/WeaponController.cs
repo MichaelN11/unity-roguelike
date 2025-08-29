@@ -7,7 +7,7 @@ using UnityEngine;
 /// </summary>
 public class WeaponController : MonoBehaviour
 {
-    private const float SwingRotationDegrees = 110; 
+    private const float SwingRotationDegrees = 110;
 
     [SerializeField]
     private float pixelsPerUnit = 16;
@@ -62,7 +62,7 @@ public class WeaponController : MonoBehaviour
             abilityManager.OnAbilityUse += AbilityUse;
         }
 
-        swingPivot =  new Vector2(0, spriteRenderer.bounds.extents.y); ;
+        swingPivot = new Vector2(0, spriteRenderer.bounds.extents.y);
     }
 
     private void Update()
@@ -73,7 +73,9 @@ public class WeaponController : MonoBehaviour
         {
             ShowWeapon();
             SwingWeapon();
-        } else
+            UpdateAnimatorWithChargeState();
+        }
+        else
         {
             spriteRenderer.enabled = false;
         }
@@ -175,7 +177,8 @@ public class WeaponController : MonoBehaviour
             direction.x *= -1;
             direction.y *= -1;
             transform.localScale = new Vector2(initialLocalScale.x * -1, initialLocalScale.y);
-        } else
+        }
+        else
         {
             transform.localScale = initialLocalScale;
         }
@@ -258,5 +261,17 @@ public class WeaponController : MonoBehaviour
             abilitySpeed = 1 / totalAbilityTime;
         }
         animator.SetFloat("abilitySpeed", abilitySpeed);
+    }
+
+    private void UpdateAnimatorWithChargeState()
+    {
+        if (abilityManager.EntityAbilityContext.FullCharged)
+        {
+            animator.SetBool("fullCharged", true);
+        }
+        else
+        {
+            animator.SetBool("fullCharged", false);
+        }
     }
 }

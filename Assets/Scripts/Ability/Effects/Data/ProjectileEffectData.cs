@@ -28,10 +28,22 @@ public class ProjectileEffectData
     public float GroundStickDuration => groundStickDuration;
 
     [SerializeField]
+    private Sprite fullChargedSprite;
+    public Sprite FullChargedSprite => fullChargedSprite;
+
+    [SerializeField]
     private float rangeIncreaseFromCharge = 0;
     public float RangeIncreaseFromCharge => rangeIncreaseFromCharge;
 
     [SerializeField]
     private float speedIncreaseFromCharge = 0;
     public float SpeedIncreaseFromCharge => speedIncreaseFromCharge;
+
+    [SerializeField]
+    private bool isPiercing = false;
+    public bool IsPiercing => isPiercing;
+
+    [SerializeField]
+    private bool isPiercingWhenFullCharged = false;
+    public bool IsPiercingWhenFullCharged => isPiercingWhenFullCharged;
 }

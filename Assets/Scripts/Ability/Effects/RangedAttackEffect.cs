@@ -46,6 +46,23 @@ public class RangedAttackEffect : AbilityEffect
         projectile.MaxDistance = range;
         projectile.WallStickDuration = projectileEffectData.WallStickDuration;
         projectile.GroundStickDuration = projectileEffectData.GroundStickDuration;
+        projectile.IsPiercing = projectileEffectData.IsPiercing;
+
+        if (abilityUseData.ChargePercent >= 1)
+        {
+            if (projectileEffectData.FullChargedSprite != null)
+            {
+                SpriteRenderer spriteRenderer = instance.GetComponent<SpriteRenderer>();
+                if (spriteRenderer != null)
+                {
+                    spriteRenderer.sprite = projectileEffectData.FullChargedSprite;
+                }
+            }
+            if (projectileEffectData.IsPiercingWhenFullCharged)
+            {
+                projectile.IsPiercing = true;
+            }
+        }
     }
 
     /// <summary>

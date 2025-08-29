@@ -14,6 +14,7 @@ public class Projectile : MonoBehaviour
     public float WallStickDuration { get; set; } = 0;
     public float GroundStickDuration { get; set; } = 0;
     public float MaxDistance { get; set; } = 1;
+    public bool IsPiercing { get; set; } = false;
 
     private Rigidbody2D body;
     private DamageObject damageObject;
@@ -68,8 +69,11 @@ public class Projectile : MonoBehaviour
     /// <param name="attackData">The AttackData</param>
     private void AttackSuccessful(AttackData attackData)
     {
-        Stop();
-        Destroy(gameObject, attackData.HitStop);
+        if (!IsPiercing)
+        {
+            Stop();
+            Destroy(gameObject, attackData.HitStop);
+        }
     }
 
     /// <summary>
