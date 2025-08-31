@@ -30,6 +30,8 @@ https://creativecommons.org/licenses/by-sa/3.0/
 Sound effects:
 https://opengameart.org/content/rpg-sound-pack
 Kenney.nl
+mixkit.co
+“Sound effects from https://gfxsounds.com“
 
 A* Pathfinding Project
 https://arongranberg.com/astar/download

@@ -9,6 +9,9 @@ public class Projectile : MonoBehaviour
 {
     private const float ActiveTimeAfterWallHit = 0.1667f;
 
+    [SerializeField]
+    private Sound soundOnWallImpact;
+
     public float Speed { get; set; }
     public Vector2 Direction { get; set; }
     public float WallStickDuration { get; set; } = 0;
@@ -57,6 +60,10 @@ public class Projectile : MonoBehaviour
     {
         if (LayerUtil.IsWall(collision.gameObject.layer))
         {
+            if (soundOnWallImpact != null)
+            {
+                AudioManager.Instance.Play(soundOnWallImpact);
+            }
             Stop();
             Invoke(nameof(DisableCollider), ActiveTimeAfterWallHit);
             Destroy(gameObject, WallStickDuration);

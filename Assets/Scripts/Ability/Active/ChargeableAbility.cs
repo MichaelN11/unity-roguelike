@@ -30,12 +30,20 @@ public class ChargeableAbility : ActiveAbility
     private float chargeMoveSpeedMultiplier = 1;
     public float ChargeMoveSpeedMultiplier => chargeMoveSpeedMultiplier;
 
+    [SerializeField]
+    private Sound soundOnFullCharge;
+    public Sound SoundOnFullCharge => soundOnFullCharge;
+
     public override AbilityUseEventInfo Use(Vector2 direction, float offsetDistance, AbilityUseData abilityUse, EntityAbilityContext entityAbilityContext)
     {
         if (abilityUse.EntityState.CanAct() || (abilityData.CanCancelInto && AbilityUtil.IsReadyToCancel(abilityUse, entityAbilityContext, this)))
         {
             if (!entityAbilityContext.IsAbilityCharging && !entityAbilityContext.IsChargingFinished)
             {
+                if (abilityData.SoundOnCast != null)
+                {
+                    AudioManager.Instance.Play(abilityData.SoundOnCast);
+                }
                 AbilityUtil.SetCurrentAbility(this, abilityUse, direction, entityAbilityContext);
                 abilityUse.EntityState.UseAbility();
                 entityAbilityContext.IsAbilityCharging = true;
@@ -109,7 +117,15 @@ public class ChargeableAbility : ActiveAbility
             entityAbilityContext.ChargeTimer += Time.deltaTime;
         }
 
-        entityAbilityContext.FullCharged = entityAbilityContext.ChargeTimer >= (abilityData.CastTime + chargeableTime);
+        if (!entityAbilityContext.FullCharged
+            && entityAbilityContext.ChargeTimer >= (abilityData.CastTime + chargeableTime))
+        {
+            entityAbilityContext.FullCharged = true;
+            if (soundOnFullCharge != null)
+            {
+                AudioManager.Instance.Play(soundOnFullCharge);
+            }
+        }
     }
 
     /// <summary>
@@ -151,9 +167,15 @@ public class ChargeableAbility : ActiveAbility
 
     private void StopCharging(AbilityUseData abilityUse, EntityAbilityContext entityAbilityContext)
     {
+        if (abilityData.SoundOnCast)
+        {
+            AudioManager.Instance.StopSound(abilityData.SoundOnCast);
+        }
+
         entityAbilityContext.IsChargingFinished = false;
         entityAbilityContext.IsAbilityCharging = false;
         entityAbilityContext.ChargeTimer = 0;
+        entityAbilityContext.FullCharged = false;
 
         abilityUse.Movement.AddToWalkSpeed(-1 * abilityUse.EntityData.Entity.WalkSpeed * chargeMoveSpeedMultiplier);
     }

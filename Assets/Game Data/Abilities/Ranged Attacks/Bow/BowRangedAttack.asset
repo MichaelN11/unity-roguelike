@@ -34,8 +34,9 @@ MonoBehaviour:
     aimWhileCasting: 0
     aimDuration: 2
     changeDirection: 1
-    soundOnCast: {fileID: 0}
+    soundOnCast: {fileID: 11400000, guid: 0da84ae7de51349d2b5bae9eb3cf579d, type: 2}
     soundOnUse: {fileID: 11400000, guid: 93f9eef3d6926430c989975dba98a7b6, type: 2}
     stopSoundAfterUse: 0
   chargeableTime: 1
   chargeMoveSpeedMultiplier: -0.4
+  soundOnFullCharge: {fileID: 11400000, guid: fe1c0cac3fcb049ac914de830ab0d39c, type: 2}

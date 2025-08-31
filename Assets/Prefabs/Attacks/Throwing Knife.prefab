@@ -199,6 +199,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 53f944de7a6fb4010999bc9ebb0c27c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  soundOnWallImpact: {fileID: 11400000, guid: ea4da7a89660342cd90e54e74c0abef0, type: 2}
 --- !u!114 &1280855517694933062
 MonoBehaviour:
   m_ObjectHideFlags: 0
