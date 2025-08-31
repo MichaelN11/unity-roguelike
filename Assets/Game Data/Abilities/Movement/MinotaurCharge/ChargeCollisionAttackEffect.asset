@@ -19,7 +19,10 @@ MonoBehaviour:
     soundOnHit: {fileID: 0}
     damage: 1
     attackDistance: 0
-    hitStunMultiplier: 1
-    knockbackMultiplier: 1
+    hitStunMultiplier: 1.5
+    knockbackMultiplier: 2
     hitStop: 0.06
     description: 7
+    damageIncreaseFromCharge: 0
+    hitStunIncreaseFromCharge: 0
+    knockbackIncreaseFromCharge: 0

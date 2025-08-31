@@ -25,9 +25,10 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 939aacb2e10cd44acbed39657d18db0d, type: 2}
     abilityAnimation: 0
     duration: 0
-    castTime: 1
+    castTime: 0.8
     recoveryTime: 0.9
     activeAnimationTime: 0.3
+    castWhileMoving: 0
     canCancelInto: 0
     cancelableDuration: 0
     range: 1
@@ -37,20 +38,3 @@ MonoBehaviour:
     soundOnCast: {fileID: 0}
     soundOnUse: {fileID: 11400000, guid: 2be215f89722944d1803004ad4b3cbc5, type: 2}
     stopSoundAfterUse: 0
-  effects:
-  - {fileID: 11400000, guid: 7dae17e833bdc4a269b867614049598d, type: 2}
-  - {fileID: 11400000, guid: 939aacb2e10cd44acbed39657d18db0d, type: 2}
-  duration: 0
-  castTime: 1
-  recoveryTime: 0.9
-  activeAnimationTime: 0.3
-  canCancelInto: 0
-  cancelableDuration: 0
-  range: 1
-  aimWhileCasting: 0
-  aimDuration: 0
-  changeDirection: 1
-  soundOnCast: {fileID: 0}
-  soundOnUse: {fileID: 11400000, guid: 2be215f89722944d1803004ad4b3cbc5, type: 2}
-  stopSoundAfterUse: 0
-  abilityAnimation: 0
