@@ -46,4 +46,12 @@ public class ProjectileEffectData
     [SerializeField]
     private bool isPiercingWhenFullCharged = false;
     public bool IsPiercingWhenFullCharged => isPiercingWhenFullCharged;
+
+    [SerializeField]
+    private int numProjectiles = 1;
+    public int NumProjectiles => numProjectiles;
+
+    [SerializeField]
+    private float spreadAngle = 0;
+    public float SpreadAngle => spreadAngle;
 }

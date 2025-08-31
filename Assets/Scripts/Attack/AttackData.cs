@@ -27,4 +27,11 @@ public class AttackData
     public float HitStunMultiplier { get; set; }
     public float KnockbackMultiplier { get; set; }
     public AttackDescription Description { get; set; }
+
+    public AttackData Copy()
+    {
+        AttackData copy = (AttackData)this.MemberwiseClone();
+        copy.AttackEvents = new AttackEvents();
+        return copy;
+    }
 }

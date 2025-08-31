@@ -34,6 +34,33 @@ public class RangedAttackEffect : AbilityEffect
 
         attackData.AttackEvents.OnAttackSuccessful += AttackSuccessful;
 
+        CreateProjectile(abilityUseData, effectUseData, attackData, range, speed);
+        if (projectileEffectData.NumProjectiles > 1)
+        {
+            AbilityUseData abilityUseDataCopy = abilityUseData.ShallowCopy();
+            float currentAngle = projectileEffectData.SpreadAngle;
+            float angleSign = Random.value < 0.5f ? -1f : 1f;
+            for (int i = 1; i < projectileEffectData.NumProjectiles; i++)
+            {
+                AttackData attackDataCopy = attackData.Copy();
+                abilityUseDataCopy.Direction = Quaternion.Euler(0, 0, currentAngle * angleSign) * abilityUseData.Direction;
+                CreateProjectile(abilityUseDataCopy, effectUseData, attackDataCopy, range, speed);
+
+                angleSign = -angleSign;
+                if (i % 2 == 0)
+                {
+                    currentAngle += projectileEffectData.SpreadAngle;
+                }
+            }
+        }
+    }
+
+    private void CreateProjectile(AbilityUseData abilityUseData,
+        EffectUseData effectUseData,
+        AttackData attackData,
+        float range,
+        float speed)
+    {
         GameObject instance = AttackEffectUtil.InstantiateDamageObject(abilityUseData,
             attackEffectData,
             projectileEffectData.PrefabEffectData,
@@ -62,7 +89,7 @@ public class RangedAttackEffect : AbilityEffect
             {
                 projectile.IsPiercing = true;
             }
-        }
+        } 
     }
 
     /// <summary>

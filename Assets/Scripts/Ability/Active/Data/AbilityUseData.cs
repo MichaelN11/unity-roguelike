@@ -21,4 +21,9 @@ public class AbilityUseData
     public Vector2 Direction { get; set; } = Vector2.zero;
 
     public float ChargePercent { get; set; } = 0;
+
+    public AbilityUseData ShallowCopy()
+    {
+        return (AbilityUseData)this.MemberwiseClone();
+    }
 }

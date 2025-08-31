@@ -1,0 +1,45 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b30f98c58613b415388ac55c2c4d226c, type: 3}
+  m_Name: SpreadShotRangedEffect
+  m_EditorClassIdentifier: 
+  soundOnUse: {fileID: 0}
+  duration: 0
+  useAbilityDuration: 0
+  projectileEffectData:
+    prefabEffectData:
+      prefab: {fileID: 605442877324402279, guid: 40b8610a8b1cc4b488bec9fe0330737a, type: 3}
+      prefabDuration: 10
+      rotatePrefab: 1
+      mirrorPrefabX: 0
+    range: 8
+    speed: 8
+    wallStickDuration: 1
+    groundStickDuration: 0
+    fullChargedSprite: {fileID: 0}
+    rangeIncreaseFromCharge: 0
+    speedIncreaseFromCharge: 0
+    isPiercing: 0
+    isPiercingWhenFullCharged: 0
+    numProjectiles: 3
+    spreadAngle: 15
+  attackEffectData:
+    soundOnHit: {fileID: 11400000, guid: d9a95617b0c6d43789c3f1c8dbd6510c, type: 2}
+    damage: 0.75
+    attackDistance: 0
+    hitStunMultiplier: 0.3
+    knockbackMultiplier: 0.4
+    hitStop: 0.06
+    description: 4
+    damageIncreaseFromCharge: 0
+    hitStunIncreaseFromCharge: 0
+    knockbackIncreaseFromCharge: 0
