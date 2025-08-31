@@ -24,13 +24,20 @@ public abstract class ActiveAbility : ScriptableObject
     public AbilityUniqueType AbilityUniqueType => abilityUniqueType;
 
     [SerializeField]
-    private AbilityConditions abilityConditions = new();
+    private List<AbilityCondition> abilityConditions = new();
 
     public abstract AbilityUseEventInfo Use(Vector2 direction, float offsetDistance, AbilityUseData abilityUse, EntityAbilityContext entityAbilityContext);
 
-    public bool CanActivate(AbilityUseData abilityUse)
+    public bool CanActivate(AbilityUseData abilityUse, EntityAbilityContext entityAbilityContext)
     {
-        return abilityConditions.ConditionsMet(abilityUse);
+        foreach (AbilityCondition condition in abilityConditions)
+        {
+            if (condition && !condition.ConditionMet(abilityUse, entityAbilityContext))
+            {
+                return false;
+            }
+        }
+        return true;
     }
 
     public virtual bool Release(Vector2 direction, float offsetDistance, AbilityUseData abilityUse, EntityAbilityContext entityAbilityContext)

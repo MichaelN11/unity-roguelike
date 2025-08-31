@@ -17,8 +17,7 @@ MonoBehaviour:
   cooldown: 0
   abilityUniqueType: 0
   abilityConditions:
-    minimumHealthPercent: 0
-    maximumHealthPercent: 99
+  - {fileID: 11400000, guid: 82d77eb0a70c7405884d32c841c4d583, type: 2}
   effects:
   - {fileID: 11400000, guid: c4854e40022c34249a49b25da75b96af, type: 2}
   soundOnUse: {fileID: 0}

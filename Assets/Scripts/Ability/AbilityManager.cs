@@ -148,7 +148,7 @@ public class AbilityManager : MonoBehaviour
         if (ability.CurrentCooldown <= 0)
         {
             AbilityUseData abilityUse = BuildAbilityUseData();
-            if (!ability.Ability.CanActivate(abilityUse))
+            if (!ability.Ability.CanActivate(abilityUse, entityAbilityContext))
             {
                 return null;
             }
