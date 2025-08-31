@@ -35,6 +35,10 @@ public class AIController : MonoBehaviour
     /// When checking for line of sight for using a ranged ability, the AI will assume the projectile radius is this large.
     /// </summary>
     private const float AssumedProjectileRadius = 0.2f;
+    /// <summary>
+    /// The multiplier on the ability range when determining if the AI should continue a combo ability.
+    /// </summary>
+    private const float ComboAbilityRangeMultiplier = 2f;
 
     private EntityAI entityAI;
 
@@ -101,9 +105,10 @@ public class AIController : MonoBehaviour
             }
         } else if (active)
         {
+            float distanceToTarget = Vector2.Distance(body.position, targetBody.position);
             if (entityState.CanMove())
             {
-                DetermineBehavior();
+                DetermineBehavior(distanceToTarget);
             }
             if (currentBehavior != Behavior.Idle)
             {
@@ -115,7 +120,7 @@ public class AIController : MonoBehaviour
                     MoveAlongPath();
                     break;
                 case Behavior.Ability:
-                    UseAbility();
+                    UseAbility(distanceToTarget);
                     break;
                 case Behavior.Chase:
                     MoveTowardsPoint(targetBody.position);
@@ -210,9 +215,9 @@ public class AIController : MonoBehaviour
     /// <summary>
     /// Determines the current AI behavior by checking the distance from the target's position.
     /// </summary>
-    private void DetermineBehavior()
+    private void DetermineBehavior(float distanceToTarget)
     {
-        float distanceToTarget = Vector2.Distance(body.position, targetBody.position);
+        
         if (entityAI.Deaggro
             && currentBehavior != Behavior.Idle
             && distanceToTarget > entityAI.AggroDistance)
@@ -368,11 +373,17 @@ public class AIController : MonoBehaviour
     /// <summary>
     /// Uses ability in the direction of the target.
     /// </summary>
-    private void UseAbility()
+    private void UseAbility(float distanceToTarget)
     {
-        Vector2 targetDirection = GetAttackTargetPosition() - body.position;
-        SendInput(InputType.Look, targetDirection);
-        SendInput(InputType.Ability, targetDirection, currentAbility.AbilityNumber);
+        // This range check is relevant for combo abilities, since the AI won't redetermine its behavior
+        // while the entity is using the first ability in the combo.
+        float range = (entityData.Entity.InteractionDistance + currentAbility.Range) * ComboAbilityRangeMultiplier;
+        if (distanceToTarget <= range)
+        {
+            Vector2 targetDirection = GetAttackTargetPosition() - body.position;
+            SendInput(InputType.Look, targetDirection);
+            SendInput(InputType.Ability, targetDirection, currentAbility.AbilityNumber);
+        }
     }
 
     /// <summary>
