@@ -200,11 +200,12 @@ public class AbilityManager : MonoBehaviour
 
     public List<UsableAbilityInfo> GetUsableAbilities()
     {
+        AbilityUseData abilityUse = BuildAbilityUseData();
         List<UsableAbilityInfo> usableAbilities = new();
         for(int i = 0; i < abilities.Count; i++)
         {
             ActiveAbility ability = abilities[i].Ability;
-            UsableAbilityInfo usableAbilityInfo = ability.GetUsableAbilityInfo(entityAbilityContext);
+            UsableAbilityInfo usableAbilityInfo = ability.GetUsableAbilityInfo(abilityUse, entityAbilityContext);
             usableAbilityInfo.AbilityNumber = i;
             usableAbilities.Add(usableAbilityInfo);
         }

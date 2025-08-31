@@ -40,7 +40,7 @@ public class AutomaticAbility : ActiveAbility
         return abilityUseEvent;
     }
 
-    public override UsableAbilityInfo GetUsableAbilityInfo(EntityAbilityContext entityAbilityContext)
+    public override UsableAbilityInfo GetUsableAbilityInfo(AbilityUseData abilityUse, EntityAbilityContext entityAbilityContext)
     {
         return new UsableAbilityInfo()
         {

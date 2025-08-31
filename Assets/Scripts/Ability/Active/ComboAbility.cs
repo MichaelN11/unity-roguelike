@@ -56,7 +56,7 @@ public class ComboAbility : ActiveAbility
         entityAbilityContext.ComboableTime = 0;
     }
 
-    public override UsableAbilityInfo GetUsableAbilityInfo(EntityAbilityContext entityAbilityContext)
+    public override UsableAbilityInfo GetUsableAbilityInfo(AbilityUseData abilityUse, EntityAbilityContext entityAbilityContext)
     {
         int comboStage = 0;
         if (entityAbilityContext.CurrentComboAbility == this)

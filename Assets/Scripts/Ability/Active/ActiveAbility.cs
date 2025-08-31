@@ -28,7 +28,7 @@ public abstract class ActiveAbility : ScriptableObject
 
     public abstract AbilityUseEventInfo Use(Vector2 direction, float offsetDistance, AbilityUseData abilityUse, EntityAbilityContext entityAbilityContext);
 
-    public bool CanActivate(AbilityUseData abilityUse, EntityAbilityContext entityAbilityContext)
+    public virtual bool CanActivate(AbilityUseData abilityUse, EntityAbilityContext entityAbilityContext)
     {
         foreach (AbilityCondition condition in abilityConditions)
         {
@@ -47,7 +47,7 @@ public abstract class ActiveAbility : ScriptableObject
 
     public virtual void Interrupt(AbilityUseData abilityUse, float currentDuration, EntityAbilityContext entityAbilityContext) { }
 
-    public virtual UsableAbilityInfo GetUsableAbilityInfo(EntityAbilityContext entityAbilityContext)
+    public virtual UsableAbilityInfo GetUsableAbilityInfo(AbilityUseData abilityUse, EntityAbilityContext entityAbilityContext)
     {
         return new UsableAbilityInfo();
     }

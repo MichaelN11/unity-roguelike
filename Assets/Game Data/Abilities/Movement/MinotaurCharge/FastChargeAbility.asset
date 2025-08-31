@@ -1,0 +1,41 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc8c03d57d8f740f4bc2f163f1186102, type: 3}
+  m_Name: FastChargeAbility
+  m_EditorClassIdentifier: 
+  abilityName: 
+  abilityIcon: {fileID: 0}
+  cooldown: 0
+  abilityUniqueType: 0
+  abilityConditions:
+  - {fileID: 11400000, guid: 39a6152add7fe4abe90b57073571480f, type: 2}
+  abilityData:
+    effects:
+    - {fileID: 11400000, guid: 9fa361803669f46f7a20231ff238a7da, type: 2}
+    - {fileID: 11400000, guid: 11cf892ec78be42eea452682e632cc4b, type: 2}
+    - {fileID: 11400000, guid: 7c37cb90e732e4c64b2d725fe961cf22, type: 2}
+    - {fileID: 11400000, guid: 2145ce93f227d4d5e8140fae78b6b454, type: 2}
+    abilityAnimation: 4
+    duration: 0.8
+    castTime: 0.3
+    recoveryTime: 1.5
+    activeAnimationTime: 0.8
+    castWhileMoving: 0
+    canCancelInto: 1
+    cancelableDuration: 0
+    range: 7
+    aimWhileCasting: 1
+    aimDuration: 0
+    changeDirection: 1
+    soundOnCast: {fileID: 11400000, guid: 5391b036213ed49b9b2808158af73c22, type: 2}
+    soundOnUse: {fileID: 11400000, guid: cd1be3e7c8329428e809fea1c18acbfe, type: 2}
+    stopSoundAfterUse: 1

@@ -16,9 +16,7 @@ MonoBehaviour:
   abilityIcon: {fileID: 0}
   cooldown: 0
   abilityUniqueType: 0
-  abilityConditions:
-    minimumHealthPercent: 0
-    maximumHealthPercent: 100
+  abilityConditions: []
   abilityData:
     effects:
     - {fileID: 11400000, guid: ae1b9501400c542a29cebcbc5fc058e9, type: 2}

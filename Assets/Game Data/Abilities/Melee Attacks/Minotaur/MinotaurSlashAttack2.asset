@@ -17,8 +17,8 @@ MonoBehaviour:
   cooldown: 0
   abilityUniqueType: 0
   abilityConditions:
-    minimumHealthPercent: 0
-    maximumHealthPercent: 100
+  - {fileID: 0}
+  - {fileID: 0}
   abilityData:
     effects:
     - {fileID: 11400000, guid: 7dae17e833bdc4a269b867614049598d, type: 2}
@@ -31,7 +31,7 @@ MonoBehaviour:
     castWhileMoving: 0
     canCancelInto: 0
     cancelableDuration: 0
-    range: 1
+    range: 0.7
     aimWhileCasting: 0
     aimDuration: 0
     changeDirection: 1
