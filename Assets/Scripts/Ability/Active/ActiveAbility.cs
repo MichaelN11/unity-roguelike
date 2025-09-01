@@ -24,6 +24,10 @@ public abstract class ActiveAbility : ScriptableObject
     public AbilityUniqueType AbilityUniqueType => abilityUniqueType;
 
     [SerializeField]
+    private List<CharacterClass> allowedClasses;
+    public List<CharacterClass> AllowedClasses => allowedClasses;
+
+    [SerializeField]
     private List<AbilityCondition> abilityConditions = new();
 
     public abstract AbilityUseEventInfo Use(Vector2 direction, float offsetDistance, AbilityUseData abilityUse, EntityAbilityContext entityAbilityContext);

@@ -16,6 +16,7 @@ MonoBehaviour:
   abilityIcon: {fileID: 0}
   cooldown: 0
   abilityUniqueType: 0
+  allowedClasses: 
   abilityConditions: []
   abilityData:
     effects:

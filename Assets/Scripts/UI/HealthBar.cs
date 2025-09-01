@@ -24,6 +24,9 @@ public class HealthBar : MonoBehaviour
     [SerializeField]
     private float animationDuration = 2;
 
+    [SerializeField]
+    private float playerMaxHealth = 5;
+
     private Slider slider;
     private Damageable damageable;
     private EntityData entityData;
@@ -123,7 +126,7 @@ public class HealthBar : MonoBehaviour
 
     private float DetermineWidth()
     {
-        int maxHealthIncreases = (int)(damageable.MaxHealth - entityData.Entity.MaxHealth);
+        int maxHealthIncreases = (int)(damageable.MaxHealth - playerMaxHealth);
         return initialWidth + (maxHealthIncreases * widthIncreaseWithHealthIncrease);
     }
 }

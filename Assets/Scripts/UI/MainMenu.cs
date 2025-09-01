@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.TextCore.Text;
 
 /**
  * Script for controlling the main menu.
@@ -21,7 +22,12 @@ public class MainMenu : MonoBehaviour
     private GameObject quitButton;
 
     [SerializeField]
+    private GameObject classSelectMenu;
+
+    [SerializeField]
     private Sound music;
+
+    private CharacterClass selectedClass = CharacterClass.Soldier;
 
     private void Awake()
     {
@@ -39,9 +45,9 @@ public class MainMenu : MonoBehaviour
         AudioManager.Instance.Play(music);
     }
 
-    public void NewGame()
+    public void StartGame()
     {
-        GameManager.Instance.NewGame(firstScene);
+        GameManager.Instance.NewGame(firstScene, selectedClass);
     }
 
     public void Continue()
@@ -55,14 +61,31 @@ public class MainMenu : MonoBehaviour
         optionsMenu.SetActive(true);
     }
 
+    public void ClassSelectScreen()
+    {
+        mainMenu.SetActive(false);
+        classSelectMenu.SetActive(true);
+    }
+
     public void BackToMenu()
     {
         mainMenu.SetActive(true);
         optionsMenu.SetActive(false);
+        classSelectMenu.SetActive(false);
     }
 
     public void Quit()
     {
         GameManager.Instance.QuitGame();
+    }
+
+    public void SelectSoldier()
+    {
+        selectedClass = CharacterClass.Soldier;
+    }
+
+    public void SelectHunter()
+    {
+        selectedClass = CharacterClass.Hunter;
     }
 }

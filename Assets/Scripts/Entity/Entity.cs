@@ -20,6 +20,10 @@ public class Entity : ScriptableObject
     public List<InventoryItem> InitialInventory => initialInventory;
 
     [SerializeField]
+    private CharacterClass characterClass;
+    public CharacterClass CharacterClass => characterClass;
+
+    [SerializeField]
     private Sound soundOnHit;
     public Sound SoundOnHit => soundOnHit;
 

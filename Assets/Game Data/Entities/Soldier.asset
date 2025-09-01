@@ -23,6 +23,7 @@ MonoBehaviour:
   - Item: {fileID: 11400000, guid: 80a125bb684b646719a367b3320fddda, type: 2}
     Amount: 0
     LearnableAbility: {fileID: 0}
+  characterClass: 1
   soundOnHit: {fileID: 11400000, guid: 32c3869f2625e4ddc9e21348f09f8bb1, type: 2}
   walkSpeed: 5.5
   interactionDistance: 1

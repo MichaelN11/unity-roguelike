@@ -99,8 +99,22 @@ public class GameManager : MonoBehaviour
     /// <summary>
     /// Starts a new game.
     /// </summary>
-    public void NewGame(String firstScene)
+    public void NewGame(String firstScene, CharacterClass selectedClass)
     {
+        switch (selectedClass)
+        {
+            case CharacterClass.Soldier:
+                player = AddressableService.RetrieveEntity("Soldier");
+                break;
+            case CharacterClass.Hunter:
+                player = AddressableService.RetrieveEntity("Hunter");
+                break;
+            default:
+                Debug.LogWarning("Unknown character class selected: " + selectedClass + ", defaulting to Soldier.");
+                player = AddressableService.RetrieveEntity("Soldier");
+                break;
+        }
+
         ResetDrops();
         IsGameOver = false;
         GameState = new();
@@ -112,7 +126,7 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public void Restart()
     {
-        NewGame(firstScene);
+        NewGame(firstScene, player.CharacterClass);
     }
 
     /// <summary>
@@ -319,6 +333,19 @@ public class GameManager : MonoBehaviour
         ShuffledRareDrops = ScriptableObject.CreateInstance<DropTable>();
         ShuffledRareDrops.ItemDrops = rareDropTable.ItemDrops.ToList();
         Debug.Log("Resetting drops");
+
+        ShuffledRareDrops.ItemDrops.RemoveAll(itemDrop =>
+            itemDrop == null
+            || itemDrop.InventoryItem == null
+            || !PlayerCanReceiveItem(itemDrop.InventoryItem));
+        Debug.Log("Removed invalid drops for player class: " + player.CharacterClass + ", remaining drops: " + ShuffledRareDrops.ItemDrops.Count());
+    }
+
+    private bool PlayerCanReceiveItem(InventoryItem item)
+    {
+        return item.LearnableAbility == null
+            || item.LearnableAbility.AllowedClasses.Count == 0
+            || item.LearnableAbility.AllowedClasses.Contains(player.CharacterClass);
     }
 
     /// <summary>
