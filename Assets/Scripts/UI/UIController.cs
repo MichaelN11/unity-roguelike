@@ -33,6 +33,9 @@ public class UIController : MonoBehaviour
     [SerializeField]
     private GameObject loadingScreen;
 
+    [SerializeField]
+    private Sound buttonClick;
+
     private PlayerInputActions inputActions;
 
     private void Awake()
@@ -157,6 +160,11 @@ public class UIController : MonoBehaviour
     {
         loadingScreen.SetActive(false);
     }
+    
+    public void PlayButtonClick()
+    {
+        AudioManager.Instance.Play(buttonClick);
+    }
 
     /// <summary>
     /// Pauses/unpauses the game when the input is pressed.
@@ -167,7 +175,8 @@ public class UIController : MonoBehaviour
         if (GameManager.Instance.IsPaused)
         {
             Resume();
-        } else
+        }
+        else
         {
             pauseMenu.SetActive(true);
             GameManager.Instance.PauseGame();

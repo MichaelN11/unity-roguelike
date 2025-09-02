@@ -27,6 +27,11 @@ public class MainMenu : MonoBehaviour
     [SerializeField]
     private Sound music;
 
+    [SerializeField]
+    private Sound buttonClick;
+    [SerializeField]
+    private Sound checkboxSelect;
+
     private CharacterClass selectedClass = CharacterClass.Soldier;
 
     private void Awake()
@@ -87,5 +92,15 @@ public class MainMenu : MonoBehaviour
     public void SelectHunter()
     {
         selectedClass = CharacterClass.Hunter;
+    }
+
+    public void PlayButtonClick()
+    {
+        AudioManager.Instance.Play(buttonClick);
+    }
+    
+    public void PlayCheckboxSelect()
+    {
+        AudioManager.Instance.Play(checkboxSelect);
     }
 }
