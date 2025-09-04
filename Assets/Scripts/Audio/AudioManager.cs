@@ -68,9 +68,18 @@ public class AudioManager : MonoBehaviour
                 musicSource = audioSource;
                 UpdateCurrentMusicVolume();
                 audioSource.Play();
-            } else
+            } else if (!sound.Loop)
             {
+                if (sound.PitchShift != 0)
+                {
+                    audioSource.pitch = sound.Pitch + Random.Range(-sound.PitchShift, sound.PitchShift);
+                }
                 audioSource.PlayOneShot(sound.AudioClip, sfxVolume * masterVolume);
+            }
+            else
+            {
+                audioSource.volume = sfxVolume * masterVolume * sound.Volume;
+                audioSource.Play();
             }
         }
     }

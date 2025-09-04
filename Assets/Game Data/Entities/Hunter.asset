@@ -25,6 +25,9 @@ MonoBehaviour:
     LearnableAbility: {fileID: 0}
   characterClass: 2
   soundOnHit: {fileID: 11400000, guid: 32c3869f2625e4ddc9e21348f09f8bb1, type: 2}
+  footstepSounds:
+  - {fileID: 11400000, guid: 2d1b9d9256ec24f84aa0773f604f85a8, type: 2}
+  - {fileID: 11400000, guid: 53e31755ff4a0438ca46f7984aa6e9cd, type: 2}
   walkSpeed: 5.5
   interactionDistance: 1
   maxHealth: 4

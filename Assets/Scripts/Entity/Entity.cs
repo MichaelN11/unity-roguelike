@@ -78,4 +78,12 @@ public class Entity : ScriptableObject
     [SerializeField]
     private bool isBoss;
     public bool IsBoss => isBoss;
+
+    [SerializeField]
+    private List<Sound> footstepSounds;
+    public List<Sound> FootstepSounds => footstepSounds;
+
+    [SerializeField]
+    private float footstepSoundInterval = 0.333f;
+    public float FootstepSoundInterval => footstepSoundInterval;
 }

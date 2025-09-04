@@ -23,6 +23,10 @@ public class EntityController : MonoBehaviour
     private Vector2 attemptedMoveDirection = Vector2.zero;
     private Vector2 attemptedLookDirection = Vector2.zero;
 
+    private bool footstepSoundPlaying = false;
+    private float footstepSoundTimer = 0f;
+    private int currentFootstepIndex = 0;
+
     private void Awake()
     {
         movement = GetComponent<Movement>();
@@ -47,9 +51,32 @@ public class EntityController : MonoBehaviour
         {
             FindInteractable();
         }
+
         if (entityState.ActionState == ActionState.Move)
         {
             SetLookDirection(entityState.TargetPosition - (Vector2)transform.position);
+            if (!footstepSoundPlaying && entityData.Entity.FootstepSounds.Count > 0)
+            {
+                footstepSoundPlaying = true;
+            }
+        }
+        else if (footstepSoundPlaying)
+        {
+            footstepSoundPlaying = false;
+        }
+
+        if (footstepSoundPlaying)
+        {
+            if (footstepSoundTimer > 0)
+            {
+                footstepSoundTimer -= Time.deltaTime;
+            }
+            if (footstepSoundTimer <= 0)
+            {
+                footstepSoundTimer = entityData.Entity.FootstepSoundInterval * (entityData.Entity.WalkSpeed / movement.CurrentWalkSpeed);
+                AudioManager.Instance.Play(entityData.Entity.FootstepSounds[currentFootstepIndex]);
+                currentFootstepIndex = (currentFootstepIndex + 1) % entityData.Entity.FootstepSounds.Count;
+            }
         }
     }
 

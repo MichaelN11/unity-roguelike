@@ -29,4 +29,8 @@ public class Sound : ScriptableObject
     [Range(0.1f, 3f)]
     private float pitch = 1f;
     public float Pitch => pitch;
+
+    [SerializeField]
+    private float pitchShift = 0f;
+    public float PitchShift => pitchShift;
 }
