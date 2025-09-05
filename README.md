@@ -34,4 +34,4 @@ https://opengameart.org/content/rpg-sound-pack
 Kenney.nl
 mixkit.co
 “Sound effects from https://gfxsounds.com“
-Birdsong background loop by koertes
+Birdsong background loop © by koertes / Cruciniacum.eu (non-commercial only)

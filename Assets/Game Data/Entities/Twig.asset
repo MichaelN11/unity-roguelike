@@ -16,7 +16,9 @@ MonoBehaviour:
   abilities:
   - {fileID: 11400000, guid: 319a3d6fe4f7e4701bf46aa6a429a751, type: 2}
   initialInventory: []
+  characterClass: 0
   soundOnHit: {fileID: 0}
+  soundOnDeath: {fileID: 11400000, guid: a5a6f28d37fc8495ba0dd171300ffd04, type: 2}
   walkSpeed: 3.75
   interactionDistance: 1
   maxHealth: 1.5
@@ -42,3 +44,5 @@ MonoBehaviour:
       LearnableAbility: {fileID: 0}
   description: 2
   isBoss: 0
+  footstepSounds: []
+  footstepSoundInterval: 0.333

@@ -167,6 +167,10 @@ public class Damageable : MonoBehaviour
 
         if (entityState != null && entityData != null)
         {
+            if (entityData.Entity.SoundOnDeath != null)
+            {
+                AudioManager.Instance.Play(entityData.Entity.SoundOnDeath);
+            }
             DeathContext deathContext = new();
             deathContext.KillingEntity = lastHitByEntity;
             deathContext.KillingAttack = lastHitByAttack;
