@@ -5023,6 +5023,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1770167896}
     - target: {fileID: 5337416683157143016, guid: a56c8d0c4be354ee1ae8c9e29d80b2e2, type: 3}
+      propertyPath: musicStopDelay
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5337416683157143016, guid: a56c8d0c4be354ee1ae8c9e29d80b2e2, type: 3}
       propertyPath: destroyWhenKilled
       value: 
       objectReference: {fileID: 11400000, guid: e10765064256a4a63974e29515616f8c, type: 2}
@@ -13794,6 +13798,10 @@ PrefabInstance:
       propertyPath: triggerArea
       value: 
       objectReference: {fileID: 1770167896}
+    - target: {fileID: 5337416683157143016, guid: a56c8d0c4be354ee1ae8c9e29d80b2e2, type: 3}
+      propertyPath: musicStopDelay
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

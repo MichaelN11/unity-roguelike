@@ -5,7 +5,7 @@ using UnityEngine;
 /// </summary>
 public class Damageable : MonoBehaviour
 {
-    private const float PlayerInvincibilityTimeOnHit = 1;
+    private const float PlayerInvincibilityTimeOnHit = 0.5f;
 
     public float MaxHealth { get; private set; }
     public float CurrentHealth { get; private set; }

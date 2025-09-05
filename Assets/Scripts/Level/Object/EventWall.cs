@@ -21,6 +21,12 @@ public class EventWall : MonoBehaviour
     [SerializeField]
     private Sound destroySound;
 
+    [SerializeField]
+    private bool stopMusic = true;
+
+    [SerializeField]
+    private float musicStopDelay = 1.0f;
+
     private GameObject player = null;
     private Bounds triggerBounds;
     private bool readyToTrigger = false;
@@ -43,7 +49,8 @@ public class EventWall : MonoBehaviour
             triggerBounds = new Bounds();
             triggerBounds.SetMinMax(triggerArea.transform.position,
                 triggerArea.transform.position + new Vector3(triggerArea.transform.localScale.x, triggerArea.transform.localScale.y));
-        } else
+        }
+        else
         {
             Debug.LogWarning("Trigger area object not set for EventWall.");
         }
@@ -90,9 +97,19 @@ public class EventWall : MonoBehaviour
 
     private void TargetEntityDeath(DeathContext deathContext)
     {
+        if (stopMusic)
+        {
+            PlayerController.Instance.StartCoroutine(StopMusicAfterDelay(musicStopDelay));
+        }
         AudioManager.Instance.Play(destroySound);
         colliderComponent.enabled = false;
         animator.SetTrigger("destroy");
         Destroy(this.gameObject, 5);
+    }
+    
+    private IEnumerator StopMusicAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        AudioManager.Instance.StopMusic();
     }
 }

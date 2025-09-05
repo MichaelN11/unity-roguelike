@@ -18,7 +18,10 @@ MonoBehaviour:
   - {fileID: 11400000, guid: a5102348b81254111a2a3c8a42a06c60, type: 2}
   - {fileID: 11400000, guid: ebe488e98a52d4f32ab3c6ac001b44b4, type: 2}
   initialInventory: []
+  characterClass: 0
   soundOnHit: {fileID: 0}
+  soundOnDeath: {fileID: 11400000, guid: d86ce2fd103314562a49f0184e0f8863, type: 2}
+  soundOnAggro: {fileID: 11400000, guid: 7dc2900f5b2674327858181535975fdb, type: 2}
   walkSpeed: 7
   interactionDistance: 1.5
   maxHealth: 20
@@ -34,3 +37,6 @@ MonoBehaviour:
   itemDrops: []
   description: 4
   isBoss: 1
+  footstepSounds:
+  - {fileID: 11400000, guid: 886808d46e7ba4d9fba40fe7a397b0ac, type: 2}
+  footstepSoundInterval: 0.333

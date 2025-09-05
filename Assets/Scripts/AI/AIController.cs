@@ -226,6 +226,10 @@ public class AIController : MonoBehaviour
         }
         if (currentBehavior != Behavior.Idle || distanceToTarget <= entityAI.AggroDistance)
         {
+            if (currentBehavior == Behavior.Idle && entityData.Entity.SoundOnAggro != null)
+            {
+                AudioManager.Instance.Play(entityData.Entity.SoundOnAggro);
+            }
             if (entityState.CanAct() && CanUseCurrentAbility(GetAbilitySourcePosition(), GetAttackTargetPosition(), distanceToTarget))
             {
                 currentBehavior = Behavior.Ability;

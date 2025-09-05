@@ -32,6 +32,10 @@ public class Entity : ScriptableObject
     public Sound SoundOnDeath => soundOnDeath;
 
     [SerializeField]
+    private Sound soundOnAggro;
+    public Sound SoundOnAggro => soundOnAggro;
+
+    [SerializeField]
     private float walkSpeed = 1f;
     public float WalkSpeed => walkSpeed;
 
