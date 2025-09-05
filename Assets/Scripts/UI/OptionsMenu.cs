@@ -17,11 +17,15 @@ public class OptionsMenu : MonoBehaviour
     [SerializeField]
     private Slider sfxVolumeSlider;
 
+    [SerializeField]
+    private Slider ambienceVolumeSlider;
+
     private void Start()
     {
         masterVolumeSlider.value = AudioManager.Instance.MasterVolume;
         musicVolumeSlider.value = AudioManager.Instance.MusicVolume;
         sfxVolumeSlider.value = AudioManager.Instance.SfxVolume;
+        ambienceVolumeSlider.value = AudioManager.Instance.AmbienceVolume;
     }
 
     public void SetMasterVolume(float masterVolume)
@@ -37,5 +41,10 @@ public class OptionsMenu : MonoBehaviour
     public void SetSfxVolume(float sfxVolume)
     {
         AudioManager.Instance.SetSfxVolume(sfxVolume);
+    }
+
+    public void SetAmbienceVolume(float ambienceVolume)
+    {
+        AudioManager.Instance.SetAmbienceVolume(ambienceVolume);
     }
 }

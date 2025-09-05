@@ -18,9 +18,14 @@ public class AudioManager : MonoBehaviour
     private float sfxVolume = 0.5f;
     public float SfxVolume => sfxVolume;
 
+    private float ambienceVolume = 0.25f;
+    public float AmbienceVolume => ambienceVolume;
+
     private readonly Dictionary<string, AudioSource> soundMap = new();
     private AudioSource musicSource;
+    private AudioSource ambienceSource;
     private Sound currentMusic;
+    private Sound currentAmbience;
 
     private void Awake()
     {
@@ -68,7 +73,16 @@ public class AudioManager : MonoBehaviour
                 musicSource = audioSource;
                 UpdateCurrentMusicVolume();
                 audioSource.Play();
-            } else if (!sound.Loop)
+            }
+            else if (sound.IsAmbience)
+            {
+                StopAmbience();
+                currentAmbience = sound;
+                ambienceSource = audioSource;
+                UpdateCurrentAmbienceVolume();
+                audioSource.Play();
+            }
+            else if (!sound.Loop)
             {
                 if (sound.PitchShift != 0)
                 {
@@ -85,13 +99,24 @@ public class AudioManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Stops the current music.
+    /// Stops the music.
     /// </summary>
     public void StopMusic()
     {
         if (musicSource != null)
         {
             musicSource.Stop();
+        }
+    }
+
+    /// <summary>
+    /// Stops the ambience.
+    /// </summary>
+    public void StopAmbience()
+    {
+        if (ambienceSource != null)
+        {
+            ambienceSource.Stop();
         }
     }
 
@@ -107,12 +132,19 @@ public class AudioManager : MonoBehaviour
     {
         this.masterVolume = masterVolume;
         UpdateCurrentMusicVolume();
+        UpdateCurrentAmbienceVolume();
     }
 
     public void SetMusicVolume(float musicVolume)
     {
         this.musicVolume = musicVolume;
         UpdateCurrentMusicVolume();
+    }
+
+    public void SetAmbienceVolume(float ambienceVolume)
+    {
+        this.ambienceVolume = ambienceVolume;
+        UpdateCurrentAmbienceVolume();
     }
 
     public void SetSfxVolume(float sfxVolume)
@@ -122,6 +154,17 @@ public class AudioManager : MonoBehaviour
 
     private void UpdateCurrentMusicVolume()
     {
-        musicSource.volume = musicVolume * masterVolume * currentMusic.Volume;
+        if (musicSource != null && currentMusic != null)
+        {
+            musicSource.volume = musicVolume * masterVolume * currentMusic.Volume;
+        }
+    }
+
+    private void UpdateCurrentAmbienceVolume()
+    {
+        if (ambienceSource != null && currentAmbience != null)
+        {
+            ambienceSource.volume = ambienceVolume * masterVolume * currentAmbience.Volume;
+        }
     }
 }

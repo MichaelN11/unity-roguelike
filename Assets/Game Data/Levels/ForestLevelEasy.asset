@@ -33,3 +33,4 @@ MonoBehaviour:
   - {fileID: 11400000, guid: b6933aea34d6a4af1b397c62a09087ad, type: 2}
   chestDropTable: {fileID: 11400000, guid: 746522f417bf44688907d286332b6e92, type: 2}
   music: {fileID: 11400000, guid: 2378dba7f2854442ebb892af38bcf775, type: 2}
+  ambience: {fileID: 11400000, guid: 20063cedf048a4504ad97416e970cd8c, type: 2}

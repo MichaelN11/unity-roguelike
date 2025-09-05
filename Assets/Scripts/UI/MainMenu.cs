@@ -48,6 +48,7 @@ public class MainMenu : MonoBehaviour
     private void Start()
     {
         AudioManager.Instance.Play(music);
+        AudioManager.Instance.StopAmbience();
     }
 
     public void StartGame()

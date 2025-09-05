@@ -62,9 +62,23 @@ public class LevelManager : MonoBehaviour
             BuildAStarGrid();
         }
 
-        if (level != null && level.Music != null)
+        if (level != null)
         {
-            AudioManager.Instance.Play(level.Music);
+            if (level.Ambience != null)
+            {
+                AudioManager.Instance.Play(level.Ambience);
+            }
+            else
+            {
+                AudioManager.Instance.StopAmbience();
+            }
+            if (level.Music != null)
+            {
+                AudioManager.Instance.Play(level.Music);
+            } else
+            {
+                AudioManager.Instance.StopMusic();
+            }
         }
         sendInitializedEvent = true;
     }

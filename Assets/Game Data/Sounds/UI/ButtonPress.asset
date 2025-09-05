@@ -14,6 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   audioClip: {fileID: 8300000, guid: 054e8b1de59e347008191e40fe157b2b, type: 3}
   isMusic: 0
+  isAmbience: 0
   loop: 0
-  volume: 0.3
+  volume: 0.25
   pitch: 0.9
+  pitchShift: 0

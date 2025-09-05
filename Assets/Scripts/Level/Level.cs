@@ -43,4 +43,8 @@ public class Level : ScriptableObject
     [SerializeField]
     private Sound music;
     public Sound Music => music;
+
+    [SerializeField]
+    private Sound ambience;
+    public Sound Ambience => ambience;
 }

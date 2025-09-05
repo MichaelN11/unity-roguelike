@@ -17,6 +17,8 @@ https://game-icons.net
 
 Libraries:
 https://github.com/BlueRaja/High-Speed-Priority-Queue-for-C-Sharp
+A* Pathfinding Project
+https://arongranberg.com/astar/download
 
 Music:
 Alexandr Zhelanov
@@ -32,6 +34,4 @@ https://opengameart.org/content/rpg-sound-pack
 Kenney.nl
 mixkit.co
 “Sound effects from https://gfxsounds.com“
-
-A* Pathfinding Project
-https://arongranberg.com/astar/download
+Birdsong background loop by koertes

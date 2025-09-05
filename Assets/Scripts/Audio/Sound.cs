@@ -17,6 +17,10 @@ public class Sound : ScriptableObject
     public bool IsMusic => isMusic;
 
     [SerializeField]
+    private bool isAmbience = false;
+    public bool IsAmbience => isAmbience;
+
+    [SerializeField]
     private bool loop = false;
     public bool Loop => loop;
 
