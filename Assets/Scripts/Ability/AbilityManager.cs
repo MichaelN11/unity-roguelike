@@ -147,7 +147,7 @@ public class AbilityManager : MonoBehaviour
 
         if (ability.CurrentCooldown <= 0)
         {
-            AbilityUseData abilityUse = BuildAbilityUseData();
+            AbilityUseData abilityUse = BuildAbilityUseData(ability);
             if (!ability.Ability.CanActivate(abilityUse, entityAbilityContext))
             {
                 return null;
@@ -161,7 +161,6 @@ public class AbilityManager : MonoBehaviour
         // Ability cast was successful
         if (abilityUseEventInfo != null)
         {
-            ability.CurrentCooldown = ability.Ability.Cooldown;
             entityAbilityContext.CurrentAbilityOrigin = origin;
         }
 
@@ -180,7 +179,7 @@ public class AbilityManager : MonoBehaviour
         ActiveAbilityContext ability = GetAbility(abilityNumber);
         if (ability != null)
         {
-            AbilityUseData abilityUse = BuildAbilityUseData();
+            AbilityUseData abilityUse = BuildAbilityUseData(ability);
             return ability.Ability.Release(direction, offsetDistance, abilityUse, entityAbilityContext);
         } else
         {
@@ -200,12 +199,13 @@ public class AbilityManager : MonoBehaviour
 
     public List<UsableAbilityInfo> GetUsableAbilities()
     {
-        AbilityUseData abilityUse = BuildAbilityUseData();
+        AbilityUseData abilityUse = BuildAbilityUseData(null);
         List<UsableAbilityInfo> usableAbilities = new();
         for(int i = 0; i < abilities.Count; i++)
         {
-            ActiveAbility ability = abilities[i].Ability;
-            UsableAbilityInfo usableAbilityInfo = ability.GetUsableAbilityInfo(abilityUse, entityAbilityContext);
+            ActiveAbilityContext abilityContext = abilities[i];
+            abilityUse.AbilityContext = abilityContext;
+            UsableAbilityInfo usableAbilityInfo = abilityContext.Ability.GetUsableAbilityInfo(abilityUse, entityAbilityContext);
             usableAbilityInfo.AbilityNumber = i;
             usableAbilities.Add(usableAbilityInfo);
         }
@@ -219,6 +219,8 @@ public class AbilityManager : MonoBehaviour
 
     public void InvokeAbilityUseEvent(AbilityUseEventInfo abilityUseEvent)
     {
+        ActiveAbilityContext context = abilityUseEvent.AbilityUse.AbilityContext;
+        context.CurrentCooldown = context.Ability.Cooldown;
         OnAbilityUse?.Invoke(abilityUseEvent);
     }
 
@@ -232,10 +234,11 @@ public class AbilityManager : MonoBehaviour
         return ability;
     }
 
-    private AbilityUseData BuildAbilityUseData()
+    private AbilityUseData BuildAbilityUseData(ActiveAbilityContext abilityContext)
     {
         return new()
         {
+            AbilityContext = abilityContext,
             Position = transform.position,
             Entity = gameObject,
             EntityData = entityData,

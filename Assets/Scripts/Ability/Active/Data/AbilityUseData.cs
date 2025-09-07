@@ -7,6 +7,7 @@ using UnityEngine;
 /// </summary>
 public class AbilityUseData
 {
+    public ActiveAbilityContext AbilityContext { get; set; }
     public GameObject Entity { get; set; }
     public EntityData EntityData { get; set; }
     public EntityState EntityState { get; set; }
