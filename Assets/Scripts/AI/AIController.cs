@@ -39,6 +39,10 @@ public class AIController : MonoBehaviour
     /// The multiplier on the ability range when determining if the AI should continue a combo ability.
     /// </summary>
     private const float ComboAbilityRangeMultiplier = 2f;
+    /// <summary>
+    /// The radius around the AI that will pull other AI entities to attack the player when this entity is attacked.
+    /// </summary>
+    private const float PullRadiusWhenAttacked = 6f;
 
     private EntityAI entityAI;
 
@@ -51,6 +55,7 @@ public class AIController : MonoBehaviour
     private AbilityManager abilityManager;
     private EntityData entityData;
     private EntityState entityState;
+    private Damageable damageable;
     private Seeker seeker;
 
     private List<Vector3> movementPath = new();
@@ -67,6 +72,8 @@ public class AIController : MonoBehaviour
     private List<RaycastHit2D> raycastHits = new();
     private ContactFilter2D contactFilter2D = new();
 
+    private bool wasAttacked = false;
+
     private void Awake()
     {
         body = GetComponent<Rigidbody2D>();
@@ -75,6 +82,7 @@ public class AIController : MonoBehaviour
         abilityManager = GetComponentInChildren<AbilityManager>();
         entityData = GetComponent<EntityData>();
         entityState = GetComponent<EntityState>();
+        damageable = GetComponent<Damageable>();
         seeker = GetComponent<Seeker>();
         mainCamera = Camera.main;
         contactFilter2D.layerMask = LayerUtil.GetUnwalkableLayerMask();
@@ -83,6 +91,7 @@ public class AIController : MonoBehaviour
 
     private void Start()
     {
+        damageable.OnDamageTaken += OnDamageTaken;
         target = PlayerController.Instance.gameObject;
         level = LevelManager.Instance;
         if (target != null)
@@ -103,7 +112,8 @@ public class AIController : MonoBehaviour
             {
                 GoIdle();
             }
-        } else if (active)
+        }
+        else if (active)
         {
             float distanceToTarget = Vector2.Distance(body.position, targetBody.position);
             if (entityState.CanMove())
@@ -114,7 +124,7 @@ public class AIController : MonoBehaviour
             {
                 DetermineAbility();
             }
-            switch(currentBehavior)
+            switch (currentBehavior)
             {
                 case Behavior.Path:
                     MoveAlongPath();
@@ -150,6 +160,15 @@ public class AIController : MonoBehaviour
         return aiController;
     }
 
+    public void HandleNearbyAttack()
+    {
+        wasAttacked = true;
+        if (targetBody != null)
+        {
+            DetermineActiveBehavior(Vector2.Distance(body.position, targetBody.position));
+        }
+    }
+
     /// <summary>
     /// Determines if the AI entity is active by checking if it's on the current screen.
     /// </summary>
@@ -158,7 +177,8 @@ public class AIController : MonoBehaviour
         if (IsOnScreen(body.position))
         {
             active = true;
-        } else if (active)
+        }
+        else if (active)
         {
             active = false;
             GoIdle();
@@ -217,8 +237,8 @@ public class AIController : MonoBehaviour
     /// </summary>
     private void DetermineBehavior(float distanceToTarget)
     {
-        
-        if (entityAI.Deaggro
+        if (wasAttacked == false
+            && entityAI.Deaggro
             && currentBehavior != Behavior.Idle
             && distanceToTarget > entityAI.AggroDistance)
         {
@@ -226,18 +246,23 @@ public class AIController : MonoBehaviour
         }
         if (currentBehavior != Behavior.Idle || distanceToTarget <= entityAI.AggroDistance)
         {
-            if (currentBehavior == Behavior.Idle && entityData.Entity.SoundOnAggro != null)
-            {
-                AudioManager.Instance.Play(entityData.Entity.SoundOnAggro);
-            }
-            if (entityState.CanAct() && CanUseCurrentAbility(GetAbilitySourcePosition(), GetAttackTargetPosition(), distanceToTarget))
-            {
-                currentBehavior = Behavior.Ability;
-            }
-            else
-            {
-                DetermineMovementBehavior(distanceToTarget);
-            }
+            DetermineActiveBehavior(distanceToTarget);
+        }
+    }
+
+    private void DetermineActiveBehavior(float distanceToTarget)
+    {
+        if (currentBehavior == Behavior.Idle && entityData.Entity.SoundOnAggro != null)
+        {
+            AudioManager.Instance.Play(entityData.Entity.SoundOnAggro);
+        }
+        if (entityState.CanAct() && CanUseCurrentAbility(GetAbilitySourcePosition(), GetAttackTargetPosition(), distanceToTarget))
+        {
+            currentBehavior = Behavior.Ability;
+        }
+        else
+        {
+            DetermineMovementBehavior(distanceToTarget);
         }
     }
 
@@ -314,7 +339,8 @@ public class AIController : MonoBehaviour
         if (collisionCount == 0)
         {
             currentBehavior = Behavior.Chase;
-        } else
+        }
+        else
         {
             Behavior oldBehavior = currentBehavior;
             currentBehavior = Behavior.Path;
@@ -335,12 +361,12 @@ public class AIController : MonoBehaviour
             if (nextPathStep < movementPath.Count)
             {
                 nextPosition = movementPath[nextPathStep++];
-            } else
+            }
+            else
             {
                 nextPosition = targetBody.position;
             }
         }
-
         MoveTowardsPoint(nextPosition);
     }
 
@@ -438,5 +464,20 @@ public class AIController : MonoBehaviour
             inputData.Number = abilityNumber;
         }
         return entityController.UpdateFromInput(inputData);
+    }
+
+    private void OnDamageTaken()
+    {
+        HandleNearbyAttack();
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, PullRadiusWhenAttacked,
+            LayerUtil.GetEntityLayerMask());
+        foreach (Collider2D collider in colliders)
+        {
+            if (collider.gameObject != this.gameObject)
+            {
+                AIController aiController = collider.GetComponent<AIController>();
+                aiController?.HandleNearbyAttack();
+            }
+        }
     }
 }

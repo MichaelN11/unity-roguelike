@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 /// <summary>
@@ -6,6 +7,8 @@ using UnityEngine;
 public class Damageable : MonoBehaviour
 {
     private const float PlayerInvincibilityTimeOnHit = 0.5f;
+
+    public event Action OnDamageTaken;
 
     public float MaxHealth { get; private set; }
     public float CurrentHealth { get; private set; }
@@ -231,6 +234,7 @@ public class Damageable : MonoBehaviour
     private void TakeDamage(float damage)
     {
         CurrentHealth -= damage;
+        OnDamageTaken?.Invoke();
     }
 
     /// <summary>
