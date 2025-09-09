@@ -10,14 +10,23 @@ public class Damageable : MonoBehaviour
 
     public event Action OnDamageTaken;
 
+    [field: SerializeField]
     public float MaxHealth { get; private set; }
     public float CurrentHealth { get; private set; }
 
     private EntityData entityData;
     public EntityData EntityData => entityData;
 
+    [SerializeField]
+    private float destroyTimer = 0;
+
+    [SerializeField]
+    private Sound destroySound;
+
     private EntityState entityState;
     private Movement movement;
+    private LevelObject levelObject;
+    private Animator animator;
 
     private float invincibilityTimer = 0;
     private bool isDead = false;
@@ -30,6 +39,8 @@ public class Damageable : MonoBehaviour
         entityData = GetComponent<EntityData>();
         entityState = GetComponent<EntityState>();
         movement = GetComponent<Movement>();
+        levelObject = GetComponent<LevelObject>();
+        animator = GetComponent<Animator>();
     }
 
     private void Start()
@@ -37,8 +48,8 @@ public class Damageable : MonoBehaviour
         if (MaxHealth <= 0 && entityData != null)
         {
             MaxHealth = entityData.Entity.MaxHealth;
-            CurrentHealth = MaxHealth;
         }
+        CurrentHealth = MaxHealth;
     }
 
     private void Update()
@@ -101,6 +112,9 @@ public class Damageable : MonoBehaviour
             attackResult.KnockbackDirection = attackData.Direction;
             attackResult.KnockbackAcceleration = entityData.Entity.KnockbackAcceleration;
             HandleHitstun(attackResult);
+        } else if (levelObject != null)
+        {
+            attackData.TargetIsObject = true;  
         }
 
         if (CompareTag("Player"))
@@ -179,6 +193,14 @@ public class Damageable : MonoBehaviour
             deathContext.KillingAttack = lastHitByAttack;
             entityState.DeadState(deathContext);
             Destroy(gameObject, entityData.Entity.DeathTimer);
+        } else if (animator != null)
+        {
+            if (destroySound != null)
+            {
+                AudioManager.Instance.Play(destroySound);
+            }
+            animator.SetTrigger("destroy");
+            Destroy(gameObject, destroyTimer);
         } else
         {
             Destroy(gameObject);
@@ -192,20 +214,33 @@ public class Damageable : MonoBehaviour
             return;
         }
 
-        ItemDrop randomItemDrop = ItemDropUtil.GetRandomItemDrop(entityData.Entity.ItemDrops);
-        if (randomItemDrop != null)
+        InventoryItem inventoryItem = null;
+        if (entityData != null && entityData.Entity.ItemDrops != null)
         {
-            DropItem(randomItemDrop);
+            ItemDrop itemDrop = ItemDropUtil.GetRandomItemDrop(entityData.Entity.ItemDrops);
+            if (itemDrop != null)
+            {
+                inventoryItem = itemDrop.InventoryItem;
+            }
+        }
+        else if (levelObject != null && levelObject.ContainedItem != null)
+        {
+            inventoryItem = levelObject.ContainedItem;
+        }
+
+        if (inventoryItem != null)
+        {
+            DropItem(inventoryItem);
         }
     }
 
-    private void DropItem(ItemDrop itemDrop)
+    private void DropItem(InventoryItem inventoryItem)
     {
-        if (itemDrop.InventoryItem.Item)
+        if (inventoryItem.Item)
         {
-            GameObject dropPrefab = (itemDrop.InventoryItem.Item.DropPrefab) ? itemDrop.InventoryItem.Item.DropPrefab : ResourceManager.Instance.ItemPickupObject;
+            GameObject dropPrefab = (inventoryItem.Item.DropPrefab) ? inventoryItem.Item.DropPrefab : ResourceManager.Instance.ItemPickupObject;
             GameObject droppedItem = Instantiate(dropPrefab, this.transform.position, Quaternion.identity);
-            droppedItem.GetComponent<ItemPickup>().Init(itemDrop.InventoryItem.Item, itemDrop.InventoryItem.Amount);
+            droppedItem.GetComponent<ItemPickup>().Init(inventoryItem.Item, inventoryItem.Amount);
         }
     }
 

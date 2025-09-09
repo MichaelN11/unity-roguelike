@@ -11,16 +11,25 @@ public class AttackHandler
     /// </summary>
     /// <param name="attackData"></param>
     /// <param name="targetBody"></param>
-    public static void AttackEntity(AttackData attackData, Rigidbody2D attackerBody, Rigidbody2D targetBody)
+    public static void AttackEntity(AttackData attackData, Rigidbody2D attackerBody,
+        Collider2D targetCollider, Rigidbody2D targetBody)
     {
         if (attackData.SetDirectionOnHit)
         {
             attackData.Direction = GetAttackDirection(attackerBody, targetBody);
         }
 
-        Damageable otherDamageable = targetBody.gameObject.GetComponentInParent<Damageable>();
+        Damageable otherDamageable;
+        if (targetCollider.transform.parent != null)
+        {
+            otherDamageable = targetCollider.gameObject.GetComponentInParent<Damageable>();
+        } else
+        {
+            otherDamageable = targetCollider.gameObject.GetComponent<Damageable>();
+        }
+        
         if (otherDamageable != null
-            && IsValidAttackTarget(attackData, targetBody.gameObject, otherDamageable.EntityData))
+                && IsValidAttackTarget(attackData, targetCollider.gameObject, otherDamageable.EntityData))
         {
             otherDamageable.HandleIncomingAttack(attackData);
             if (attackData.AttackEvents != null)
@@ -57,9 +66,9 @@ public class AttackHandler
     /// <returns>true if the entity is a valid target for the attack</returns>
     private static bool IsValidAttackTarget(AttackData attackData, GameObject entity, EntityData entityData)
     {
-        return entity != attackData.User
-            && entityData != null
-            && attackData.UserEntityData != null
-            && attackData.UserEntityData.EnemyFactions.Contains(entityData.Faction);
+        return entityData == null 
+            || (entity != attackData.User
+                && attackData.UserEntityData != null
+                && attackData.UserEntityData.EnemyFactions.Contains(entityData.Faction));
     }
 }

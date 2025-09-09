@@ -8,6 +8,7 @@ public class EntityCollisionEvent
 {
     public Rigidbody2D SourceBody { get; set; }
     public Rigidbody2D TargetBody { get; set; }
+    public Collider2D TargetCollider { get; set; }
 
     public EntityState SourceEntityState { get; set; }
     public EntityData SourceEntityData { get; set; }

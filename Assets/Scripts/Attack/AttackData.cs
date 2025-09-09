@@ -27,6 +27,7 @@ public class AttackData
     public float HitStunMultiplier { get; set; }
     public float KnockbackMultiplier { get; set; }
     public AttackDescription Description { get; set; }
+    public bool TargetIsObject { get; set; } = false;
 
     public AttackData Copy()
     {

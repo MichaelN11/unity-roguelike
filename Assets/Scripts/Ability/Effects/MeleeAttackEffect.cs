@@ -52,7 +52,10 @@ public class MeleeAttackEffect : AbilityEffect
     /// <param name="attackData">The attack data from the successful attack</param>
     private void AttackSuccessful(AttackData attackData)
     {
-        AudioManager.Instance.Play(attackEffectData.SoundOnHit);
+        if (!attackData.TargetIsObject && attackEffectData.SoundOnHit != null)
+        {
+            AudioManager.Instance.Play(attackEffectData.SoundOnHit);
+        }
         attackData.UserEntityState.Stop(attackData.HitStop);
     }
 }

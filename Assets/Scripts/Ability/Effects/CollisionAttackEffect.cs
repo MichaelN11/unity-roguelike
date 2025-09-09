@@ -42,6 +42,7 @@ public class CollisionAttackEffect : AbilityEffect
         attackData.KnockbackMultiplier = attackEffectData.KnockbackMultiplier;
         attackData.Description = attackEffectData.Description;
 
-        AttackHandler.AttackEntity(attackData, entityCollisionEvent.SourceBody, entityCollisionEvent.TargetBody);
+        AttackHandler.AttackEntity(attackData, entityCollisionEvent.SourceBody,
+            entityCollisionEvent.TargetCollider, entityCollisionEvent.TargetBody);
     }
 }

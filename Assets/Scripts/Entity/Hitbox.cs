@@ -40,6 +40,7 @@ public class Hitbox : MonoBehaviour
             EntityCollisionEvent entityCollisionEvent = new();
             entityCollisionEvent.SourceBody = body;
             entityCollisionEvent.TargetBody = collision.attachedRigidbody;
+            entityCollisionEvent.TargetCollider = collision;
             entityCollisionEvent.SourceEntityData = entityData;
             entityCollisionEvent.SourceEntityState = entityState;
             OnEntityCollision?.Invoke(entityCollisionEvent);
