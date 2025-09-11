@@ -44,6 +44,10 @@ public class ProjectileEffectData
     public bool IsPiercing => isPiercing;
 
     [SerializeField]
+    private bool isPiercingDestructibles = false;
+    public bool IsPiercingDestructibles => isPiercingDestructibles;
+
+    [SerializeField]
     private bool isPiercingWhenFullCharged = false;
     public bool IsPiercingWhenFullCharged => isPiercingWhenFullCharged;
 

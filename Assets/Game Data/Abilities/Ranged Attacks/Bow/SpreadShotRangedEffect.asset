@@ -29,6 +29,7 @@ MonoBehaviour:
     rangeIncreaseFromCharge: 0
     speedIncreaseFromCharge: 0
     isPiercing: 0
+    isPiercingDestructibles: 1
     isPiercingWhenFullCharged: 0
     numProjectiles: 3
     spreadAngle: 15

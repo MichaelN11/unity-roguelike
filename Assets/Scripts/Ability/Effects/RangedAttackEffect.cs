@@ -74,6 +74,7 @@ public class RangedAttackEffect : AbilityEffect
         projectile.WallStickDuration = projectileEffectData.WallStickDuration;
         projectile.GroundStickDuration = projectileEffectData.GroundStickDuration;
         projectile.IsPiercing = projectileEffectData.IsPiercing;
+        projectile.IsPiercingDestructibles = projectileEffectData.IsPiercingDestructibles;
 
         if (abilityUseData.ChargePercent >= 1)
         {
@@ -98,6 +99,9 @@ public class RangedAttackEffect : AbilityEffect
     /// <param name="attackData">The attack data from the successful attack</param>
     private void AttackSuccessful(AttackData attackData)
     {
-        AudioManager.Instance.Play(attackEffectData.SoundOnHit);
+        if (!attackData.TargetIsObject && attackEffectData.SoundOnHit != null)
+        {
+            AudioManager.Instance.Play(attackEffectData.SoundOnHit);
+        }
     }
 }

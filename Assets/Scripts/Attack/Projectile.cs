@@ -18,6 +18,7 @@ public class Projectile : MonoBehaviour
     public float GroundStickDuration { get; set; } = 0;
     public float MaxDistance { get; set; } = 1;
     public bool IsPiercing { get; set; } = false;
+    public bool IsPiercingDestructibles { get; set; } = false;
 
     private Rigidbody2D body;
     private DamageObject damageObject;
@@ -60,14 +61,30 @@ public class Projectile : MonoBehaviour
     {
         if (LayerUtil.IsWall(collision.gameObject.layer))
         {
-            if (soundOnWallImpact != null)
+            if (IsPiercingDestructibles)
             {
-                AudioManager.Instance.Play(soundOnWallImpact);
+                Damageable damageable = collision.gameObject.GetComponent<Damageable>();
+                if (damageable == null)
+                {
+                    HitWall();
+                }
             }
-            Stop();
-            Invoke(nameof(DisableCollider), ActiveTimeAfterWallHit);
-            Destroy(gameObject, WallStickDuration);
+            else
+            {
+                HitWall();
+            }
         }
+    }
+
+    private void HitWall()
+    {
+        if (soundOnWallImpact != null)
+        {
+            AudioManager.Instance.Play(soundOnWallImpact);
+        }
+        Stop();
+        Invoke(nameof(DisableCollider), ActiveTimeAfterWallHit);
+        Destroy(gameObject, WallStickDuration);
     }
 
     /// <summary>
@@ -76,7 +93,7 @@ public class Projectile : MonoBehaviour
     /// <param name="attackData">The AttackData</param>
     private void AttackSuccessful(AttackData attackData)
     {
-        if (!IsPiercing)
+        if (!IsPiercing && (!attackData.TargetIsObject || !IsPiercingDestructibles))
         {
             Stop();
             Destroy(gameObject, attackData.HitStop);
