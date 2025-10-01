@@ -49,7 +49,10 @@ public class Damageable : MonoBehaviour
         {
             MaxHealth = entityData.Entity.MaxHealth;
         }
-        CurrentHealth = MaxHealth;
+        if (CurrentHealth <= 0f)
+        {
+            CurrentHealth = MaxHealth;
+        }
     }
 
     private void Update()
