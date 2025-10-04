@@ -211,9 +211,22 @@ public class Movement : MonoBehaviour
             Vector2 moveDirection = (body.position - collisionPoint).normalized;
             if (moveDirection.sqrMagnitude < 0.0001f)
             {
-                // Default fallback direction if stuck exactly inside
-                moveDirection = Vector2.up;
-                Debug.Log("Using default move out of collision direction!");
+                if (LayerUtil.IsEntity(collider.gameObject.layer))
+                {
+                    // If stuck inside another entity, use random direction to escape
+                    Vector2 escapeDirection = UnityEngine.Random.insideUnitCircle.normalized;
+                    PassThroughEntities(0.25f);
+                    Direction = escapeDirection;
+                    Speed = CurrentWalkSpeed * 1.5f; // Slightly faster to ensure escape
+                    Debug.Log($"Escaping overlap with random direction: {escapeDirection}");
+                    Debug.Log("Passing through entities to get out of collision!");
+                }
+                else
+                {
+                    // Default fallback direction if stuck exactly inside
+                    moveDirection = Vector2.up;
+                    Debug.Log("Using default move out of collision direction!");
+                }
             }
             movePosition += moveDirection * distance;
         }

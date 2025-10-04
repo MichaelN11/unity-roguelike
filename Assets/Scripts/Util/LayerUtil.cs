@@ -95,4 +95,10 @@ public class LayerUtil
         String layerName = LayerMask.LayerToName(layer);
         return layerName == WallLayerName;
     }
+
+    public static bool IsEntity(int layer)
+    {
+        String layerName = LayerMask.LayerToName(layer);
+        return layerName == DefaultLayerName;
+    }
 }
