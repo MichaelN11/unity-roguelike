@@ -19,6 +19,7 @@ MonoBehaviour:
   characterClass: 0
   soundOnHit: {fileID: 0}
   soundOnDeath: {fileID: 11400000, guid: 236b3d16d173244bd88c96afb0755e57, type: 2}
+  soundOnAggro: {fileID: 0}
   walkSpeed: 3.75
   interactionDistance: 1
   maxHealth: 2
@@ -32,7 +33,7 @@ MonoBehaviour:
     deaggro: 1
   weapon: {fileID: 11400000, guid: e978c1629a017493cb1ed17195979337, type: 2}
   itemDrops:
-  - dropChance: 0.1
+  - dropChance: 0.05
     inventoryItem:
       Item: {fileID: 11400000, guid: 560d2307b56344ba5a0d88d9958b7158, type: 2}
       Amount: 1
@@ -42,7 +43,7 @@ MonoBehaviour:
       Item: {fileID: 11400000, guid: 80a125bb684b646719a367b3320fddda, type: 2}
       Amount: 1
       LearnableAbility: {fileID: 0}
-  - dropChance: 0.2
+  - dropChance: 0.1
     inventoryItem:
       Item: {fileID: 11400000, guid: 5119bd55b49a64a6abba3af687938fbf, type: 2}
       Amount: 1

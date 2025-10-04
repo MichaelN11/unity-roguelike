@@ -11,7 +11,7 @@ public class Arena : MonoBehaviour
     public GameObject TriggerArea { get; private set; }
 
     [SerializeField]
-    private List<Entity> enemies = new();
+    private List<EntitySpawn> enemySpawns;
 
     /// <summary>
     /// Whether to only spawn enemies when the player enters the trigger area.
@@ -104,7 +104,14 @@ public class Arena : MonoBehaviour
 
     private void SpawnEnemies(bool delayed)
     {
-        enemiesToSpawn = new(enemies);
+        enemiesToSpawn = new();
+        foreach (EntitySpawn entitySpawn in enemySpawns)
+        {
+            for (int i = 0; i < entitySpawn.Amount; i++)
+            {
+                enemiesToSpawn.Add(entitySpawn.Entity);
+            }
+        }
         List<ArenaSpawner> spawnerLocations = new(spawners);
         if (spawnerLocations.Count > enemiesToSpawn.Count)
         {
