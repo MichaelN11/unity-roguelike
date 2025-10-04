@@ -52,6 +52,7 @@ public class Arena : MonoBehaviour
     private int enemiesRemaining = 0;
     private List<GameObject> spawnedEnemies = new();
     private List<Entity> enemiesToSpawn;
+    private bool enemiesAggroed = false;
 
     void Start()
     {
@@ -122,12 +123,13 @@ public class Arena : MonoBehaviour
             {
                 break;
             }
-            SpawnEnemy(spawner, delayed, false);
+            SpawnEnemy(spawner, delayed);
         }
     }
 
     private void AggroEnemies()
     {
+        enemiesAggroed = true;
         foreach (GameObject enemy in spawnedEnemies)
         {
             AIController aiController = enemy.GetComponent<AIController>();
@@ -140,7 +142,7 @@ public class Arena : MonoBehaviour
         enemiesRemaining--;
         if (spawnMoreOnKill && enemiesToSpawn.Count > 0)
         {
-            SpawnEnemy(spawners[Random.Range(0, spawners.Length)], true, true);
+            SpawnEnemy(spawners[Random.Range(0, spawners.Length)], true);
         }
         else if (enemiesRemaining <= 0)
         {
@@ -155,7 +157,7 @@ public class Arena : MonoBehaviour
         }
     }
 
-    private void SpawnEnemy(ArenaSpawner spawner, bool delayed, bool aggro)
+    private void SpawnEnemy(ArenaSpawner spawner, bool delayed)
     {
         int randomIndex = Random.Range(0, enemiesToSpawn.Count);
         Entity enemy = enemiesToSpawn[randomIndex];
@@ -164,7 +166,7 @@ public class Arena : MonoBehaviour
 
         if (delayed)
         {
-            IEnumerator coroutine = CreateEnemyAfterDelay(enemy, spawner.transform.position, enemySpawnTime, aggro);
+            IEnumerator coroutine = CreateEnemyAfterDelay(enemy, spawner.transform.position, enemySpawnTime);
             StartCoroutine(coroutine);
 
             if (spawnEffect != null)
@@ -175,23 +177,23 @@ public class Arena : MonoBehaviour
         }
         else
         {
-            CreateEnemy(enemy, spawner.transform.position, aggro);
+            CreateEnemy(enemy, spawner.transform.position);
         }
     }
 
-    private IEnumerator CreateEnemyAfterDelay(Entity enemy, Vector2 position, float delay, bool aggro = false)
+    private IEnumerator CreateEnemyAfterDelay(Entity enemy, Vector2 position, float delay)
     {
         yield return new WaitForSeconds(delay);
-        CreateEnemy(enemy, position, aggro);
+        CreateEnemy(enemy, position);
     }
 
-    private void CreateEnemy(Entity enemy, Vector2 position, bool aggro = false)
+    private void CreateEnemy(Entity enemy, Vector2 position)
     {
         GameObject enemyObject = EntityFactory.CreateEnemy(enemy, position);
         enemyObject.GetComponent<EntityState>().OnDeath += EnemyDeath;
         spawnedEnemies.Add(enemyObject);
 
-        if (aggro)
+        if (enemiesAggroed)
         {
             enemyObject.GetComponent<AIController>()?.AggroPermanently();
         }
