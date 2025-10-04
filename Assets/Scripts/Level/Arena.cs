@@ -13,8 +13,24 @@ public class Arena : MonoBehaviour
     [SerializeField]
     private List<Entity> enemies = new();
 
+    /// <summary>
+    /// Whether to only spawn enemies when the player enters the trigger area.
+    /// If false, enemies will spawn immediately on level load.
+    /// </summary>
     [SerializeField]
     private bool spawnOnlyOnTrigger = false;
+
+    /// <summary>
+    /// Whether to spawn a new enemy when one is killed, until all enemies have been spawned.
+    /// </summary>
+    [SerializeField]
+    private bool spawnMoreOnKill = true;
+
+    /// <summary>
+    /// Max number of enemies at once. Can't be more than the number of spawners.
+    /// </summary>
+    [SerializeField]
+    private int maxSimultaneousEnemies = 3;
 
     [SerializeField]
     private bool stopMusic = true;
@@ -29,6 +45,7 @@ public class Arena : MonoBehaviour
     private ArenaSpawner[] spawners;
     private int enemiesRemaining = 0;
     private List<GameObject> spawnedEnemies = new();
+    private List<Entity> enemiesToSpawn;
 
     void Start()
     {
@@ -80,10 +97,11 @@ public class Arena : MonoBehaviour
 
     private void SpawnEnemies()
     {
-        List<Entity> enemiesToSpawn = new(enemies);
+        enemiesToSpawn = new(enemies);
         List<ArenaSpawner> spawnerLocations = new(spawners);
         if (spawnerLocations.Count > enemiesToSpawn.Count)
         {
+            // Shuffle spawner locations to get random selection
             for (int i = 0; i < spawnerLocations.Count; i++)
             {
                 int randomIndex = Random.Range(0, spawnerLocations.Count);
@@ -94,17 +112,11 @@ public class Arena : MonoBehaviour
         }
         foreach (ArenaSpawner spawner in spawnerLocations)
         {
-            if (enemiesToSpawn.Count == 0)
+            if (enemiesToSpawn.Count == 0 || enemiesRemaining >= maxSimultaneousEnemies)
             {
                 break;
             }
-            int randomIndex = Random.Range(0, enemiesToSpawn.Count);
-            Entity enemy = enemiesToSpawn[randomIndex];
-            GameObject enemyObject = EntityFactory.CreateEnemy(enemy, spawner.transform.position);
-            enemyObject.GetComponent<EntityState>().OnDeath += EnemyDeath;
-            spawnedEnemies.Add(enemyObject);
-            enemiesRemaining++;
-            enemiesToSpawn.RemoveAt(randomIndex);
+            SpawnEnemy(spawner);
         }
     }
 
@@ -120,7 +132,12 @@ public class Arena : MonoBehaviour
     private void EnemyDeath(DeathContext deathContext)
     {
         enemiesRemaining--;
-        if (enemiesRemaining <= 0)
+        if (spawnMoreOnKill && enemiesToSpawn.Count > 0)
+        {
+            GameObject enemyObject = SpawnEnemy(spawners[Random.Range(0, spawners.Length)]);
+            enemyObject.GetComponent<AIController>()?.AggroPermanently();
+        }
+        else if (enemiesRemaining <= 0)
         {
             if (stopMusic)
             {
@@ -131,6 +148,18 @@ public class Arena : MonoBehaviour
                 eventWall.RetractWall();
             }
         }
+    }
+
+    private GameObject SpawnEnemy(ArenaSpawner spawner)
+    {
+        int randomIndex = Random.Range(0, enemiesToSpawn.Count);
+        Entity enemy = enemiesToSpawn[randomIndex];
+        GameObject enemyObject = EntityFactory.CreateEnemy(enemy, spawner.transform.position);
+        enemyObject.GetComponent<EntityState>().OnDeath += EnemyDeath;
+        spawnedEnemies.Add(enemyObject);
+        enemiesRemaining++;
+        enemiesToSpawn.RemoveAt(randomIndex);
+        return enemyObject;
     }
     
     private IEnumerator StopMusicAfterDelay(float delay)
