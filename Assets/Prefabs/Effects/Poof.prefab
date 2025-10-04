@@ -98,6 +98,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b8fb74b5fadd4ff8bd68dfe06854331, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <Duration>k__BackingField: 0
   maxTimer: 180
 --- !u!95 &7095275772002795476
 Animator:
@@ -109,7 +110,7 @@ Animator:
   m_GameObject: {fileID: 605442877324402279}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: fb2d9ee13250e4da99ba1bd8e9bc6267, type: 2}
+  m_Controller: {fileID: 9100000, guid: b8dd622d29eb14d038a7bd5d953616ce, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0

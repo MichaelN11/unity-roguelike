@@ -7,11 +7,18 @@ using UnityEngine;
 /// </summary>
 public class DestroyTimer : MonoBehaviour
 {
+    [field: SerializeField]
     public float Duration { get; set; }
 
     [SerializeField]
     private float maxTimer = 180;
     private float timer = 0;
+    private Animator animator;
+
+    private void Start()
+    {
+        animator = GetComponent<Animator>();
+    }
 
     private void Update()
     {
@@ -28,7 +35,15 @@ public class DestroyTimer : MonoBehaviour
         if (timer >= Duration
             || timer >= maxTimer)
         {
-            Destroy(gameObject);
+            if (animator != null)
+            {
+                animator.SetTrigger("disappear");
+                Destroy(gameObject, 1.0f);
+            }
+            else
+            {
+                Destroy(gameObject);
+            }
         }
     }
 }

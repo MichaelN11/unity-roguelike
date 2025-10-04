@@ -33,10 +33,16 @@ public class Arena : MonoBehaviour
     private int maxSimultaneousEnemies = 3;
 
     [SerializeField]
+    private float enemySpawnTime = 2f;
+
+    [SerializeField]
     private bool stopMusic = true;
 
     [SerializeField]
     private float musicStopDelay = 1.0f;
+
+    [SerializeField]
+    private GameObject spawnEffect;
 
     private GameObject player = null;
     private Bounds triggerBounds;
@@ -64,7 +70,7 @@ public class Arena : MonoBehaviour
         spawners = GetComponentsInChildren<ArenaSpawner>();
         if (!spawnOnlyOnTrigger)
         {
-            SpawnEnemies();
+            SpawnEnemies(false);
         }
     }
 
@@ -89,13 +95,13 @@ public class Arena : MonoBehaviour
             readyToTrigger = false;
             if (spawnOnlyOnTrigger)
             {
-                SpawnEnemies();
+                SpawnEnemies(true);
             }
             AggroEnemies();
         }
     }
 
-    private void SpawnEnemies()
+    private void SpawnEnemies(bool delayed)
     {
         enemiesToSpawn = new(enemies);
         List<ArenaSpawner> spawnerLocations = new(spawners);
@@ -116,7 +122,7 @@ public class Arena : MonoBehaviour
             {
                 break;
             }
-            SpawnEnemy(spawner);
+            SpawnEnemy(spawner, delayed, false);
         }
     }
 
@@ -134,8 +140,7 @@ public class Arena : MonoBehaviour
         enemiesRemaining--;
         if (spawnMoreOnKill && enemiesToSpawn.Count > 0)
         {
-            GameObject enemyObject = SpawnEnemy(spawners[Random.Range(0, spawners.Length)]);
-            enemyObject.GetComponent<AIController>()?.AggroPermanently();
+            SpawnEnemy(spawners[Random.Range(0, spawners.Length)], true, true);
         }
         else if (enemiesRemaining <= 0)
         {
@@ -150,16 +155,46 @@ public class Arena : MonoBehaviour
         }
     }
 
-    private GameObject SpawnEnemy(ArenaSpawner spawner)
+    private void SpawnEnemy(ArenaSpawner spawner, bool delayed, bool aggro)
     {
         int randomIndex = Random.Range(0, enemiesToSpawn.Count);
         Entity enemy = enemiesToSpawn[randomIndex];
-        GameObject enemyObject = EntityFactory.CreateEnemy(enemy, spawner.transform.position);
-        enemyObject.GetComponent<EntityState>().OnDeath += EnemyDeath;
-        spawnedEnemies.Add(enemyObject);
         enemiesRemaining++;
         enemiesToSpawn.RemoveAt(randomIndex);
-        return enemyObject;
+
+        if (delayed)
+        {
+            IEnumerator coroutine = CreateEnemyAfterDelay(enemy, spawner.transform.position, enemySpawnTime, aggro);
+            StartCoroutine(coroutine);
+
+            if (spawnEffect != null)
+            {
+                GameObject effect = Instantiate(spawnEffect, spawner.transform.position, Quaternion.identity);
+                effect.GetComponent<DestroyTimer>().Duration = enemySpawnTime;
+            }
+        }
+        else
+        {
+            CreateEnemy(enemy, spawner.transform.position, aggro);
+        }
+    }
+
+    private IEnumerator CreateEnemyAfterDelay(Entity enemy, Vector2 position, float delay, bool aggro = false)
+    {
+        yield return new WaitForSeconds(delay);
+        CreateEnemy(enemy, position, aggro);
+    }
+
+    private void CreateEnemy(Entity enemy, Vector2 position, bool aggro = false)
+    {
+        GameObject enemyObject = EntityFactory.CreateEnemy(enemy, position);
+        enemyObject.GetComponent<EntityState>().OnDeath += EnemyDeath;
+        spawnedEnemies.Add(enemyObject);
+
+        if (aggro)
+        {
+            enemyObject.GetComponent<AIController>()?.AggroPermanently();
+        }
     }
     
     private IEnumerator StopMusicAfterDelay(float delay)
