@@ -8,28 +8,10 @@ using UnityEngine;
 public class EventWall : MonoBehaviour
 {
     [SerializeField]
-    private GameObject triggerArea;
-    public GameObject TriggerArea => triggerArea;
-
-    [SerializeField]
-    private Entity destroyWhenKilled;
-    public Entity DestroyWhenKilled => destroyWhenKilled;
-
-    [SerializeField]
     private Sound triggerSound;
 
     [SerializeField]
     private Sound destroySound;
-
-    [SerializeField]
-    private bool stopMusic = true;
-
-    [SerializeField]
-    private float musicStopDelay = 1.0f;
-
-    private GameObject player = null;
-    private Bounds triggerBounds;
-    private bool readyToTrigger = false;
 
     private SpriteRenderer spriteRenderer;
     private Animator animator;
@@ -42,74 +24,19 @@ public class EventWall : MonoBehaviour
         colliderComponent = GetComponent<Collider2D>();
     }
 
-    private void Start()
+    public void TriggerWall()
     {
-        if (triggerArea != null)
-        {
-            triggerBounds = new Bounds();
-            triggerBounds.SetMinMax(triggerArea.transform.position,
-                triggerArea.transform.position + new Vector3(triggerArea.transform.localScale.x, triggerArea.transform.localScale.y));
-        }
-        else
-        {
-            Debug.LogWarning("Trigger area object not set for EventWall.");
-        }
-
-        LevelManager.Instance.OnLevelInitialized += FindTargetEntity;
+        AudioManager.Instance.Play(triggerSound);
+        spriteRenderer.enabled = true;
+        animator.enabled = true;
+        colliderComponent.enabled = true;
     }
 
-    private void Update()
+    public void RetractWall()
     {
-        if (player == null && PlayerController.Instance != null)
-        {
-            player = PlayerController.Instance.gameObject;
-        }
-
-        if (player != null
-            && triggerBounds != null
-            && readyToTrigger
-            && triggerBounds.Contains(player.transform.position))
-        {
-            AudioManager.Instance.Play(triggerSound);
-            spriteRenderer.enabled = true;
-            animator.enabled = true;
-            colliderComponent.enabled = true;
-            readyToTrigger = false;
-        }
-    }
-
-    /// <summary>
-    /// Find the first entity in the level matching the target Entity type, and subscribe to the death event.
-    /// </summary>
-    private void FindTargetEntity()
-    {
-        EntityData[] entityDatas = FindObjectsOfType<EntityData>();
-        foreach (EntityData entityData in entityDatas)
-        {
-            if (!entityData.CompareTag("Player") && entityData.Entity.name == destroyWhenKilled.name)
-            {
-                entityData.GetComponent<EntityState>().OnDeath += TargetEntityDeath;
-                readyToTrigger = true;
-                break;
-            }
-        }
-    }
-
-    private void TargetEntityDeath(DeathContext deathContext)
-    {
-        if (stopMusic)
-        {
-            PlayerController.Instance.StartCoroutine(StopMusicAfterDelay(musicStopDelay));
-        }
         AudioManager.Instance.Play(destroySound);
         colliderComponent.enabled = false;
         animator.SetTrigger("destroy");
         Destroy(this.gameObject, 5);
-    }
-    
-    private IEnumerator StopMusicAfterDelay(float delay)
-    {
-        yield return new WaitForSeconds(delay);
-        AudioManager.Instance.StopMusic();
     }
 }

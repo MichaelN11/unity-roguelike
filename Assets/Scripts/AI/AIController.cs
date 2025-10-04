@@ -72,7 +72,7 @@ public class AIController : MonoBehaviour
     private List<RaycastHit2D> raycastHits = new();
     private ContactFilter2D contactFilter2D = new();
 
-    private bool wasAttacked = false;
+    private bool permanentlyAggroed = false;
 
     private void Awake()
     {
@@ -92,12 +92,7 @@ public class AIController : MonoBehaviour
     private void Start()
     {
         damageable.OnDamageTaken += OnDamageTaken;
-        target = PlayerController.Instance.gameObject;
         level = LevelManager.Instance;
-        if (target != null)
-        {
-            targetBody = target.GetComponent<Rigidbody2D>();
-        }
         nextPosition = body.position;
         InvokeRepeating(nameof(FindPath), 0, TimeBetweenAIUpdate);
         GoIdle();
@@ -105,6 +100,19 @@ public class AIController : MonoBehaviour
 
     private void Update()
     {
+        if (target == null && PlayerController.Instance != null)
+        {
+            target = PlayerController.Instance.gameObject;
+            if (target != null)
+            {
+                targetBody = target.GetComponent<Rigidbody2D>();
+                if (permanentlyAggroed)
+                {
+                    DetermineActiveBehavior(Vector2.Distance(body.position, targetBody.position));
+                }
+            }
+        }
+
         DetermineIfActive();
         if (targetBody == null)
         {
@@ -160,9 +168,9 @@ public class AIController : MonoBehaviour
         return aiController;
     }
 
-    public void HandleNearbyAttack()
+    public void AggroPermanently()
     {
-        wasAttacked = true;
+        permanentlyAggroed = true;
         if (targetBody != null)
         {
             DetermineActiveBehavior(Vector2.Distance(body.position, targetBody.position));
@@ -237,7 +245,7 @@ public class AIController : MonoBehaviour
     /// </summary>
     private void DetermineBehavior(float distanceToTarget)
     {
-        if (wasAttacked == false
+        if (permanentlyAggroed == false
             && entityAI.Deaggro
             && currentBehavior != Behavior.Idle
             && distanceToTarget > entityAI.AggroDistance)
@@ -468,7 +476,7 @@ public class AIController : MonoBehaviour
 
     private void OnDamageTaken()
     {
-        HandleNearbyAttack();
+        AggroPermanently();
         Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, PullRadiusWhenAttacked,
             LayerUtil.GetEntityLayerMask());
         foreach (Collider2D collider in colliders)
@@ -476,7 +484,7 @@ public class AIController : MonoBehaviour
             if (collider.gameObject != this.gameObject)
             {
                 AIController aiController = collider.GetComponent<AIController>();
-                aiController?.HandleNearbyAttack();
+                aiController?.AggroPermanently();
             }
         }
     }
