@@ -19,6 +19,7 @@ public class EntityController : MonoBehaviour
     private Inventory inventory;
     private EntityState entityState;
     private EntityData entityData;
+    private AnimatorUpdater animatorUpdater;
 
     private Vector2 attemptedMoveDirection = Vector2.zero;
     private Vector2 attemptedLookDirection = Vector2.zero;
@@ -34,6 +35,7 @@ public class EntityController : MonoBehaviour
         entityState = GetComponent<EntityState>();
         entityData = GetComponent<EntityData>();
         inventory = GetComponent<Inventory>();
+        animatorUpdater = GetComponent<AnimatorUpdater>();
     }
 
     private void Start()
@@ -76,6 +78,23 @@ public class EntityController : MonoBehaviour
                 footstepSoundTimer = entityData.Entity.FootstepSoundInterval * (entityData.Entity.WalkSpeed / movement.CurrentWalkSpeed);
                 AudioManager.Instance.Play(entityData.Entity.FootstepSounds[currentFootstepIndex]);
                 currentFootstepIndex = (currentFootstepIndex + 1) % entityData.Entity.FootstepSounds.Count;
+            }
+        }
+
+        if (entityData.Entity.RightLeftRework)
+        {
+            Vector2 faceDirection = movement.Direction;
+            if (animatorUpdater.IsAiming)
+            {
+                faceDirection = entityState.LookDirection;
+            }
+            if (faceDirection.x > 0 && transform.localScale.x < 0)
+            {
+                transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, transform.localScale.z);
+            }
+            else if (faceDirection.x < 0 && transform.localScale.x > 0)
+            {
+                transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, transform.localScale.z);
             }
         }
     }

@@ -94,4 +94,9 @@ public class Entity : ScriptableObject
     [SerializeField]
     private float footstepSoundInterval = 0.333f;
     public float FootstepSoundInterval => footstepSoundInterval;
+
+    // TODO Remove this once everything is updated.
+    [SerializeField]
+    private bool rightLeftRework = false;
+    public bool RightLeftRework => rightLeftRework;
 }

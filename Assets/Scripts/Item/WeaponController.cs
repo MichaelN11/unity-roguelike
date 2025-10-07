@@ -18,6 +18,7 @@ public class WeaponController : MonoBehaviour
     private SpriteRenderer spriteRenderer;
     private AbilityManager abilityManager;
     private EntityState entityState;
+    private EntityData entityData;
     private float distance = 0;
     private float yOffset = 0;
     private Vector2 pivot = Vector2.zero;
@@ -38,6 +39,7 @@ public class WeaponController : MonoBehaviour
         animator = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         entityState = GetComponentInParent<EntityState>();
+        entityData = GetComponentInParent<EntityData>();
     }
 
     private void Start()
@@ -145,7 +147,7 @@ public class WeaponController : MonoBehaviour
     private Vector2 GetDirectionalPivot(bool mirrorInXDirection)
     {
         Vector2 directionalPivot = pivot;
-        if (mirrorInXDirection)
+        if (!entityData.Entity.RightLeftRework && mirrorInXDirection)
         {
             directionalPivot.x *= -1;
         }
@@ -172,15 +174,29 @@ public class WeaponController : MonoBehaviour
     /// <returns></returns>
     private Vector2 HandleMirroredDirection(Vector2 direction, bool mirrorInXDirection)
     {
-        if (mirrorInXDirection)
+        if (entityData.Entity.RightLeftRework)
         {
-            direction.x *= -1;
-            direction.y *= -1;
-            transform.localScale = new Vector2(initialLocalScale.x * -1, initialLocalScale.y);
+            if (animatorUpdater.transform.localScale.x < 0)
+            {
+                transform.localScale = new Vector2(initialLocalScale.x * -1, initialLocalScale.y);
+            }
+            else
+            {
+                transform.localScale = initialLocalScale;
+            }
         }
         else
         {
-            transform.localScale = initialLocalScale;
+            if (mirrorInXDirection)
+            {
+                direction.x *= -1;
+                direction.y *= -1;
+                transform.localScale = new Vector2(initialLocalScale.x * -1, initialLocalScale.y);
+            }
+            else
+            {
+                transform.localScale = initialLocalScale;
+            }
         }
         return direction;
     }
@@ -195,12 +211,18 @@ public class WeaponController : MonoBehaviour
     private Vector2 DetermineLocalPosition(Vector2 direction, Vector2 directionalPivot, bool mirrorInXDirection)
     {
         float distanceFromPosition = distance;
-        if (mirrorInXDirection)
+        if (!entityData.Entity.RightLeftRework && mirrorInXDirection)
         {
             distanceFromPosition *= -1;
         }
         Vector2 newLocalPosition = (direction * distanceFromPosition) + directionalPivot;
         newLocalPosition.y += yOffset;
+
+        if (entityData.Entity.RightLeftRework && !mirrorInXDirection && animatorUpdater.transform.localScale.x < 0)
+        {
+            newLocalPosition.x *= -1;
+        }
+
         return UnityUtil.PixelPerfectClamp(newLocalPosition, pixelsPerUnit);
     }
 

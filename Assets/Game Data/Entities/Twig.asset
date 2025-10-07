@@ -47,3 +47,4 @@ MonoBehaviour:
   isBoss: 0
   footstepSounds: []
   footstepSoundInterval: 0.333
+  rightLeftRework: 1
