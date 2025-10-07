@@ -147,7 +147,7 @@ public class WeaponController : MonoBehaviour
     private Vector2 GetDirectionalPivot(bool mirrorInXDirection)
     {
         Vector2 directionalPivot = pivot;
-        if (!entityData.Entity.RightLeftRework && mirrorInXDirection)
+        if (mirrorInXDirection)
         {
             directionalPivot.x *= -1;
         }
@@ -178,7 +178,15 @@ public class WeaponController : MonoBehaviour
         {
             if (animatorUpdater.transform.localScale.x < 0)
             {
-                transform.localScale = new Vector2(initialLocalScale.x * -1, initialLocalScale.y);
+                if (mirrorInXDirection)
+                {
+                    direction.x *= -1;
+                    direction.y *= -1;
+                }
+                else
+                {
+                    transform.localScale = new Vector2(initialLocalScale.x * -1, initialLocalScale.y);
+                }
             }
             else
             {
@@ -211,14 +219,14 @@ public class WeaponController : MonoBehaviour
     private Vector2 DetermineLocalPosition(Vector2 direction, Vector2 directionalPivot, bool mirrorInXDirection)
     {
         float distanceFromPosition = distance;
-        if (!entityData.Entity.RightLeftRework && mirrorInXDirection)
+        if (mirrorInXDirection)
         {
             distanceFromPosition *= -1;
         }
         Vector2 newLocalPosition = (direction * distanceFromPosition) + directionalPivot;
         newLocalPosition.y += yOffset;
 
-        if (entityData.Entity.RightLeftRework && !mirrorInXDirection && animatorUpdater.transform.localScale.x < 0)
+        if (entityData.Entity.RightLeftRework && animatorUpdater.transform.localScale.x < 0)
         {
             newLocalPosition.x *= -1;
         }

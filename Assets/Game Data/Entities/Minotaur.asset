@@ -40,3 +40,4 @@ MonoBehaviour:
   footstepSounds:
   - {fileID: 11400000, guid: 886808d46e7ba4d9fba40fe7a397b0ac, type: 2}
   footstepSoundInterval: 0.333
+  rightLeftRework: 1
