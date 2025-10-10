@@ -1,0 +1,50 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2421c10c0751840c281645757ffbf300, type: 3}
+  m_Name: Wolf
+  m_EditorClassIdentifier: 
+  baseObject: {fileID: 7658967440879357034, guid: 23ca26eb6f954452c86060ba8518b43f, type: 3}
+  abilities:
+  - {fileID: 11400000, guid: 319a3d6fe4f7e4701bf46aa6a429a751, type: 2}
+  initialInventory: []
+  characterClass: 0
+  soundOnHit: {fileID: 0}
+  soundOnDeath: {fileID: 11400000, guid: a5a6f28d37fc8495ba0dd171300ffd04, type: 2}
+  soundOnAggro: {fileID: 0}
+  walkSpeed: 5.5
+  interactionDistance: 1.5
+  maxHealth: 1.5
+  hitStunDuration: 0.3
+  knockbackSpeed: 13.5
+  knockbackAcceleration: -0.4
+  flashOnHitTime: 0.15
+  deathTimer: 1
+  entityAI:
+    aggroDistance: 8
+    deaggro: 1
+  weapon: {fileID: 0}
+  itemDrops:
+  - dropChance: 0.05
+    inventoryItem:
+      Item: {fileID: 11400000, guid: 80a125bb684b646719a367b3320fddda, type: 2}
+      Amount: 1
+      LearnableAbility: {fileID: 0}
+  - dropChance: 0.05
+    inventoryItem:
+      Item: {fileID: 11400000, guid: 5119bd55b49a64a6abba3af687938fbf, type: 2}
+      Amount: 1
+      LearnableAbility: {fileID: 0}
+  description: 2
+  isBoss: 0
+  footstepSounds: []
+  footstepSoundInterval: 0.333
+  rightLeftRework: 1
