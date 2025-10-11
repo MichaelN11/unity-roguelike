@@ -467,6 +467,7 @@ public class AIController : MonoBehaviour
         InputData inputData = new();
         inputData.Type = inputType;
         inputData.Direction = direction;
+        inputData.TargetPosition = (Vector2) transform.position + direction;
         if (abilityNumber >= 0)
         {
             inputData.Number = abilityNumber;
