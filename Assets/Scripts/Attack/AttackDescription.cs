@@ -15,5 +15,6 @@ public enum AttackDescription
     Charge,
     Dash,
     ThrowingKnife,
-    Bite
+    Bite,
+    Claw
 }

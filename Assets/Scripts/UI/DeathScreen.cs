@@ -64,6 +64,9 @@ public class DeathScreen : MonoBehaviour
             case AttackDescription.Bite:
                 deathAction = "mauled to death";
                 break;
+            case AttackDescription.Claw:
+                deathAction = "torn to shreds";
+                break;
         }
         return deathAction;
     }

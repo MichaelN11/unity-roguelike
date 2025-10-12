@@ -6,6 +6,9 @@
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
 
 \f0\fs24 \cf0 soon:\
+wolf dash attack prefab use ability duration\
+separate pass through entity from invincibility effect\
+movement effect can calculate deceleration from duration\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
 \cf0 wolf sounds\
 wolf shadow\
@@ -64,6 +67,10 @@ New cursor\
 Saving when no prior save exists should immediately enable load button in the menu\
 \
 later:\
+have the AI determine behavior at slightly random times to mix up enemy timing\
+default move out of collision needs to be updated so wolves don\'92t get stuck up in trees\
+moving out of collision (not default move) seems to move entities even if they\'92re not fully colliding, leading to a bug with the wolf in the arena stage where it gets stuck jittering left and right if it goes up into a small hole in the trees\
+auto unstuck entity if stuck in wall\
 particles when projectiles spawn?\
 flash hit animation should fade or transition\
 projectiles should fade or explode when floating too long\

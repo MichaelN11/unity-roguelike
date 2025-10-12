@@ -17,17 +17,15 @@ MonoBehaviour:
   cooldown: 0
   abilityUniqueType: 0
   allowedClasses: 
-  abilityConditions:
-  - {fileID: 0}
-  - {fileID: 0}
+  abilityConditions: []
   abilityData:
     effects:
     - {fileID: 11400000, guid: c8b4650ac6d994d65a00318370c47414, type: 2}
     - {fileID: 11400000, guid: 22492cc64f6a04c2e9e622965a454f6a, type: 2}
     abilityAnimation: 0
     duration: 0
-    castTime: 0.25
-    recoveryTime: 0.08
+    castTime: 0.26
+    recoveryTime: 0.09
     activeAnimationTime: 0.3
     castWhileMoving: 0
     canCancelInto: 0
