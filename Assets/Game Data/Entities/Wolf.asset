@@ -14,14 +14,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   baseObject: {fileID: 7658967440879357034, guid: 23ca26eb6f954452c86060ba8518b43f, type: 3}
   abilities:
-  - {fileID: 11400000, guid: 319a3d6fe4f7e4701bf46aa6a429a751, type: 2}
+  - {fileID: 11400000, guid: 18572faea75b74822a566f86f5810777, type: 2}
   initialInventory: []
   characterClass: 0
   soundOnHit: {fileID: 0}
   soundOnDeath: {fileID: 11400000, guid: a5a6f28d37fc8495ba0dd171300ffd04, type: 2}
   soundOnAggro: {fileID: 0}
   walkSpeed: 5.5
-  interactionDistance: 1.5
+  interactionOffset: {x: 1.75, y: 1}
   maxHealth: 1.5
   hitStunDuration: 0.3
   knockbackSpeed: 13.5

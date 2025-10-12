@@ -22,8 +22,8 @@ MonoBehaviour:
   - {fileID: 0}
   abilityData:
     effects:
-    - {fileID: 11400000, guid: 3fd89366f8506478ab71cea3049c33a7, type: 2}
-    - {fileID: 11400000, guid: 27bd7f0da088c436c88bd93e88d1a5e0, type: 2}
+    - {fileID: 11400000, guid: c8b4650ac6d994d65a00318370c47414, type: 2}
+    - {fileID: 11400000, guid: 22492cc64f6a04c2e9e622965a454f6a, type: 2}
     abilityAnimation: 0
     duration: 0
     castTime: 0.3

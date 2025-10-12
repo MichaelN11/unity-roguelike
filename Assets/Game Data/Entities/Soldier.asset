@@ -25,11 +25,10 @@ MonoBehaviour:
     LearnableAbility: {fileID: 0}
   characterClass: 1
   soundOnHit: {fileID: 11400000, guid: 32c3869f2625e4ddc9e21348f09f8bb1, type: 2}
-  footstepSounds:
-  - {fileID: 11400000, guid: 2d1b9d9256ec24f84aa0773f604f85a8, type: 2}
-  - {fileID: 11400000, guid: 53e31755ff4a0438ca46f7984aa6e9cd, type: 2}
+  soundOnDeath: {fileID: 0}
+  soundOnAggro: {fileID: 0}
   walkSpeed: 5.5
-  interactionDistance: 1
+  interactionOffset: {x: 1, y: 1}
   maxHealth: 5
   hitStunDuration: 0.375
   knockbackSpeed: 9
@@ -43,3 +42,8 @@ MonoBehaviour:
   itemDrops: []
   description: 0
   isBoss: 0
+  footstepSounds:
+  - {fileID: 11400000, guid: 2d1b9d9256ec24f84aa0773f604f85a8, type: 2}
+  - {fileID: 11400000, guid: 53e31755ff4a0438ca46f7984aa6e9cd, type: 2}
+  footstepSoundInterval: 0.333
+  rightLeftRework: 0

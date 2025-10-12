@@ -96,11 +96,12 @@ public class AbilityUtil
         }
     }
 
-    public static void UpdateAbilityState(AbilityUseData abilityUse, float offsetDistance, EntityAbilityContext entityAbilityContext)
+    public static void UpdateAbilityState(AbilityUseData abilityUse, EntityAbilityContext entityAbilityContext)
     {
         abilityUse.EntityState.CanLookWhileCasting = false;
         abilityUse.Direction = abilityUse.EntityState.LookDirection.normalized;
-        abilityUse.Position += abilityUse.EntityState.LookDirection.normalized * offsetDistance;
+        abilityUse.Position += new Vector2(abilityUse.Direction.x * abilityUse.Offset.x,
+            abilityUse.Direction.y * abilityUse.Offset.y);
         entityAbilityContext.CurrentAbilityStarted = true;
         entityAbilityContext.CurrentAbilityDuration = 0;
     }

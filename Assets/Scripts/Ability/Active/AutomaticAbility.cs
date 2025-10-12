@@ -28,13 +28,13 @@ public class AutomaticAbility : ActiveAbility
     private AbilityAnimation abilityAnimation;
     public AbilityAnimation AbilityAnimation => abilityAnimation;
 
-    public override AbilityUseEventInfo Use(Vector2 direction, float offsetDistance, AbilityUseData abilityUse, EntityAbilityContext entityAbilityContext)
+    public override AbilityUseEventInfo Use(Vector2 direction, AbilityUseData abilityUse, EntityAbilityContext entityAbilityContext)
     {
         AbilityUseEventInfo abilityUseEvent = BuildAbilityUseEventInfo(abilityUse);
         abilityUse.AbilityManager.InvokeAbilityStartedEvent(abilityUseEvent);
         abilityUse.AbilityManager.InvokeAbilityUseEvent(abilityUseEvent);
         abilityUse.Direction = direction;
-        abilityUse.Position += direction * offsetDistance;
+        abilityUse.Position += new Vector2(direction.x * abilityUse.Offset.x, direction.y * abilityUse.Offset.y);
         Activate(abilityUse);
 
         return abilityUseEvent;

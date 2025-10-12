@@ -282,7 +282,11 @@ public class AIController : MonoBehaviour
             return false;
         }
 
-        float range = entityData.Entity.InteractionDistance + currentAbility.Range;
+        Vector2 directionToTarget = (targetPosition - position).normalized;
+        Vector2 distanceOffset = new(directionToTarget.x * entityData.Entity.InteractionOffset.x,
+            directionToTarget.y * entityData.Entity.InteractionOffset.y);
+
+        float range = distanceOffset.magnitude + currentAbility.Range;
         bool canUseAbility = false;
         if (distanceToTarget <= range)
         {
@@ -415,10 +419,13 @@ public class AIController : MonoBehaviour
     {
         // This range check is relevant for combo abilities, since the AI won't redetermine its behavior
         // while the entity is using the first ability in the combo.
-        float range = (entityData.Entity.InteractionDistance + currentAbility.Range) * ComboAbilityRangeMultiplier;
+        Vector2 targetDirection = GetAttackTargetPosition() - GetAbilitySourcePosition();
+        Vector2 directionNormalized = targetDirection.normalized;
+        Vector2 distanceOffset = new(directionNormalized.x * entityData.Entity.InteractionOffset.x,
+            directionNormalized.y * entityData.Entity.InteractionOffset.y);
+        float range = (distanceOffset.magnitude + currentAbility.Range) * ComboAbilityRangeMultiplier;
         if (distanceToTarget <= range)
         {
-            Vector2 targetDirection = GetAttackTargetPosition() - body.position;
             SendInput(InputType.Look, targetDirection);
             SendInput(InputType.Ability, targetDirection, currentAbility.AbilityNumber);
         }

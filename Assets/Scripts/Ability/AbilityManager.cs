@@ -128,9 +128,9 @@ public class AbilityManager : MonoBehaviour
     /// </summary>
     /// <param name="abilityNumber">The number of the used ability in the hotbar/UI</param>
     /// <param name="direction">The direction in which the ability was used</param>
-    /// <param name="offsetDistance">The distance offset from the entity</param>
+    /// <param name="offset">The distance offset from the entity</param>
     /// <returns>AbilityUseEventInfo, or null if unsuccessful</returns>
-    public AbilityUseEventInfo UseAbility(int abilityNumber, Vector2 direction, float offsetDistance)
+    public AbilityUseEventInfo UseAbility(int abilityNumber, Vector2 direction, Vector2 offset)
     {
         ActiveAbilityContext ability = GetAbility(abilityNumber);
         if (ability == null)
@@ -138,23 +138,23 @@ public class AbilityManager : MonoBehaviour
             return null;
         }
 
-        return UseAbility(ability, direction, offsetDistance);
+        return UseAbility(ability, direction, offset);
     }
 
-    public AbilityUseEventInfo UseAbility(ActiveAbilityContext ability, Vector2 direction, float offsetDistance, string origin = null)
+    public AbilityUseEventInfo UseAbility(ActiveAbilityContext ability, Vector2 direction, Vector2 offset, string origin = null)
     {
         AbilityUseEventInfo abilityUseEventInfo = null;
 
         if (ability.CurrentCooldown <= 0)
         {
-            AbilityUseData abilityUse = BuildAbilityUseData(ability);
+            AbilityUseData abilityUse = BuildAbilityUseData(ability, offset);
             if (!ability.Ability.CanActivate(abilityUse, entityAbilityContext))
             {
                 return null;
             }
             else
             {
-                abilityUseEventInfo = ability.Ability.Use(direction, offsetDistance, abilityUse, entityAbilityContext);
+                abilityUseEventInfo = ability.Ability.Use(direction, abilityUse, entityAbilityContext);
             }
         }
 
@@ -172,15 +172,15 @@ public class AbilityManager : MonoBehaviour
     /// </summary>
     /// <param name="abilityNumber">The number of the used ability in the hotbar/UI</param>
     /// <param name="direction">The direction in which the ability was used</param>
-    /// <param name="offsetDistance">The distance offset from the entity</param>
+    /// <param name="offset">The distance offset from the entity</param>
     /// <returns>true if the ability was stopped by the release</returns>
-    public bool ReleaseAbility(int abilityNumber, Vector2 direction, float offsetDistance)
+    public bool ReleaseAbility(int abilityNumber, Vector2 direction, Vector2 offset)
     {
         ActiveAbilityContext ability = GetAbility(abilityNumber);
         if (ability != null)
         {
-            AbilityUseData abilityUse = BuildAbilityUseData(ability);
-            return ability.Ability.Release(direction, offsetDistance, abilityUse, entityAbilityContext);
+            AbilityUseData abilityUse = BuildAbilityUseData(ability, offset);
+            return ability.Ability.Release(direction, abilityUse, entityAbilityContext);
         } else
         {
             return false;
@@ -199,7 +199,7 @@ public class AbilityManager : MonoBehaviour
 
     public List<UsableAbilityInfo> GetUsableAbilities()
     {
-        AbilityUseData abilityUse = BuildAbilityUseData(null);
+        AbilityUseData abilityUse = BuildAbilityUseData(null, entityData.Entity.InteractionOffset);
         List<UsableAbilityInfo> usableAbilities = new();
         for(int i = 0; i < abilities.Count; i++)
         {
@@ -234,7 +234,7 @@ public class AbilityManager : MonoBehaviour
         return ability;
     }
 
-    private AbilityUseData BuildAbilityUseData(ActiveAbilityContext abilityContext)
+    private AbilityUseData BuildAbilityUseData(ActiveAbilityContext abilityContext, Vector2 offset)
     {
         return new()
         {
@@ -247,6 +247,7 @@ public class AbilityManager : MonoBehaviour
             Damageable = damageable,
             Hitbox = hitbox,
             SpriteRenderer = spriteRenderer,
+            Offset = offset,
             AbilityManager = this
         };
     }

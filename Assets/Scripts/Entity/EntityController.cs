@@ -201,7 +201,7 @@ public class EntityController : MonoBehaviour
         if (abilityManager != null)
         {
             AbilityUseEventInfo abilityUseEvent =
-                abilityManager.UseAbility(abilityNumber, abilityDirection, entityData.Entity.InteractionDistance);
+                abilityManager.UseAbility(abilityNumber, abilityDirection, entityData.Entity.InteractionOffset);
             successful = abilityUseEvent != null;
         }
         return successful;
@@ -212,7 +212,7 @@ public class EntityController : MonoBehaviour
         bool successful = false;
         if (abilityManager != null)
         {
-            successful = abilityManager.ReleaseAbility(abilityNumber, abilityDirection, entityData.Entity.InteractionDistance);
+            successful = abilityManager.ReleaseAbility(abilityNumber, abilityDirection, entityData.Entity.InteractionOffset);
         }
         return successful;
     }
@@ -222,7 +222,7 @@ public class EntityController : MonoBehaviour
         bool successful = false;
         if (inventory != null)
         {
-            successful = inventory.UseItemFromInventory(itemNumber, direction, entityData.Entity.InteractionDistance);
+            successful = inventory.UseItemFromInventory(itemNumber, direction, entityData.Entity.InteractionOffset);
         }
         return successful;
     }
@@ -276,8 +276,12 @@ public class EntityController : MonoBehaviour
     {
         bool foundInteractable = false;
 
-        Collider2D[] nearbyObjects = Physics2D.OverlapCircleAll(transform.position,
-            entityData.Entity.InteractionDistance, LayerUtil.GetWallLayerMask());
+        CapsuleDirection2D dir = entityData.Entity.InteractionOffset.y > entityData.Entity.InteractionOffset.x
+            ? CapsuleDirection2D.Vertical
+            : CapsuleDirection2D.Horizontal;
+
+        Collider2D[] nearbyObjects = Physics2D.OverlapCapsuleAll(transform.position,
+            entityData.Entity.InteractionOffset * 2f, dir, 0f, LayerUtil.GetWallLayerMask());
         float minDistance = float.PositiveInfinity;
         foreach (Collider2D collider in nearbyObjects)
         {

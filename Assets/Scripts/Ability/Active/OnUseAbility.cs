@@ -13,12 +13,12 @@ public class OnUseAbility : ActiveAbility
     private CommonAbilityData abilityData = new();
     public CommonAbilityData AbilityData => abilityData;
 
-    public override AbilityUseEventInfo Use(Vector2 direction, float offsetDistance, AbilityUseData abilityUse, EntityAbilityContext entityAbilityContext)
+    public override AbilityUseEventInfo Use(Vector2 direction, AbilityUseData abilityUse, EntityAbilityContext entityAbilityContext)
     {
         if (abilityUse.EntityState.CanAct() || (abilityData.CanCancelInto && AbilityUtil.IsReadyToCancel(abilityUse, entityAbilityContext, this)))
         {
             AbilityUseEventInfo abilityUseEvent = StartCastingAbility(direction, abilityUse, entityAbilityContext);
-            entityAbilityContext.DelayedAbilityCoroutine = DelayUse(abilityUseEvent.AbilityUse, offsetDistance, entityAbilityContext);
+            entityAbilityContext.DelayedAbilityCoroutine = DelayUse(abilityUseEvent.AbilityUse, entityAbilityContext);
             abilityUse.AbilityManager.StartCoroutine(entityAbilityContext.DelayedAbilityCoroutine);
             return abilityUseEvent;
         }
@@ -70,19 +70,20 @@ public class OnUseAbility : ActiveAbility
     /// <summary>
     /// Coroutine method that delays the on use ability's start time. Used for cast or startup times.
     /// </summary>
-    /// <param name="abilityUse"></param>
-    /// <param name="offsetDistance"></param>
+    /// <param name="abilityUse">Data for the ability being used</param>
+    /// <param name="entityAbilityContext">The entity's ability context</param>
+    /// <param name="castTimeOverride">If greater than or equal to 0, overrides the ability's cast time</param>
     /// <returns>IEnumerator used for the coroutine</returns>
-    private IEnumerator DelayUse(AbilityUseData abilityUse, float offsetDistance, EntityAbilityContext entityAbilityContext, float castTimeOverride = -1)
+    private IEnumerator DelayUse(AbilityUseData abilityUse, EntityAbilityContext entityAbilityContext, float castTimeOverride = -1)
     {
         float castTime = (castTimeOverride >= 0) ? castTimeOverride : abilityData.CastTime;
         yield return new WaitForSeconds(castTime);
-        StartActivatingAbility(abilityUse, offsetDistance, entityAbilityContext);
+        StartActivatingAbility(abilityUse, entityAbilityContext);
     }
 
-    private void StartActivatingAbility(AbilityUseData abilityUse, float offsetDistance, EntityAbilityContext entityAbilityContext)
+    private void StartActivatingAbility(AbilityUseData abilityUse, EntityAbilityContext entityAbilityContext)
     {
-        AbilityUtil.UpdateAbilityState(abilityUse, offsetDistance, entityAbilityContext);
+        AbilityUtil.UpdateAbilityState(abilityUse, entityAbilityContext);
         Activate(abilityUse);
 
         AbilityUseEventInfo abilityUseEvent = AbilityUtil.BuildAbilityUseEventInfo(abilityUse, abilityData);

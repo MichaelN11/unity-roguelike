@@ -14,12 +14,12 @@ public class ConditionalAbility : ActiveAbility
     [SerializeField]
     List<ActiveAbility> orderedAbilities = new();
 
-    public override AbilityUseEventInfo Use(Vector2 direction, float offsetDistance, AbilityUseData abilityUse, EntityAbilityContext entityAbilityContext)
+    public override AbilityUseEventInfo Use(Vector2 direction, AbilityUseData abilityUse, EntityAbilityContext entityAbilityContext)
     {
         ActiveAbility ability = GetActiveAbility(abilityUse, entityAbilityContext);
         if (ability != null)
         {
-            return ability.Use(direction, offsetDistance, abilityUse, entityAbilityContext);
+            return ability.Use(direction, abilityUse, entityAbilityContext);
         }
         return null;
     }

@@ -34,7 +34,7 @@ public class ChargeableAbility : ActiveAbility
     private Sound soundOnFullCharge;
     public Sound SoundOnFullCharge => soundOnFullCharge;
 
-    public override AbilityUseEventInfo Use(Vector2 direction, float offsetDistance, AbilityUseData abilityUse, EntityAbilityContext entityAbilityContext)
+    public override AbilityUseEventInfo Use(Vector2 direction, AbilityUseData abilityUse, EntityAbilityContext entityAbilityContext)
     {
         if (abilityUse.EntityState.CanAct() || (abilityData.CanCancelInto && AbilityUtil.IsReadyToCancel(abilityUse, entityAbilityContext, this)))
         {
@@ -62,7 +62,7 @@ public class ChargeableAbility : ActiveAbility
     /// The chargeable ability is released.
     /// </summary>
     /// <returns>true if the ability was stopped by the release</returns>
-    public override bool Release(Vector2 direction, float offsetDistance, AbilityUseData abilityUse, EntityAbilityContext entityAbilityContext)
+    public override bool Release(Vector2 direction, AbilityUseData abilityUse, EntityAbilityContext entityAbilityContext)
     {
         if (entityAbilityContext.IsAbilityCharging
             && entityAbilityContext.CurrentActiveAbility == this
@@ -71,13 +71,13 @@ public class ChargeableAbility : ActiveAbility
             if (entityAbilityContext.ChargeTimer > abilityData.CastTime)
             {
                 AbilityUtil.UpdateEntityState(abilityUse, abilityData, abilityData.RecoveryTime + abilityData.ActiveAnimationTime);
-                Activate(abilityUse, offsetDistance, entityAbilityContext);
+                Activate(abilityUse, entityAbilityContext);
             }
             else
             {
                 entityAbilityContext.IsChargingFinished = true;
                 float timeRemainingToCast = abilityData.CastTime - entityAbilityContext.ChargeTimer;
-                entityAbilityContext.DelayedAbilityCoroutine = DelayAbility(abilityUse, offsetDistance, timeRemainingToCast, entityAbilityContext);
+                entityAbilityContext.DelayedAbilityCoroutine = DelayAbility(abilityUse, timeRemainingToCast, entityAbilityContext);
                 abilityUse.AbilityManager.StartCoroutine(entityAbilityContext.DelayedAbilityCoroutine);
             }
             return true;
@@ -132,15 +132,15 @@ public class ChargeableAbility : ActiveAbility
     /// Coroutine method that delays the charged on use ability's start time. Sets the state for the active and recovery frames.
     /// </summary>
     /// <returns>IEnumerator used for the coroutine</returns>
-    private IEnumerator DelayAbility(AbilityUseData abilityUse, float offsetDistance, float castTime, EntityAbilityContext entityAbilityContext)
+    private IEnumerator DelayAbility(AbilityUseData abilityUse, float castTime, EntityAbilityContext entityAbilityContext)
     {
         yield return new WaitForSeconds(castTime);
         abilityUse.Position = abilityUse.AbilityManager.transform.position;
-        Activate(abilityUse, offsetDistance, entityAbilityContext);
+        Activate(abilityUse, entityAbilityContext);
         AbilityUtil.UpdateEntityState(abilityUse, abilityData, abilityData.RecoveryTime + abilityData.ActiveAnimationTime);
     }
 
-    private void Activate(AbilityUseData abilityUse, float offsetDistance, EntityAbilityContext entityAbilityContext)
+    private void Activate(AbilityUseData abilityUse, EntityAbilityContext entityAbilityContext)
     {
         if (abilityUse.Movement != null && !abilityData.CastWhileMoving)
         {
@@ -156,7 +156,7 @@ public class ChargeableAbility : ActiveAbility
             StopCharging(abilityUse, entityAbilityContext);
         }
 
-        AbilityUtil.UpdateAbilityState(abilityUse, offsetDistance, entityAbilityContext);
+        AbilityUtil.UpdateAbilityState(abilityUse, entityAbilityContext);
         AbilityUtil.PlayActivationSounds(abilityData, abilityUse);
         AbilityUtil.ActivateEffects(abilityData.Effects, abilityUse, abilityData.Duration);
 

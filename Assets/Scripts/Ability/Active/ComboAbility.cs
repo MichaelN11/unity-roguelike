@@ -12,7 +12,7 @@ public class ComboAbility : ActiveAbility
     private List<ComboStage> comboStages;
     public List<ComboStage> ComboStages => comboStages;
 
-    public override AbilityUseEventInfo Use(Vector2 direction, float offsetDistance,
+    public override AbilityUseEventInfo Use(Vector2 direction,
         AbilityUseData abilityUse, EntityAbilityContext entityAbilityContext)
     {
         if (entityAbilityContext.CurrentComboAbility != this)
@@ -27,7 +27,7 @@ public class ComboAbility : ActiveAbility
             entityAbilityContext.ComboTimer = 0;
             ComboStage nextComboStage = ComboStages[entityAbilityContext.NextComboNumber];
             AbilityUseEventInfo abilityUseEvent = nextComboStage.Ability.StartCastingAbility(direction, abilityUse, entityAbilityContext);
-            entityAbilityContext.DelayedAbilityCoroutine = DelayComboAbility(nextComboStage, abilityUseEvent.AbilityUse, offsetDistance, entityAbilityContext);
+            entityAbilityContext.DelayedAbilityCoroutine = DelayComboAbility(nextComboStage, abilityUseEvent.AbilityUse, entityAbilityContext);
             abilityUse.AbilityManager.StartCoroutine(entityAbilityContext.DelayedAbilityCoroutine);
             return abilityUseEvent;
         }
@@ -71,10 +71,10 @@ public class ComboAbility : ActiveAbility
     }
 
     private IEnumerator DelayComboAbility(ComboStage nextComboStage, AbilityUseData abilityUse,
-        float offsetDistance,EntityAbilityContext entityAbilityContext)
+        EntityAbilityContext entityAbilityContext)
     {
         yield return new WaitForSeconds(nextComboStage.Ability.AbilityData.CastTime);
-        AbilityUtil.UpdateAbilityState(abilityUse, offsetDistance, entityAbilityContext);
+        AbilityUtil.UpdateAbilityState(abilityUse, entityAbilityContext);
         nextComboStage.Ability.Activate(abilityUse);
 
         AbilityUseEventInfo abilityUseEvent = AbilityUtil.BuildAbilityUseEventInfo(abilityUse, nextComboStage.Ability.AbilityData);

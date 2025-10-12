@@ -47,7 +47,7 @@ public class Inventory : MonoBehaviour
     {
         if (inventoryItem.Item.UseOnPickup)
         {
-            return UseAbility(inventoryItem, Vector2.zero, 0);
+            return UseAbility(inventoryItem, Vector2.zero, Vector2.zero);
         }
         else
         {
@@ -68,13 +68,13 @@ public class Inventory : MonoBehaviour
 
     /// <summary>
     /// Uses an item in the inventory based off the item's number and the direction.
-    /// The offset distance is the distance the item's effect should be offset from the entity.
+    /// The offset is the distance in x and y that the item's effect should be offset from the entity.
     /// </summary>
     /// <param name="itemNumber"></param>
     /// <param name="direction"></param>
     /// <param name="offsetDistance"></param>
     /// <returns></returns>
-    public bool UseItemFromInventory(int itemNumber, Vector2 direction, float offsetDistance)
+    public bool UseItemFromInventory(int itemNumber, Vector2 direction, Vector2 offset)
     {
         bool success = false;
         if (itemNumber >= 0
@@ -84,7 +84,7 @@ public class Inventory : MonoBehaviour
             InventoryItem inventoryItem = Items[itemNumber];
             if (inventoryItem.Amount > 0)
             {
-                success = UseAbility(inventoryItem, direction, offsetDistance); ;
+                success = UseAbility(inventoryItem, direction, offset); ;
             }
         }
         return success;
@@ -106,14 +106,14 @@ public class Inventory : MonoBehaviour
         }
     }
 
-    private bool UseAbility(InventoryItem inventoryItem, Vector2 direction, float offsetDistance)
+    private bool UseAbility(InventoryItem inventoryItem, Vector2 direction, Vector2 offset)
     {
         ActiveAbilityContext abilityContext = new()
         {
             Ability = inventoryItem.Item.ActiveAbility
         };
         AbilityUseEventInfo abilityUseEvent = abilityManager.UseAbility
-            (abilityContext, direction, offsetDistance, inventoryItem.Item.ItemName);
+            (abilityContext, direction, offset, inventoryItem.Item.ItemName);
         bool success = abilityUseEvent != null;
         if (success)
         {

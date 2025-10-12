@@ -40,8 +40,8 @@ public class Entity : ScriptableObject
     public float WalkSpeed => walkSpeed;
 
     [SerializeField]
-    private float interactionDistance = 0.5f;
-    public float InteractionDistance => interactionDistance;
+    private Vector2 interactionOffset = new Vector2(0.5f, 0.5f);
+    public Vector2 InteractionOffset => interactionOffset;
 
     [SerializeField]
     private float maxHealth = 1;
