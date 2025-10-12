@@ -22,7 +22,7 @@ MonoBehaviour:
     effects:
     - {fileID: 11400000, guid: 52a427234656d46a4872520f4f004dfb, type: 2}
     - {fileID: 11400000, guid: a800dcc0a7ecc4f56918e46a1432d7c1, type: 2}
-    - {fileID: 11400000, guid: c858d107df9b441169f96de26787667e, type: 2}
+    - {fileID: 11400000, guid: b2881356470e349b4b7f5c86a76c75fa, type: 2}
     abilityAnimation: 4
     duration: 0
     castTime: 0.5

@@ -9,10 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 600a38365fc124e31b8314fc226c8732, type: 3}
-  m_Name: WolfDashInvincibility
+  m_Script: {fileID: 11500000, guid: 8407674167fea468481d4aaaa5b89e9f, type: 3}
+  m_Name: PassThroughEntitiesEffect
   m_EditorClassIdentifier: 
   soundOnUse: {fileID: 0}
   duration: 0.25
   useAbilityDuration: 0
-  passThroughEnemies: 1
