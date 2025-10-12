@@ -27,4 +27,7 @@ MonoBehaviour:
     hitStunMultiplier: 1
     knockbackMultiplier: 1
     hitStop: 0.06
-    description: 2
+    description: 10
+    damageIncreaseFromCharge: 0
+    hitStunIncreaseFromCharge: 0
+    knockbackIncreaseFromCharge: 0

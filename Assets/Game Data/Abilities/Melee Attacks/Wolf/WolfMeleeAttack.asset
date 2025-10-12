@@ -26,8 +26,8 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 22492cc64f6a04c2e9e622965a454f6a, type: 2}
     abilityAnimation: 0
     duration: 0
-    castTime: 0.3
-    recoveryTime: 0.1
+    castTime: 0.25
+    recoveryTime: 0.08
     activeAnimationTime: 0.3
     castWhileMoving: 0
     canCancelInto: 0

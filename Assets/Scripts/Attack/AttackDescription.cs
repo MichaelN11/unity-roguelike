@@ -14,5 +14,6 @@ public enum AttackDescription
     AxePoke,
     Charge,
     Dash,
-    ThrowingKnife
+    ThrowingKnife,
+    Bite
 }

@@ -61,6 +61,9 @@ public class DeathScreen : MonoBehaviour
             case AttackDescription.ThrowingKnife:
                 deathAction = "hit with a throwing knife";
                 break;
+            case AttackDescription.Bite:
+                deathAction = "mauled to death";
+                break;
         }
         return deathAction;
     }
@@ -84,6 +87,9 @@ public class DeathScreen : MonoBehaviour
                 break;
             case EntityDescription.Minotaur:
                 deathSource = "a minotaur";
+                break;
+            case EntityDescription.Wolf:
+                deathSource = "a wolf";
                 break;
         }
         return deathSource;

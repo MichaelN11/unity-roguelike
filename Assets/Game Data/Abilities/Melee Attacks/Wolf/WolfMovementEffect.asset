@@ -15,8 +15,8 @@ MonoBehaviour:
   soundOnUse: {fileID: 0}
   duration: 0
   useAbilityDuration: 0
-  moveSpeed: 3
-  moveAcceleration: -0.2
+  moveSpeed: 10
+  moveAcceleration: -0.4
   delayedAcceleration: 0
   accelerationDelay: 0
   trailEffectData:

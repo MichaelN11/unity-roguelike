@@ -9,5 +9,6 @@ public enum EntityDescription
     Log,
     Twig,
     Bandit,
-    Minotaur
+    Minotaur,
+    Wolf
 }
