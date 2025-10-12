@@ -86,7 +86,7 @@ public class MovementEffect : AbilityEffect
                 GameObject instance = Instantiate(trailEffectData.Prefab, position, rotation);
 
                 DestroyTimer destroyTimer = instance.GetComponent<DestroyTimer>();
-                destroyTimer.Duration = trailEffectData.PrefabDuration;
+                destroyTimer.Duration = (trailEffectData.UseActiveTimeAsDuration) ? abilityUseData.ActiveTime : trailEffectData.PrefabDuration;
 
                 instance.transform.parent = abilityUseData.Entity.transform;
             }
