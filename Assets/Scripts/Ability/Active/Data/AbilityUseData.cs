@@ -22,6 +22,7 @@ public class AbilityUseData
     public Vector2 Direction { get; set; } = Vector2.zero;
     public Vector2 Offset { get; set; } = Vector2.zero;
 
+    public float ActiveTime { get; set; } = 0;
     public float ChargePercent { get; set; } = 0;
 
     public AbilityUseData ShallowCopy()

@@ -17,9 +17,10 @@ MonoBehaviour:
   useAbilityDuration: 0
   prefabEffectData:
     prefab: {fileID: 605442877324402279, guid: adcaddf81d8a540d1add179926d5a435, type: 3}
-    prefabDuration: 0.45
+    prefabDuration: 0
     rotatePrefab: 1
     mirrorPrefabX: 0
+    useActiveTimeAsDuration: 1
   attackEffectData:
     soundOnHit: {fileID: 0}
     damage: 1

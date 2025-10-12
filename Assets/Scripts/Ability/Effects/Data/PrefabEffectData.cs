@@ -27,4 +27,8 @@ public class PrefabEffectData
     [SerializeField]
     private bool mirrorPrefabX = false;
     public bool MirrorPrefabX => mirrorPrefabX;
+
+    [SerializeField]
+    private bool useActiveTimeAsDuration = false;
+    public bool UseActiveTimeAsDuration => useActiveTimeAsDuration;
 }

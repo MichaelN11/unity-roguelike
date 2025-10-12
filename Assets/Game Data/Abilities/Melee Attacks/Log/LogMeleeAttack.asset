@@ -16,9 +16,8 @@ MonoBehaviour:
   abilityIcon: {fileID: 0}
   cooldown: 0
   abilityUniqueType: 0
-  abilityConditions:
-    minimumHealthPercent: 0
-    maximumHealthPercent: 100
+  allowedClasses: 
+  abilityConditions: []
   abilityData:
     effects:
     - {fileID: 11400000, guid: 7f0d082f1b5104b32a58363352451327, type: 2}
@@ -27,6 +26,7 @@ MonoBehaviour:
     castTime: 0.63
     recoveryTime: 0.35
     activeAnimationTime: 0.35
+    castWhileMoving: 0
     canCancelInto: 0
     cancelableDuration: 0
     range: 1
@@ -36,19 +36,3 @@ MonoBehaviour:
     soundOnCast: {fileID: 0}
     soundOnUse: {fileID: 11400000, guid: 89c02a6c42e14496eba18d0dffc19630, type: 2}
     stopSoundAfterUse: 0
-  effects:
-  - {fileID: 11400000, guid: 7f0d082f1b5104b32a58363352451327, type: 2}
-  duration: 0
-  castTime: 0.63
-  recoveryTime: 0.35
-  activeAnimationTime: 0.35
-  canCancelInto: 0
-  cancelableDuration: 0
-  range: 1
-  aimWhileCasting: 0
-  aimDuration: 0
-  changeDirection: 1
-  soundOnCast: {fileID: 0}
-  soundOnUse: {fileID: 11400000, guid: 89c02a6c42e14496eba18d0dffc19630, type: 2}
-  stopSoundAfterUse: 0
-  abilityAnimation: 0

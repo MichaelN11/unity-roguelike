@@ -16,9 +16,8 @@ MonoBehaviour:
   abilityIcon: {fileID: 0}
   cooldown: 0
   abilityUniqueType: 0
-  abilityConditions:
-  - {fileID: 0}
-  - {fileID: 0}
+  allowedClasses: 
+  abilityConditions: []
   abilityData:
     effects:
     - {fileID: 11400000, guid: 7dae17e833bdc4a269b867614049598d, type: 2}

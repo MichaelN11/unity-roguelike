@@ -156,7 +156,7 @@ public class ChargeableAbility : ActiveAbility
             StopCharging(abilityUse, entityAbilityContext);
         }
 
-        AbilityUtil.UpdateAbilityState(abilityUse, entityAbilityContext);
+        AbilityUtil.UpdateAbilityState(abilityUse, entityAbilityContext, abilityData);
         AbilityUtil.PlayActivationSounds(abilityData, abilityUse);
         AbilityUtil.ActivateEffects(abilityData.Effects, abilityUse, abilityData.Duration);
 

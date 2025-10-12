@@ -83,7 +83,7 @@ public class OnUseAbility : ActiveAbility
 
     private void StartActivatingAbility(AbilityUseData abilityUse, EntityAbilityContext entityAbilityContext)
     {
-        AbilityUtil.UpdateAbilityState(abilityUse, entityAbilityContext);
+        AbilityUtil.UpdateAbilityState(abilityUse, entityAbilityContext, abilityData);
         Activate(abilityUse);
 
         AbilityUseEventInfo abilityUseEvent = AbilityUtil.BuildAbilityUseEventInfo(abilityUse, abilityData);

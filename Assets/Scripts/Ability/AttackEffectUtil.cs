@@ -13,7 +13,8 @@ public class AttackEffectUtil
     /// <param name="effectData">The context of how the effect is being used</param>
     /// <param name="attackEffectData">The effect's attack data</param>
     /// <param name="prefabEffectData">The effect's prefab data</param>
-    /// <param name="userEntityData">The effect user's entity data</param>
+    /// <param name="attackData">The effect user's attack data</param>
+    /// <param name="duration">The duration of the effect</param>
     /// <returns>The instantiated damage object</returns>
     public static GameObject InstantiateDamageObject(AbilityUseData effectData,
         AttackEffectData attackEffectData,
@@ -33,8 +34,10 @@ public class AttackEffectUtil
             instance.transform.localScale = new Vector2(instance.transform.localScale.x * -1, instance.transform.localScale.y);
         }
 
+        float duration = (prefabEffectData.UseActiveTimeAsDuration) ? effectData.ActiveTime : prefabEffectData.PrefabDuration;
+
         DestroyTimer destroyTimer = instance.GetComponent<DestroyTimer>();
-        destroyTimer.Duration = prefabEffectData.PrefabDuration;
+        destroyTimer.Duration = duration;
 
         DamageObject damageObject = instance.GetComponent<DamageObject>();
         damageObject.AttackData = attackData;
@@ -42,7 +45,7 @@ public class AttackEffectUtil
         Animator animator = instance.GetComponent<Animator>();
         if (animator != null)
         {
-            animator.SetFloat("attackSpeed", AnimationUtil.GetAnimationSpeedFromTime(prefabEffectData.PrefabDuration));
+            animator.SetFloat("attackSpeed", AnimationUtil.GetAnimationSpeedFromTime(duration));
         }
 
         return instance;

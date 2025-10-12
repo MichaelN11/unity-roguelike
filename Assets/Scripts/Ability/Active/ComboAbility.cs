@@ -74,7 +74,7 @@ public class ComboAbility : ActiveAbility
         EntityAbilityContext entityAbilityContext)
     {
         yield return new WaitForSeconds(nextComboStage.Ability.AbilityData.CastTime);
-        AbilityUtil.UpdateAbilityState(abilityUse, entityAbilityContext);
+        AbilityUtil.UpdateAbilityState(abilityUse, entityAbilityContext, nextComboStage.Ability.AbilityData);
         nextComboStage.Ability.Activate(abilityUse);
 
         AbilityUseEventInfo abilityUseEvent = AbilityUtil.BuildAbilityUseEventInfo(abilityUse, nextComboStage.Ability.AbilityData);

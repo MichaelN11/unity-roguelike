@@ -17,9 +17,10 @@ MonoBehaviour:
   useAbilityDuration: 0
   prefabEffectData:
     prefab: {fileID: 605442877324402279, guid: 7bdffa3f2a4c342eebef9bee1232e806, type: 3}
-    prefabDuration: 0.4
+    prefabDuration: 0
     rotatePrefab: 1
     mirrorPrefabX: 0
+    useActiveTimeAsDuration: 1
   attackEffectData:
     soundOnHit: {fileID: 11400000, guid: db42481b98f464ab291d707fee37fcfd, type: 2}
     damage: 2
@@ -28,3 +29,6 @@ MonoBehaviour:
     knockbackMultiplier: 1.5
     hitStop: 0.12
     description: 1
+    damageIncreaseFromCharge: 0
+    hitStunIncreaseFromCharge: 0
+    knockbackIncreaseFromCharge: 0

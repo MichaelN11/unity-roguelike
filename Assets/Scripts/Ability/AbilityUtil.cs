@@ -96,7 +96,8 @@ public class AbilityUtil
         }
     }
 
-    public static void UpdateAbilityState(AbilityUseData abilityUse, EntityAbilityContext entityAbilityContext)
+    public static void UpdateAbilityState(AbilityUseData abilityUse, EntityAbilityContext entityAbilityContext,
+        CommonAbilityData commonAbilityData)
     {
         abilityUse.EntityState.CanLookWhileCasting = false;
         abilityUse.Direction = abilityUse.EntityState.LookDirection.normalized;
@@ -104,6 +105,10 @@ public class AbilityUtil
             abilityUse.Direction.y * abilityUse.Offset.y);
         entityAbilityContext.CurrentAbilityStarted = true;
         entityAbilityContext.CurrentAbilityDuration = 0;
+        if (commonAbilityData != null)
+        {
+            abilityUse.ActiveTime = commonAbilityData.ActiveAnimationTime;
+        }
     }
 
     public static void UpdateEntityState(AbilityUseData abilityUse, CommonAbilityData abilityData, float abilityDuration)
