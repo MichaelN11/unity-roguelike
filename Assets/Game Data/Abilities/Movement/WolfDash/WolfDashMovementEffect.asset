@@ -18,10 +18,12 @@ MonoBehaviour:
   moveSpeed: 20
   moveAcceleration: 0
   delayedAcceleration: -2
-  accelerationDelay: 0.4
+  accelerationDelay: 0
+  scaleToActiveTime: 1
   trailEffectData:
     prefab: {fileID: 0}
     prefabDuration: 0
     rotatePrefab: 1
     mirrorPrefabX: 0
+    useActiveTimeAsDuration: 0
   trailEffectDistance: 2.4

@@ -22,6 +22,13 @@ public class MovementEffect : AbilityEffect
     private float accelerationDelay = 0;
     public float AccelerationDelay => accelerationDelay;
 
+    /// <summary>
+    /// Scales the acceleration delay based on the active time of the effect.
+    /// </summary>
+    [SerializeField]
+    private bool scaleToActiveTime = false;
+    public bool ScaleToActiveTime => scaleToActiveTime;
+
     [SerializeField]
     private PrefabEffectData trailEffectData;
     public PrefabEffectData TrailEffectData => trailEffectData;
@@ -30,6 +37,28 @@ public class MovementEffect : AbilityEffect
     private float trailEffectDistance;
     public float TrailEffectDistance => trailEffectDistance;
 
+    private float? _decelerationTime;
+    private float DecelerationTime
+    {
+        get
+        {
+            if (!_decelerationTime.HasValue)
+            {
+                if (delayedAcceleration < 0)
+                {
+                    float fixedUpdatesPerSecond = 1 / Time.fixedDeltaTime;
+                    float decelerationTimeInUpdates = (moveSpeed / delayedAcceleration) * -1;
+                    _decelerationTime = decelerationTimeInUpdates / fixedUpdatesPerSecond;
+                }
+                else
+                {
+                    _decelerationTime = 0;
+                }
+            }
+            return _decelerationTime.Value;
+        }
+    }
+
     public override void Trigger(AbilityUseData abilityUseData, EffectUseData effectUseData)
     {
         if (abilityUseData.Movement != null)
@@ -37,10 +66,16 @@ public class MovementEffect : AbilityEffect
             abilityUseData.Movement.SetMovement(abilityUseData.Direction.normalized,
                 moveSpeed,
                 moveAcceleration);
-            
-            if (accelerationDelay > 0)
+
+            float delay = accelerationDelay;
+            if (scaleToActiveTime && delayedAcceleration < 0)
             {
-                abilityUseData.Movement.SetDelayedAcceleration(delayedAcceleration, accelerationDelay);
+                delay = Mathf.Max(abilityUseData.ActiveTime - DecelerationTime, 0);
+                Debug.Log($"Setting deceleration delay to {delay}");
+            }
+            if (delay > 0)
+            {
+                abilityUseData.Movement.SetDelayedAcceleration(delayedAcceleration, delay);
             }
 
             if (trailEffectData.Prefab != null)

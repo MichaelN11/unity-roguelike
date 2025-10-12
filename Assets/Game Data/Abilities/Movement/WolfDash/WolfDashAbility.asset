@@ -26,8 +26,8 @@ MonoBehaviour:
     abilityAnimation: 4
     duration: 0
     castTime: 0.5
-    recoveryTime: 0.55
-    activeAnimationTime: 0.45
+    recoveryTime: 0.4
+    activeAnimationTime: 0.6
     castWhileMoving: 0
     canCancelInto: 0
     cancelableDuration: 0
