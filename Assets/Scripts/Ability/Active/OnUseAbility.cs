@@ -29,7 +29,7 @@ public class OnUseAbility : ActiveAbility
     {
         if (abilityData.SoundOnCast != null)
         {
-            AudioManager.Instance.Play(abilityData.SoundOnCast);
+            AudioManager.Instance.Play(abilityData.SoundOnCast, abilityUse.AbilityManager.GetInstanceID().ToString());
         }
         if (abilityUse.Movement != null && !abilityData.CastWhileMoving)
         {
@@ -54,6 +54,10 @@ public class OnUseAbility : ActiveAbility
             {
                 IEnumerator soundLoopCoroutine = StopLoopedSound();
                 abilityUse.AbilityManager.StartCoroutine(soundLoopCoroutine);
+            }
+            if (abilityData.SoundOnCast)
+            {
+                AudioManager.Instance.StopSound(abilityData.SoundOnCast, abilityUse.AbilityManager.GetInstanceID().ToString());
             }
         }
         AbilityUtil.ActivateEffects(abilityData.Effects, abilityUse, abilityData.Duration);
@@ -100,6 +104,9 @@ public class OnUseAbility : ActiveAbility
                 AudioManager.Instance.StopSound(abilityData.SoundOnUse);
             }
             AbilityUtil.InterruptEffects(abilityData.Effects, abilityUse, abilityData.Duration, currentDuration);
+        } else if (abilityData.SoundOnCast)
+        {
+            AudioManager.Instance.StopSound(abilityData.SoundOnCast, abilityUse.AbilityManager.GetInstanceID().ToString());
         }
     }
 

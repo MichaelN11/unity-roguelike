@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -47,18 +46,20 @@ public class AudioManager : MonoBehaviour
     /// if one hasn't already been added for the sound.
     /// </summary>
     /// <param name="sound">The Sound scriptable object</param>
-    public void Play(Sound sound)
+    /// <param name="qualifier">An optional qualifier to distinguish between different instances of the same sound</param>
+    public void Play(Sound sound, string qualifier = "")
     {
         if (sound != null)
         {
-            if (!soundMap.TryGetValue(sound.name, out AudioSource audioSource))
+            string soundKey = sound.name + qualifier;
+            if (!soundMap.TryGetValue(soundKey, out AudioSource audioSource))
             {
                 audioSource = gameObject.AddComponent<AudioSource>();
                 audioSource.clip = sound.AudioClip;
                 audioSource.volume = sound.Volume;
                 audioSource.pitch = sound.Pitch;
                 audioSource.loop = sound.Loop;
-                soundMap.Add(sound.name, audioSource);
+                soundMap.Add(soundKey, audioSource);
             }
 
             if (audioSource == musicSource && audioSource.isPlaying)
@@ -120,9 +121,10 @@ public class AudioManager : MonoBehaviour
         }
     }
 
-    public void StopSound(Sound sound)
+    public void StopSound(Sound sound, string qualifier = "")
     {
-        if (soundMap.TryGetValue(sound.name, out AudioSource audioSource))
+        string soundKey = sound.name + qualifier;
+        if (soundMap.TryGetValue(soundKey, out AudioSource audioSource))
         {
             audioSource.Stop();
         }
