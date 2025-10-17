@@ -71,7 +71,6 @@ public class MovementEffect : AbilityEffect
             if (scaleToActiveTime && delayedAcceleration < 0)
             {
                 delay = Mathf.Max(abilityUseData.ActiveTime - DecelerationTime, 0);
-                Debug.Log($"Setting deceleration delay to {delay}");
             }
             if (delay > 0)
             {

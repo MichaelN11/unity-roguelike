@@ -234,6 +234,7 @@ public class AIController : MonoBehaviour
             if (usableAbilities.Count > 0)
             {
                 int nextIndex = UnityEngine.Random.Range(0, usableAbilities.Count);
+                Debug.Log($"AI {gameObject.name} selected ability {nextIndex} out of {usableAbilities.Count}");
                 currentAbility = usableAbilities[nextIndex];
             }
             abilityDeterminationTimer = TimeToDetermineAbility;

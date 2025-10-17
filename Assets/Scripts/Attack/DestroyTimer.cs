@@ -12,6 +12,10 @@ public class DestroyTimer : MonoBehaviour
 
     [SerializeField]
     private float maxTimer = 180;
+
+    [SerializeField]
+    private float finalAnimationTime = 0;
+
     private float timer = 0;
     private Animator animator;
 
@@ -38,7 +42,11 @@ public class DestroyTimer : MonoBehaviour
             if (animator != null)
             {
                 animator.SetTrigger("disappear");
-                Destroy(gameObject, 1.0f);
+            }
+            
+            if (finalAnimationTime > 0)
+            {
+                Destroy(gameObject, finalAnimationTime);
             }
             else
             {

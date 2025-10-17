@@ -18,4 +18,4 @@ MonoBehaviour:
   loop: 0
   volume: 0.15
   pitch: 1.2
-  pitchShift: 0.05
+  pitchShift: 0.1
