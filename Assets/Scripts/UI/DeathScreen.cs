@@ -67,6 +67,9 @@ public class DeathScreen : MonoBehaviour
             case AttackDescription.Claw:
                 deathAction = "torn to shreds";
                 break;
+            case AttackDescription.Curse:
+                deathAction = "cursed";
+                break;
         }
         return deathAction;
     }
@@ -93,6 +96,9 @@ public class DeathScreen : MonoBehaviour
                 break;
             case EntityDescription.Wolf:
                 deathSource = "a wolf";
+                break;
+            case EntityDescription.Witch:
+                deathSource = "a witch";
                 break;
         }
         return deathSource;

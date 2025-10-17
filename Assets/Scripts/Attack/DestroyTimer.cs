@@ -18,15 +18,38 @@ public class DestroyTimer : MonoBehaviour
 
     private float timer = 0;
     private Animator animator;
+    private Collider2D colliderComponent;
 
     private void Start()
     {
         animator = GetComponent<Animator>();
+        colliderComponent = GetComponent<Collider2D>();
     }
 
     private void Update()
     {
         IncrementTimer();
+    }
+
+    public void DestroyNow()
+    {
+        if (animator != null)
+        {
+            animator.SetTrigger("disappear");
+        }
+
+        if (finalAnimationTime > 0)
+        {
+            if (colliderComponent != null)
+            {
+                colliderComponent.enabled = false;
+            }
+            Destroy(gameObject, finalAnimationTime);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
     }
 
     /// <summary>
@@ -39,19 +62,7 @@ public class DestroyTimer : MonoBehaviour
         if (timer >= Duration
             || timer >= maxTimer)
         {
-            if (animator != null)
-            {
-                animator.SetTrigger("disappear");
-            }
-            
-            if (finalAnimationTime > 0)
-            {
-                Destroy(gameObject, finalAnimationTime);
-            }
-            else
-            {
-                Destroy(gameObject);
-            }
+            DestroyNow();
         }
     }
 }

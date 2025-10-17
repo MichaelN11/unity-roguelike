@@ -47,7 +47,7 @@ public class Projectile : MonoBehaviour
         if (totalDistance > MaxDistance)
         {
             Stop();
-            Destroy(gameObject, GroundStickDuration);
+            StartCoroutine(DelayDestroy(GroundStickDuration));
         }
         if (Direction != null && Direction != Vector2.zero && Speed > 0)
         {
@@ -84,7 +84,7 @@ public class Projectile : MonoBehaviour
         }
         Stop();
         Invoke(nameof(DisableCollider), ActiveTimeAfterWallHit);
-        Destroy(gameObject, WallStickDuration);
+        StartCoroutine(DelayDestroy(GroundStickDuration));
     }
 
     /// <summary>
@@ -96,7 +96,7 @@ public class Projectile : MonoBehaviour
         if (!IsPiercing && (!attackData.TargetIsObject || !IsPiercingDestructibles))
         {
             Stop();
-            Destroy(gameObject, attackData.HitStop);
+            StartCoroutine(DelayDestroy(GroundStickDuration));
         }
     }
 
@@ -117,6 +117,18 @@ public class Projectile : MonoBehaviour
         if (colliderComponent != null)
         {
             colliderComponent.enabled = false;
+        }
+    }
+
+    private IEnumerator DelayDestroy(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        if (destroyTimer != null)
+        {
+            destroyTimer.DestroyNow();
+        } else
+        {
+            Destroy(gameObject);
         }
     }
 }

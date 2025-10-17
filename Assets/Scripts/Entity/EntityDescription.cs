@@ -10,5 +10,6 @@ public enum EntityDescription
     Twig,
     Bandit,
     Minotaur,
-    Wolf
+    Wolf,
+    Witch
 }

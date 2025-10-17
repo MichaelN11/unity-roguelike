@@ -1,0 +1,15 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!221 &22100000
+AnimatorOverrideController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: WitchBall
+  m_Controller: {fileID: 9100000, guid: b8dd622d29eb14d038a7bd5d953616ce, type: 2}
+  m_Clips:
+  - m_OriginalClip: {fileID: 7400000, guid: e9d19185446e9442bb4ca4ce6597b96b, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 67044b018644d4975a22dd67dc2131b7, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 71ff547d373ed4a0baea9de7dca1eb2f, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: a573fd163684e4ab5af66f049980096e, type: 2}
