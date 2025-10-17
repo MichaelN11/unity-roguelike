@@ -30,7 +30,11 @@ public class AIController : MonoBehaviour
     /// <summary>
     /// The time between the entity deciding to use an ability, and redetermining which ability to use.
     /// </summary>
-    private const float TimeToDetermineAbility = 5;
+    private const float TimeToDetermineAbility = 4;
+    /// <summary>
+    /// The random offset added to the time between ability determinations.
+    /// </summary>
+    private const float DetermineAbilityRandomOffset = 2f;
     /// <summary>
     /// When checking for line of sight for using a ranged ability, the AI will assume the projectile radius is this large.
     /// </summary>
@@ -91,6 +95,7 @@ public class AIController : MonoBehaviour
 
     private void Start()
     {
+        abilityManager.OnAbilityUse += AbilityUsed;
         damageable.OnDamageTaken += OnDamageTaken;
         level = LevelManager.Instance;
         nextPosition = body.position;
@@ -234,11 +239,27 @@ public class AIController : MonoBehaviour
             if (usableAbilities.Count > 0)
             {
                 int nextIndex = UnityEngine.Random.Range(0, usableAbilities.Count);
-                Debug.Log($"AI {gameObject.name} selected ability {nextIndex} out of {usableAbilities.Count}");
                 currentAbility = usableAbilities[nextIndex];
             }
-            abilityDeterminationTimer = TimeToDetermineAbility;
+            ResetAbilityDetermination();
         }
+    }
+
+    private void ResetAbilityDetermination()
+    {
+        abilityDeterminationTimer = TimeToDetermineAbility
+            + UnityEngine.Random.Range(-DetermineAbilityRandomOffset, DetermineAbilityRandomOffset);
+    }
+
+    private void AbilityUsed(AbilityUseEventInfo eventInfo)
+    {
+        List<UsableAbilityInfo> usableAbilities = abilityManager.GetUsableAbilities();
+        if (usableAbilities.Count > 0)
+        {
+            int nextIndex = UnityEngine.Random.Range(0, usableAbilities.Count);
+            currentAbility = usableAbilities[nextIndex];
+        }
+        ResetAbilityDetermination();
     }
 
     /// <summary>
