@@ -34,6 +34,6 @@ MonoBehaviour:
     aimWhileCasting: 0
     aimDuration: 0
     changeDirection: 1
-    soundOnCast: {fileID: 0}
-    soundOnUse: {fileID: 11400000, guid: d83bd844f116846dfa94d38c4fe391b8, type: 2}
+    soundOnCast: {fileID: 11400000, guid: 6faad87d79ba2411cb1d1c1ef3818aa2, type: 2}
+    soundOnUse: {fileID: 11400000, guid: f13266a0050ff4cbf8a99a55c6498f1e, type: 2}
     stopSoundAfterUse: 0

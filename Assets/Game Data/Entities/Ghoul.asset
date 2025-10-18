@@ -18,7 +18,7 @@ MonoBehaviour:
   initialInventory: []
   characterClass: 0
   soundOnHit: {fileID: 0}
-  soundOnDeath: {fileID: 11400000, guid: a5a6f28d37fc8495ba0dd171300ffd04, type: 2}
+  soundOnDeath: {fileID: 11400000, guid: 4d7eb605d501e464a93d87eee36067b3, type: 2}
   soundOnAggro: {fileID: 0}
   walkSpeed: 2.6
   interactionOffset: {x: 1.2, y: 1.2}
