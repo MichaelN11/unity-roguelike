@@ -84,7 +84,7 @@ public class Projectile : MonoBehaviour
         }
         Stop();
         Invoke(nameof(DisableCollider), ActiveTimeAfterWallHit);
-        StartCoroutine(DelayDestroy(GroundStickDuration));
+        StartCoroutine(DelayDestroy(WallStickDuration));
     }
 
     /// <summary>
@@ -96,7 +96,7 @@ public class Projectile : MonoBehaviour
         if (!IsPiercing && (!attackData.TargetIsObject || !IsPiercingDestructibles))
         {
             Stop();
-            StartCoroutine(DelayDestroy(GroundStickDuration));
+            StartCoroutine(DelayDestroy(attackData.HitStop));
         }
     }
 
