@@ -11,5 +11,6 @@ public enum EntityDescription
     Bandit,
     Minotaur,
     Wolf,
-    Witch
+    Witch,
+    Ghoul
 }

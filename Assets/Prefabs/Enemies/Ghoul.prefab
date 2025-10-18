@@ -25,7 +25,7 @@ Transform:
   m_GameObject: {fileID: 1205336864}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.25, z: 0}
+  m_LocalPosition: {x: 0, y: 0.45, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -57,7 +57,7 @@ Transform:
   m_GameObject: {fileID: 6129442985966178209}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.03, y: -0.201, z: 0}
+  m_LocalPosition: {x: -0.1, y: -0.201, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -179,7 +179,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.05179882, y: 0.42719394}
+  m_Offset: {x: 0.005395651, y: 0.5052231}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -190,7 +190,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.0362682, y: 1.1900057}
+  m_Size: {x: 1.1377215, y: 1.4548398}
   m_EdgeRadius: 0
 --- !u!1 &7658967440879357034
 GameObject:
@@ -206,7 +206,7 @@ GameObject:
   - component: {fileID: 7658967440879357039}
   - component: {fileID: 7658967440879357038}
   m_Layer: 0
-  m_Name: Witch
+  m_Name: Ghoul
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -271,7 +271,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -1605350855, guid: 40e61a2ad40594494b878f1ee1a50d94, type: 3}
+  m_Sprite: {fileID: 617702650, guid: 4f315d95e888b44949737476d9dafbdf, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -292,7 +292,7 @@ Animator:
   m_GameObject: {fileID: 7658967440879357034}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 22100000, guid: beaa6609a1f3b4736819a23cde58f703, type: 2}
+  m_Controller: {fileID: 22100000, guid: 1a8eef568fe724d1cbaf5b777dec27d7, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -362,7 +362,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.032314777, y: -0.013849258}
+  m_Offset: {x: -0.09404516, y: 0.018286586}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.1}
@@ -373,5 +373,5 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.57880497, y: 0.3873595}
+  m_Size: {x: 0.70004845, y: 0.40618336}
   m_EdgeRadius: 0

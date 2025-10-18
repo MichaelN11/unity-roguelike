@@ -10,21 +10,21 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2421c10c0751840c281645757ffbf300, type: 3}
-  m_Name: Witch
+  m_Name: Ghoul
   m_EditorClassIdentifier: 
-  baseObject: {fileID: 7658967440879357034, guid: 30d8a3e219dc4461b9c9d3973acba874, type: 3}
+  baseObject: {fileID: 7658967440879357034, guid: e40498fd3d9b945e1be670b04741d115, type: 3}
   abilities:
-  - {fileID: 11400000, guid: e250c96dd09ee4d55bddba1cfa450524, type: 2}
+  - {fileID: 11400000, guid: c5ce685f1e01c4974ba9ae5690cbf67d, type: 2}
   initialInventory: []
   characterClass: 0
   soundOnHit: {fileID: 0}
-  soundOnDeath: {fileID: 11400000, guid: e056054e0dcbc41849d48f3daf8aed02, type: 2}
+  soundOnDeath: {fileID: 11400000, guid: a5a6f28d37fc8495ba0dd171300ffd04, type: 2}
   soundOnAggro: {fileID: 0}
-  walkSpeed: 3.2
-  interactionOffset: {x: 0.5, y: 0.5}
-  maxHealth: 2
-  hitStunDuration: 0.3
-  knockbackSpeed: 10
+  walkSpeed: 2.6
+  interactionOffset: {x: 1.2, y: 1.2}
+  maxHealth: 5
+  hitStunDuration: 0
+  knockbackSpeed: 7
   knockbackAcceleration: -0.4
   flashOnHitTime: 0.15
   deathTimer: 1
@@ -35,7 +35,7 @@ MonoBehaviour:
   itemDrops:
   - dropChance: 0.1
     inventoryItem:
-      Item: {fileID: 11400000, guid: 560d2307b56344ba5a0d88d9958b7158, type: 2}
+      Item: {fileID: 11400000, guid: 80a125bb684b646719a367b3320fddda, type: 2}
       Amount: 1
       LearnableAbility: {fileID: 0}
   - dropChance: 0.1
@@ -43,7 +43,7 @@ MonoBehaviour:
       Item: {fileID: 11400000, guid: 5119bd55b49a64a6abba3af687938fbf, type: 2}
       Amount: 1
       LearnableAbility: {fileID: 0}
-  description: 6
+  description: 7
   isBoss: 0
   footstepSounds: []
   footstepSoundInterval: 0.333

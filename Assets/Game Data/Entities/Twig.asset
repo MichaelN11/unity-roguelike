@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   baseObject: {fileID: 7658967440879357034, guid: 1967cb95051e242a89da6f9def849649, type: 3}
   abilities:
-  - {fileID: 11400000, guid: 319a3d6fe4f7e4701bf46aa6a429a751, type: 2}
+  - {fileID: 11400000, guid: 5ca9e118b33ff45b6ab5e844c35c0a8b, type: 2}
   initialInventory: []
   characterClass: 0
   soundOnHit: {fileID: 0}

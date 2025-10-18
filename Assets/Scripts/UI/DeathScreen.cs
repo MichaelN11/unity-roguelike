@@ -100,6 +100,9 @@ public class DeathScreen : MonoBehaviour
             case EntityDescription.Witch:
                 deathSource = "a witch";
                 break;
+            case EntityDescription.Ghoul:
+                deathSource = "a ghoul";
+                break;
         }
         return deathSource;
     }
