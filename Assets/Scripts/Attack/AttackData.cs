@@ -23,6 +23,7 @@ public class AttackData
     public AttackEvents AttackEvents { get; set; } = new AttackEvents();
 
     public float Damage { get; set; }
+    public float StunPower { get; set; }
     public float HitStop { get; set; }
     public float HitStunMultiplier { get; set; }
     public float KnockbackMultiplier { get; set; }

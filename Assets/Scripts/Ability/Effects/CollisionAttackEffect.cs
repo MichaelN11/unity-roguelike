@@ -40,6 +40,7 @@ public class CollisionAttackEffect : AbilityEffect
         attackData.HitStop = attackEffectData.HitStop;
         attackData.HitStunMultiplier = attackEffectData.HitStunMultiplier;
         attackData.KnockbackMultiplier = attackEffectData.KnockbackMultiplier;
+        attackData.StunPower = attackEffectData.StunPower;
         attackData.Description = attackEffectData.Description;
 
         AttackHandler.AttackEntity(attackData, entityCollisionEvent.SourceBody,

@@ -110,7 +110,13 @@ public class Damageable : MonoBehaviour
             entityState.Flash(entityData.Entity.FlashOnHitTime);
             AudioManager.Instance.Play(entityData.Entity.SoundOnHit);
             AttackResult attackResult = new();
-            attackResult.HitStunDuration = entityData.Entity.HitStunDuration * attackData.HitStunMultiplier;
+            if (attackData.StunPower > entityData.Entity.Poise)
+            {
+                attackResult.HitStunDuration = entityData.Entity.HitStunDuration * attackData.HitStunMultiplier;
+            } else
+            {
+                attackResult.HitStunDuration = 0;
+            }
             attackResult.KnockbackSpeed = entityData.Entity.KnockbackSpeed * attackData.KnockbackMultiplier;
             attackResult.KnockbackDirection = attackData.Direction;
             attackResult.KnockbackAcceleration = entityData.Entity.KnockbackAcceleration;

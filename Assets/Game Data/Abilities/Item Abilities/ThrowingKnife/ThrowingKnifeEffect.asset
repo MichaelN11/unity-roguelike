@@ -21,15 +21,28 @@ MonoBehaviour:
       prefabDuration: 10
       rotatePrefab: 1
       mirrorPrefabX: 0
+      useActiveTimeAsDuration: 0
     range: 6
     speed: 10
     wallStickDuration: 1
     groundStickDuration: 0
+    fullChargedSprite: {fileID: 0}
+    rangeIncreaseFromCharge: 0
+    speedIncreaseFromCharge: 0
+    isPiercing: 0
+    isPiercingDestructibles: 0
+    isPiercingWhenFullCharged: 0
+    numProjectiles: 1
+    spreadAngle: 0
   attackEffectData:
     soundOnHit: {fileID: 11400000, guid: db42481b98f464ab291d707fee37fcfd, type: 2}
     damage: 1
     attackDistance: 0
+    stunPower: 0.2
     hitStunMultiplier: 0.3
     knockbackMultiplier: 0.4
     hitStop: 0.06
     description: 9
+    damageIncreaseFromCharge: 0
+    hitStunIncreaseFromCharge: 0
+    knockbackIncreaseFromCharge: 0

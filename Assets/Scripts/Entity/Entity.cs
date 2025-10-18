@@ -46,6 +46,13 @@ public class Entity : ScriptableObject
     [SerializeField]
     private float maxHealth = 1;
     public float MaxHealth => maxHealth;
+    
+    /// <summary>
+    /// If an attack's stun power is greater than this value, the entity will be stunned.
+    /// </summary>
+    [SerializeField]
+    private float poise = 0;
+    public float Poise => poise;
 
     [SerializeField]
     private float hitStunDuration = 1;

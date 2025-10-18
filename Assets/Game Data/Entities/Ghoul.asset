@@ -20,10 +20,11 @@ MonoBehaviour:
   soundOnHit: {fileID: 0}
   soundOnDeath: {fileID: 11400000, guid: 4d7eb605d501e464a93d87eee36067b3, type: 2}
   soundOnAggro: {fileID: 0}
-  walkSpeed: 2.6
+  walkSpeed: 3.5
   interactionOffset: {x: 1.2, y: 1.2}
   maxHealth: 5
-  hitStunDuration: 0
+  poise: 0.5
+  hitStunDuration: 0.2
   knockbackSpeed: 7
   knockbackAcceleration: -0.4
   flashOnHitTime: 0.15

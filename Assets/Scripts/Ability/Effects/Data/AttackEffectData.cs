@@ -21,6 +21,13 @@ public class AttackEffectData
     private float attackDistance = 0;
     public float AttackDistance => attackDistance;
 
+    /// <summary>
+    /// If this value is greater than the target's poise, the target will be stunned.
+    /// </summary>
+    [SerializeField]
+    private float stunPower = 1;
+    public float StunPower => stunPower;
+
     [SerializeField]
     private float hitStunMultiplier = 1;
     public float HitStunMultiplier => hitStunMultiplier;
