@@ -83,11 +83,7 @@ public class EntityController : MonoBehaviour
 
         if (entityData.Entity.RightLeftRework)
         {
-            Vector2 faceDirection = movement.Direction;
-            if (animatorUpdater.IsAiming)
-            {
-                faceDirection = entityState.LookDirection;
-            }
+            Vector2 faceDirection = animatorUpdater.AnimationDirection;
             if (faceDirection.x > 0 && transform.localScale.x < 0)
             {
                 transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, transform.localScale.z);
