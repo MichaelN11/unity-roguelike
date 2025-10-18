@@ -55,10 +55,6 @@ public class OnUseAbility : ActiveAbility
                 IEnumerator soundLoopCoroutine = StopLoopedSound();
                 abilityUse.AbilityManager.StartCoroutine(soundLoopCoroutine);
             }
-            if (abilityData.SoundOnCast)
-            {
-                AudioManager.Instance.StopSound(abilityData.SoundOnCast, abilityUse.AbilityManager.GetInstanceID().ToString());
-            }
         }
         AbilityUtil.ActivateEffects(abilityData.Effects, abilityUse, abilityData.Duration);
     }
