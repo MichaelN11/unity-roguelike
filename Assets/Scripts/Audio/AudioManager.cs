@@ -51,6 +51,11 @@ public class AudioManager : MonoBehaviour
     {
         if (sound != null)
         {
+            if (Random.value > sound.ChanceToPlay)
+            {
+                return;
+            }
+            
             string soundKey = sound.name + qualifier;
             if (!soundMap.TryGetValue(soundKey, out AudioSource audioSource))
             {

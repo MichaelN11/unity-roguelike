@@ -19,3 +19,4 @@ MonoBehaviour:
   volume: 0.15
   pitch: 0.9
   pitchShift: 0.1
+  chanceToPlay: 0.3

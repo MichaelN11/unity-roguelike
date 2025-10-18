@@ -22,7 +22,7 @@ MonoBehaviour:
   soundOnAggro: {fileID: 0}
   walkSpeed: 3.5
   interactionOffset: {x: 1.2, y: 1.2}
-  maxHealth: 5
+  maxHealth: 6
   poise: 0.5
   hitStunDuration: 0.2
   knockbackSpeed: 7
