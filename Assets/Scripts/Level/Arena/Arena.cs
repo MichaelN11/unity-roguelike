@@ -37,6 +37,7 @@ public class Arena : MonoBehaviour
     private bool readyToTrigger = true;
     private EventWall[] eventWalls;
     private ArenaSpawner[] spawners;
+    private List<ArenaSpawner> availableSpawners;
     private int enemiesRemaining = 0;
     private List<GameObject> spawnedEnemies = new();
     private List<Entity> enemiesToSpawn;
@@ -122,21 +123,21 @@ public class Arena : MonoBehaviour
                 enemiesToSpawn.Add(entitySpawn.Entity);
             }
         }
-        List<ArenaSpawner> spawnerLocations = new(spawners);
+        availableSpawners = new(spawners);
 
-        if (spawnerLocations.Count > enemiesToSpawn.Count 
-            || spawnerLocations.Count > currentWave.MaxInitialEnemies)
+        if (availableSpawners.Count > enemiesToSpawn.Count 
+            || availableSpawners.Count > currentWave.MaxInitialEnemies)
         {
             // Shuffle spawner locations to get random selection
-            for (int i = 0; i < spawnerLocations.Count; i++)
+            for (int i = 0; i < availableSpawners.Count; i++)
             {
-                int randomIndex = Random.Range(0, spawnerLocations.Count);
-                ArenaSpawner temp = spawnerLocations[i];
-                spawnerLocations[i] = spawnerLocations[randomIndex];
-                spawnerLocations[randomIndex] = temp;
+                int randomIndex = Random.Range(0, availableSpawners.Count);
+                ArenaSpawner temp = availableSpawners[i];
+                availableSpawners[i] = availableSpawners[randomIndex];
+                availableSpawners[randomIndex] = temp;
             }
         }
-        foreach (ArenaSpawner spawner in spawnerLocations)
+        foreach (ArenaSpawner spawner in availableSpawners)
         {
             if (enemiesToSpawn.Count == 0
                 || enemiesRemaining >= currentWave.MaxInitialEnemies)
@@ -167,12 +168,25 @@ public class Arena : MonoBehaviour
         enemiesRemaining--;
         if (waves[currentWaveIndex].SpawnMoreOnKill && enemiesToSpawn.Count > 0)
         {
-            SpawnEnemy(spawners[Random.Range(0, spawners.Length)], true);
+            StartCoroutine(SpawnEnemyAtAvailableSpawner());
         }
         else if (enemiesRemaining <= 0)
         {
             CompleteWave();
         }
+    }
+
+    private IEnumerator SpawnEnemyAtAvailableSpawner()
+    {
+        while (availableSpawners.Count == 0)
+        {
+            Debug.Log("No available spawners, waiting...");
+            yield return new WaitForSeconds(1f);
+        }
+        int randomSpawnerIndex = Random.Range(0, availableSpawners.Count);
+        ArenaSpawner spawner = availableSpawners[randomSpawnerIndex];
+        availableSpawners.RemoveAt(randomSpawnerIndex);
+        SpawnEnemy(spawner, true);
     }
 
     private void SpawnEnemy(ArenaSpawner spawner, bool delayed)
@@ -184,7 +198,7 @@ public class Arena : MonoBehaviour
 
         if (delayed)
         {
-            IEnumerator coroutine = CreateEnemyAfterDelay(enemy, spawner.transform.position, enemySpawnTime);
+            IEnumerator coroutine = CreateEnemyAfterDelay(enemy, spawner, enemySpawnTime);
             StartCoroutine(coroutine);
 
             if (spawnEffect != null)
@@ -199,10 +213,14 @@ public class Arena : MonoBehaviour
         }
     }
 
-    private IEnumerator CreateEnemyAfterDelay(Entity enemy, Vector2 position, float delay)
+    private IEnumerator CreateEnemyAfterDelay(Entity enemy, ArenaSpawner spawner, float delay)
     {
         yield return new WaitForSeconds(delay);
-        CreateEnemy(enemy, position);
+        CreateEnemy(enemy, spawner.transform.position);
+
+        if (!availableSpawners.Contains(spawner)) {
+            availableSpawners.Add(spawner);
+        }
     }
 
     private void CreateEnemy(Entity enemy, Vector2 position)
@@ -222,7 +240,7 @@ public class Arena : MonoBehaviour
         while (enemiesToSpawn.Count > 0 && enemiesRemaining < maxAtOnce)
         {
             yield return new WaitForSeconds(interval);
-            SpawnEnemy(spawners[Random.Range(0, spawners.Length)], true);
+            StartCoroutine(SpawnEnemyAtAvailableSpawner());
         }
     }
 

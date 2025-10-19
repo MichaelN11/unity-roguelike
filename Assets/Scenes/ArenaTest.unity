@@ -11707,7 +11707,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &237022336
 Transform:
   m_ObjectHideFlags: 0
@@ -11804,7 +11804,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &325947620
 Transform:
   m_ObjectHideFlags: 0
@@ -11901,7 +11901,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &337963156
 Transform:
   m_ObjectHideFlags: 0
@@ -16952,7 +16952,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &405116109
 Transform:
   m_ObjectHideFlags: 0
@@ -17049,7 +17049,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &538156336
 Transform:
   m_ObjectHideFlags: 0
@@ -17146,7 +17146,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &685979170
 Transform:
   m_ObjectHideFlags: 0
@@ -17321,7 +17321,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &727577815
 Transform:
   m_ObjectHideFlags: 0
@@ -17423,7 +17423,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1182748815
 Transform:
   m_ObjectHideFlags: 0
@@ -36552,7 +36552,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1555886383
 Transform:
   m_ObjectHideFlags: 0
@@ -36649,7 +36649,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1594288967
 Transform:
   m_ObjectHideFlags: 0
@@ -36928,7 +36928,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1800073429
 Transform:
   m_ObjectHideFlags: 0
@@ -37964,15 +37964,15 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: b6933aea34d6a4af1b397c62a09087ad, type: 2}
     - target: {fileID: 6561226402009270875, guid: e0dad15f108d34a10980a5c26fbd5578, type: 3}
       propertyPath: waves.Array.data[0].MaxEnemiesAtOnce
-      value: 4
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 6561226402009270875, guid: e0dad15f108d34a10980a5c26fbd5578, type: 3}
       propertyPath: waves.Array.data[0].MaxInitialEnemies
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 6561226402009270875, guid: e0dad15f108d34a10980a5c26fbd5578, type: 3}
       propertyPath: waves.Array.data[0].EnemySpawnInterval
-      value: 2
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 6561226402009270875, guid: e0dad15f108d34a10980a5c26fbd5578, type: 3}
       propertyPath: waves.Array.data[0].EnemySpawns.Array.size
