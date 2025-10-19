@@ -27,6 +27,10 @@ public class ArenaWave
     /// </summary>
     [SerializeField]
     public bool SpawnMoreOnKill = true;
+    /// <summary>
+    /// Whether to spawn enemies in random order or sequentially from the EnemySpawns list.
+    /// </summary>
+    public bool randomOrder = true;
 
     public List<EntitySpawn> EnemySpawns;
 }

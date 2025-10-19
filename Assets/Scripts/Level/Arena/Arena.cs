@@ -191,10 +191,19 @@ public class Arena : MonoBehaviour
 
     private void SpawnEnemy(ArenaSpawner spawner, bool delayed)
     {
-        int randomIndex = Random.Range(0, enemiesToSpawn.Count);
-        Entity enemy = enemiesToSpawn[randomIndex];
+        Entity enemy;
+        if (waves[currentWaveIndex].randomOrder)
+        {
+            int randomIndex = Random.Range(0, enemiesToSpawn.Count);
+            enemy = enemiesToSpawn[randomIndex];
+            enemiesToSpawn.RemoveAt(randomIndex);
+        }
+        else
+        {
+            enemy = enemiesToSpawn[0];
+            enemiesToSpawn.RemoveAt(0);
+        }
         enemiesRemaining++;
-        enemiesToSpawn.RemoveAt(randomIndex);
 
         if (delayed)
         {
