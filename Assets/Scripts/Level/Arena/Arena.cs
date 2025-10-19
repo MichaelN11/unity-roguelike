@@ -11,7 +11,7 @@ public class Arena : MonoBehaviour
     public GameObject TriggerArea { get; private set; }
 
     [SerializeField]
-    private List<EntitySpawn> enemySpawns;
+    private List<ArenaWave> waves;
 
     /// <summary>
     /// Whether to only spawn enemies when the player enters the trigger area.
@@ -25,12 +25,6 @@ public class Arena : MonoBehaviour
     /// </summary>
     [SerializeField]
     private bool spawnMoreOnKill = true;
-
-    /// <summary>
-    /// Max number of enemies at once. Can't be more than the number of spawners.
-    /// </summary>
-    [SerializeField]
-    private int maxSimultaneousEnemies = 3;
 
     [SerializeField]
     private float enemySpawnTime = 2f;
@@ -53,6 +47,7 @@ public class Arena : MonoBehaviour
     private List<GameObject> spawnedEnemies = new();
     private List<Entity> enemiesToSpawn;
     private bool enemiesAggroed = false;
+    private int currentWaveIndex = 0;
 
     void Start()
     {
@@ -104,8 +99,16 @@ public class Arena : MonoBehaviour
 
     private void SpawnEnemies(bool delayed)
     {
+        ArenaWave currentWave = waves[currentWaveIndex];
+        List<EntitySpawn> waveSpawns = currentWave.EnemySpawns;
+        if (waveSpawns == null || waveSpawns.Count == 0 || currentWave.MaxInitialEnemies <= 0)
+        {
+            Debug.LogWarning("No enemy spawns defined for arena wave " + currentWaveIndex);
+            CompleteWave();
+            return;
+        }
         enemiesToSpawn = new();
-        foreach (EntitySpawn entitySpawn in enemySpawns)
+        foreach (EntitySpawn entitySpawn in waveSpawns)
         {
             for (int i = 0; i < entitySpawn.Amount; i++)
             {
@@ -113,7 +116,9 @@ public class Arena : MonoBehaviour
             }
         }
         List<ArenaSpawner> spawnerLocations = new(spawners);
-        if (spawnerLocations.Count > enemiesToSpawn.Count)
+
+        if (spawnerLocations.Count > enemiesToSpawn.Count 
+            || spawnerLocations.Count > currentWave.MaxInitialEnemies)
         {
             // Shuffle spawner locations to get random selection
             for (int i = 0; i < spawnerLocations.Count; i++)
@@ -126,7 +131,8 @@ public class Arena : MonoBehaviour
         }
         foreach (ArenaSpawner spawner in spawnerLocations)
         {
-            if (enemiesToSpawn.Count == 0 || enemiesRemaining >= maxSimultaneousEnemies)
+            if (enemiesToSpawn.Count == 0 
+                || enemiesRemaining >= currentWave.MaxInitialEnemies)
             {
                 break;
             }
@@ -153,14 +159,7 @@ public class Arena : MonoBehaviour
         }
         else if (enemiesRemaining <= 0)
         {
-            if (stopMusic)
-            {
-                StartCoroutine(StopMusicAfterDelay(musicStopDelay));
-            }
-            foreach (EventWall eventWall in eventWalls)
-            {
-                eventWall.RetractWall();
-            }
+            CompleteWave();
         }
     }
 
@@ -203,6 +202,31 @@ public class Arena : MonoBehaviour
         if (enemiesAggroed)
         {
             enemyObject.GetComponent<AIController>()?.AggroPermanently();
+        }
+    }
+
+    private void CompleteWave()
+    {
+        if (currentWaveIndex < waves.Count - 1)
+        {
+            currentWaveIndex++;
+            SpawnEnemies(true);
+        }
+        else
+        {
+            EndArena();
+        }
+    }
+
+    private void EndArena()
+    {
+        if (stopMusic)
+        {
+            StartCoroutine(StopMusicAfterDelay(musicStopDelay));
+        }
+        foreach (EventWall eventWall in eventWalls)
+        {
+            eventWall.RetractWall();
         }
     }
     
