@@ -20,12 +20,6 @@ public class Arena : MonoBehaviour
     [SerializeField]
     private bool spawnOnlyOnTrigger = false;
 
-    /// <summary>
-    /// Whether to spawn a new enemy when one is killed, until all enemies have been spawned.
-    /// </summary>
-    [SerializeField]
-    private bool spawnMoreOnKill = true;
-
     [SerializeField]
     private float enemySpawnTime = 2f;
 
@@ -48,6 +42,19 @@ public class Arena : MonoBehaviour
     private List<Entity> enemiesToSpawn;
     private bool enemiesAggroed = false;
     private int currentWaveIndex = 0;
+    private IEnumerator spawnCoroutine = null;
+
+    /// <summary>
+    /// Workaround for Unity not initializing serialized lists with default values.
+    /// https://issuetracker.unity3d.com/issues/serializefield-list-objects-are-not-initialized-with-class-slash-struct-default-values-when-adding-objects-in-the-inspector-window
+    /// </summary>
+    private void OnValidate()
+    {
+        if (waves == null || waves.Count == 0)
+        {
+            waves = new List<ArenaWave> { new ArenaWave() };
+        }
+    }
 
     void Start()
     {
@@ -131,12 +138,17 @@ public class Arena : MonoBehaviour
         }
         foreach (ArenaSpawner spawner in spawnerLocations)
         {
-            if (enemiesToSpawn.Count == 0 
+            if (enemiesToSpawn.Count == 0
                 || enemiesRemaining >= currentWave.MaxInitialEnemies)
             {
                 break;
             }
             SpawnEnemy(spawner, delayed);
+        }
+        if (currentWave.EnemySpawnInterval > 0f)
+        {
+            spawnCoroutine = SpawnEnemyOnTimer(currentWave.EnemySpawnInterval, currentWave.MaxEnemiesAtOnce);
+            StartCoroutine(spawnCoroutine);
         }
     }
 
@@ -153,7 +165,7 @@ public class Arena : MonoBehaviour
     private void EnemyDeath(DeathContext deathContext)
     {
         enemiesRemaining--;
-        if (spawnMoreOnKill && enemiesToSpawn.Count > 0)
+        if (waves[currentWaveIndex].SpawnMoreOnKill && enemiesToSpawn.Count > 0)
         {
             SpawnEnemy(spawners[Random.Range(0, spawners.Length)], true);
         }
@@ -205,8 +217,23 @@ public class Arena : MonoBehaviour
         }
     }
 
+    private IEnumerator SpawnEnemyOnTimer(float interval, int maxAtOnce)
+    {
+        while (enemiesToSpawn.Count > 0 && enemiesRemaining < maxAtOnce)
+        {
+            yield return new WaitForSeconds(interval);
+            SpawnEnemy(spawners[Random.Range(0, spawners.Length)], true);
+        }
+    }
+
     private void CompleteWave()
     {
+        if (spawnCoroutine != null)
+        {
+            StopCoroutine(spawnCoroutine);
+            spawnCoroutine = null;
+        }
+
         if (currentWaveIndex < waves.Count - 1)
         {
             currentWaveIndex++;
