@@ -11,6 +11,9 @@ public class Arena : MonoBehaviour
     public GameObject TriggerArea { get; private set; }
 
     [SerializeField]
+    private List<Chest> rewardChests;
+
+    [SerializeField]
     private List<ArenaWave> waves;
 
     /// <summary>
@@ -22,6 +25,9 @@ public class Arena : MonoBehaviour
 
     [SerializeField]
     private float enemySpawnTime = 2f;
+
+    [SerializeField]
+    private float chestSpawnTime = 1f;
 
     [SerializeField]
     private bool stopMusic = true;
@@ -75,6 +81,11 @@ public class Arena : MonoBehaviour
         if (!spawnOnlyOnTrigger)
         {
             SpawnEnemies(false);
+        }
+
+        foreach (Chest chest in rewardChests)
+        {
+            chest.gameObject.SetActive(false);
         }
     }
 
@@ -281,6 +292,33 @@ public class Arena : MonoBehaviour
         foreach (EventWall eventWall in eventWalls)
         {
             eventWall.RetractWall();
+        }
+
+        if (spawnEffect != null)
+        {
+            foreach (Chest chest in rewardChests)
+            {
+                GameObject effect = Instantiate(spawnEffect, chest.transform.position, Quaternion.identity);
+                effect.GetComponent<DestroyTimer>().Duration = chestSpawnTime;
+            }
+        }
+        StartCoroutine(SpawnChestsAfterDelay(chestSpawnTime));
+    }
+
+    private IEnumerator SpawnChestsAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        foreach (Chest chest in rewardChests)
+        {
+            chest.gameObject.SetActive(true);
+            ItemDrop randomItemDrop = ItemDropUtil.GetRandomItemDrop(GameManager.Instance.ShuffledRareDrops, true);
+            if (randomItemDrop != null)
+            {
+                chest.AddInventoryItem(randomItemDrop.InventoryItem);
+            } else
+            {
+                Debug.LogWarning("No item drop available for arena reward chest.");
+            }
         }
     }
     

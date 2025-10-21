@@ -109,6 +109,15 @@ public class Chest : MonoBehaviour, IInteractable
         return !opened;
     }
 
+    public void AddInventoryItem(InventoryItem inventoryItem)
+    {
+        if (levelObject != null)
+        {
+            levelObject.ContainedItem = inventoryItem;
+            opened = false;
+        }
+    }
+
     private bool IsEmpty(LevelObject levelObject)
     {
         return levelObject == null
