@@ -280,6 +280,10 @@ public class AnimatorUpdater : MonoBehaviour
         if (entityState.ActionState == ActionState.Idle)
         {
             animator.SetBool("isIdle", true);
+            if (animationDirection != Vector2.left)
+            {
+                SetLookDirection(Vector2.left);
+            }
         }
         else
         {
