@@ -1,0 +1,239 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eb15798df03e74e2cb727da5013415eb, type: 3}
+  m_Name: ForestLevel1
+  m_EditorClassIdentifier: 
+  <VeryEasyWaves>k__BackingField:
+  - MaxInitialEnemies: 50
+    EnemySpawnInterval: -1
+    MaxEnemiesAtOnce: 50
+    SpawnMoreOnKill: 1
+    randomOrder: 1
+    EnemySpawns:
+    - Entity: {fileID: 11400000, guid: e621e08a2aba145abbd8b41c75f01540, type: 2}
+      Amount: 3
+  - MaxInitialEnemies: 2
+    EnemySpawnInterval: -1
+    MaxEnemiesAtOnce: 50
+    SpawnMoreOnKill: 1
+    randomOrder: 1
+    EnemySpawns:
+    - Entity: {fileID: 11400000, guid: e621e08a2aba145abbd8b41c75f01540, type: 2}
+      Amount: 4
+  - MaxInitialEnemies: 2
+    EnemySpawnInterval: -1
+    MaxEnemiesAtOnce: 50
+    SpawnMoreOnKill: 1
+    randomOrder: 1
+    EnemySpawns:
+    - Entity: {fileID: 11400000, guid: b6933aea34d6a4af1b397c62a09087ad, type: 2}
+      Amount: 1
+  - MaxInitialEnemies: 2
+    EnemySpawnInterval: -1
+    MaxEnemiesAtOnce: 50
+    SpawnMoreOnKill: 1
+    randomOrder: 1
+    EnemySpawns:
+    - Entity: {fileID: 11400000, guid: ae9c6a3a08e324b93b79e570b2531b49, type: 2}
+      Amount: 1
+  <EasyWaves>k__BackingField:
+  - MaxInitialEnemies: 50
+    EnemySpawnInterval: -1
+    MaxEnemiesAtOnce: 50
+    SpawnMoreOnKill: 1
+    randomOrder: 1
+    EnemySpawns:
+    - Entity: {fileID: 11400000, guid: e621e08a2aba145abbd8b41c75f01540, type: 2}
+      Amount: 5
+  - MaxInitialEnemies: 3
+    EnemySpawnInterval: -1
+    MaxEnemiesAtOnce: 50
+    SpawnMoreOnKill: 1
+    randomOrder: 1
+    EnemySpawns:
+    - Entity: {fileID: 11400000, guid: e621e08a2aba145abbd8b41c75f01540, type: 2}
+      Amount: 8
+  - MaxInitialEnemies: 3
+    EnemySpawnInterval: -1
+    MaxEnemiesAtOnce: 50
+    SpawnMoreOnKill: 1
+    randomOrder: 1
+    EnemySpawns:
+    - Entity: {fileID: 11400000, guid: e621e08a2aba145abbd8b41c75f01540, type: 2}
+      Amount: 2
+    - Entity: {fileID: 11400000, guid: b6933aea34d6a4af1b397c62a09087ad, type: 2}
+      Amount: 1
+  - MaxInitialEnemies: 3
+    EnemySpawnInterval: -1
+    MaxEnemiesAtOnce: 50
+    SpawnMoreOnKill: 1
+    randomOrder: 1
+    EnemySpawns:
+    - Entity: {fileID: 11400000, guid: b6933aea34d6a4af1b397c62a09087ad, type: 2}
+      Amount: 2
+  - MaxInitialEnemies: 3
+    EnemySpawnInterval: -1
+    MaxEnemiesAtOnce: 50
+    SpawnMoreOnKill: 1
+    randomOrder: 1
+    EnemySpawns:
+    - Entity: {fileID: 11400000, guid: ae9c6a3a08e324b93b79e570b2531b49, type: 2}
+      Amount: 2
+  - MaxInitialEnemies: 3
+    EnemySpawnInterval: -1
+    MaxEnemiesAtOnce: 50
+    SpawnMoreOnKill: 1
+    randomOrder: 1
+    EnemySpawns:
+    - Entity: {fileID: 11400000, guid: ee9171aee81a946ed88fcf8ec2d3b331, type: 2}
+      Amount: 1
+  - MaxInitialEnemies: 3
+    EnemySpawnInterval: -1
+    MaxEnemiesAtOnce: 50
+    SpawnMoreOnKill: 1
+    randomOrder: 1
+    EnemySpawns:
+    - Entity: {fileID: 11400000, guid: b6f1b6827ec3a46c7bf4dfceeafb473c, type: 2}
+      Amount: 1
+  <MediumWaves>k__BackingField:
+  - MaxInitialEnemies: 5
+    EnemySpawnInterval: 2
+    MaxEnemiesAtOnce: 20
+    SpawnMoreOnKill: 1
+    randomOrder: 1
+    EnemySpawns:
+    - Entity: {fileID: 11400000, guid: e621e08a2aba145abbd8b41c75f01540, type: 2}
+      Amount: 20
+  - MaxInitialEnemies: 8
+    EnemySpawnInterval: -1
+    MaxEnemiesAtOnce: 20
+    SpawnMoreOnKill: 1
+    randomOrder: 0
+    EnemySpawns:
+    - Entity: {fileID: 11400000, guid: b6933aea34d6a4af1b397c62a09087ad, type: 2}
+      Amount: 2
+    - Entity: {fileID: 11400000, guid: e621e08a2aba145abbd8b41c75f01540, type: 2}
+      Amount: 10
+  - MaxInitialEnemies: 2
+    EnemySpawnInterval: -1
+    MaxEnemiesAtOnce: 20
+    SpawnMoreOnKill: 1
+    randomOrder: 1
+    EnemySpawns:
+    - Entity: {fileID: 11400000, guid: ee9171aee81a946ed88fcf8ec2d3b331, type: 2}
+      Amount: 2
+  - MaxInitialEnemies: 4
+    EnemySpawnInterval: -1
+    MaxEnemiesAtOnce: 20
+    SpawnMoreOnKill: 1
+    randomOrder: 1
+    EnemySpawns:
+    - Entity: {fileID: 11400000, guid: ae9c6a3a08e324b93b79e570b2531b49, type: 2}
+      Amount: 4
+  - MaxInitialEnemies: 4
+    EnemySpawnInterval: -1
+    MaxEnemiesAtOnce: 20
+    SpawnMoreOnKill: 1
+    randomOrder: 1
+    EnemySpawns:
+    - Entity: {fileID: 11400000, guid: b6f1b6827ec3a46c7bf4dfceeafb473c, type: 2}
+      Amount: 1
+    - Entity: {fileID: 11400000, guid: e621e08a2aba145abbd8b41c75f01540, type: 2}
+      Amount: 3
+  <HardWaves>k__BackingField:
+  - MaxInitialEnemies: 50
+    EnemySpawnInterval: -1
+    MaxEnemiesAtOnce: 50
+    SpawnMoreOnKill: 1
+    randomOrder: 1
+    EnemySpawns:
+    - Entity: {fileID: 11400000, guid: b6f1b6827ec3a46c7bf4dfceeafb473c, type: 2}
+      Amount: 2
+  - MaxInitialEnemies: 3
+    EnemySpawnInterval: -1
+    MaxEnemiesAtOnce: 50
+    SpawnMoreOnKill: 1
+    randomOrder: 1
+    EnemySpawns:
+    - Entity: {fileID: 11400000, guid: ee9171aee81a946ed88fcf8ec2d3b331, type: 2}
+      Amount: 5
+  - MaxInitialEnemies: 4
+    EnemySpawnInterval: 8
+    MaxEnemiesAtOnce: 50
+    SpawnMoreOnKill: 1
+    randomOrder: 0
+    EnemySpawns:
+    - Entity: {fileID: 11400000, guid: b6933aea34d6a4af1b397c62a09087ad, type: 2}
+      Amount: 3
+    - Entity: {fileID: 11400000, guid: ee9171aee81a946ed88fcf8ec2d3b331, type: 2}
+      Amount: 2
+  - MaxInitialEnemies: 4
+    EnemySpawnInterval: 4
+    MaxEnemiesAtOnce: 50
+    SpawnMoreOnKill: 0
+    randomOrder: 0
+    EnemySpawns:
+    - Entity: {fileID: 11400000, guid: ae9c6a3a08e324b93b79e570b2531b49, type: 2}
+      Amount: 12
+  - MaxInitialEnemies: 4
+    EnemySpawnInterval: -1
+    MaxEnemiesAtOnce: 50
+    SpawnMoreOnKill: 1
+    randomOrder: 0
+    EnemySpawns:
+    - Entity: {fileID: 11400000, guid: b6f1b6827ec3a46c7bf4dfceeafb473c, type: 2}
+      Amount: 1
+    - Entity: {fileID: 11400000, guid: ee9171aee81a946ed88fcf8ec2d3b331, type: 2}
+      Amount: 1
+    - Entity: {fileID: 11400000, guid: e621e08a2aba145abbd8b41c75f01540, type: 2}
+      Amount: 8
+    - Entity: {fileID: 11400000, guid: b6f1b6827ec3a46c7bf4dfceeafb473c, type: 2}
+      Amount: 1
+  - MaxInitialEnemies: 5
+    EnemySpawnInterval: -1
+    MaxEnemiesAtOnce: 50
+    SpawnMoreOnKill: 1
+    randomOrder: 0
+    EnemySpawns:
+    - Entity: {fileID: 11400000, guid: b6933aea34d6a4af1b397c62a09087ad, type: 2}
+      Amount: 10
+  - MaxInitialEnemies: 5
+    EnemySpawnInterval: -1
+    MaxEnemiesAtOnce: 50
+    SpawnMoreOnKill: 1
+    randomOrder: 0
+    EnemySpawns:
+    - Entity: {fileID: 11400000, guid: b6f1b6827ec3a46c7bf4dfceeafb473c, type: 2}
+      Amount: 1
+    - Entity: {fileID: 11400000, guid: ae9c6a3a08e324b93b79e570b2531b49, type: 2}
+      Amount: 4
+  <VeryHardWaves>k__BackingField:
+  - MaxInitialEnemies: 6
+    EnemySpawnInterval: 4
+    MaxEnemiesAtOnce: 50
+    SpawnMoreOnKill: 0
+    randomOrder: 0
+    EnemySpawns:
+    - Entity: {fileID: 11400000, guid: b6f1b6827ec3a46c7bf4dfceeafb473c, type: 2}
+      Amount: 2
+    - Entity: {fileID: 11400000, guid: ae9c6a3a08e324b93b79e570b2531b49, type: 2}
+      Amount: 10
+  - MaxInitialEnemies: 7
+    EnemySpawnInterval: -1
+    MaxEnemiesAtOnce: 50
+    SpawnMoreOnKill: 1
+    randomOrder: 0
+    EnemySpawns:
+    - Entity: {fileID: 11400000, guid: b6933aea34d6a4af1b397c62a09087ad, type: 2}
+      Amount: 3
+    - Entity: {fileID: 11400000, guid: ee9171aee81a946ed88fcf8ec2d3b331, type: 2}
+      Amount: 8

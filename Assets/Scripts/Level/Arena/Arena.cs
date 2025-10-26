@@ -14,7 +14,10 @@ public class Arena : MonoBehaviour
     private List<Chest> rewardChests;
 
     [SerializeField]
-    private List<ArenaWave> waves;
+    private List<ArenaStage> arenaStages;
+
+    [SerializeField]
+    private ArenaEncounterTable encounterTable;
 
     /// <summary>
     /// Whether to only spawn enemies when the player enters the trigger area.
@@ -50,6 +53,7 @@ public class Arena : MonoBehaviour
     private bool enemiesAggroed = false;
     private int currentWaveIndex = 0;
     private IEnumerator spawnCoroutine = null;
+    private List<ArenaWave> waves = new();
 
     /// <summary>
     /// Workaround for Unity not initializing serialized lists with default values.
@@ -57,14 +61,16 @@ public class Arena : MonoBehaviour
     /// </summary>
     private void OnValidate()
     {
-        if (waves == null || waves.Count == 0)
+        if (arenaStages == null || arenaStages.Count == 0)
         {
-            waves = new List<ArenaWave> { new ArenaWave() };
+            arenaStages = new List<ArenaStage> { new ArenaStage() };
         }
     }
 
     void Start()
     {
+        InitializeWaves();
+
         if (TriggerArea != null)
         {
             triggerBounds = new Bounds();
@@ -194,6 +200,14 @@ public class Arena : MonoBehaviour
             Debug.Log("No available spawners, waiting...");
             yield return new WaitForSeconds(1f);
         }
+        
+        // Add check for enemies remaining to spawn
+        if (enemiesToSpawn.Count == 0)
+        {
+            Debug.Log("No more enemies to spawn");
+            yield break;
+        }
+        
         int randomSpawnerIndex = Random.Range(0, availableSpawners.Count);
         ArenaSpawner spawner = availableSpawners[randomSpawnerIndex];
         availableSpawners.RemoveAt(randomSpawnerIndex);
@@ -202,6 +216,13 @@ public class Arena : MonoBehaviour
 
     private void SpawnEnemy(ArenaSpawner spawner, bool delayed)
     {
+        // Safety check
+        if (enemiesToSpawn.Count == 0)
+        {
+            Debug.LogWarning("Attempted to spawn enemy with empty enemies list");
+            return;
+        }
+
         Entity enemy;
         if (waves[currentWaveIndex].randomOrder)
         {
@@ -321,10 +342,97 @@ public class Arena : MonoBehaviour
             }
         }
     }
-    
+
     private IEnumerator StopMusicAfterDelay(float delay)
     {
         yield return new WaitForSeconds(delay);
         AudioManager.Instance.StopMusic();
+    }
+    
+    private void InitializeWaves()
+    {
+        List<ArenaWave> veryEasyWaves = null;
+        List<ArenaWave> easyWaves = null;
+        List<ArenaWave> mediumWaves = null;
+        List<ArenaWave> hardWaves = null;
+        List<ArenaWave> veryHardWaves = null;
+
+        if (encounterTable != null)
+        {
+            veryEasyWaves = new(encounterTable.VeryEasyWaves);
+            easyWaves = new(encounterTable.EasyWaves);
+            mediumWaves = new(encounterTable.MediumWaves);
+            hardWaves = new(encounterTable.HardWaves);
+            veryHardWaves = new(encounterTable.VeryHardWaves);
+        }
+
+        foreach(ArenaStage stage in arenaStages)
+        {
+            if (stage.Difficulty == WaveDifficulty.Static)
+            {
+                if (stage.StaticWave != null)
+                {
+                    waves.Add(stage.StaticWave);
+                }
+                else
+                {
+                    Debug.LogWarning("Static wave not defined for static arena stage.");
+                }
+            }
+            else
+            {
+                if (encounterTable == null)
+                {
+                    Debug.LogWarning("Encounter table not defined for arena with non-static stage.");
+                    continue;
+                }
+
+                List<ArenaWave> tempWaveList = null;
+                List<ArenaWave> fullWaveList = null;
+                switch (stage.Difficulty)
+                {
+                    case WaveDifficulty.VeryEasy:
+                        tempWaveList = veryEasyWaves;
+                        fullWaveList = encounterTable.VeryEasyWaves;
+                        break;
+                    case WaveDifficulty.Easy:
+                        tempWaveList = easyWaves;
+                        fullWaveList = encounterTable.EasyWaves;
+                        break;
+                    case WaveDifficulty.Medium:
+                        tempWaveList = mediumWaves;
+                        fullWaveList = encounterTable.MediumWaves;
+                        break;
+                    case WaveDifficulty.Hard:
+                        tempWaveList = hardWaves;
+                        fullWaveList = encounterTable.HardWaves;
+                        break;
+                    case WaveDifficulty.VeryHard:
+                        tempWaveList = veryHardWaves;
+                        fullWaveList = encounterTable.VeryHardWaves;
+                        break;
+                    default:
+                        Debug.LogWarning("Unknown wave difficulty for arena stage.");
+                        break;
+                }
+
+                if (tempWaveList != null && tempWaveList.Count > 0)
+                {
+                    int randomIndex = Random.Range(0, tempWaveList.Count);
+                    ArenaWave selectedWave = tempWaveList[randomIndex];
+                    waves.Add(selectedWave);
+                    tempWaveList.RemoveAt(randomIndex);
+                    if (tempWaveList.Count == 0)
+                    {
+                        Debug.Log("All waves used for difficulty " + stage.Difficulty + ", resetting wave list.");
+                        tempWaveList.AddRange(fullWaveList);
+                    }
+                }
+                else
+                {
+                    Debug.LogWarning("No waves available for arena stage difficulty " + stage.Difficulty);
+                }
+            }
+        }
     }
 }

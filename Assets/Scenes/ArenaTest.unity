@@ -11735,7 +11735,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a976ab86cb44f46b196de21562ce6e47, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <SpawnableType>k__BackingField: 3
 --- !u!212 &237022338
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -11833,7 +11832,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a976ab86cb44f46b196de21562ce6e47, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <SpawnableType>k__BackingField: 3
 --- !u!212 &325947622
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -11931,7 +11929,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a976ab86cb44f46b196de21562ce6e47, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <SpawnableType>k__BackingField: 3
 --- !u!212 &337963158
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -16983,7 +16980,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a976ab86cb44f46b196de21562ce6e47, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <SpawnableType>k__BackingField: 3
 --- !u!212 &405116111
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -17081,7 +17077,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a976ab86cb44f46b196de21562ce6e47, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <SpawnableType>k__BackingField: 3
 --- !u!212 &538156338
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -17236,7 +17231,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a976ab86cb44f46b196de21562ce6e47, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <SpawnableType>k__BackingField: 3
 --- !u!212 &685979172
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -17412,7 +17406,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a976ab86cb44f46b196de21562ce6e47, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <SpawnableType>k__BackingField: 3
 --- !u!212 &727577817
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -17515,7 +17508,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a976ab86cb44f46b196de21562ce6e47, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <SpawnableType>k__BackingField: 3
 --- !u!212 &1182748817
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -36645,7 +36637,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a976ab86cb44f46b196de21562ce6e47, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <SpawnableType>k__BackingField: 3
 --- !u!212 &1555886385
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -36743,7 +36734,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a976ab86cb44f46b196de21562ce6e47, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <SpawnableType>k__BackingField: 3
 --- !u!212 &1594288969
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -36926,7 +36916,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a976ab86cb44f46b196de21562ce6e47, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <SpawnableType>k__BackingField: 3
 --- !u!212 &1656919928
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -37024,7 +37013,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a976ab86cb44f46b196de21562ce6e47, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <SpawnableType>k__BackingField: 3
 --- !u!212 &1800073431
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -37864,6 +37852,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 605442877324402279, guid: bff7fc601d1774fc68b4abf6314e0953, type: 3}
     - target: {fileID: 6561226402009270875, guid: e0dad15f108d34a10980a5c26fbd5578, type: 3}
+      propertyPath: encounterTable
+      value: 
+      objectReference: {fileID: 11400000, guid: 665ed4bcf5033465e8cdbb6305562cd7, type: 2}
+    - target: {fileID: 6561226402009270875, guid: e0dad15f108d34a10980a5c26fbd5578, type: 3}
       propertyPath: waves.Array.size
       value: 1
       objectReference: {fileID: 0}
@@ -37914,6 +37906,10 @@ PrefabInstance:
     - target: {fileID: 6561226402009270875, guid: e0dad15f108d34a10980a5c26fbd5578, type: 3}
       propertyPath: enemies.Array.data[9]
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6561226402009270875, guid: e0dad15f108d34a10980a5c26fbd5578, type: 3}
+      propertyPath: arenaStages.Array.size
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 6561226402009270875, guid: e0dad15f108d34a10980a5c26fbd5578, type: 3}
       propertyPath: enemies.Array.data[10]
@@ -38155,6 +38151,346 @@ PrefabInstance:
       propertyPath: waves.Array.data[2].EnemySpawns.Array.data[2].Entity
       value: 
       objectReference: {fileID: 11400000, guid: b6f1b6827ec3a46c7bf4dfceeafb473c, type: 2}
+    - target: {fileID: 6561226402009270875, guid: e0dad15f108d34a10980a5c26fbd5578, type: 3}
+      propertyPath: arenaStages.Array.data[0].<Difficulty>k__BackingField
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6561226402009270875, guid: e0dad15f108d34a10980a5c26fbd5578, type: 3}
+      propertyPath: arenaStages.Array.data[1].<Difficulty>k__BackingField
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6561226402009270875, guid: e0dad15f108d34a10980a5c26fbd5578, type: 3}
+      propertyPath: arenaStages.Array.data[2].<Difficulty>k__BackingField
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6561226402009270875, guid: e0dad15f108d34a10980a5c26fbd5578, type: 3}
+      propertyPath: arenaStages.Array.data[3].<Difficulty>k__BackingField
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 6561226402009270875, guid: e0dad15f108d34a10980a5c26fbd5578, type: 3}
+      propertyPath: arenaStages.Array.data[4].<Difficulty>k__BackingField
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6561226402009270875, guid: e0dad15f108d34a10980a5c26fbd5578, type: 3}
+      propertyPath: arenaStages.Array.data[5].<Difficulty>k__BackingField
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 6561226402009270875, guid: e0dad15f108d34a10980a5c26fbd5578, type: 3}
+      propertyPath: arenaStages.Array.data[6].<Difficulty>k__BackingField
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 6561226402009270875, guid: e0dad15f108d34a10980a5c26fbd5578, type: 3}
+      propertyPath: arenaStages.Array.data[1].<StaticWave>k__BackingField.randomOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6561226402009270875, guid: e0dad15f108d34a10980a5c26fbd5578, type: 3}
+      propertyPath: arenaStages.Array.data[2].<StaticWave>k__BackingField.randomOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6561226402009270875, guid: e0dad15f108d34a10980a5c26fbd5578, type: 3}
+      propertyPath: arenaStages.Array.data[3].<StaticWave>k__BackingField.randomOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6561226402009270875, guid: e0dad15f108d34a10980a5c26fbd5578, type: 3}
+      propertyPath: arenaStages.Array.data[4].<StaticWave>k__BackingField.randomOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6561226402009270875, guid: e0dad15f108d34a10980a5c26fbd5578, type: 3}
+      propertyPath: arenaStages.Array.data[5].<StaticWave>k__BackingField.randomOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6561226402009270875, guid: e0dad15f108d34a10980a5c26fbd5578, type: 3}
+      propertyPath: arenaStages.Array.data[6].<StaticWave>k__BackingField.randomOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6561226402009270875, guid: e0dad15f108d34a10980a5c26fbd5578, type: 3}
+      propertyPath: arenaStages.Array.data[1].<StaticWave>k__BackingField.SpawnMoreOnKill
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6561226402009270875, guid: e0dad15f108d34a10980a5c26fbd5578, type: 3}
+      propertyPath: arenaStages.Array.data[2].<StaticWave>k__BackingField.SpawnMoreOnKill
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6561226402009270875, guid: e0dad15f108d34a10980a5c26fbd5578, type: 3}
+      propertyPath: arenaStages.Array.data[3].<StaticWave>k__BackingField.SpawnMoreOnKill
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6561226402009270875, guid: e0dad15f108d34a10980a5c26fbd5578, type: 3}
+      propertyPath: arenaStages.Array.data[4].<StaticWave>k__BackingField.SpawnMoreOnKill
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6561226402009270875, guid: e0dad15f108d34a10980a5c26fbd5578, type: 3}
+      propertyPath: arenaStages.Array.data[5].<StaticWave>k__BackingField.SpawnMoreOnKill
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6561226402009270875, guid: e0dad15f108d34a10980a5c26fbd5578, type: 3}
+      propertyPath: arenaStages.Array.data[6].<StaticWave>k__BackingField.SpawnMoreOnKill
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6561226402009270875, guid: e0dad15f108d34a10980a5c26fbd5578, type: 3}
+      propertyPath: arenaStages.Array.data[1].<StaticWave>k__BackingField.MaxEnemiesAtOnce
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 6561226402009270875, guid: e0dad15f108d34a10980a5c26fbd5578, type: 3}
+      propertyPath: arenaStages.Array.data[2].<StaticWave>k__BackingField.MaxEnemiesAtOnce
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 6561226402009270875, guid: e0dad15f108d34a10980a5c26fbd5578, type: 3}
+      propertyPath: arenaStages.Array.data[3].<StaticWave>k__BackingField.MaxEnemiesAtOnce
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 6561226402009270875, guid: e0dad15f108d34a10980a5c26fbd5578, type: 3}
+      propertyPath: arenaStages.Array.data[4].<StaticWave>k__BackingField.MaxEnemiesAtOnce
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 6561226402009270875, guid: e0dad15f108d34a10980a5c26fbd5578, type: 3}
+      propertyPath: arenaStages.Array.data[5].<StaticWave>k__BackingField.MaxEnemiesAtOnce
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 6561226402009270875, guid: e0dad15f108d34a10980a5c26fbd5578, type: 3}
+      propertyPath: arenaStages.Array.data[6].<StaticWave>k__BackingField.MaxEnemiesAtOnce
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 6561226402009270875, guid: e0dad15f108d34a10980a5c26fbd5578, type: 3}
+      propertyPath: arenaStages.Array.data[0].<StaticWave>k__BackingField.MaxInitialEnemies
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6561226402009270875, guid: e0dad15f108d34a10980a5c26fbd5578, type: 3}
+      propertyPath: arenaStages.Array.data[1].<StaticWave>k__BackingField.MaxInitialEnemies
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6561226402009270875, guid: e0dad15f108d34a10980a5c26fbd5578, type: 3}
+      propertyPath: arenaStages.Array.data[2].<StaticWave>k__BackingField.MaxInitialEnemies
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6561226402009270875, guid: e0dad15f108d34a10980a5c26fbd5578, type: 3}
+      propertyPath: arenaStages.Array.data[3].<StaticWave>k__BackingField.MaxInitialEnemies
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6561226402009270875, guid: e0dad15f108d34a10980a5c26fbd5578, type: 3}
+      propertyPath: arenaStages.Array.data[4].<StaticWave>k__BackingField.MaxInitialEnemies
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6561226402009270875, guid: e0dad15f108d34a10980a5c26fbd5578, type: 3}
+      propertyPath: arenaStages.Array.data[5].<StaticWave>k__BackingField.MaxInitialEnemies
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6561226402009270875, guid: e0dad15f108d34a10980a5c26fbd5578, type: 3}
+      propertyPath: arenaStages.Array.data[6].<StaticWave>k__BackingField.MaxInitialEnemies
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6561226402009270875, guid: e0dad15f108d34a10980a5c26fbd5578, type: 3}
+      propertyPath: arenaStages.Array.data[1].<StaticWave>k__BackingField.EnemySpawnInterval
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6561226402009270875, guid: e0dad15f108d34a10980a5c26fbd5578, type: 3}
+      propertyPath: arenaStages.Array.data[2].<StaticWave>k__BackingField.EnemySpawnInterval
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6561226402009270875, guid: e0dad15f108d34a10980a5c26fbd5578, type: 3}
+      propertyPath: arenaStages.Array.data[3].<StaticWave>k__BackingField.EnemySpawnInterval
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6561226402009270875, guid: e0dad15f108d34a10980a5c26fbd5578, type: 3}
+      propertyPath: arenaStages.Array.data[4].<StaticWave>k__BackingField.EnemySpawnInterval
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6561226402009270875, guid: e0dad15f108d34a10980a5c26fbd5578, type: 3}
+      propertyPath: arenaStages.Array.data[5].<StaticWave>k__BackingField.EnemySpawnInterval
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6561226402009270875, guid: e0dad15f108d34a10980a5c26fbd5578, type: 3}
+      propertyPath: arenaStages.Array.data[6].<StaticWave>k__BackingField.EnemySpawnInterval
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6561226402009270875, guid: e0dad15f108d34a10980a5c26fbd5578, type: 3}
+      propertyPath: arenaStages.Array.data[0].<StaticWave>k__BackingField.EnemySpawns.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6561226402009270875, guid: e0dad15f108d34a10980a5c26fbd5578, type: 3}
+      propertyPath: arenaStages.Array.data[1].<StaticWave>k__BackingField.EnemySpawns.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 6561226402009270875, guid: e0dad15f108d34a10980a5c26fbd5578, type: 3}
+      propertyPath: arenaStages.Array.data[2].<StaticWave>k__BackingField.EnemySpawns.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 6561226402009270875, guid: e0dad15f108d34a10980a5c26fbd5578, type: 3}
+      propertyPath: arenaStages.Array.data[3].<StaticWave>k__BackingField.EnemySpawns.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 6561226402009270875, guid: e0dad15f108d34a10980a5c26fbd5578, type: 3}
+      propertyPath: arenaStages.Array.data[4].<StaticWave>k__BackingField.EnemySpawns.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 6561226402009270875, guid: e0dad15f108d34a10980a5c26fbd5578, type: 3}
+      propertyPath: arenaStages.Array.data[5].<StaticWave>k__BackingField.EnemySpawns.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 6561226402009270875, guid: e0dad15f108d34a10980a5c26fbd5578, type: 3}
+      propertyPath: arenaStages.Array.data[6].<StaticWave>k__BackingField.EnemySpawns.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 6561226402009270875, guid: e0dad15f108d34a10980a5c26fbd5578, type: 3}
+      propertyPath: arenaStages.Array.data[0].<StaticWave>k__BackingField.EnemySpawns.Array.data[0].Amount
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 6561226402009270875, guid: e0dad15f108d34a10980a5c26fbd5578, type: 3}
+      propertyPath: arenaStages.Array.data[0].<StaticWave>k__BackingField.EnemySpawns.Array.data[0].Entity
+      value: 
+      objectReference: {fileID: 11400000, guid: e621e08a2aba145abbd8b41c75f01540, type: 2}
+    - target: {fileID: 6561226402009270875, guid: e0dad15f108d34a10980a5c26fbd5578, type: 3}
+      propertyPath: arenaStages.Array.data[0].<StaticWave>k__BackingField.EnemySpawns.Array.data[1].Amount
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6561226402009270875, guid: e0dad15f108d34a10980a5c26fbd5578, type: 3}
+      propertyPath: arenaStages.Array.data[0].<StaticWave>k__BackingField.EnemySpawns.Array.data[1].Entity
+      value: 
+      objectReference: {fileID: 11400000, guid: b6933aea34d6a4af1b397c62a09087ad, type: 2}
+    - target: {fileID: 6561226402009270875, guid: e0dad15f108d34a10980a5c26fbd5578, type: 3}
+      propertyPath: arenaStages.Array.data[1].<StaticWave>k__BackingField.EnemySpawns.Array.data[1].Amount
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6561226402009270875, guid: e0dad15f108d34a10980a5c26fbd5578, type: 3}
+      propertyPath: arenaStages.Array.data[1].<StaticWave>k__BackingField.EnemySpawns.Array.data[1].Entity
+      value: 
+      objectReference: {fileID: 11400000, guid: ae9c6a3a08e324b93b79e570b2531b49, type: 2}
+    - target: {fileID: 6561226402009270875, guid: e0dad15f108d34a10980a5c26fbd5578, type: 3}
+      propertyPath: arenaStages.Array.data[1].<StaticWave>k__BackingField.EnemySpawns.Array.data[2].Amount
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6561226402009270875, guid: e0dad15f108d34a10980a5c26fbd5578, type: 3}
+      propertyPath: arenaStages.Array.data[1].<StaticWave>k__BackingField.EnemySpawns.Array.data[2].Entity
+      value: 
+      objectReference: {fileID: 11400000, guid: b6f1b6827ec3a46c7bf4dfceeafb473c, type: 2}
+    - target: {fileID: 6561226402009270875, guid: e0dad15f108d34a10980a5c26fbd5578, type: 3}
+      propertyPath: arenaStages.Array.data[1].<StaticWave>k__BackingField.EnemySpawns.Array.data[3].Amount
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6561226402009270875, guid: e0dad15f108d34a10980a5c26fbd5578, type: 3}
+      propertyPath: arenaStages.Array.data[1].<StaticWave>k__BackingField.EnemySpawns.Array.data[3].Entity
+      value: 
+      objectReference: {fileID: 11400000, guid: ee9171aee81a946ed88fcf8ec2d3b331, type: 2}
+    - target: {fileID: 6561226402009270875, guid: e0dad15f108d34a10980a5c26fbd5578, type: 3}
+      propertyPath: arenaStages.Array.data[2].<StaticWave>k__BackingField.EnemySpawns.Array.data[1].Amount
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6561226402009270875, guid: e0dad15f108d34a10980a5c26fbd5578, type: 3}
+      propertyPath: arenaStages.Array.data[2].<StaticWave>k__BackingField.EnemySpawns.Array.data[1].Entity
+      value: 
+      objectReference: {fileID: 11400000, guid: ae9c6a3a08e324b93b79e570b2531b49, type: 2}
+    - target: {fileID: 6561226402009270875, guid: e0dad15f108d34a10980a5c26fbd5578, type: 3}
+      propertyPath: arenaStages.Array.data[2].<StaticWave>k__BackingField.EnemySpawns.Array.data[2].Amount
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6561226402009270875, guid: e0dad15f108d34a10980a5c26fbd5578, type: 3}
+      propertyPath: arenaStages.Array.data[2].<StaticWave>k__BackingField.EnemySpawns.Array.data[2].Entity
+      value: 
+      objectReference: {fileID: 11400000, guid: b6f1b6827ec3a46c7bf4dfceeafb473c, type: 2}
+    - target: {fileID: 6561226402009270875, guid: e0dad15f108d34a10980a5c26fbd5578, type: 3}
+      propertyPath: arenaStages.Array.data[2].<StaticWave>k__BackingField.EnemySpawns.Array.data[3].Amount
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6561226402009270875, guid: e0dad15f108d34a10980a5c26fbd5578, type: 3}
+      propertyPath: arenaStages.Array.data[2].<StaticWave>k__BackingField.EnemySpawns.Array.data[3].Entity
+      value: 
+      objectReference: {fileID: 11400000, guid: ee9171aee81a946ed88fcf8ec2d3b331, type: 2}
+    - target: {fileID: 6561226402009270875, guid: e0dad15f108d34a10980a5c26fbd5578, type: 3}
+      propertyPath: arenaStages.Array.data[3].<StaticWave>k__BackingField.EnemySpawns.Array.data[1].Amount
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6561226402009270875, guid: e0dad15f108d34a10980a5c26fbd5578, type: 3}
+      propertyPath: arenaStages.Array.data[3].<StaticWave>k__BackingField.EnemySpawns.Array.data[1].Entity
+      value: 
+      objectReference: {fileID: 11400000, guid: ae9c6a3a08e324b93b79e570b2531b49, type: 2}
+    - target: {fileID: 6561226402009270875, guid: e0dad15f108d34a10980a5c26fbd5578, type: 3}
+      propertyPath: arenaStages.Array.data[3].<StaticWave>k__BackingField.EnemySpawns.Array.data[2].Amount
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6561226402009270875, guid: e0dad15f108d34a10980a5c26fbd5578, type: 3}
+      propertyPath: arenaStages.Array.data[3].<StaticWave>k__BackingField.EnemySpawns.Array.data[2].Entity
+      value: 
+      objectReference: {fileID: 11400000, guid: b6f1b6827ec3a46c7bf4dfceeafb473c, type: 2}
+    - target: {fileID: 6561226402009270875, guid: e0dad15f108d34a10980a5c26fbd5578, type: 3}
+      propertyPath: arenaStages.Array.data[3].<StaticWave>k__BackingField.EnemySpawns.Array.data[3].Amount
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6561226402009270875, guid: e0dad15f108d34a10980a5c26fbd5578, type: 3}
+      propertyPath: arenaStages.Array.data[3].<StaticWave>k__BackingField.EnemySpawns.Array.data[3].Entity
+      value: 
+      objectReference: {fileID: 11400000, guid: ee9171aee81a946ed88fcf8ec2d3b331, type: 2}
+    - target: {fileID: 6561226402009270875, guid: e0dad15f108d34a10980a5c26fbd5578, type: 3}
+      propertyPath: arenaStages.Array.data[4].<StaticWave>k__BackingField.EnemySpawns.Array.data[1].Amount
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6561226402009270875, guid: e0dad15f108d34a10980a5c26fbd5578, type: 3}
+      propertyPath: arenaStages.Array.data[4].<StaticWave>k__BackingField.EnemySpawns.Array.data[1].Entity
+      value: 
+      objectReference: {fileID: 11400000, guid: ae9c6a3a08e324b93b79e570b2531b49, type: 2}
+    - target: {fileID: 6561226402009270875, guid: e0dad15f108d34a10980a5c26fbd5578, type: 3}
+      propertyPath: arenaStages.Array.data[4].<StaticWave>k__BackingField.EnemySpawns.Array.data[2].Amount
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6561226402009270875, guid: e0dad15f108d34a10980a5c26fbd5578, type: 3}
+      propertyPath: arenaStages.Array.data[4].<StaticWave>k__BackingField.EnemySpawns.Array.data[2].Entity
+      value: 
+      objectReference: {fileID: 11400000, guid: b6f1b6827ec3a46c7bf4dfceeafb473c, type: 2}
+    - target: {fileID: 6561226402009270875, guid: e0dad15f108d34a10980a5c26fbd5578, type: 3}
+      propertyPath: arenaStages.Array.data[4].<StaticWave>k__BackingField.EnemySpawns.Array.data[3].Amount
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6561226402009270875, guid: e0dad15f108d34a10980a5c26fbd5578, type: 3}
+      propertyPath: arenaStages.Array.data[4].<StaticWave>k__BackingField.EnemySpawns.Array.data[3].Entity
+      value: 
+      objectReference: {fileID: 11400000, guid: ee9171aee81a946ed88fcf8ec2d3b331, type: 2}
+    - target: {fileID: 6561226402009270875, guid: e0dad15f108d34a10980a5c26fbd5578, type: 3}
+      propertyPath: arenaStages.Array.data[5].<StaticWave>k__BackingField.EnemySpawns.Array.data[1].Amount
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6561226402009270875, guid: e0dad15f108d34a10980a5c26fbd5578, type: 3}
+      propertyPath: arenaStages.Array.data[5].<StaticWave>k__BackingField.EnemySpawns.Array.data[1].Entity
+      value: 
+      objectReference: {fileID: 11400000, guid: ae9c6a3a08e324b93b79e570b2531b49, type: 2}
+    - target: {fileID: 6561226402009270875, guid: e0dad15f108d34a10980a5c26fbd5578, type: 3}
+      propertyPath: arenaStages.Array.data[5].<StaticWave>k__BackingField.EnemySpawns.Array.data[2].Amount
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6561226402009270875, guid: e0dad15f108d34a10980a5c26fbd5578, type: 3}
+      propertyPath: arenaStages.Array.data[5].<StaticWave>k__BackingField.EnemySpawns.Array.data[2].Entity
+      value: 
+      objectReference: {fileID: 11400000, guid: b6f1b6827ec3a46c7bf4dfceeafb473c, type: 2}
+    - target: {fileID: 6561226402009270875, guid: e0dad15f108d34a10980a5c26fbd5578, type: 3}
+      propertyPath: arenaStages.Array.data[5].<StaticWave>k__BackingField.EnemySpawns.Array.data[3].Amount
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6561226402009270875, guid: e0dad15f108d34a10980a5c26fbd5578, type: 3}
+      propertyPath: arenaStages.Array.data[5].<StaticWave>k__BackingField.EnemySpawns.Array.data[3].Entity
+      value: 
+      objectReference: {fileID: 11400000, guid: ee9171aee81a946ed88fcf8ec2d3b331, type: 2}
+    - target: {fileID: 6561226402009270875, guid: e0dad15f108d34a10980a5c26fbd5578, type: 3}
+      propertyPath: arenaStages.Array.data[6].<StaticWave>k__BackingField.EnemySpawns.Array.data[1].Amount
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6561226402009270875, guid: e0dad15f108d34a10980a5c26fbd5578, type: 3}
+      propertyPath: arenaStages.Array.data[6].<StaticWave>k__BackingField.EnemySpawns.Array.data[1].Entity
+      value: 
+      objectReference: {fileID: 11400000, guid: ae9c6a3a08e324b93b79e570b2531b49, type: 2}
+    - target: {fileID: 6561226402009270875, guid: e0dad15f108d34a10980a5c26fbd5578, type: 3}
+      propertyPath: arenaStages.Array.data[6].<StaticWave>k__BackingField.EnemySpawns.Array.data[2].Amount
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6561226402009270875, guid: e0dad15f108d34a10980a5c26fbd5578, type: 3}
+      propertyPath: arenaStages.Array.data[6].<StaticWave>k__BackingField.EnemySpawns.Array.data[2].Entity
+      value: 
+      objectReference: {fileID: 11400000, guid: b6f1b6827ec3a46c7bf4dfceeafb473c, type: 2}
+    - target: {fileID: 6561226402009270875, guid: e0dad15f108d34a10980a5c26fbd5578, type: 3}
+      propertyPath: arenaStages.Array.data[6].<StaticWave>k__BackingField.EnemySpawns.Array.data[3].Amount
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6561226402009270875, guid: e0dad15f108d34a10980a5c26fbd5578, type: 3}
+      propertyPath: arenaStages.Array.data[6].<StaticWave>k__BackingField.EnemySpawns.Array.data[3].Entity
+      value: 
+      objectReference: {fileID: 11400000, guid: ee9171aee81a946ed88fcf8ec2d3b331, type: 2}
     - target: {fileID: 8416420262250152783, guid: e0dad15f108d34a10980a5c26fbd5578, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
