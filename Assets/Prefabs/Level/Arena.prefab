@@ -146,10 +146,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <TriggerArea>k__BackingField: {fileID: 4787177403152237015}
-  enemies: []
+  rewardChests: []
+  arenaStages:
+  - <Difficulty>k__BackingField: 0
+    <StaticWave>k__BackingField:
+      MaxInitialEnemies: 50
+      EnemySpawnInterval: -1
+      MaxEnemiesAtOnce: 50
+      SpawnMoreOnKill: 1
+      randomOrder: 1
+      EnemySpawns: []
+  encounterTable: {fileID: 0}
   spawnOnlyOnTrigger: 1
+  enemySpawnTime: 2
+  chestSpawnTime: 1
   stopMusic: 1
   musicStopDelay: 1
+  spawnEffect: {fileID: 0}
+  winSound: {fileID: 11400000, guid: f21cd0b4ebe2a43beb5d9c9b2580bbb7, type: 2}
 --- !u!1001 &1059141007553150008
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -41,6 +41,9 @@ public class Arena : MonoBehaviour
     [SerializeField]
     private GameObject spawnEffect;
 
+    [SerializeField]
+    private Sound winSound;
+
     private GameObject player = null;
     private Bounds triggerBounds;
     private bool readyToTrigger = true;
@@ -324,6 +327,11 @@ public class Arena : MonoBehaviour
             }
         }
         StartCoroutine(SpawnChestsAfterDelay(chestSpawnTime));
+
+        if (winSound != null)
+        {
+            AudioManager.Instance.Play(winSound);
+        }
     }
 
     private IEnumerator SpawnChestsAfterDelay(float delay)
