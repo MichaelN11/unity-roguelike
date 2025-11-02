@@ -16,7 +16,7 @@ MonoBehaviour:
   isMusic: 0
   isAmbience: 0
   loop: 0
-  volume: 0.5
+  volume: 0.25
   pitch: 0.9
   pitchShift: 0
   chanceToPlay: 1
