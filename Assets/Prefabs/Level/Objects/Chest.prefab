@@ -186,7 +186,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c199a98eb28df4eb8bf522c57f58b125, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <Type>k__BackingField: Chest
   <ContainedItem>k__BackingField:
     Item: {fileID: 0}
     Amount: 0
     LearnableAbility: {fileID: 0}
+  <DropTable>k__BackingField: {fileID: 0}

@@ -27,6 +27,9 @@ public class GameManager : MonoBehaviour
     private Entity player;
 
     [SerializeField]
+    private List<string> sceneOrder;
+
+    [SerializeField]
     private Sound winSound;
 
     [SerializeField]
@@ -43,6 +46,7 @@ public class GameManager : MonoBehaviour
     private string firstScene;
     private readonly JsonFileService jsonFileService = new();
     private bool foundPlayer = false;
+    private int currentSceneIndex = 0;
 
     private void Awake()
     {
@@ -133,12 +137,22 @@ public class GameManager : MonoBehaviour
     /// Transitions to the scene with the passed name.
     /// </summary>
     /// <param name="sceneName"></param>
-    /// <param name="transitionName"></param>
-    public void TransitionScene(string sceneName, string transitionName = "")
+    public void TransitionScene(string sceneName)
     {
-        SaveCurrentScene();
-        currentTransition = transitionName;
+        string currentSceneName = SceneManager.GetActiveScene().name;
+        SaveCurrentScene(currentSceneName);
+        currentTransition = GetTransitionName(currentSceneName, sceneName);
+        Debug.Log("current transition: " + currentTransition);
         SceneManager.LoadScene(sceneName);
+    }
+
+    public void TransitionToNextScene(LevelTransition levelTransition)
+    {
+        string nextScene = GetTransitionNextScene(levelTransition);
+        if (nextScene != null && nextScene != "")
+        {
+            TransitionScene(nextScene);
+        }
     }
 
     /// <summary>
@@ -245,10 +259,11 @@ public class GameManager : MonoBehaviour
     /// </summary>
     private void SetupScene()
     {
+        string sceneName = SceneManager.GetActiveScene().name;
+        SetCurrentSceneIndex(sceneName);
         foundPlayer = false;
         if (LevelManager.Instance != null)
         {
-            string sceneName = SceneManager.GetActiveScene().name;
             SceneSave loadedScene = GameState.SavedScenes.GetScene(sceneName);
             if (loadedScene != null)
             {
@@ -293,7 +308,8 @@ public class GameManager : MonoBehaviour
         List<LevelTransition> levelTransitions = LevelManager.Instance.LevelTransitions;
         foreach (LevelTransition transition in levelTransitions)
         {
-            if (!string.IsNullOrWhiteSpace(currentTransition) && transition.transitionName == currentTransition)
+            Debug.Log("checking transition: " + GetTransitionName(transition));
+            if (!string.IsNullOrWhiteSpace(currentTransition) && GetTransitionName(transition) == currentTransition)
             {
                 SpawnPlayer(transition);
                 playerSpawned = true;
@@ -351,9 +367,9 @@ public class GameManager : MonoBehaviour
     /// <summary>
     /// Saves the state of the current scene to the save object.
     /// </summary>
-    private void SaveCurrentScene()
+    private void SaveCurrentScene(string sceneName = null)
     {
-        string name = SceneManager.GetActiveScene().name;
+        string name = sceneName ?? SceneManager.GetActiveScene().name;
         GameState.CurrentSceneName = name;
         SceneSave sceneSave = new();
         sceneSave.Name = name;
@@ -501,7 +517,7 @@ public class GameManager : MonoBehaviour
             transitionSave.IsEnd = transition.isEnd;
             transitionSave.IsWinCondition = transition.isWinCondition;
             transitionSave.NewScene = transition.newScene;
-            transitionSave.TransitionName = transition.transitionName;
+            transitionSave.TransitionName = GetTransitionName(transition);
             transitionSave.IsVisible = spriteRenderer.enabled;
             sceneSave.SavedTransitions.TransitionList.Add(transitionSave);
         }
@@ -612,7 +628,6 @@ public class GameManager : MonoBehaviour
             transition.isEnd = transitionSave.IsEnd;
             transition.isWinCondition = transitionSave.IsWinCondition;
             transition.newScene = transitionSave.NewScene;
-            transition.transitionName = transitionSave.TransitionName;
             spriteRenderer.enabled = transitionSave.IsVisible;
 
             LevelManager.Instance.LevelTransitions.Add(transition);
@@ -636,5 +651,61 @@ public class GameManager : MonoBehaviour
             });
         }
         Debug.Log("Loading drops from saved drops: " + savedItemDrops.ItemDropList.Count());
+    }
+
+    private void SetCurrentSceneIndex(string sceneName)
+    {
+        currentSceneIndex = sceneOrder.IndexOf(sceneName);
+        if (currentSceneIndex == -1)
+        {
+            Debug.Log("Scene not found in scene order list: " + sceneName);
+            currentSceneIndex = 0;
+        }
+        Debug.Log("Current scene index set to: " + currentSceneIndex + " for scene: " + sceneName);
+    }
+
+    private string GetTransitionNextScene(LevelTransition levelTransition)
+    {
+        if (levelTransition.newScene != null && levelTransition.newScene != "")
+        {
+            return levelTransition.newScene;
+        }
+        else if (levelTransition.isStart)
+        {
+            int previousSceneIndex = currentSceneIndex - 1;
+            if (previousSceneIndex >= 0 && previousSceneIndex < sceneOrder.Count)
+            {
+                return sceneOrder[previousSceneIndex];
+            }
+        }
+        else if (levelTransition.isEnd)
+        {
+            int nextSceneIndex = currentSceneIndex + 1;
+            if (nextSceneIndex >= 0 && nextSceneIndex < sceneOrder.Count)
+            {
+                return sceneOrder[nextSceneIndex];
+            }
+        }
+        return null;
+    }
+
+    private String GetTransitionName(LevelTransition levelTransition)
+    {
+        string fromScene = SceneManager.GetActiveScene().name;
+        string toScene = GetTransitionNextScene(levelTransition);
+        return GetTransitionName(fromScene, toScene);
+    }
+
+    private String GetTransitionName(string fromScene, string toScene)
+    {
+        // Make sure transition name is consistent so that GetTransitionName(from, to) == GetTransitionName(to, from)
+        if (string.Compare(fromScene, toScene) < 0)
+        {
+            return fromScene + "_to_" + toScene;
+        }
+        else
+        {
+            return toScene + "_to_" + fromScene;
+        }
     }
 }

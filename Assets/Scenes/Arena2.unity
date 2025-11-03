@@ -17783,7 +17783,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9055336699650849603, guid: 7f056915ab1e34c50ba846b6c1d8dd7e, type: 3}
       propertyPath: newScene
-      value: Forest2x2_1
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 9055336699650849603, guid: 7f056915ab1e34c50ba846b6c1d8dd7e, type: 3}
       propertyPath: transitionName
@@ -37020,7 +37020,7 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: db04adf4e3b5e4bd3b3ec2c6e8f1d7e8, type: 2}
     - target: {fileID: 9055336699650849603, guid: 7f056915ab1e34c50ba846b6c1d8dd7e, type: 3}
       propertyPath: newScene
-      value: Forest3x2
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 9055336699650849603, guid: 7f056915ab1e34c50ba846b6c1d8dd7e, type: 3}
       propertyPath: isWinCondition

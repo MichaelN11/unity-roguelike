@@ -27877,7 +27877,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9055336699650849603, guid: 7f056915ab1e34c50ba846b6c1d8dd7e, type: 3}
       propertyPath: newScene
-      value: Arena1
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 9055336699650849603, guid: 7f056915ab1e34c50ba846b6c1d8dd7e, type: 3}
       propertyPath: isWinCondition

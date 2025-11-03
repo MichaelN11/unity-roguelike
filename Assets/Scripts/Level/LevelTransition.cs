@@ -24,9 +24,6 @@ public class LevelTransition : MonoBehaviour
     public string newScene;
 
     [SerializeField]
-    public string transitionName;
-
-    [SerializeField]
     private GameObject replacementObject;
     public GameObject ReplacementObject => replacementObject;
 
@@ -36,11 +33,13 @@ public class LevelTransition : MonoBehaviour
         {
             if (newScene != null && newScene != "")
             {
-                GameManager.Instance.TransitionScene(newScene, transitionName);
-            }
-            if (isWinCondition)
+                GameManager.Instance.TransitionScene(newScene);
+            } else if (isWinCondition)
             {
                 GameManager.Instance.WinGame();
+            } else
+            {
+                GameManager.Instance.TransitionToNextScene(this);
             }
         }
     }
