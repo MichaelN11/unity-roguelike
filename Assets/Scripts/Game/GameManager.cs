@@ -381,6 +381,7 @@ public class GameManager : MonoBehaviour
         SaveObjects(sceneSave);
         SaveTransitions(sceneSave);
         SaveItemDrops();
+        SaveArena(sceneSave);
     }
 
     /// <summary>
@@ -523,6 +524,19 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    private void SaveArena(SceneSave sceneSave)
+    {
+        Arena arena = FindObjectOfType<Arena>();
+        if (arena != null)
+        {
+            sceneSave.SavedArena = new()
+            {
+                Completed = arena.Completed,
+                EnemiesSpawned = arena.EnemiesSpawned
+            };
+        }
+    }
+
     private void LoadFromSave(SceneSave sceneSave)
     {
         List<LevelTile> unplacedTiles = LevelManager.Instance.GetComponentsInChildren<LevelTile>().ToList();
@@ -534,6 +548,7 @@ public class GameManager : MonoBehaviour
         LoadEntities(sceneSave);
         LoadObjects(sceneSave);
         LoadTransitions(sceneSave);
+        LoadArena(sceneSave);
     }
 
     /// <summary>
@@ -651,6 +666,22 @@ public class GameManager : MonoBehaviour
             });
         }
         Debug.Log("Loading drops from saved drops: " + savedItemDrops.ItemDropList.Count());
+    }
+
+    private void LoadArena(SceneSave sceneSave)
+    {
+        if (sceneSave.SavedArena != null)
+        {
+            Arena arena = FindObjectOfType<Arena>();
+            if (arena != null)
+            {
+                if (sceneSave.SavedArena.Completed)
+                {
+                    arena.SetToCompleted();
+                }
+                arena.EnemiesSpawned = sceneSave.SavedArena.EnemiesSpawned;
+            }
+        }
     }
 
     private void SetCurrentSceneIndex(string sceneName)

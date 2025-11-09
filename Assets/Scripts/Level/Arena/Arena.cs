@@ -44,6 +44,9 @@ public class Arena : MonoBehaviour
     [SerializeField]
     private Sound winSound;
 
+    public bool EnemiesSpawned { get; set; } = false;
+    public bool Completed { get; private set; } = false;
+
     private GameObject player = null;
     private Bounds triggerBounds;
     private bool readyToTrigger = true;
@@ -72,8 +75,6 @@ public class Arena : MonoBehaviour
 
     void Start()
     {
-        InitializeWaves();
-
         if (TriggerArea != null)
         {
             triggerBounds = new Bounds();
@@ -87,14 +88,37 @@ public class Arena : MonoBehaviour
 
         eventWalls = GetComponentsInChildren<EventWall>();
         spawners = GetComponentsInChildren<ArenaSpawner>();
-        if (!spawnOnlyOnTrigger)
-        {
-            SpawnEnemies(false);
-        }
 
         foreach (Chest chest in rewardChests)
         {
             chest.gameObject.SetActive(false);
+        }
+
+        if (Completed)
+        {
+            if (stopMusic)
+            {
+                AudioManager.Instance.StopMusic();
+            }
+        } else
+        {
+            InitializeWaves();
+            if (!spawnOnlyOnTrigger)
+            {
+                if (EnemiesSpawned)
+                {
+                    // Jank hack to delete all spawned enemies and respawn them
+                    Debug.Log("Deleting existing enemies for arena respawn.");
+                    foreach (EntityData entity in FindObjectsOfType<EntityData>())
+                    {
+                        if (entity.Faction == Faction.Enemy)
+                        {
+                            Destroy(entity.gameObject);
+                        }
+                    }
+                }
+                SpawnEnemies(false);
+            }
         }
     }
 
@@ -123,6 +147,12 @@ public class Arena : MonoBehaviour
             }
             AggroEnemies();
         }
+    }
+
+    public void SetToCompleted()
+    {
+        Completed = true;
+        readyToTrigger = false;
     }
 
     private void SpawnEnemies(bool delayed)
@@ -171,6 +201,7 @@ public class Arena : MonoBehaviour
             spawnCoroutine = SpawnEnemyOnTimer(currentWave.EnemySpawnInterval, currentWave.MaxEnemiesAtOnce);
             StartCoroutine(spawnCoroutine);
         }
+        EnemiesSpawned = true;
     }
 
     private void AggroEnemies()
@@ -332,6 +363,8 @@ public class Arena : MonoBehaviour
         {
             AudioManager.Instance.Play(winSound);
         }
+
+        Completed = true;
     }
 
     private IEnumerator SpawnChestsAfterDelay(float delay)
@@ -356,7 +389,7 @@ public class Arena : MonoBehaviour
         yield return new WaitForSeconds(delay);
         AudioManager.Instance.StopMusic();
     }
-    
+
     private void InitializeWaves()
     {
         List<ArenaWave> veryEasyWaves = null;
@@ -374,7 +407,7 @@ public class Arena : MonoBehaviour
             veryHardWaves = new(encounterTable.VeryHardWaves);
         }
 
-        foreach(ArenaStage stage in arenaStages)
+        foreach (ArenaStage stage in arenaStages)
         {
             if (stage.Difficulty == WaveDifficulty.Static)
             {
