@@ -16,11 +16,6 @@ public class MenuWithLoadButton : MonoBehaviour
         UpdateButtonState();
     }
 
-    private void Start()
-    {
-        UpdateButtonState();
-    }
-
     private void UpdateButtonState()
     {
         if (GameManager.Instance != null)

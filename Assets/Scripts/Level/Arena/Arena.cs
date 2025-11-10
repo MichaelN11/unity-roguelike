@@ -212,6 +212,7 @@ public class Arena : MonoBehaviour
             AIController aiController = enemy.GetComponent<AIController>();
             aiController?.AggroPermanently();
         }
+        GameManager.Instance.IsArenaInProgress = true;
     }
 
     private void EnemyDeath(DeathContext deathContext)
@@ -370,6 +371,7 @@ public class Arena : MonoBehaviour
     private IEnumerator SpawnChestsAfterDelay(float delay)
     {
         yield return new WaitForSeconds(delay);
+        GameManager.Instance.IsArenaInProgress = false;
         foreach (Chest chest in rewardChests)
         {
             chest.gameObject.SetActive(true);

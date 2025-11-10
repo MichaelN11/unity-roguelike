@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 
 /// <summary>
@@ -22,6 +21,7 @@ public class GameManager : MonoBehaviour
     public bool IsGameOver { get; private set; } = false;
     public EntityData CurrentBoss { get; set; }
     public DropTable ShuffledRareDrops { get; private set; }
+    public bool IsArenaInProgress { get; set; } = false;
 
     [SerializeField]
     private Entity player;
@@ -47,6 +47,7 @@ public class GameManager : MonoBehaviour
     private readonly JsonFileService jsonFileService = new();
     private bool foundPlayer = false;
     private int currentSceneIndex = 0;
+    private int numEnemiesAggroedOnPlayer = 0;
 
     private void Awake()
     {
@@ -160,6 +161,11 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public void SaveGame()
     {
+        if (IsPlayerInCombat())
+        {
+            Debug.LogWarning("Cannot save game while in combat.");
+            return;
+        }
         SaveCurrentScene();
         jsonFileService.WriteToFile(GameState, Application.persistentDataPath + SaveFilePath);
     }
@@ -234,6 +240,25 @@ public class GameManager : MonoBehaviour
 #endif
     }
 
+    public bool IsPlayerInCombat()
+    {
+        return IsArenaInProgress || numEnemiesAggroedOnPlayer > 0;
+    }
+
+    public void EnemyAggroedOnPlayer()
+    {
+        numEnemiesAggroedOnPlayer++;
+    }
+
+    public void EnemyLostAggroOnPlayer()
+    {
+        numEnemiesAggroedOnPlayer--;
+        if (numEnemiesAggroedOnPlayer < 0)
+        {
+            numEnemiesAggroedOnPlayer = 0;
+        }
+    }
+
     private void EndGame()
     {
         IsGameOver = true;
@@ -262,6 +287,8 @@ public class GameManager : MonoBehaviour
         string sceneName = SceneManager.GetActiveScene().name;
         SetCurrentSceneIndex(sceneName);
         foundPlayer = false;
+        numEnemiesAggroedOnPlayer = 0;
+        IsArenaInProgress = false;
         if (LevelManager.Instance != null)
         {
             SceneSave loadedScene = GameState.SavedScenes.GetScene(sceneName);

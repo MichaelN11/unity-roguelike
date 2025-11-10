@@ -152,6 +152,16 @@ public class AIController : MonoBehaviour
         }
     }
 
+    private void OnDestroy()
+    {
+        abilityManager.OnAbilityUse -= AbilityUsed;
+        damageable.OnDamageTaken -= OnDamageTaken;
+        if (currentBehavior != Behavior.Idle)
+        {
+            GameManager.Instance.EnemyLostAggroOnPlayer();
+        }
+    }
+
     /// <summary>
     /// Creates a new AIController component and adds it to the passed object.
     /// </summary>
@@ -282,9 +292,13 @@ public class AIController : MonoBehaviour
 
     private void DetermineActiveBehavior(float distanceToTarget)
     {
-        if (currentBehavior == Behavior.Idle && entityData.Entity.SoundOnAggro != null)
+        if (currentBehavior == Behavior.Idle)
         {
-            AudioManager.Instance.Play(entityData.Entity.SoundOnAggro);
+            if (entityData.Entity.SoundOnAggro != null)
+            {
+                AudioManager.Instance.Play(entityData.Entity.SoundOnAggro);
+            }
+            GameManager.Instance.EnemyAggroedOnPlayer();
         }
         if (entityState.CanAct() && CanUseCurrentAbility(GetAbilitySourcePosition(), GetAttackTargetPosition(), distanceToTarget))
         {
@@ -471,6 +485,7 @@ public class AIController : MonoBehaviour
         if (success)
         {
             currentBehavior = Behavior.Idle;
+            GameManager.Instance.EnemyLostAggroOnPlayer();
         }
     }
 
